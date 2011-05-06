@@ -10,12 +10,12 @@ import org.bson.types.ObjectId;
  * @since 06.05.11 14:40
  */
 @Entity
-public class EntryContent {
+public class EntryContentD {
   @Id
-  ObjectId id;
+  public ObjectId id;
 
   @Version
-  Long version;
+  public Long version;
 
-  String content;
+  public String content;
 }

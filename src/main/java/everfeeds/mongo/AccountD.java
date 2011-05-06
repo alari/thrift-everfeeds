@@ -13,17 +13,17 @@ import java.util.Date;
  * @since 06.05.11 14:34
  */
 @Entity
-public class Account {
+public class AccountD {
   @Id
-  ObjectId id;
+  public ObjectId id;
 
-  String title;
+  public String title;
 
   @Version
-  Long version;
+  public Long version;
 
-  Date dateCreated = new Date();
-  Date lastUpdated = new Date();
+  public Date dateCreated = new Date();
+  public Date lastUpdated = new Date();
 
   @PrePersist
   void prePersist() {

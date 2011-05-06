@@ -5,41 +5,49 @@
  */
 package everfeeds.thrift;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
 
 public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Access");
 
-  private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.STRING, (short) 1);
-  private static final org.apache.thrift.protocol.TField IDENTITY_FIELD_DESC = new org.apache.thrift.protocol.TField("identity", org.apache.thrift.protocol.TType.STRING, (short) 2);
-  private static final org.apache.thrift.protocol.TField ACCOUNT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accountId", org.apache.thrift.protocol.TType.STRING, (short) 3);
-  private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short) 4);
-  private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short) 10);
-  private static final org.apache.thrift.protocol.TField SCREEN_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("screenName", org.apache.thrift.protocol.TType.STRING, (short) 11);
+  private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField IDENTITY_FIELD_DESC = new org.apache.thrift.protocol.TField("identity", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField ACCOUNT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accountId", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short)4);
+  private static final org.apache.thrift.protocol.TField EXPIRED_FIELD_DESC = new org.apache.thrift.protocol.TField("expired", org.apache.thrift.protocol.TType.BOOL, (short)5);
+  private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short)10);
+  private static final org.apache.thrift.protocol.TField SCREEN_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("screenName", org.apache.thrift.protocol.TType.STRING, (short)11);
 
   public String id;
   public String identity;
   public String accountId;
   /**
+   * 
    * @see everfeeds.thrift.AccessType
    */
   public everfeeds.thrift.AccessType type;
+  public boolean expired;
   public String title;
   public String screenName;
 
-  /**
-   * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-   */
+  /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    ID((short) 1, "id"),
-    IDENTITY((short) 2, "identity"),
-    ACCOUNT_ID((short) 3, "accountId"),
+    ID((short)1, "id"),
+    IDENTITY((short)2, "identity"),
+    ACCOUNT_ID((short)3, "accountId"),
     /**
+     * 
      * @see everfeeds.thrift.AccessType
      */
-    TYPE((short) 4, "type"),
-    TITLE((short) 10, "title"),
-    SCREEN_NAME((short) 11, "screenName");
+    TYPE((short)4, "type"),
+    EXPIRED((short)5, "expired"),
+    TITLE((short)10, "title"),
+    SCREEN_NAME((short)11, "screenName");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -53,7 +61,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      switch (fieldId) {
+      switch(fieldId) {
         case 1: // ID
           return ID;
         case 2: // IDENTITY
@@ -62,6 +70,8 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
           return ACCOUNT_ID;
         case 4: // TYPE
           return TYPE;
+        case 5: // EXPIRED
+          return EXPIRED;
         case 10: // TITLE
           return TITLE;
         case 11: // SCREEN_NAME
@@ -106,23 +116,26 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
   }
 
   // isset id assignments
+  private static final int __EXPIRED_ISSET_ID = 0;
+  private BitSet __isset_bit_vector = new BitSet(1);
 
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING, "Id")));
-    tmpMap.put(_Fields.IDENTITY, new org.apache.thrift.meta_data.FieldMetaData("identity", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                  new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING, "String")));
-    tmpMap.put(_Fields.ACCOUNT_ID, new org.apache.thrift.meta_data.FieldMetaData("accountId", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                    new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING, "Id")));
-    tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                              new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, everfeeds.thrift.AccessType.class)));
-    tmpMap.put(_Fields.TITLE, new org.apache.thrift.meta_data.FieldMetaData("title", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING, "String")));
-    tmpMap.put(_Fields.SCREEN_NAME, new org.apache.thrift.meta_data.FieldMetaData("screenName", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                     new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING, "String")));
+    tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
+    tmpMap.put(_Fields.IDENTITY, new org.apache.thrift.meta_data.FieldMetaData("identity", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.ACCOUNT_ID, new org.apache.thrift.meta_data.FieldMetaData("accountId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
+    tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, everfeeds.thrift.AccessType.class)));
+    tmpMap.put(_Fields.EXPIRED, new org.apache.thrift.meta_data.FieldMetaData("expired", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.TITLE, new org.apache.thrift.meta_data.FieldMetaData("title", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.SCREEN_NAME, new org.apache.thrift.meta_data.FieldMetaData("screenName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Access.class, metaDataMap);
   }
@@ -131,17 +144,21 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
   }
 
   public Access(
-                   String id,
-                   String identity,
-                   String accountId,
-                   everfeeds.thrift.AccessType type,
-                   String title,
-                   String screenName) {
+    String id,
+    String identity,
+    String accountId,
+    everfeeds.thrift.AccessType type,
+    boolean expired,
+    String title,
+    String screenName)
+  {
     this();
     this.id = id;
     this.identity = identity;
     this.accountId = accountId;
     this.type = type;
+    this.expired = expired;
+    setExpiredIsSet(true);
     this.title = title;
     this.screenName = screenName;
   }
@@ -150,6 +167,8 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
    * Performs a deep copy on <i>other</i>.
    */
   public Access(Access other) {
+    __isset_bit_vector.clear();
+    __isset_bit_vector.or(other.__isset_bit_vector);
     if (other.isSetId()) {
       this.id = other.id;
     }
@@ -162,6 +181,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     if (other.isSetType()) {
       this.type = other.type;
     }
+    this.expired = other.expired;
     if (other.isSetTitle()) {
       this.title = other.title;
     }
@@ -180,6 +200,8 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     this.identity = null;
     this.accountId = null;
     this.type = null;
+    setExpiredIsSet(false);
+    this.expired = false;
     this.title = null;
     this.screenName = null;
   }
@@ -197,9 +219,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     this.id = null;
   }
 
-  /**
-   * Returns true if field id is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field id is set (has been assigned a value) and false otherwise */
   public boolean isSetId() {
     return this.id != null;
   }
@@ -223,9 +243,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     this.identity = null;
   }
 
-  /**
-   * Returns true if field identity is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field identity is set (has been assigned a value) and false otherwise */
   public boolean isSetIdentity() {
     return this.identity != null;
   }
@@ -249,9 +267,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     this.accountId = null;
   }
 
-  /**
-   * Returns true if field accountId is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field accountId is set (has been assigned a value) and false otherwise */
   public boolean isSetAccountId() {
     return this.accountId != null;
   }
@@ -263,6 +279,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
   }
 
   /**
+   * 
    * @see everfeeds.thrift.AccessType
    */
   public everfeeds.thrift.AccessType getType() {
@@ -270,6 +287,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
   }
 
   /**
+   * 
    * @see everfeeds.thrift.AccessType
    */
   public Access setType(everfeeds.thrift.AccessType type) {
@@ -281,9 +299,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     this.type = null;
   }
 
-  /**
-   * Returns true if field type is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field type is set (has been assigned a value) and false otherwise */
   public boolean isSetType() {
     return this.type != null;
   }
@@ -292,6 +308,29 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     if (!value) {
       this.type = null;
     }
+  }
+
+  public boolean isExpired() {
+    return this.expired;
+  }
+
+  public Access setExpired(boolean expired) {
+    this.expired = expired;
+    setExpiredIsSet(true);
+    return this;
+  }
+
+  public void unsetExpired() {
+    __isset_bit_vector.clear(__EXPIRED_ISSET_ID);
+  }
+
+  /** Returns true if field expired is set (has been assigned a value) and false otherwise */
+  public boolean isSetExpired() {
+    return __isset_bit_vector.get(__EXPIRED_ISSET_ID);
+  }
+
+  public void setExpiredIsSet(boolean value) {
+    __isset_bit_vector.set(__EXPIRED_ISSET_ID, value);
   }
 
   public String getTitle() {
@@ -307,9 +346,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     this.title = null;
   }
 
-  /**
-   * Returns true if field title is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field title is set (has been assigned a value) and false otherwise */
   public boolean isSetTitle() {
     return this.title != null;
   }
@@ -333,9 +370,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     this.screenName = null;
   }
 
-  /**
-   * Returns true if field screenName is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field screenName is set (has been assigned a value) and false otherwise */
   public boolean isSetScreenName() {
     return this.screenName != null;
   }
@@ -348,102 +383,113 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-      case ID:
-        if (value == null) {
-          unsetId();
-        } else {
-          setId((String) value);
-        }
-        break;
+    case ID:
+      if (value == null) {
+        unsetId();
+      } else {
+        setId((String)value);
+      }
+      break;
 
-      case IDENTITY:
-        if (value == null) {
-          unsetIdentity();
-        } else {
-          setIdentity((String) value);
-        }
-        break;
+    case IDENTITY:
+      if (value == null) {
+        unsetIdentity();
+      } else {
+        setIdentity((String)value);
+      }
+      break;
 
-      case ACCOUNT_ID:
-        if (value == null) {
-          unsetAccountId();
-        } else {
-          setAccountId((String) value);
-        }
-        break;
+    case ACCOUNT_ID:
+      if (value == null) {
+        unsetAccountId();
+      } else {
+        setAccountId((String)value);
+      }
+      break;
 
-      case TYPE:
-        if (value == null) {
-          unsetType();
-        } else {
-          setType((everfeeds.thrift.AccessType) value);
-        }
-        break;
+    case TYPE:
+      if (value == null) {
+        unsetType();
+      } else {
+        setType((everfeeds.thrift.AccessType)value);
+      }
+      break;
 
-      case TITLE:
-        if (value == null) {
-          unsetTitle();
-        } else {
-          setTitle((String) value);
-        }
-        break;
+    case EXPIRED:
+      if (value == null) {
+        unsetExpired();
+      } else {
+        setExpired((Boolean)value);
+      }
+      break;
 
-      case SCREEN_NAME:
-        if (value == null) {
-          unsetScreenName();
-        } else {
-          setScreenName((String) value);
-        }
-        break;
+    case TITLE:
+      if (value == null) {
+        unsetTitle();
+      } else {
+        setTitle((String)value);
+      }
+      break;
+
+    case SCREEN_NAME:
+      if (value == null) {
+        unsetScreenName();
+      } else {
+        setScreenName((String)value);
+      }
+      break;
 
     }
   }
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-      case ID:
-        return getId();
+    case ID:
+      return getId();
 
-      case IDENTITY:
-        return getIdentity();
+    case IDENTITY:
+      return getIdentity();
 
-      case ACCOUNT_ID:
-        return getAccountId();
+    case ACCOUNT_ID:
+      return getAccountId();
 
-      case TYPE:
-        return getType();
+    case TYPE:
+      return getType();
 
-      case TITLE:
-        return getTitle();
+    case EXPIRED:
+      return new Boolean(isExpired());
 
-      case SCREEN_NAME:
-        return getScreenName();
+    case TITLE:
+      return getTitle();
+
+    case SCREEN_NAME:
+      return getScreenName();
 
     }
     throw new IllegalStateException();
   }
 
-  /**
-   * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
     }
 
     switch (field) {
-      case ID:
-        return isSetId();
-      case IDENTITY:
-        return isSetIdentity();
-      case ACCOUNT_ID:
-        return isSetAccountId();
-      case TYPE:
-        return isSetType();
-      case TITLE:
-        return isSetTitle();
-      case SCREEN_NAME:
-        return isSetScreenName();
+    case ID:
+      return isSetId();
+    case IDENTITY:
+      return isSetIdentity();
+    case ACCOUNT_ID:
+      return isSetAccountId();
+    case TYPE:
+      return isSetType();
+    case EXPIRED:
+      return isSetExpired();
+    case TITLE:
+      return isSetTitle();
+    case SCREEN_NAME:
+      return isSetScreenName();
     }
     throw new IllegalStateException();
   }
@@ -453,7 +499,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     if (that == null)
       return false;
     if (that instanceof Access)
-      return this.equals((Access) that);
+      return this.equals((Access)that);
     return false;
   }
 
@@ -497,6 +543,15 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
         return false;
     }
 
+    boolean this_present_expired = true;
+    boolean that_present_expired = true;
+    if (this_present_expired || that_present_expired) {
+      if (!(this_present_expired && that_present_expired))
+        return false;
+      if (this.expired != that.expired)
+        return false;
+    }
+
     boolean this_present_title = true && this.isSetTitle();
     boolean that_present_title = true && that.isSetTitle();
     if (this_present_title || that_present_title) {
@@ -529,7 +584,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     }
 
     int lastComparison = 0;
-    Access typedOther = (Access) other;
+    Access typedOther = (Access)other;
 
     lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
     if (lastComparison != 0) {
@@ -571,6 +626,16 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetExpired()).compareTo(typedOther.isSetExpired());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetExpired()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.expired, typedOther.expired);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     lastComparison = Boolean.valueOf(isSetTitle()).compareTo(typedOther.isSetTitle());
     if (lastComparison != 0) {
       return lastComparison;
@@ -601,51 +666,60 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
   public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
     org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
-    while (true) {
+    while (true)
+    {
       field = iprot.readFieldBegin();
-      if (field.type == org.apache.thrift.protocol.TType.STOP) {
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // ID
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.id = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // IDENTITY
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.identity = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // ACCOUNT_ID
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.accountId = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // TYPE
           if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.type = everfeeds.thrift.AccessType.findByValue(iprot.readI32());
-          } else {
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 5: // EXPIRED
+          if (field.type == org.apache.thrift.protocol.TType.BOOL) {
+            this.expired = iprot.readBool();
+            setExpiredIsSet(true);
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 10: // TITLE
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.title = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 11: // SCREEN_NAME
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.screenName = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
@@ -684,6 +758,9 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
       oprot.writeI32(this.type.getValue());
       oprot.writeFieldEnd();
     }
+    oprot.writeFieldBegin(EXPIRED_FIELD_DESC);
+    oprot.writeBool(this.expired);
+    oprot.writeFieldEnd();
     if (this.title != null) {
       oprot.writeFieldBegin(TITLE_FIELD_DESC);
       oprot.writeString(this.title);
@@ -735,6 +812,10 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     }
     first = false;
     if (!first) sb.append(", ");
+    sb.append("expired:");
+    sb.append(this.expired);
+    first = false;
+    if (!first) sb.append(", ");
     sb.append("title:");
     if (this.title == null) {
       sb.append("null");
@@ -768,6 +849,8 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
 
   private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
     try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
       throw new java.io.IOException(te);

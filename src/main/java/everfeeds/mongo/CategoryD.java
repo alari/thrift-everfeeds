@@ -10,21 +10,21 @@ import java.util.Date;
  * @since 06.05.11 14:40
  */
 @Entity
-public class Category {
+public class CategoryD {
   @Id
-  ObjectId id;
+  public ObjectId id;
 
   @Version
-  Long version;
+  public Long version;
 
   @Reference
-  Access access;
+  public AccessD access;
 
-  String identity;
-  String title;
+  public String identity;
+  public String title;
 
-  Date dateCreated = new Date();
-  Date lastUpdated = new Date();
+  public Date dateCreated = new Date();
+  public Date lastUpdated = new Date();
 
   @PrePersist
   void prePersist() {

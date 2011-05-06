@@ -12,32 +12,32 @@ import java.util.List;
  * @since 06.05.11 14:41
  */
 @Entity
-public class Filter {
+public class FilterD {
   @Id
-  ObjectId id;
+  public ObjectId id;
 
   @Version
-  Long version;
+  public Long version;
 
   @Reference
-  Access access;
+  public AccessD access;
 
-  String title;
-
-  @Reference
-  List<Category> categories;
-  boolean categoriesWith;
+  public String title;
 
   @Reference
-  List<Tag> withTags;
+  public List<CategoryD> categories;
+  public boolean categoriesWith;
+
   @Reference
-  List<Tag> withoutTags;
+  public List<TagD> withTags;
+  @Reference
+  public List<TagD> withoutTags;
 
-  List<EntryKind> kinds;
-  boolean kindsWith;
+  public List<EntryKind> kinds;
+  public boolean kindsWith;
 
-  Date dateCreated = new Date();
-  Date lastUpdated = new Date();
+  public Date dateCreated = new Date();
+  public Date lastUpdated = new Date();
 
   @PrePersist
   void prePersist() {

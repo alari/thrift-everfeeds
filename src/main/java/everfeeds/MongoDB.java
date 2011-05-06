@@ -36,6 +36,11 @@ public class MongoDB {
   }
 
   protected MongoDB() {
+    try {
+    this.mongo = new Mongo();
+    } catch(Exception e) {
+      System.err.println(e.getMessage());
+    }
     this.db = this.mongo.getDB("everfeeds");
     this.ds = this.morphia.createDatastore(this.mongo, this.db.getName());
     this.ads = (AdvancedDatastore) ds;
