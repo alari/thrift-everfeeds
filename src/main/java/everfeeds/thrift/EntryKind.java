@@ -11,19 +11,19 @@ import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
 public enum EntryKind implements TEnum {
-  STATUS(0),
-  NOTE(1),
-  ATOM(2),
-  EMAIL(3),
-  ALBUM(4),
-  APPLICATION(5),
-  CHECKIN(6),
-  LINK(7),
-  MUSIC(8),
-  NEWS(9),
-  PHOTO(10),
-  VIDEO(11),
-  WALL(12);
+  STATUS(1),
+  NOTE(2),
+  ATOM(3),
+  EMAIL(4),
+  ALBUM(5),
+  APPLICATION(6),
+  CHECKIN(7),
+  LINK(8),
+  MUSIC(9),
+  NEWS(10),
+  PHOTO(11),
+  VIDEO(12),
+  WALL(13);
 
   private final int value;
 
@@ -44,31 +44,31 @@ public enum EntryKind implements TEnum {
    */
   public static EntryKind findByValue(int value) { 
     switch (value) {
-      case 0:
-        return STATUS;
       case 1:
-        return NOTE;
+        return STATUS;
       case 2:
-        return ATOM;
+        return NOTE;
       case 3:
-        return EMAIL;
+        return ATOM;
       case 4:
-        return ALBUM;
+        return EMAIL;
       case 5:
-        return APPLICATION;
+        return ALBUM;
       case 6:
-        return CHECKIN;
+        return APPLICATION;
       case 7:
-        return LINK;
+        return CHECKIN;
       case 8:
-        return MUSIC;
+        return LINK;
       case 9:
-        return NEWS;
+        return MUSIC;
       case 10:
-        return PHOTO;
+        return NEWS;
       case 11:
-        return VIDEO;
+        return PHOTO;
       case 12:
+        return VIDEO;
+      case 13:
         return WALL;
       default:
         return null;

@@ -1,6 +1,6 @@
 package everfeeds;
 
-import everfeeds.thrift.EverfeedsSrv;
+import everfeeds.thrift.EverfeedsAPI;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
@@ -11,12 +11,12 @@ import org.apache.thrift.transport.TServerTransport;
  * @since 06.05.11 10:56
  */
 public class ThriftServer {
-  static private EverfeedsSrv.Processor processor;
+  static private EverfeedsAPI.Processor processor;
 
   public static void main(String[] args) {
     try {
       ServiceHandler handler = new ServiceHandler();
-      processor = new EverfeedsSrv.Processor(handler);
+      processor = new EverfeedsAPI.Processor(handler);
 
       Runnable simple = new Runnable() {
         public void run() {
@@ -31,7 +31,7 @@ public class ThriftServer {
   }
 
 
-  public static void simple(EverfeedsSrv.Processor processor) {
+  public static void simple(EverfeedsAPI.Processor processor) {
     try {
       TServerTransport serverTransport = new TServerSocket(9090);
       //TServer server = new TSimpleServer(new Args(serverTransport).processor(processor));

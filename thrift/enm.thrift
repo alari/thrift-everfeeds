@@ -5,28 +5,28 @@ namespace perl everfeeds.thrift
 namespace st Thrift.Everfeeds
 
 enum EntryKind {
-  STATUS,
-  NOTE,
-  ATOM,
-  EMAIL,
+  STATUS = 1,
+  NOTE = 2,
+  ATOM = 3,
+  EMAIL = 4,
 
-  ALBUM,
-  APPLICATION,
-  CHECKIN,
-  LINK,
-  MUSIC,
-  NEWS,
-  PHOTO,
-  VIDEO,
-  WALL,
+  ALBUM = 5,
+  APPLICATION = 6,
+  CHECKIN = 7,
+  LINK = 8,
+  MUSIC = 9,
+  NEWS = 10,
+  PHOTO = 11,
+  VIDEO = 12,
+  WALL = 13,
 }
 
 enum AccessType {
-  EVERNOTE,
-  FACEBOOK,
-  TWITTER,
-  GMAIL,
-  GREADER,
-  LINKEDIN,
-  VKONTAKTE,
+  EVERNOTE = 1,
+  FACEBOOK = 2,
+  TWITTER = 3,
+  GMAIL = 4,
+  GREADER = 5,
+  LINKEDIN = 6,
+  VKONTAKTE = 7,
 }

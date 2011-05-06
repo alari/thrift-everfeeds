@@ -17,6 +17,8 @@ public class Access {
 
   String identity;
 
+  boolean expired;
+
   String accessToken;
   String accessSecret;
   String shardId;

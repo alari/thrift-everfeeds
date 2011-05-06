@@ -11,13 +11,13 @@ import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
 public enum AccessType implements TEnum {
-  EVERNOTE(0),
-  FACEBOOK(1),
-  TWITTER(2),
-  GMAIL(3),
-  GREADER(4),
-  LINKEDIN(5),
-  VKONTAKTE(6);
+  EVERNOTE(1),
+  FACEBOOK(2),
+  TWITTER(3),
+  GMAIL(4),
+  GREADER(5),
+  LINKEDIN(6),
+  VKONTAKTE(7);
 
   private final int value;
 
@@ -38,19 +38,19 @@ public enum AccessType implements TEnum {
    */
   public static AccessType findByValue(int value) { 
     switch (value) {
-      case 0:
-        return EVERNOTE;
       case 1:
-        return FACEBOOK;
+        return EVERNOTE;
       case 2:
-        return TWITTER;
+        return FACEBOOK;
       case 3:
-        return GMAIL;
+        return TWITTER;
       case 4:
-        return GREADER;
+        return GMAIL;
       case 5:
-        return LINKEDIN;
+        return GREADER;
       case 6:
+        return LINKEDIN;
+      case 7:
         return VKONTAKTE;
       default:
         return null;

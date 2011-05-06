@@ -28,6 +28,7 @@ struct Access {
   2: t.String identity;
   3: t.Id accountId;
   4: enm.AccessType type
+  5: bool expired;
 
   10: t.String title;
   11: t.String screenName;
