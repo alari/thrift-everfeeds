@@ -1,0 +1,10 @@
+target/*
+**.log
+*.log
+*.iml
+.idea
+.idea/*
+.settings
+.project
+.classpath
+thrift/gen*
