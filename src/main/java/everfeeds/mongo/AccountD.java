@@ -4,6 +4,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Version;
+import everfeeds.thrift.Account;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
@@ -28,5 +29,14 @@ public class AccountD {
   @PrePersist
   void prePersist() {
     lastUpdated = new Date();
+  }
+
+  public void syncToThrift(Account account){
+    account.title = title;
+    account.id = id.toString();
+  }
+
+  public void syncFromThrift(Account account){
+    title = account.title;
   }
 }

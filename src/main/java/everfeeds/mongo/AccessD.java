@@ -1,6 +1,7 @@
 package everfeeds.mongo;
 
 import com.google.code.morphia.annotations.*;
+import everfeeds.thrift.Access;
 import everfeeds.thrift.AccessType;
 import org.bson.types.ObjectId;
 
@@ -40,5 +41,20 @@ public class AccessD {
   @PrePersist
   void prePersist() {
     lastUpdated = new Date();
+  }
+
+  public void syncToThrift(Access access){
+    access.title = title;
+    access.identity = identity;
+    access.screenName = screenName;
+    access.expired = expired;
+    access.id = id.toString();
+    access.type = type;
+  }
+
+  public void syncFromThrift(Access access){
+    title = access.title;
+    identity = access.identity;
+    screenName = access.screenName;
   }
 }

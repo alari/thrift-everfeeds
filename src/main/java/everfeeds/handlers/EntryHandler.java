@@ -10,7 +10,7 @@ import org.apache.thrift.TException;
  * @author Dmitry Kurinskiy
  * @since 06.05.11 19:11
  */
-public class EntryHandler extends Handler implements EntryAPI.Iface{
+public class EntryHandler extends Handler implements EntryAPI.Iface {
   @Override
   public Entry saveEntry(String token, Access access, Entry entry, EntryContent content) throws TException {
     return null;

@@ -1,6 +1,7 @@
 package everfeeds.mongo;
 
 import com.google.code.morphia.annotations.*;
+import everfeeds.thrift.Tag;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
@@ -29,5 +30,17 @@ public class TagD {
   @PrePersist
   void prePersist() {
     lastUpdated = new Date();
+  }
+
+  public void syncToThrift(Tag tag){
+    tag.id = id.toString();
+    tag.identity = identity;
+    tag.title = title;
+    tag.accessId = access.id.toString();
+  }
+
+  public void syncFromThrift(Tag tag){
+    identity = tag.identity;
+    title = tag.title;
   }
 }
