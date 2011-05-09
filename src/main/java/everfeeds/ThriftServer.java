@@ -1,13 +1,7 @@
 package everfeeds;
 
-import everfeeds.handlers.AccessHandler;
-import everfeeds.handlers.AccountHandler;
-import everfeeds.handlers.EntryHandler;
-import everfeeds.handlers.FilterHandler;
-import everfeeds.thrift.AccessAPI;
-import everfeeds.thrift.AccountAPI;
-import everfeeds.thrift.EntryAPI;
-import everfeeds.thrift.FilterAPI;
+import everfeeds.handlers.*;
+import everfeeds.thrift.*;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
@@ -22,6 +16,7 @@ public class ThriftServer {
   static private AccountAPI.Processor accountAPI;
   static private AccessAPI.Processor accessAPI;
   static private FilterAPI.Processor filterAPI;
+  static private ApplicationAPI.Processor applicationAPI;
 
   public static void main(String[] args) {
     try {
@@ -29,6 +24,7 @@ public class ThriftServer {
       accountAPI = new AccountAPI.Processor(new AccountHandler());
       accessAPI = new AccessAPI.Processor(new AccessHandler());
       filterAPI = new FilterAPI.Processor(new FilterHandler());
+      applicationAPI = new ApplicationAPI.Processor(new ApplicationHandler());
 
       Runnable simple = new Runnable() {
         public void run() {
@@ -54,7 +50,8 @@ public class ThriftServer {
                                                     .processor(entryAPI)
                                                     .processor(accessAPI)
                                                     .processor(accountAPI)
-                                                    .processor(filterAPI));
+                                                    .processor(filterAPI)
+                                                    .processor(applicationAPI));
 
       System.out.println("Starting the runServer server...");
       server.serve();
