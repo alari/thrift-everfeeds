@@ -7,6 +7,16 @@ namespace php everfeeds.thrift
 namespace perl everfeeds.thrift
 namespace st Thrift.Everfeeds
 
+struct Token {
+  1: t.Id id;
+  2: t.Id accountId;
+
+  10: t.Timestamp expires;
+  11: bool expired;
+
+  20: list<string> scopes;
+}
+
 struct Tag {
   1: t.Id id;
   2: t.String identity;

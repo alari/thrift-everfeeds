@@ -15,7 +15,7 @@ import java.util.List;
  * @author Dmitry Kurinskiy
  * @since 06.05.11 19:11
  */
-public class AccountHandler extends Handler implements AccountAPI.Iface {
+public class AccountHandler extends ApplicationHandler implements AccountAPI.Iface {
   @Override
   public Account getAccount(String token) throws TException {
     TokenD tokenD = getTokenD(token);
@@ -42,13 +42,8 @@ public class AccountHandler extends Handler implements AccountAPI.Iface {
   public Access saveAccessToken(String token, Access access, String accessToken, String accessSecret, String accessShardId) throws TException {
     TokenD tokenD = getTokenD(token);
 
-    AccessD accessD;
+    AccessD accessD = findAccessD(access);
 
-    if (!access.id.equals("") && access.id != null) {
-      accessD = getDS().get(AccessD.class, access.getId());
-    } else {
-      accessD = new AccessD();
-    }
     accessD.syncFromThrift(access);
     // Token is renewed
     accessD.type = access.type;
@@ -65,24 +60,6 @@ public class AccountHandler extends Handler implements AccountAPI.Iface {
     accessD.syncToThrift(access);
 
     return access;
-  }
-
-  protected AccessD findAccessD(Access access) throws TException{
-    AccessD accessD;
-    if (!access.id.equals("") && access.id != null) {
-      accessD = getDS().get(AccessD.class, access.getId());
-      if(accessD != null) {
-        return accessD;
-      }
-    }
-
-    accessD = getDS().createQuery(AccessD.class)
-                  .filter("identity", access.identity)
-                  .filter("type", access.type).get();
-    if(accessD != null) {
-      return accessD;
-    }
-    return new AccessD();
   }
 
   @Override
@@ -102,35 +79,6 @@ public class AccountHandler extends Handler implements AccountAPI.Iface {
     accessD.syncToThrift(access);
 
     return access;
-  }
-
-  @Override
-  public Account createAccessAndAccount(String serverToken, Access access, String accessToken, String accessSecret, String accessShardId) throws TException {
-    if(!serverToken.equals("hardCode")) {
-      throw new TException("Access denied for token or wrong token given");
-    }
-
-    AccessD accessD = findAccessD(access);
-
-    // Token is renewed
-    accessD.type = access.type;
-    accessD.accessToken = accessToken;
-    accessD.accessSecret = accessSecret;
-    accessD.shardId = accessShardId;
-    accessD.expired = false;
-
-    if(accessD.account == null) {
-      accessD.account = new AccountD();
-      accessD.account.title = accessD.title;
-      getDS().save(accessD.account);
-    }
-
-    getDS().save(accessD);
-
-    Account account = new Account();
-    accessD.account.syncToThrift(account);
-
-    return account;
   }
 
   @Override

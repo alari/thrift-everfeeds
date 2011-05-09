@@ -24,21 +24,29 @@ public class EntryAPI {
 
   public interface Iface {
 
-    public Entry saveEntry(String token, Access access, Entry entry, EntryContent content) throws org.apache.thrift.TException;
+    public Entry saveEntry(String token, Entry entry, EntryContent content) throws org.apache.thrift.TException;
 
     public EntryContent getEntryContent(String token, String entryId) throws org.apache.thrift.TException;
 
     public Entry getEntry(String token, String entryId) throws org.apache.thrift.TException;
 
+    public void markRead(String token, String entryId) throws org.apache.thrift.TException;
+
+    public void markUnread(String token, String entryId) throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
 
-    public void saveEntry(String token, Access access, Entry entry, EntryContent content, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveEntry_call> resultHandler) throws org.apache.thrift.TException;
+    public void saveEntry(String token, Entry entry, EntryContent content, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveEntry_call> resultHandler) throws org.apache.thrift.TException;
 
     public void getEntryContent(String token, String entryId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getEntryContent_call> resultHandler) throws org.apache.thrift.TException;
 
     public void getEntry(String token, String entryId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getEntry_call> resultHandler) throws org.apache.thrift.TException;
+
+    public void markRead(String token, String entryId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.markRead_call> resultHandler) throws org.apache.thrift.TException;
+
+    public void markUnread(String token, String entryId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.markUnread_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -79,18 +87,17 @@ public class EntryAPI {
       return this.oprot_;
     }
 
-    public Entry saveEntry(String token, Access access, Entry entry, EntryContent content) throws org.apache.thrift.TException
+    public Entry saveEntry(String token, Entry entry, EntryContent content) throws org.apache.thrift.TException
     {
-      send_saveEntry(token, access, entry, content);
+      send_saveEntry(token, entry, content);
       return recv_saveEntry();
     }
 
-    public void send_saveEntry(String token, Access access, Entry entry, EntryContent content) throws org.apache.thrift.TException
+    public void send_saveEntry(String token, Entry entry, EntryContent content) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveEntry", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       saveEntry_args args = new saveEntry_args();
       args.setToken(token);
-      args.setAccess(access);
       args.setEntry(entry);
       args.setContent(content);
       args.write(oprot_);
@@ -192,6 +199,38 @@ public class EntryAPI {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getEntry failed: unknown result");
     }
 
+    public void markRead(String token, String entryId) throws org.apache.thrift.TException
+    {
+      send_markRead(token, entryId);
+    }
+
+    public void send_markRead(String token, String entryId) throws org.apache.thrift.TException
+    {
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("markRead", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
+      markRead_args args = new markRead_args();
+      args.setToken(token);
+      args.setEntryId(entryId);
+      args.write(oprot_);
+      oprot_.writeMessageEnd();
+      oprot_.getTransport().flush();
+    }
+
+    public void markUnread(String token, String entryId) throws org.apache.thrift.TException
+    {
+      send_markUnread(token, entryId);
+    }
+
+    public void send_markUnread(String token, String entryId) throws org.apache.thrift.TException
+    {
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("markUnread", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
+      markUnread_args args = new markUnread_args();
+      args.setToken(token);
+      args.setEntryId(entryId);
+      args.write(oprot_);
+      oprot_.writeMessageEnd();
+      oprot_.getTransport().flush();
+    }
+
   }
   public static class AsyncClient extends org.apache.thrift.async.TAsyncClient implements AsyncIface {
     public static class Factory implements org.apache.thrift.async.TAsyncClientFactory<AsyncClient> {
@@ -210,22 +249,20 @@ public class EntryAPI {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void saveEntry(String token, Access access, Entry entry, EntryContent content, org.apache.thrift.async.AsyncMethodCallback<saveEntry_call> resultHandler) throws org.apache.thrift.TException {
+    public void saveEntry(String token, Entry entry, EntryContent content, org.apache.thrift.async.AsyncMethodCallback<saveEntry_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      saveEntry_call method_call = new saveEntry_call(token, access, entry, content, resultHandler, this, protocolFactory, transport);
+      saveEntry_call method_call = new saveEntry_call(token, entry, content, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
 
     public static class saveEntry_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String token;
-      private Access access;
       private Entry entry;
       private EntryContent content;
-      public saveEntry_call(String token, Access access, Entry entry, EntryContent content, org.apache.thrift.async.AsyncMethodCallback<saveEntry_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public saveEntry_call(String token, Entry entry, EntryContent content, org.apache.thrift.async.AsyncMethodCallback<saveEntry_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.token = token;
-        this.access = access;
         this.entry = entry;
         this.content = content;
       }
@@ -234,7 +271,6 @@ public class EntryAPI {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveEntry", org.apache.thrift.protocol.TMessageType.CALL, 0));
         saveEntry_args args = new saveEntry_args();
         args.setToken(token);
-        args.setAccess(access);
         args.setEntry(entry);
         args.setContent(content);
         args.write(prot);
@@ -321,6 +357,74 @@ public class EntryAPI {
       }
     }
 
+    public void markRead(String token, String entryId, org.apache.thrift.async.AsyncMethodCallback<markRead_call> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      markRead_call method_call = new markRead_call(token, entryId, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
+      manager.call(method_call);
+    }
+
+    public static class markRead_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private String token;
+      private String entryId;
+      public markRead_call(String token, String entryId, org.apache.thrift.async.AsyncMethodCallback<markRead_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.token = token;
+        this.entryId = entryId;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("markRead", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        markRead_args args = new markRead_args();
+        args.setToken(token);
+        args.setEntryId(entryId);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public void getResult() throws org.apache.thrift.TException {
+        if (getState() != State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+      }
+    }
+
+    public void markUnread(String token, String entryId, org.apache.thrift.async.AsyncMethodCallback<markUnread_call> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      markUnread_call method_call = new markUnread_call(token, entryId, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
+      manager.call(method_call);
+    }
+
+    public static class markUnread_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private String token;
+      private String entryId;
+      public markUnread_call(String token, String entryId, org.apache.thrift.async.AsyncMethodCallback<markUnread_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.token = token;
+        this.entryId = entryId;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("markUnread", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        markUnread_args args = new markUnread_args();
+        args.setToken(token);
+        args.setEntryId(entryId);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public void getResult() throws org.apache.thrift.TException {
+        if (getState() != State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+      }
+    }
+
   }
 
   public static class Processor implements org.apache.thrift.TProcessor {
@@ -331,6 +435,8 @@ public class EntryAPI {
       processMap_.put("saveEntry", new saveEntry());
       processMap_.put("getEntryContent", new getEntryContent());
       processMap_.put("getEntry", new getEntry());
+      processMap_.put("markRead", new markRead());
+      processMap_.put("markUnread", new markUnread());
     }
 
     protected static interface ProcessFunction {
@@ -375,7 +481,7 @@ public class EntryAPI {
         }
         iprot.readMessageEnd();
         saveEntry_result result = new saveEntry_result();
-        result.success = iface_.saveEntry(args.token, args.access, args.entry, args.content);
+        result.success = iface_.saveEntry(args.token, args.entry, args.content);
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveEntry", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -436,25 +542,64 @@ public class EntryAPI {
 
     }
 
+    private class markRead implements ProcessFunction {
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
+      {
+        markRead_args args = new markRead_args();
+        try {
+          args.read(iprot);
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
+          iprot.readMessageEnd();
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("markRead", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
+        iprot.readMessageEnd();
+        iface_.markRead(args.token, args.entryId);
+        return;
+      }
+    }
+
+    private class markUnread implements ProcessFunction {
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
+      {
+        markUnread_args args = new markUnread_args();
+        try {
+          args.read(iprot);
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
+          iprot.readMessageEnd();
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("markUnread", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
+        iprot.readMessageEnd();
+        iface_.markUnread(args.token, args.entryId);
+        return;
+      }
+    }
+
   }
 
   public static class saveEntry_args implements org.apache.thrift.TBase<saveEntry_args, saveEntry_args._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("saveEntry_args");
 
     private static final org.apache.thrift.protocol.TField TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("token", org.apache.thrift.protocol.TType.STRING, (short)1);
-    private static final org.apache.thrift.protocol.TField ACCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("access", org.apache.thrift.protocol.TType.STRUCT, (short)2);
     private static final org.apache.thrift.protocol.TField ENTRY_FIELD_DESC = new org.apache.thrift.protocol.TField("entry", org.apache.thrift.protocol.TType.STRUCT, (short)3);
     private static final org.apache.thrift.protocol.TField CONTENT_FIELD_DESC = new org.apache.thrift.protocol.TField("content", org.apache.thrift.protocol.TType.STRUCT, (short)4);
 
     public String token;
-    public Access access;
     public Entry entry;
     public EntryContent content;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       TOKEN((short)1, "token"),
-      ACCESS((short)2, "access"),
       ENTRY((short)3, "entry"),
       CONTENT((short)4, "content");
 
@@ -473,8 +618,6 @@ public class EntryAPI {
         switch(fieldId) {
           case 1: // TOKEN
             return TOKEN;
-          case 2: // ACCESS
-            return ACCESS;
           case 3: // ENTRY
             return ENTRY;
           case 4: // CONTENT
@@ -525,8 +668,6 @@ public class EntryAPI {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
-      tmpMap.put(_Fields.ACCESS, new org.apache.thrift.meta_data.FieldMetaData("access", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Access.class)));
       tmpMap.put(_Fields.ENTRY, new org.apache.thrift.meta_data.FieldMetaData("entry", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Entry.class)));
       tmpMap.put(_Fields.CONTENT, new org.apache.thrift.meta_data.FieldMetaData("content", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -540,13 +681,11 @@ public class EntryAPI {
 
     public saveEntry_args(
       String token,
-      Access access,
       Entry entry,
       EntryContent content)
     {
       this();
       this.token = token;
-      this.access = access;
       this.entry = entry;
       this.content = content;
     }
@@ -557,9 +696,6 @@ public class EntryAPI {
     public saveEntry_args(saveEntry_args other) {
       if (other.isSetToken()) {
         this.token = other.token;
-      }
-      if (other.isSetAccess()) {
-        this.access = new Access(other.access);
       }
       if (other.isSetEntry()) {
         this.entry = new Entry(other.entry);
@@ -576,7 +712,6 @@ public class EntryAPI {
     @Override
     public void clear() {
       this.token = null;
-      this.access = null;
       this.entry = null;
       this.content = null;
     }
@@ -602,30 +737,6 @@ public class EntryAPI {
     public void setTokenIsSet(boolean value) {
       if (!value) {
         this.token = null;
-      }
-    }
-
-    public Access getAccess() {
-      return this.access;
-    }
-
-    public saveEntry_args setAccess(Access access) {
-      this.access = access;
-      return this;
-    }
-
-    public void unsetAccess() {
-      this.access = null;
-    }
-
-    /** Returns true if field access is set (has been assigned a value) and false otherwise */
-    public boolean isSetAccess() {
-      return this.access != null;
-    }
-
-    public void setAccessIsSet(boolean value) {
-      if (!value) {
-        this.access = null;
       }
     }
 
@@ -687,14 +798,6 @@ public class EntryAPI {
         }
         break;
 
-      case ACCESS:
-        if (value == null) {
-          unsetAccess();
-        } else {
-          setAccess((Access)value);
-        }
-        break;
-
       case ENTRY:
         if (value == null) {
           unsetEntry();
@@ -719,9 +822,6 @@ public class EntryAPI {
       case TOKEN:
         return getToken();
 
-      case ACCESS:
-        return getAccess();
-
       case ENTRY:
         return getEntry();
 
@@ -741,8 +841,6 @@ public class EntryAPI {
       switch (field) {
       case TOKEN:
         return isSetToken();
-      case ACCESS:
-        return isSetAccess();
       case ENTRY:
         return isSetEntry();
       case CONTENT:
@@ -770,15 +868,6 @@ public class EntryAPI {
         if (!(this_present_token && that_present_token))
           return false;
         if (!this.token.equals(that.token))
-          return false;
-      }
-
-      boolean this_present_access = true && this.isSetAccess();
-      boolean that_present_access = true && that.isSetAccess();
-      if (this_present_access || that_present_access) {
-        if (!(this_present_access && that_present_access))
-          return false;
-        if (!this.access.equals(that.access))
           return false;
       }
 
@@ -822,16 +911,6 @@ public class EntryAPI {
       }
       if (isSetToken()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.token, typedOther.token);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = Boolean.valueOf(isSetAccess()).compareTo(typedOther.isSetAccess());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetAccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.access, typedOther.access);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -880,14 +959,6 @@ public class EntryAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 2: // ACCESS
-            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.access = new Access();
-              this.access.read(iprot);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
           case 3: // ENTRY
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.entry = new Entry();
@@ -924,11 +995,6 @@ public class EntryAPI {
         oprot.writeString(this.token);
         oprot.writeFieldEnd();
       }
-      if (this.access != null) {
-        oprot.writeFieldBegin(ACCESS_FIELD_DESC);
-        this.access.write(oprot);
-        oprot.writeFieldEnd();
-      }
       if (this.entry != null) {
         oprot.writeFieldBegin(ENTRY_FIELD_DESC);
         this.entry.write(oprot);
@@ -953,14 +1019,6 @@ public class EntryAPI {
         sb.append("null");
       } else {
         sb.append(this.token);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("access:");
-      if (this.access == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.access);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -2640,6 +2698,778 @@ public class EntryAPI {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+  }
+
+  public static class markRead_args implements org.apache.thrift.TBase<markRead_args, markRead_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("markRead_args");
+
+    private static final org.apache.thrift.protocol.TField TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("token", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField ENTRY_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("entryId", org.apache.thrift.protocol.TType.STRING, (short)2);
+
+    public String token;
+    public String entryId;
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      TOKEN((short)1, "token"),
+      ENTRY_ID((short)2, "entryId");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // TOKEN
+            return TOKEN;
+          case 2: // ENTRY_ID
+            return ENTRY_ID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
+      tmpMap.put(_Fields.ENTRY_ID, new org.apache.thrift.meta_data.FieldMetaData("entryId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "Id")));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(markRead_args.class, metaDataMap);
+    }
+
+    public markRead_args() {
+    }
+
+    public markRead_args(
+      String token,
+      String entryId)
+    {
+      this();
+      this.token = token;
+      this.entryId = entryId;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public markRead_args(markRead_args other) {
+      if (other.isSetToken()) {
+        this.token = other.token;
+      }
+      if (other.isSetEntryId()) {
+        this.entryId = other.entryId;
+      }
+    }
+
+    public markRead_args deepCopy() {
+      return new markRead_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.token = null;
+      this.entryId = null;
+    }
+
+    public String getToken() {
+      return this.token;
+    }
+
+    public markRead_args setToken(String token) {
+      this.token = token;
+      return this;
+    }
+
+    public void unsetToken() {
+      this.token = null;
+    }
+
+    /** Returns true if field token is set (has been assigned a value) and false otherwise */
+    public boolean isSetToken() {
+      return this.token != null;
+    }
+
+    public void setTokenIsSet(boolean value) {
+      if (!value) {
+        this.token = null;
+      }
+    }
+
+    public String getEntryId() {
+      return this.entryId;
+    }
+
+    public markRead_args setEntryId(String entryId) {
+      this.entryId = entryId;
+      return this;
+    }
+
+    public void unsetEntryId() {
+      this.entryId = null;
+    }
+
+    /** Returns true if field entryId is set (has been assigned a value) and false otherwise */
+    public boolean isSetEntryId() {
+      return this.entryId != null;
+    }
+
+    public void setEntryIdIsSet(boolean value) {
+      if (!value) {
+        this.entryId = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case TOKEN:
+        if (value == null) {
+          unsetToken();
+        } else {
+          setToken((String)value);
+        }
+        break;
+
+      case ENTRY_ID:
+        if (value == null) {
+          unsetEntryId();
+        } else {
+          setEntryId((String)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case TOKEN:
+        return getToken();
+
+      case ENTRY_ID:
+        return getEntryId();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case TOKEN:
+        return isSetToken();
+      case ENTRY_ID:
+        return isSetEntryId();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof markRead_args)
+        return this.equals((markRead_args)that);
+      return false;
+    }
+
+    public boolean equals(markRead_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_token = true && this.isSetToken();
+      boolean that_present_token = true && that.isSetToken();
+      if (this_present_token || that_present_token) {
+        if (!(this_present_token && that_present_token))
+          return false;
+        if (!this.token.equals(that.token))
+          return false;
+      }
+
+      boolean this_present_entryId = true && this.isSetEntryId();
+      boolean that_present_entryId = true && that.isSetEntryId();
+      if (this_present_entryId || that_present_entryId) {
+        if (!(this_present_entryId && that_present_entryId))
+          return false;
+        if (!this.entryId.equals(that.entryId))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(markRead_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      markRead_args typedOther = (markRead_args)other;
+
+      lastComparison = Boolean.valueOf(isSetToken()).compareTo(typedOther.isSetToken());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetToken()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.token, typedOther.token);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetEntryId()).compareTo(typedOther.isSetEntryId());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetEntryId()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.entryId, typedOther.entryId);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
+          break;
+        }
+        switch (field.id) {
+          case 1: // TOKEN
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
+              this.token = iprot.readString();
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // ENTRY_ID
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
+              this.entryId = iprot.readString();
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      // check for required fields of primitive type, which can't be checked in the validate method
+      validate();
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      validate();
+
+      oprot.writeStructBegin(STRUCT_DESC);
+      if (this.token != null) {
+        oprot.writeFieldBegin(TOKEN_FIELD_DESC);
+        oprot.writeString(this.token);
+        oprot.writeFieldEnd();
+      }
+      if (this.entryId != null) {
+        oprot.writeFieldBegin(ENTRY_ID_FIELD_DESC);
+        oprot.writeString(this.entryId);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("markRead_args(");
+      boolean first = true;
+
+      sb.append("token:");
+      if (this.token == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.token);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("entryId:");
+      if (this.entryId == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.entryId);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+  }
+
+  public static class markUnread_args implements org.apache.thrift.TBase<markUnread_args, markUnread_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("markUnread_args");
+
+    private static final org.apache.thrift.protocol.TField TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("token", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField ENTRY_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("entryId", org.apache.thrift.protocol.TType.STRING, (short)2);
+
+    public String token;
+    public String entryId;
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      TOKEN((short)1, "token"),
+      ENTRY_ID((short)2, "entryId");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // TOKEN
+            return TOKEN;
+          case 2: // ENTRY_ID
+            return ENTRY_ID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
+      tmpMap.put(_Fields.ENTRY_ID, new org.apache.thrift.meta_data.FieldMetaData("entryId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "Id")));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(markUnread_args.class, metaDataMap);
+    }
+
+    public markUnread_args() {
+    }
+
+    public markUnread_args(
+      String token,
+      String entryId)
+    {
+      this();
+      this.token = token;
+      this.entryId = entryId;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public markUnread_args(markUnread_args other) {
+      if (other.isSetToken()) {
+        this.token = other.token;
+      }
+      if (other.isSetEntryId()) {
+        this.entryId = other.entryId;
+      }
+    }
+
+    public markUnread_args deepCopy() {
+      return new markUnread_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.token = null;
+      this.entryId = null;
+    }
+
+    public String getToken() {
+      return this.token;
+    }
+
+    public markUnread_args setToken(String token) {
+      this.token = token;
+      return this;
+    }
+
+    public void unsetToken() {
+      this.token = null;
+    }
+
+    /** Returns true if field token is set (has been assigned a value) and false otherwise */
+    public boolean isSetToken() {
+      return this.token != null;
+    }
+
+    public void setTokenIsSet(boolean value) {
+      if (!value) {
+        this.token = null;
+      }
+    }
+
+    public String getEntryId() {
+      return this.entryId;
+    }
+
+    public markUnread_args setEntryId(String entryId) {
+      this.entryId = entryId;
+      return this;
+    }
+
+    public void unsetEntryId() {
+      this.entryId = null;
+    }
+
+    /** Returns true if field entryId is set (has been assigned a value) and false otherwise */
+    public boolean isSetEntryId() {
+      return this.entryId != null;
+    }
+
+    public void setEntryIdIsSet(boolean value) {
+      if (!value) {
+        this.entryId = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case TOKEN:
+        if (value == null) {
+          unsetToken();
+        } else {
+          setToken((String)value);
+        }
+        break;
+
+      case ENTRY_ID:
+        if (value == null) {
+          unsetEntryId();
+        } else {
+          setEntryId((String)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case TOKEN:
+        return getToken();
+
+      case ENTRY_ID:
+        return getEntryId();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case TOKEN:
+        return isSetToken();
+      case ENTRY_ID:
+        return isSetEntryId();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof markUnread_args)
+        return this.equals((markUnread_args)that);
+      return false;
+    }
+
+    public boolean equals(markUnread_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_token = true && this.isSetToken();
+      boolean that_present_token = true && that.isSetToken();
+      if (this_present_token || that_present_token) {
+        if (!(this_present_token && that_present_token))
+          return false;
+        if (!this.token.equals(that.token))
+          return false;
+      }
+
+      boolean this_present_entryId = true && this.isSetEntryId();
+      boolean that_present_entryId = true && that.isSetEntryId();
+      if (this_present_entryId || that_present_entryId) {
+        if (!(this_present_entryId && that_present_entryId))
+          return false;
+        if (!this.entryId.equals(that.entryId))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(markUnread_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      markUnread_args typedOther = (markUnread_args)other;
+
+      lastComparison = Boolean.valueOf(isSetToken()).compareTo(typedOther.isSetToken());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetToken()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.token, typedOther.token);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetEntryId()).compareTo(typedOther.isSetEntryId());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetEntryId()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.entryId, typedOther.entryId);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
+          break;
+        }
+        switch (field.id) {
+          case 1: // TOKEN
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
+              this.token = iprot.readString();
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // ENTRY_ID
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
+              this.entryId = iprot.readString();
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      // check for required fields of primitive type, which can't be checked in the validate method
+      validate();
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      validate();
+
+      oprot.writeStructBegin(STRUCT_DESC);
+      if (this.token != null) {
+        oprot.writeFieldBegin(TOKEN_FIELD_DESC);
+        oprot.writeString(this.token);
+        oprot.writeFieldEnd();
+      }
+      if (this.entryId != null) {
+        oprot.writeFieldBegin(ENTRY_ID_FIELD_DESC);
+        oprot.writeString(this.entryId);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("markUnread_args(");
+      boolean first = true;
+
+      sb.append("token:");
+      if (this.token == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.token);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("entryId:");
+      if (this.entryId == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.entryId);
       }
       first = false;
       sb.append(")");

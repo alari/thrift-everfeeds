@@ -30,9 +30,9 @@ public class AccessAPI {
 
     public List<EntryKind> getKinds(String token, String accessId) throws org.apache.thrift.TException;
 
-    public Tag saveTag(String token, Access access, Tag tag) throws org.apache.thrift.TException;
+    public Tag saveTag(String token, Tag tag) throws org.apache.thrift.TException;
 
-    public Category saveCategory(String token, Access access, Category category) throws org.apache.thrift.TException;
+    public Category saveCategory(String token, Category category) throws org.apache.thrift.TException;
 
   }
 
@@ -44,9 +44,9 @@ public class AccessAPI {
 
     public void getKinds(String token, String accessId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getKinds_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void saveTag(String token, Access access, Tag tag, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveTag_call> resultHandler) throws org.apache.thrift.TException;
+    public void saveTag(String token, Tag tag, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveTag_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void saveCategory(String token, Access access, Category category, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveCategory_call> resultHandler) throws org.apache.thrift.TException;
+    public void saveCategory(String token, Category category, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveCategory_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -182,18 +182,17 @@ public class AccessAPI {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getKinds failed: unknown result");
     }
 
-    public Tag saveTag(String token, Access access, Tag tag) throws org.apache.thrift.TException
+    public Tag saveTag(String token, Tag tag) throws org.apache.thrift.TException
     {
-      send_saveTag(token, access, tag);
+      send_saveTag(token, tag);
       return recv_saveTag();
     }
 
-    public void send_saveTag(String token, Access access, Tag tag) throws org.apache.thrift.TException
+    public void send_saveTag(String token, Tag tag) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveTag", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       saveTag_args args = new saveTag_args();
       args.setToken(token);
-      args.setAccess(access);
       args.setTag(tag);
       args.write(oprot_);
       oprot_.writeMessageEnd();
@@ -220,18 +219,17 @@ public class AccessAPI {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "saveTag failed: unknown result");
     }
 
-    public Category saveCategory(String token, Access access, Category category) throws org.apache.thrift.TException
+    public Category saveCategory(String token, Category category) throws org.apache.thrift.TException
     {
-      send_saveCategory(token, access, category);
+      send_saveCategory(token, category);
       return recv_saveCategory();
     }
 
-    public void send_saveCategory(String token, Access access, Category category) throws org.apache.thrift.TException
+    public void send_saveCategory(String token, Category category) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveCategory", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       saveCategory_args args = new saveCategory_args();
       args.setToken(token);
-      args.setAccess(access);
       args.setCategory(category);
       args.write(oprot_);
       oprot_.writeMessageEnd();
@@ -381,21 +379,19 @@ public class AccessAPI {
       }
     }
 
-    public void saveTag(String token, Access access, Tag tag, org.apache.thrift.async.AsyncMethodCallback<saveTag_call> resultHandler) throws org.apache.thrift.TException {
+    public void saveTag(String token, Tag tag, org.apache.thrift.async.AsyncMethodCallback<saveTag_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      saveTag_call method_call = new saveTag_call(token, access, tag, resultHandler, this, protocolFactory, transport);
+      saveTag_call method_call = new saveTag_call(token, tag, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
 
     public static class saveTag_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String token;
-      private Access access;
       private Tag tag;
-      public saveTag_call(String token, Access access, Tag tag, org.apache.thrift.async.AsyncMethodCallback<saveTag_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public saveTag_call(String token, Tag tag, org.apache.thrift.async.AsyncMethodCallback<saveTag_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.token = token;
-        this.access = access;
         this.tag = tag;
       }
 
@@ -403,7 +399,6 @@ public class AccessAPI {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveTag", org.apache.thrift.protocol.TMessageType.CALL, 0));
         saveTag_args args = new saveTag_args();
         args.setToken(token);
-        args.setAccess(access);
         args.setTag(tag);
         args.write(prot);
         prot.writeMessageEnd();
@@ -419,21 +414,19 @@ public class AccessAPI {
       }
     }
 
-    public void saveCategory(String token, Access access, Category category, org.apache.thrift.async.AsyncMethodCallback<saveCategory_call> resultHandler) throws org.apache.thrift.TException {
+    public void saveCategory(String token, Category category, org.apache.thrift.async.AsyncMethodCallback<saveCategory_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      saveCategory_call method_call = new saveCategory_call(token, access, category, resultHandler, this, protocolFactory, transport);
+      saveCategory_call method_call = new saveCategory_call(token, category, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
 
     public static class saveCategory_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String token;
-      private Access access;
       private Category category;
-      public saveCategory_call(String token, Access access, Category category, org.apache.thrift.async.AsyncMethodCallback<saveCategory_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public saveCategory_call(String token, Category category, org.apache.thrift.async.AsyncMethodCallback<saveCategory_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.token = token;
-        this.access = access;
         this.category = category;
       }
 
@@ -441,7 +434,6 @@ public class AccessAPI {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveCategory", org.apache.thrift.protocol.TMessageType.CALL, 0));
         saveCategory_args args = new saveCategory_args();
         args.setToken(token);
-        args.setAccess(access);
         args.setCategory(category);
         args.write(prot);
         prot.writeMessageEnd();
@@ -587,7 +579,7 @@ public class AccessAPI {
         }
         iprot.readMessageEnd();
         saveTag_result result = new saveTag_result();
-        result.success = iface_.saveTag(args.token, args.access, args.tag);
+        result.success = iface_.saveTag(args.token, args.tag);
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveTag", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -613,7 +605,7 @@ public class AccessAPI {
         }
         iprot.readMessageEnd();
         saveCategory_result result = new saveCategory_result();
-        result.success = iface_.saveCategory(args.token, args.access, args.category);
+        result.success = iface_.saveCategory(args.token, args.category);
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveCategory", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -2787,17 +2779,14 @@ public class AccessAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("saveTag_args");
 
     private static final org.apache.thrift.protocol.TField TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("token", org.apache.thrift.protocol.TType.STRING, (short)1);
-    private static final org.apache.thrift.protocol.TField ACCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("access", org.apache.thrift.protocol.TType.STRUCT, (short)2);
     private static final org.apache.thrift.protocol.TField TAG_FIELD_DESC = new org.apache.thrift.protocol.TField("tag", org.apache.thrift.protocol.TType.STRUCT, (short)3);
 
     public String token;
-    public Access access;
     public Tag tag;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       TOKEN((short)1, "token"),
-      ACCESS((short)2, "access"),
       TAG((short)3, "tag");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -2815,8 +2804,6 @@ public class AccessAPI {
         switch(fieldId) {
           case 1: // TOKEN
             return TOKEN;
-          case 2: // ACCESS
-            return ACCESS;
           case 3: // TAG
             return TAG;
           default:
@@ -2865,8 +2852,6 @@ public class AccessAPI {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
-      tmpMap.put(_Fields.ACCESS, new org.apache.thrift.meta_data.FieldMetaData("access", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Access.class)));
       tmpMap.put(_Fields.TAG, new org.apache.thrift.meta_data.FieldMetaData("tag", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Tag.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
@@ -2878,12 +2863,10 @@ public class AccessAPI {
 
     public saveTag_args(
       String token,
-      Access access,
       Tag tag)
     {
       this();
       this.token = token;
-      this.access = access;
       this.tag = tag;
     }
 
@@ -2893,9 +2876,6 @@ public class AccessAPI {
     public saveTag_args(saveTag_args other) {
       if (other.isSetToken()) {
         this.token = other.token;
-      }
-      if (other.isSetAccess()) {
-        this.access = new Access(other.access);
       }
       if (other.isSetTag()) {
         this.tag = new Tag(other.tag);
@@ -2909,7 +2889,6 @@ public class AccessAPI {
     @Override
     public void clear() {
       this.token = null;
-      this.access = null;
       this.tag = null;
     }
 
@@ -2934,30 +2913,6 @@ public class AccessAPI {
     public void setTokenIsSet(boolean value) {
       if (!value) {
         this.token = null;
-      }
-    }
-
-    public Access getAccess() {
-      return this.access;
-    }
-
-    public saveTag_args setAccess(Access access) {
-      this.access = access;
-      return this;
-    }
-
-    public void unsetAccess() {
-      this.access = null;
-    }
-
-    /** Returns true if field access is set (has been assigned a value) and false otherwise */
-    public boolean isSetAccess() {
-      return this.access != null;
-    }
-
-    public void setAccessIsSet(boolean value) {
-      if (!value) {
-        this.access = null;
       }
     }
 
@@ -2995,14 +2950,6 @@ public class AccessAPI {
         }
         break;
 
-      case ACCESS:
-        if (value == null) {
-          unsetAccess();
-        } else {
-          setAccess((Access)value);
-        }
-        break;
-
       case TAG:
         if (value == null) {
           unsetTag();
@@ -3018,9 +2965,6 @@ public class AccessAPI {
       switch (field) {
       case TOKEN:
         return getToken();
-
-      case ACCESS:
-        return getAccess();
 
       case TAG:
         return getTag();
@@ -3038,8 +2982,6 @@ public class AccessAPI {
       switch (field) {
       case TOKEN:
         return isSetToken();
-      case ACCESS:
-        return isSetAccess();
       case TAG:
         return isSetTag();
       }
@@ -3065,15 +3007,6 @@ public class AccessAPI {
         if (!(this_present_token && that_present_token))
           return false;
         if (!this.token.equals(that.token))
-          return false;
-      }
-
-      boolean this_present_access = true && this.isSetAccess();
-      boolean that_present_access = true && that.isSetAccess();
-      if (this_present_access || that_present_access) {
-        if (!(this_present_access && that_present_access))
-          return false;
-        if (!this.access.equals(that.access))
           return false;
       }
 
@@ -3112,16 +3045,6 @@ public class AccessAPI {
           return lastComparison;
         }
       }
-      lastComparison = Boolean.valueOf(isSetAccess()).compareTo(typedOther.isSetAccess());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetAccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.access, typedOther.access);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = Boolean.valueOf(isSetTag()).compareTo(typedOther.isSetTag());
       if (lastComparison != 0) {
         return lastComparison;
@@ -3156,14 +3079,6 @@ public class AccessAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 2: // ACCESS
-            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.access = new Access();
-              this.access.read(iprot);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
           case 3: // TAG
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.tag = new Tag();
@@ -3192,11 +3107,6 @@ public class AccessAPI {
         oprot.writeString(this.token);
         oprot.writeFieldEnd();
       }
-      if (this.access != null) {
-        oprot.writeFieldBegin(ACCESS_FIELD_DESC);
-        this.access.write(oprot);
-        oprot.writeFieldEnd();
-      }
       if (this.tag != null) {
         oprot.writeFieldBegin(TAG_FIELD_DESC);
         this.tag.write(oprot);
@@ -3216,14 +3126,6 @@ public class AccessAPI {
         sb.append("null");
       } else {
         sb.append(this.token);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("access:");
-      if (this.access == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.access);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -3561,17 +3463,14 @@ public class AccessAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("saveCategory_args");
 
     private static final org.apache.thrift.protocol.TField TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("token", org.apache.thrift.protocol.TType.STRING, (short)1);
-    private static final org.apache.thrift.protocol.TField ACCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("access", org.apache.thrift.protocol.TType.STRUCT, (short)2);
     private static final org.apache.thrift.protocol.TField CATEGORY_FIELD_DESC = new org.apache.thrift.protocol.TField("category", org.apache.thrift.protocol.TType.STRUCT, (short)3);
 
     public String token;
-    public Access access;
     public Category category;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       TOKEN((short)1, "token"),
-      ACCESS((short)2, "access"),
       CATEGORY((short)3, "category");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -3589,8 +3488,6 @@ public class AccessAPI {
         switch(fieldId) {
           case 1: // TOKEN
             return TOKEN;
-          case 2: // ACCESS
-            return ACCESS;
           case 3: // CATEGORY
             return CATEGORY;
           default:
@@ -3639,8 +3536,6 @@ public class AccessAPI {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
-      tmpMap.put(_Fields.ACCESS, new org.apache.thrift.meta_data.FieldMetaData("access", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Access.class)));
       tmpMap.put(_Fields.CATEGORY, new org.apache.thrift.meta_data.FieldMetaData("category", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Category.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
@@ -3652,12 +3547,10 @@ public class AccessAPI {
 
     public saveCategory_args(
       String token,
-      Access access,
       Category category)
     {
       this();
       this.token = token;
-      this.access = access;
       this.category = category;
     }
 
@@ -3667,9 +3560,6 @@ public class AccessAPI {
     public saveCategory_args(saveCategory_args other) {
       if (other.isSetToken()) {
         this.token = other.token;
-      }
-      if (other.isSetAccess()) {
-        this.access = new Access(other.access);
       }
       if (other.isSetCategory()) {
         this.category = new Category(other.category);
@@ -3683,7 +3573,6 @@ public class AccessAPI {
     @Override
     public void clear() {
       this.token = null;
-      this.access = null;
       this.category = null;
     }
 
@@ -3708,30 +3597,6 @@ public class AccessAPI {
     public void setTokenIsSet(boolean value) {
       if (!value) {
         this.token = null;
-      }
-    }
-
-    public Access getAccess() {
-      return this.access;
-    }
-
-    public saveCategory_args setAccess(Access access) {
-      this.access = access;
-      return this;
-    }
-
-    public void unsetAccess() {
-      this.access = null;
-    }
-
-    /** Returns true if field access is set (has been assigned a value) and false otherwise */
-    public boolean isSetAccess() {
-      return this.access != null;
-    }
-
-    public void setAccessIsSet(boolean value) {
-      if (!value) {
-        this.access = null;
       }
     }
 
@@ -3769,14 +3634,6 @@ public class AccessAPI {
         }
         break;
 
-      case ACCESS:
-        if (value == null) {
-          unsetAccess();
-        } else {
-          setAccess((Access)value);
-        }
-        break;
-
       case CATEGORY:
         if (value == null) {
           unsetCategory();
@@ -3792,9 +3649,6 @@ public class AccessAPI {
       switch (field) {
       case TOKEN:
         return getToken();
-
-      case ACCESS:
-        return getAccess();
 
       case CATEGORY:
         return getCategory();
@@ -3812,8 +3666,6 @@ public class AccessAPI {
       switch (field) {
       case TOKEN:
         return isSetToken();
-      case ACCESS:
-        return isSetAccess();
       case CATEGORY:
         return isSetCategory();
       }
@@ -3839,15 +3691,6 @@ public class AccessAPI {
         if (!(this_present_token && that_present_token))
           return false;
         if (!this.token.equals(that.token))
-          return false;
-      }
-
-      boolean this_present_access = true && this.isSetAccess();
-      boolean that_present_access = true && that.isSetAccess();
-      if (this_present_access || that_present_access) {
-        if (!(this_present_access && that_present_access))
-          return false;
-        if (!this.access.equals(that.access))
           return false;
       }
 
@@ -3886,16 +3729,6 @@ public class AccessAPI {
           return lastComparison;
         }
       }
-      lastComparison = Boolean.valueOf(isSetAccess()).compareTo(typedOther.isSetAccess());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetAccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.access, typedOther.access);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = Boolean.valueOf(isSetCategory()).compareTo(typedOther.isSetCategory());
       if (lastComparison != 0) {
         return lastComparison;
@@ -3930,14 +3763,6 @@ public class AccessAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 2: // ACCESS
-            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.access = new Access();
-              this.access.read(iprot);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
           case 3: // CATEGORY
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.category = new Category();
@@ -3966,11 +3791,6 @@ public class AccessAPI {
         oprot.writeString(this.token);
         oprot.writeFieldEnd();
       }
-      if (this.access != null) {
-        oprot.writeFieldBegin(ACCESS_FIELD_DESC);
-        this.access.write(oprot);
-        oprot.writeFieldEnd();
-      }
       if (this.category != null) {
         oprot.writeFieldBegin(CATEGORY_FIELD_DESC);
         this.category.write(oprot);
@@ -3990,14 +3810,6 @@ public class AccessAPI {
         sb.append("null");
       } else {
         sb.append(this.token);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("access:");
-      if (this.access == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.access);
       }
       first = false;
       if (!first) sb.append(", ");

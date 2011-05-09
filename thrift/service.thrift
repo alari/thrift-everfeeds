@@ -10,15 +10,24 @@ namespace php everfeeds.thrift
 namespace perl everfeeds.thrift
 namespace st Thrift.Everfeeds
 
+service ApplicationAPI {
+  misc.Token createToken(1: t.String applicationSecret, 2: t.Id accountId);
+
+  misc.Account createAccessAndAccount(1: t.String applicationSecret, 2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: t.String accessShardId);
+}
+
 service EntryAPI {
-  entry.Entry saveEntry(1: t.String token, 2: misc.Access access, 3: entry.Entry entry, 4: entry.EntryContent content);
+  entry.Entry saveEntry(1: t.String token, 3: entry.Entry entry, 4: entry.EntryContent content);
 
   // to dive into entry contents
   entry.EntryContent getEntryContent(1: t.String token, 5: t.Id entryId);
   entry.Entry getEntry(1: t.String token, 5: t.Id entryId);
+
+  oneway void markRead(1: t.String token, 2: t.Id entryId);
+  oneway void markUnread(1: t.String token, 2: t.Id entryId);
 }
 
-service AccountAPI {
+service AccountAPI extends ApplicationAPI {
   // to discover basic information about current account
   misc.Account getAccount(1: t.String token);
   list<misc.Access> getAccesses(1: t.String token);
@@ -27,7 +36,6 @@ service AccountAPI {
   misc.Access saveAccessToken(1: t.String token, 2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: t.String accessShardId);
   misc.Access saveAccess(1: t.String token, 2: misc.Access access);
 
-  misc.Account createAccessAndAccount(1: t.String token, 2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: t.String accessShardId);
   misc.Account saveAccount(1: t.String token, 2: misc.Account account);
 }
 
@@ -36,8 +44,8 @@ service AccessAPI extends AccountAPI {
   list<misc.Tag> getTags(1: t.String token, 5: t.Id accessId)
   list<misc.Category> getCategories(1: t.String token, 5: t.Id accessId)
   list<enm.EntryKind> getKinds(1: t.String token, 5: t.Id accessId)
-  misc.Tag saveTag(1: t.String token, 2: misc.Access access, 3: misc.Tag tag);
-  misc.Category saveCategory(1: t.String token, 2: misc.Access access, 3: misc.Category category);
+  misc.Tag saveTag(1: t.String token, 3: misc.Tag tag);
+  misc.Category saveCategory(1: t.String token, 3: misc.Category category);
 }
 
 service FilterAPI {
