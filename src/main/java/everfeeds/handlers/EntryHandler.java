@@ -1,9 +1,6 @@
 package everfeeds.handlers;
 
-import everfeeds.mongo.AccessD;
-import everfeeds.mongo.EntryContentD;
-import everfeeds.mongo.EntryD;
-import everfeeds.mongo.TokenD;
+import everfeeds.mongo.*;
 import everfeeds.thrift.Entry;
 import everfeeds.thrift.EntryAPI;
 import everfeeds.thrift.EntryContent;
@@ -38,8 +35,18 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
       entryD.content = new EntryContentD();
     }
 
-    // find category or fail
-    // find all tags or fail
+    CategoryD categoryD = getDS().createQuery(CategoryD.class).filter("id", entry.categoryId).filter("access", accessD).get();
+    if(categoryD == null) {
+      throw new TException("Category not found or is not set.");
+    }
+    entryD.category = categoryD;
+
+    entryD.tags.clear();
+    for(TagD t : getDS().createQuery(TagD.class).filter("access", accessD).fetch()){
+      if(entry.tagIds.contains(t.id.toString())) {
+        entryD.tags.add(t);
+      }
+    }
 
     entryD.content.syncFromThrift(content);
     getDS().save(entryD.content);
