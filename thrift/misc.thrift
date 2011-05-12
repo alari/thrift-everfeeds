@@ -42,6 +42,8 @@ struct Access {
 
   10: t.String title;
   11: t.String screenName;
+
+  20: list<string> params;
 }
 
 struct Account {

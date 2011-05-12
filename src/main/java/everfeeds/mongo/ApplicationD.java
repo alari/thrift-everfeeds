@@ -3,6 +3,7 @@ package everfeeds.mongo;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
+import everfeeds.Scope;
 import org.bson.types.ObjectId;
 
 import java.util.List;
@@ -21,5 +22,9 @@ public class ApplicationD {
   @Indexed(unique = true)
   public String secret;
 
-  List<String> scopes;
+  public List<String> scopes;
+
+  public boolean hasScope(Scope scope) {
+    return this.scopes.contains(scope.toString());
+  }
 }

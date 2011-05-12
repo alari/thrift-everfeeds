@@ -1,5 +1,6 @@
 package everfeeds.handlers;
 
+import everfeeds.Scope;
 import everfeeds.mongo.*;
 import everfeeds.thrift.domain.Entry;
 import everfeeds.thrift.domain.EntryContent;
@@ -18,6 +19,8 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
   @Override
   public Entry saveEntry(String token, Entry entry, EntryContent content) throws TException, TokenNotFound, Forbidden, TokenExpired, NotFound {
     TokenD tokenD = getTokenD(token);
+    checkToken(tokenD, Scope.FEED_WRITE);
+
     AccessD accessD = getDS().createQuery(AccessD.class).filter("id", entry.accessId).get();
     if (accessD == null || accessD.account != tokenD.account) {
       throw new Forbidden("Wrong Access ID in entry");
@@ -68,7 +71,9 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
 
   @Override
   public EntryContent getEntryContent(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
+    checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
+
     EntryContent content = new EntryContent();
     entryD.content.syncToThrift(content);
     content.entryId = entryId;
@@ -77,6 +82,7 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
 
   @Override
   public Entry getEntry(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
+    checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
     Entry entry = new Entry();
     entryD.syncToThrift(entry);
@@ -85,6 +91,7 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
 
   @Override
   public void markRead(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
+    checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
     entryD.isRead = true;
     getDS().save(entryD);
@@ -92,12 +99,14 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
 
   @Override
   public void markUnread(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
+    checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
     entryD.isRead = true;
     getDS().save(entryD);
   }
 
   EntryD getEntryD(String token, String id) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
+    checkToken(getTokenD(token), Scope.FEED_READ);
     TokenD tokenD = getTokenD(token);
     EntryD entryD = getDS().createQuery(EntryD.class).filter("account", tokenD.account).filter("id", id).get();
 

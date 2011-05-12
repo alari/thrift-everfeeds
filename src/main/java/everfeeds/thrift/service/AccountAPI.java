@@ -28,7 +28,7 @@ public class AccountAPI {
 
     public List<everfeeds.thrift.domain.Access> getAccesses(String token) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
-    public everfeeds.thrift.domain.Access saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
+    public everfeeds.thrift.domain.Access saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
     public everfeeds.thrift.domain.Access saveAccess(String token, everfeeds.thrift.domain.Access access) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
@@ -42,7 +42,7 @@ public class AccountAPI {
 
     public void getAccesses(String token, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getAccesses_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveAccessToken_call> resultHandler) throws org.apache.thrift.TException;
+    public void saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveAccessToken_call> resultHandler) throws org.apache.thrift.TException;
 
     public void saveAccess(String token, everfeeds.thrift.domain.Access access, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveAccess_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -167,13 +167,13 @@ public class AccountAPI {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getAccesses failed: unknown result");
     }
 
-    public everfeeds.thrift.domain.Access saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
+    public everfeeds.thrift.domain.Access saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
     {
-      send_saveAccessToken(token, access, accessToken, accessSecret, accessShardId);
+      send_saveAccessToken(token, access, accessToken, accessSecret, accessParams);
       return recv_saveAccessToken();
     }
 
-    public void send_saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId) throws org.apache.thrift.TException
+    public void send_saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveAccessToken", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       saveAccessToken_args args = new saveAccessToken_args();
@@ -181,7 +181,7 @@ public class AccountAPI {
       args.setAccess(access);
       args.setAccessToken(accessToken);
       args.setAccessSecret(accessSecret);
-      args.setAccessShardId(accessShardId);
+      args.setAccessParams(accessParams);
       args.write(oprot_);
       oprot_.writeMessageEnd();
       oprot_.getTransport().flush();
@@ -399,9 +399,9 @@ public class AccountAPI {
       }
     }
 
-    public void saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId, org.apache.thrift.async.AsyncMethodCallback<saveAccessToken_call> resultHandler) throws org.apache.thrift.TException {
+    public void saveAccessToken(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<saveAccessToken_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      saveAccessToken_call method_call = new saveAccessToken_call(token, access, accessToken, accessSecret, accessShardId, resultHandler, this, protocolFactory, transport);
+      saveAccessToken_call method_call = new saveAccessToken_call(token, access, accessToken, accessSecret, accessParams, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
@@ -411,14 +411,14 @@ public class AccountAPI {
       private everfeeds.thrift.domain.Access access;
       private String accessToken;
       private String accessSecret;
-      private String accessShardId;
-      public saveAccessToken_call(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId, org.apache.thrift.async.AsyncMethodCallback<saveAccessToken_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private List<String> accessParams;
+      public saveAccessToken_call(String token, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<saveAccessToken_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.token = token;
         this.access = access;
         this.accessToken = accessToken;
         this.accessSecret = accessSecret;
-        this.accessShardId = accessShardId;
+        this.accessParams = accessParams;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
@@ -428,7 +428,7 @@ public class AccountAPI {
         args.setAccess(access);
         args.setAccessToken(accessToken);
         args.setAccessSecret(accessSecret);
-        args.setAccessShardId(accessShardId);
+        args.setAccessParams(accessParams);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -654,7 +654,7 @@ public class AccountAPI {
         iprot.readMessageEnd();
         saveAccessToken_result result = new saveAccessToken_result();
         try {
-          result.success = iface_.saveAccessToken(args.token, args.access, args.accessToken, args.accessSecret, args.accessShardId);
+          result.success = iface_.saveAccessToken(args.token, args.access, args.accessToken, args.accessSecret, args.accessParams);
         } catch (everfeeds.thrift.error.Forbidden e) {
           result.e = e;
         } catch (everfeeds.thrift.error.TokenExpired e) {
@@ -2544,14 +2544,14 @@ public class AccountAPI {
           case 0: // SUCCESS
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                this.success = new ArrayList<everfeeds.thrift.domain.Access>(_list0.size);
-                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
+                this.success = new ArrayList<everfeeds.thrift.domain.Access>(_list8.size);
+                for (int _i9 = 0; _i9 < _list8.size; ++_i9)
                 {
-                  everfeeds.thrift.domain.Access _elem2;
-                  _elem2 = new everfeeds.thrift.domain.Access();
-                  _elem2.read(iprot);
-                  this.success.add(_elem2);
+                  everfeeds.thrift.domain.Access _elem10;
+                  _elem10 = new everfeeds.thrift.domain.Access();
+                  _elem10.read(iprot);
+                  this.success.add(_elem10);
                 }
                 iprot.readListEnd();
               }
@@ -2609,9 +2609,9 @@ public class AccountAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (everfeeds.thrift.domain.Access _iter3 : this.success)
+          for (everfeeds.thrift.domain.Access _iter11 : this.success)
           {
-            _iter3.write(oprot);
+            _iter11.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -2714,13 +2714,13 @@ public class AccountAPI {
     private static final org.apache.thrift.protocol.TField ACCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("access", org.apache.thrift.protocol.TType.STRUCT, (short)2);
     private static final org.apache.thrift.protocol.TField ACCESS_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("accessToken", org.apache.thrift.protocol.TType.STRING, (short)3);
     private static final org.apache.thrift.protocol.TField ACCESS_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("accessSecret", org.apache.thrift.protocol.TType.STRING, (short)4);
-    private static final org.apache.thrift.protocol.TField ACCESS_SHARD_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accessShardId", org.apache.thrift.protocol.TType.STRING, (short)5);
+    private static final org.apache.thrift.protocol.TField ACCESS_PARAMS_FIELD_DESC = new org.apache.thrift.protocol.TField("accessParams", org.apache.thrift.protocol.TType.LIST, (short)5);
 
     public String token;
     public everfeeds.thrift.domain.Access access;
     public String accessToken;
     public String accessSecret;
-    public String accessShardId;
+    public List<String> accessParams;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -2728,7 +2728,7 @@ public class AccountAPI {
       ACCESS((short)2, "access"),
       ACCESS_TOKEN((short)3, "accessToken"),
       ACCESS_SECRET((short)4, "accessSecret"),
-      ACCESS_SHARD_ID((short)5, "accessShardId");
+      ACCESS_PARAMS((short)5, "accessParams");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2751,8 +2751,8 @@ public class AccountAPI {
             return ACCESS_TOKEN;
           case 4: // ACCESS_SECRET
             return ACCESS_SECRET;
-          case 5: // ACCESS_SHARD_ID
-            return ACCESS_SHARD_ID;
+          case 5: // ACCESS_PARAMS
+            return ACCESS_PARAMS;
           default:
             return null;
         }
@@ -2805,8 +2805,9 @@ public class AccountAPI {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
       tmpMap.put(_Fields.ACCESS_SECRET, new org.apache.thrift.meta_data.FieldMetaData("accessSecret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
-      tmpMap.put(_Fields.ACCESS_SHARD_ID, new org.apache.thrift.meta_data.FieldMetaData("accessShardId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
+      tmpMap.put(_Fields.ACCESS_PARAMS, new org.apache.thrift.meta_data.FieldMetaData("accessParams", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(saveAccessToken_args.class, metaDataMap);
     }
@@ -2819,14 +2820,14 @@ public class AccountAPI {
       everfeeds.thrift.domain.Access access,
       String accessToken,
       String accessSecret,
-      String accessShardId)
+      List<String> accessParams)
     {
       this();
       this.token = token;
       this.access = access;
       this.accessToken = accessToken;
       this.accessSecret = accessSecret;
-      this.accessShardId = accessShardId;
+      this.accessParams = accessParams;
     }
 
     /**
@@ -2845,8 +2846,12 @@ public class AccountAPI {
       if (other.isSetAccessSecret()) {
         this.accessSecret = other.accessSecret;
       }
-      if (other.isSetAccessShardId()) {
-        this.accessShardId = other.accessShardId;
+      if (other.isSetAccessParams()) {
+        List<String> __this__accessParams = new ArrayList<String>();
+        for (String other_element : other.accessParams) {
+          __this__accessParams.add(other_element);
+        }
+        this.accessParams = __this__accessParams;
       }
     }
 
@@ -2860,7 +2865,7 @@ public class AccountAPI {
       this.access = null;
       this.accessToken = null;
       this.accessSecret = null;
-      this.accessShardId = null;
+      this.accessParams = null;
     }
 
     public String getToken() {
@@ -2959,27 +2964,42 @@ public class AccountAPI {
       }
     }
 
-    public String getAccessShardId() {
-      return this.accessShardId;
+    public int getAccessParamsSize() {
+      return (this.accessParams == null) ? 0 : this.accessParams.size();
     }
 
-    public saveAccessToken_args setAccessShardId(String accessShardId) {
-      this.accessShardId = accessShardId;
+    public java.util.Iterator<String> getAccessParamsIterator() {
+      return (this.accessParams == null) ? null : this.accessParams.iterator();
+    }
+
+    public void addToAccessParams(String elem) {
+      if (this.accessParams == null) {
+        this.accessParams = new ArrayList<String>();
+      }
+      this.accessParams.add(elem);
+    }
+
+    public List<String> getAccessParams() {
+      return this.accessParams;
+    }
+
+    public saveAccessToken_args setAccessParams(List<String> accessParams) {
+      this.accessParams = accessParams;
       return this;
     }
 
-    public void unsetAccessShardId() {
-      this.accessShardId = null;
+    public void unsetAccessParams() {
+      this.accessParams = null;
     }
 
-    /** Returns true if field accessShardId is set (has been assigned a value) and false otherwise */
-    public boolean isSetAccessShardId() {
-      return this.accessShardId != null;
+    /** Returns true if field accessParams is set (has been assigned a value) and false otherwise */
+    public boolean isSetAccessParams() {
+      return this.accessParams != null;
     }
 
-    public void setAccessShardIdIsSet(boolean value) {
+    public void setAccessParamsIsSet(boolean value) {
       if (!value) {
-        this.accessShardId = null;
+        this.accessParams = null;
       }
     }
 
@@ -3017,11 +3037,11 @@ public class AccountAPI {
         }
         break;
 
-      case ACCESS_SHARD_ID:
+      case ACCESS_PARAMS:
         if (value == null) {
-          unsetAccessShardId();
+          unsetAccessParams();
         } else {
-          setAccessShardId((String)value);
+          setAccessParams((List<String>)value);
         }
         break;
 
@@ -3042,8 +3062,8 @@ public class AccountAPI {
       case ACCESS_SECRET:
         return getAccessSecret();
 
-      case ACCESS_SHARD_ID:
-        return getAccessShardId();
+      case ACCESS_PARAMS:
+        return getAccessParams();
 
       }
       throw new IllegalStateException();
@@ -3064,8 +3084,8 @@ public class AccountAPI {
         return isSetAccessToken();
       case ACCESS_SECRET:
         return isSetAccessSecret();
-      case ACCESS_SHARD_ID:
-        return isSetAccessShardId();
+      case ACCESS_PARAMS:
+        return isSetAccessParams();
       }
       throw new IllegalStateException();
     }
@@ -3119,12 +3139,12 @@ public class AccountAPI {
           return false;
       }
 
-      boolean this_present_accessShardId = true && this.isSetAccessShardId();
-      boolean that_present_accessShardId = true && that.isSetAccessShardId();
-      if (this_present_accessShardId || that_present_accessShardId) {
-        if (!(this_present_accessShardId && that_present_accessShardId))
+      boolean this_present_accessParams = true && this.isSetAccessParams();
+      boolean that_present_accessParams = true && that.isSetAccessParams();
+      if (this_present_accessParams || that_present_accessParams) {
+        if (!(this_present_accessParams && that_present_accessParams))
           return false;
-        if (!this.accessShardId.equals(that.accessShardId))
+        if (!this.accessParams.equals(that.accessParams))
           return false;
       }
 
@@ -3184,12 +3204,12 @@ public class AccountAPI {
           return lastComparison;
         }
       }
-      lastComparison = Boolean.valueOf(isSetAccessShardId()).compareTo(typedOther.isSetAccessShardId());
+      lastComparison = Boolean.valueOf(isSetAccessParams()).compareTo(typedOther.isSetAccessParams());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetAccessShardId()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accessShardId, typedOther.accessShardId);
+      if (isSetAccessParams()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accessParams, typedOther.accessParams);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3240,9 +3260,19 @@ public class AccountAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 5: // ACCESS_SHARD_ID
-            if (field.type == org.apache.thrift.protocol.TType.STRING) {
-              this.accessShardId = iprot.readString();
+          case 5: // ACCESS_PARAMS
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list12 = iprot.readListBegin();
+                this.accessParams = new ArrayList<String>(_list12.size);
+                for (int _i13 = 0; _i13 < _list12.size; ++_i13)
+                {
+                  String _elem14;
+                  _elem14 = iprot.readString();
+                  this.accessParams.add(_elem14);
+                }
+                iprot.readListEnd();
+              }
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -3282,9 +3312,16 @@ public class AccountAPI {
         oprot.writeString(this.accessSecret);
         oprot.writeFieldEnd();
       }
-      if (this.accessShardId != null) {
-        oprot.writeFieldBegin(ACCESS_SHARD_ID_FIELD_DESC);
-        oprot.writeString(this.accessShardId);
+      if (this.accessParams != null) {
+        oprot.writeFieldBegin(ACCESS_PARAMS_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.accessParams.size()));
+          for (String _iter15 : this.accessParams)
+          {
+            oprot.writeString(_iter15);
+          }
+          oprot.writeListEnd();
+        }
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -3328,11 +3365,11 @@ public class AccountAPI {
       }
       first = false;
       if (!first) sb.append(", ");
-      sb.append("accessShardId:");
-      if (this.accessShardId == null) {
+      sb.append("accessParams:");
+      if (this.accessParams == null) {
         sb.append("null");
       } else {
-        sb.append(this.accessShardId);
+        sb.append(this.accessParams);
       }
       first = false;
       sb.append(")");

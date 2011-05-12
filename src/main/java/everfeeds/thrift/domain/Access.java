@@ -30,6 +30,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
   private static final org.apache.thrift.protocol.TField EXPIRED_FIELD_DESC = new org.apache.thrift.protocol.TField("expired", org.apache.thrift.protocol.TType.BOOL, (short)5);
   private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short)10);
   private static final org.apache.thrift.protocol.TField SCREEN_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("screenName", org.apache.thrift.protocol.TType.STRING, (short)11);
+  private static final org.apache.thrift.protocol.TField PARAMS_FIELD_DESC = new org.apache.thrift.protocol.TField("params", org.apache.thrift.protocol.TType.LIST, (short)20);
 
   public String id;
   public String identity;
@@ -42,6 +43,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
   public boolean expired;
   public String title;
   public String screenName;
+  public List<String> params;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -55,7 +57,8 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     TYPE((short)4, "type"),
     EXPIRED((short)5, "expired"),
     TITLE((short)10, "title"),
-    SCREEN_NAME((short)11, "screenName");
+    SCREEN_NAME((short)11, "screenName"),
+    PARAMS((short)20, "params");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -84,6 +87,8 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
           return TITLE;
         case 11: // SCREEN_NAME
           return SCREEN_NAME;
+        case 20: // PARAMS
+          return PARAMS;
         default:
           return null;
       }
@@ -144,6 +149,9 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     tmpMap.put(_Fields.SCREEN_NAME, new org.apache.thrift.meta_data.FieldMetaData("screenName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.PARAMS, new org.apache.thrift.meta_data.FieldMetaData("params", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Access.class, metaDataMap);
   }
@@ -158,7 +166,8 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     everfeeds.thrift.ttype.AccessType type,
     boolean expired,
     String title,
-    String screenName)
+    String screenName,
+    List<String> params)
   {
     this();
     this.id = id;
@@ -169,6 +178,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     setExpiredIsSet(true);
     this.title = title;
     this.screenName = screenName;
+    this.params = params;
   }
 
   /**
@@ -196,6 +206,13 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     if (other.isSetScreenName()) {
       this.screenName = other.screenName;
     }
+    if (other.isSetParams()) {
+      List<String> __this__params = new ArrayList<String>();
+      for (String other_element : other.params) {
+        __this__params.add(other_element);
+      }
+      this.params = __this__params;
+    }
   }
 
   public Access deepCopy() {
@@ -212,6 +229,7 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     this.expired = false;
     this.title = null;
     this.screenName = null;
+    this.params = null;
   }
 
   public String getId() {
@@ -389,6 +407,45 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     }
   }
 
+  public int getParamsSize() {
+    return (this.params == null) ? 0 : this.params.size();
+  }
+
+  public java.util.Iterator<String> getParamsIterator() {
+    return (this.params == null) ? null : this.params.iterator();
+  }
+
+  public void addToParams(String elem) {
+    if (this.params == null) {
+      this.params = new ArrayList<String>();
+    }
+    this.params.add(elem);
+  }
+
+  public List<String> getParams() {
+    return this.params;
+  }
+
+  public Access setParams(List<String> params) {
+    this.params = params;
+    return this;
+  }
+
+  public void unsetParams() {
+    this.params = null;
+  }
+
+  /** Returns true if field params is set (has been assigned a value) and false otherwise */
+  public boolean isSetParams() {
+    return this.params != null;
+  }
+
+  public void setParamsIsSet(boolean value) {
+    if (!value) {
+      this.params = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case ID:
@@ -447,6 +504,14 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
       }
       break;
 
+    case PARAMS:
+      if (value == null) {
+        unsetParams();
+      } else {
+        setParams((List<String>)value);
+      }
+      break;
+
     }
   }
 
@@ -473,6 +538,9 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     case SCREEN_NAME:
       return getScreenName();
 
+    case PARAMS:
+      return getParams();
+
     }
     throw new IllegalStateException();
   }
@@ -498,6 +566,8 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
       return isSetTitle();
     case SCREEN_NAME:
       return isSetScreenName();
+    case PARAMS:
+      return isSetParams();
     }
     throw new IllegalStateException();
   }
@@ -575,6 +645,15 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
       if (!(this_present_screenName && that_present_screenName))
         return false;
       if (!this.screenName.equals(that.screenName))
+        return false;
+    }
+
+    boolean this_present_params = true && this.isSetParams();
+    boolean that_present_params = true && that.isSetParams();
+    if (this_present_params || that_present_params) {
+      if (!(this_present_params && that_present_params))
+        return false;
+      if (!this.params.equals(that.params))
         return false;
     }
 
@@ -664,6 +743,16 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetParams()).compareTo(typedOther.isSetParams());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetParams()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.params, typedOther.params);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -731,6 +820,23 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
+        case 20: // PARAMS
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
+            {
+              org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
+              this.params = new ArrayList<String>(_list4.size);
+              for (int _i5 = 0; _i5 < _list4.size; ++_i5)
+              {
+                String _elem6;
+                _elem6 = iprot.readString();
+                this.params.add(_elem6);
+              }
+              iprot.readListEnd();
+            }
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
         default:
           org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
@@ -777,6 +883,18 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
     if (this.screenName != null) {
       oprot.writeFieldBegin(SCREEN_NAME_FIELD_DESC);
       oprot.writeString(this.screenName);
+      oprot.writeFieldEnd();
+    }
+    if (this.params != null) {
+      oprot.writeFieldBegin(PARAMS_FIELD_DESC);
+      {
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.params.size()));
+        for (String _iter7 : this.params)
+        {
+          oprot.writeString(_iter7);
+        }
+        oprot.writeListEnd();
+      }
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -837,6 +955,14 @@ public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, 
       sb.append("null");
     } else {
       sb.append(this.screenName);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("params:");
+    if (this.params == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.params);
     }
     first = false;
     sb.append(")");

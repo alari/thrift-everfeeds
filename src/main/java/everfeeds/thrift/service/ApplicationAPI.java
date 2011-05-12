@@ -24,17 +24,17 @@ public class ApplicationAPI {
 
   public interface Iface {
 
-    public everfeeds.thrift.domain.Token createToken(String applicationSecret, String accountId) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
+    public everfeeds.thrift.domain.Token createToken(String actApplicationSecret, String applicationId, String accountId, List<String> scopes) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
-    public everfeeds.thrift.domain.Account createAccessAndAccount(String applicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
+    public everfeeds.thrift.domain.Account createAccessAndAccount(String actApplicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface {
 
-    public void createToken(String applicationSecret, String accountId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.createToken_call> resultHandler) throws org.apache.thrift.TException;
+    public void createToken(String actApplicationSecret, String applicationId, String accountId, List<String> scopes, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.createToken_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void createAccessAndAccount(String applicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.createAccessAndAccount_call> resultHandler) throws org.apache.thrift.TException;
+    public void createAccessAndAccount(String actApplicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.createAccessAndAccount_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -75,18 +75,20 @@ public class ApplicationAPI {
       return this.oprot_;
     }
 
-    public everfeeds.thrift.domain.Token createToken(String applicationSecret, String accountId) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
+    public everfeeds.thrift.domain.Token createToken(String actApplicationSecret, String applicationId, String accountId, List<String> scopes) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
     {
-      send_createToken(applicationSecret, accountId);
+      send_createToken(actApplicationSecret, applicationId, accountId, scopes);
       return recv_createToken();
     }
 
-    public void send_createToken(String applicationSecret, String accountId) throws org.apache.thrift.TException
+    public void send_createToken(String actApplicationSecret, String applicationId, String accountId, List<String> scopes) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createToken", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       createToken_args args = new createToken_args();
-      args.setApplicationSecret(applicationSecret);
+      args.setActApplicationSecret(actApplicationSecret);
+      args.setApplicationId(applicationId);
       args.setAccountId(accountId);
+      args.setScopes(scopes);
       args.write(oprot_);
       oprot_.writeMessageEnd();
       oprot_.getTransport().flush();
@@ -109,30 +111,30 @@ public class ApplicationAPI {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      if (result.e != null) {
-        throw result.e;
+      if (result.eOne != null) {
+        throw result.eOne;
       }
-      if (result.e != null) {
-        throw result.e;
+      if (result.eTwo != null) {
+        throw result.eTwo;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "createToken failed: unknown result");
     }
 
-    public everfeeds.thrift.domain.Account createAccessAndAccount(String applicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
+    public everfeeds.thrift.domain.Account createAccessAndAccount(String actApplicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
     {
-      send_createAccessAndAccount(applicationSecret, access, accessToken, accessSecret, accessShardId);
+      send_createAccessAndAccount(actApplicationSecret, access, accessToken, accessSecret, accessParams);
       return recv_createAccessAndAccount();
     }
 
-    public void send_createAccessAndAccount(String applicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId) throws org.apache.thrift.TException
+    public void send_createAccessAndAccount(String actApplicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createAccessAndAccount", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       createAccessAndAccount_args args = new createAccessAndAccount_args();
-      args.setApplicationSecret(applicationSecret);
+      args.setActApplicationSecret(actApplicationSecret);
       args.setAccess(access);
       args.setAccessToken(accessToken);
       args.setAccessSecret(accessSecret);
-      args.setAccessShardId(accessShardId);
+      args.setAccessParams(accessParams);
       args.write(oprot_);
       oprot_.writeMessageEnd();
       oprot_.getTransport().flush();
@@ -155,11 +157,11 @@ public class ApplicationAPI {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      if (result.e != null) {
-        throw result.e;
+      if (result.eOne != null) {
+        throw result.eOne;
       }
-      if (result.e != null) {
-        throw result.e;
+      if (result.eTwo != null) {
+        throw result.eTwo;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "createAccessAndAccount failed: unknown result");
     }
@@ -182,27 +184,33 @@ public class ApplicationAPI {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void createToken(String applicationSecret, String accountId, org.apache.thrift.async.AsyncMethodCallback<createToken_call> resultHandler) throws org.apache.thrift.TException {
+    public void createToken(String actApplicationSecret, String applicationId, String accountId, List<String> scopes, org.apache.thrift.async.AsyncMethodCallback<createToken_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      createToken_call method_call = new createToken_call(applicationSecret, accountId, resultHandler, this, protocolFactory, transport);
+      createToken_call method_call = new createToken_call(actApplicationSecret, applicationId, accountId, scopes, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
 
     public static class createToken_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private String applicationSecret;
+      private String actApplicationSecret;
+      private String applicationId;
       private String accountId;
-      public createToken_call(String applicationSecret, String accountId, org.apache.thrift.async.AsyncMethodCallback<createToken_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private List<String> scopes;
+      public createToken_call(String actApplicationSecret, String applicationId, String accountId, List<String> scopes, org.apache.thrift.async.AsyncMethodCallback<createToken_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.applicationSecret = applicationSecret;
+        this.actApplicationSecret = actApplicationSecret;
+        this.applicationId = applicationId;
         this.accountId = accountId;
+        this.scopes = scopes;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createToken", org.apache.thrift.protocol.TMessageType.CALL, 0));
         createToken_args args = new createToken_args();
-        args.setApplicationSecret(applicationSecret);
+        args.setActApplicationSecret(actApplicationSecret);
+        args.setApplicationId(applicationId);
         args.setAccountId(accountId);
+        args.setScopes(scopes);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -217,36 +225,36 @@ public class ApplicationAPI {
       }
     }
 
-    public void createAccessAndAccount(String applicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId, org.apache.thrift.async.AsyncMethodCallback<createAccessAndAccount_call> resultHandler) throws org.apache.thrift.TException {
+    public void createAccessAndAccount(String actApplicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<createAccessAndAccount_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      createAccessAndAccount_call method_call = new createAccessAndAccount_call(applicationSecret, access, accessToken, accessSecret, accessShardId, resultHandler, this, protocolFactory, transport);
+      createAccessAndAccount_call method_call = new createAccessAndAccount_call(actApplicationSecret, access, accessToken, accessSecret, accessParams, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
 
     public static class createAccessAndAccount_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private String applicationSecret;
+      private String actApplicationSecret;
       private everfeeds.thrift.domain.Access access;
       private String accessToken;
       private String accessSecret;
-      private String accessShardId;
-      public createAccessAndAccount_call(String applicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, String accessShardId, org.apache.thrift.async.AsyncMethodCallback<createAccessAndAccount_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private List<String> accessParams;
+      public createAccessAndAccount_call(String actApplicationSecret, everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<createAccessAndAccount_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.applicationSecret = applicationSecret;
+        this.actApplicationSecret = actApplicationSecret;
         this.access = access;
         this.accessToken = accessToken;
         this.accessSecret = accessSecret;
-        this.accessShardId = accessShardId;
+        this.accessParams = accessParams;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createAccessAndAccount", org.apache.thrift.protocol.TMessageType.CALL, 0));
         createAccessAndAccount_args args = new createAccessAndAccount_args();
-        args.setApplicationSecret(applicationSecret);
+        args.setActApplicationSecret(actApplicationSecret);
         args.setAccess(access);
         args.setAccessToken(accessToken);
         args.setAccessSecret(accessSecret);
-        args.setAccessShardId(accessShardId);
+        args.setAccessParams(accessParams);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -315,11 +323,11 @@ public class ApplicationAPI {
         iprot.readMessageEnd();
         createToken_result result = new createToken_result();
         try {
-          result.success = iface_.createToken(args.applicationSecret, args.accountId);
-        } catch (everfeeds.thrift.error.Forbidden e) {
-          result.e = e;
-        } catch (everfeeds.thrift.error.NotFound e) {
-          result.e = e;
+          result.success = iface_.createToken(args.actApplicationSecret, args.applicationId, args.accountId, args.scopes);
+        } catch (everfeeds.thrift.error.Forbidden eOne) {
+          result.eOne = eOne;
+        } catch (everfeeds.thrift.error.NotFound eTwo) {
+          result.eTwo = eTwo;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing createToken", th);
           org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing createToken");
@@ -355,11 +363,11 @@ public class ApplicationAPI {
         iprot.readMessageEnd();
         createAccessAndAccount_result result = new createAccessAndAccount_result();
         try {
-          result.success = iface_.createAccessAndAccount(args.applicationSecret, args.access, args.accessToken, args.accessSecret, args.accessShardId);
-        } catch (everfeeds.thrift.error.Forbidden e) {
-          result.e = e;
-        } catch (everfeeds.thrift.error.NotFound e) {
-          result.e = e;
+          result.success = iface_.createAccessAndAccount(args.actApplicationSecret, args.access, args.accessToken, args.accessSecret, args.accessParams);
+        } catch (everfeeds.thrift.error.Forbidden eOne) {
+          result.eOne = eOne;
+        } catch (everfeeds.thrift.error.NotFound eTwo) {
+          result.eTwo = eTwo;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing createAccessAndAccount", th);
           org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing createAccessAndAccount");
@@ -382,16 +390,22 @@ public class ApplicationAPI {
   public static class createToken_args implements org.apache.thrift.TBase<createToken_args, createToken_args._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createToken_args");
 
-    private static final org.apache.thrift.protocol.TField APPLICATION_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("applicationSecret", org.apache.thrift.protocol.TType.STRING, (short)1);
-    private static final org.apache.thrift.protocol.TField ACCOUNT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accountId", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField ACT_APPLICATION_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("actApplicationSecret", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField APPLICATION_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("applicationId", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField ACCOUNT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accountId", org.apache.thrift.protocol.TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField SCOPES_FIELD_DESC = new org.apache.thrift.protocol.TField("scopes", org.apache.thrift.protocol.TType.LIST, (short)4);
 
-    public String applicationSecret;
+    public String actApplicationSecret;
+    public String applicationId;
     public String accountId;
+    public List<String> scopes;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      APPLICATION_SECRET((short)1, "applicationSecret"),
-      ACCOUNT_ID((short)2, "accountId");
+      ACT_APPLICATION_SECRET((short)1, "actApplicationSecret"),
+      APPLICATION_ID((short)2, "applicationId"),
+      ACCOUNT_ID((short)3, "accountId"),
+      SCOPES((short)4, "scopes");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -406,10 +420,14 @@ public class ApplicationAPI {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // APPLICATION_SECRET
-            return APPLICATION_SECRET;
-          case 2: // ACCOUNT_ID
+          case 1: // ACT_APPLICATION_SECRET
+            return ACT_APPLICATION_SECRET;
+          case 2: // APPLICATION_ID
+            return APPLICATION_ID;
+          case 3: // ACCOUNT_ID
             return ACCOUNT_ID;
+          case 4: // SCOPES
+            return SCOPES;
           default:
             return null;
         }
@@ -454,10 +472,15 @@ public class ApplicationAPI {
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.APPLICATION_SECRET, new org.apache.thrift.meta_data.FieldMetaData("applicationSecret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+      tmpMap.put(_Fields.ACT_APPLICATION_SECRET, new org.apache.thrift.meta_data.FieldMetaData("actApplicationSecret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
+      tmpMap.put(_Fields.APPLICATION_ID, new org.apache.thrift.meta_data.FieldMetaData("applicationId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "Id")));
       tmpMap.put(_Fields.ACCOUNT_ID, new org.apache.thrift.meta_data.FieldMetaData("accountId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "Id")));
+      tmpMap.put(_Fields.SCOPES, new org.apache.thrift.meta_data.FieldMetaData("scopes", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createToken_args.class, metaDataMap);
     }
@@ -466,23 +489,37 @@ public class ApplicationAPI {
     }
 
     public createToken_args(
-      String applicationSecret,
-      String accountId)
+      String actApplicationSecret,
+      String applicationId,
+      String accountId,
+      List<String> scopes)
     {
       this();
-      this.applicationSecret = applicationSecret;
+      this.actApplicationSecret = actApplicationSecret;
+      this.applicationId = applicationId;
       this.accountId = accountId;
+      this.scopes = scopes;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public createToken_args(createToken_args other) {
-      if (other.isSetApplicationSecret()) {
-        this.applicationSecret = other.applicationSecret;
+      if (other.isSetActApplicationSecret()) {
+        this.actApplicationSecret = other.actApplicationSecret;
+      }
+      if (other.isSetApplicationId()) {
+        this.applicationId = other.applicationId;
       }
       if (other.isSetAccountId()) {
         this.accountId = other.accountId;
+      }
+      if (other.isSetScopes()) {
+        List<String> __this__scopes = new ArrayList<String>();
+        for (String other_element : other.scopes) {
+          __this__scopes.add(other_element);
+        }
+        this.scopes = __this__scopes;
       }
     }
 
@@ -492,31 +529,57 @@ public class ApplicationAPI {
 
     @Override
     public void clear() {
-      this.applicationSecret = null;
+      this.actApplicationSecret = null;
+      this.applicationId = null;
       this.accountId = null;
+      this.scopes = null;
     }
 
-    public String getApplicationSecret() {
-      return this.applicationSecret;
+    public String getActApplicationSecret() {
+      return this.actApplicationSecret;
     }
 
-    public createToken_args setApplicationSecret(String applicationSecret) {
-      this.applicationSecret = applicationSecret;
+    public createToken_args setActApplicationSecret(String actApplicationSecret) {
+      this.actApplicationSecret = actApplicationSecret;
       return this;
     }
 
-    public void unsetApplicationSecret() {
-      this.applicationSecret = null;
+    public void unsetActApplicationSecret() {
+      this.actApplicationSecret = null;
     }
 
-    /** Returns true if field applicationSecret is set (has been assigned a value) and false otherwise */
-    public boolean isSetApplicationSecret() {
-      return this.applicationSecret != null;
+    /** Returns true if field actApplicationSecret is set (has been assigned a value) and false otherwise */
+    public boolean isSetActApplicationSecret() {
+      return this.actApplicationSecret != null;
     }
 
-    public void setApplicationSecretIsSet(boolean value) {
+    public void setActApplicationSecretIsSet(boolean value) {
       if (!value) {
-        this.applicationSecret = null;
+        this.actApplicationSecret = null;
+      }
+    }
+
+    public String getApplicationId() {
+      return this.applicationId;
+    }
+
+    public createToken_args setApplicationId(String applicationId) {
+      this.applicationId = applicationId;
+      return this;
+    }
+
+    public void unsetApplicationId() {
+      this.applicationId = null;
+    }
+
+    /** Returns true if field applicationId is set (has been assigned a value) and false otherwise */
+    public boolean isSetApplicationId() {
+      return this.applicationId != null;
+    }
+
+    public void setApplicationIdIsSet(boolean value) {
+      if (!value) {
+        this.applicationId = null;
       }
     }
 
@@ -544,13 +607,60 @@ public class ApplicationAPI {
       }
     }
 
+    public int getScopesSize() {
+      return (this.scopes == null) ? 0 : this.scopes.size();
+    }
+
+    public java.util.Iterator<String> getScopesIterator() {
+      return (this.scopes == null) ? null : this.scopes.iterator();
+    }
+
+    public void addToScopes(String elem) {
+      if (this.scopes == null) {
+        this.scopes = new ArrayList<String>();
+      }
+      this.scopes.add(elem);
+    }
+
+    public List<String> getScopes() {
+      return this.scopes;
+    }
+
+    public createToken_args setScopes(List<String> scopes) {
+      this.scopes = scopes;
+      return this;
+    }
+
+    public void unsetScopes() {
+      this.scopes = null;
+    }
+
+    /** Returns true if field scopes is set (has been assigned a value) and false otherwise */
+    public boolean isSetScopes() {
+      return this.scopes != null;
+    }
+
+    public void setScopesIsSet(boolean value) {
+      if (!value) {
+        this.scopes = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-      case APPLICATION_SECRET:
+      case ACT_APPLICATION_SECRET:
         if (value == null) {
-          unsetApplicationSecret();
+          unsetActApplicationSecret();
         } else {
-          setApplicationSecret((String)value);
+          setActApplicationSecret((String)value);
+        }
+        break;
+
+      case APPLICATION_ID:
+        if (value == null) {
+          unsetApplicationId();
+        } else {
+          setApplicationId((String)value);
         }
         break;
 
@@ -562,16 +672,30 @@ public class ApplicationAPI {
         }
         break;
 
+      case SCOPES:
+        if (value == null) {
+          unsetScopes();
+        } else {
+          setScopes((List<String>)value);
+        }
+        break;
+
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-      case APPLICATION_SECRET:
-        return getApplicationSecret();
+      case ACT_APPLICATION_SECRET:
+        return getActApplicationSecret();
+
+      case APPLICATION_ID:
+        return getApplicationId();
 
       case ACCOUNT_ID:
         return getAccountId();
+
+      case SCOPES:
+        return getScopes();
 
       }
       throw new IllegalStateException();
@@ -584,10 +708,14 @@ public class ApplicationAPI {
       }
 
       switch (field) {
-      case APPLICATION_SECRET:
-        return isSetApplicationSecret();
+      case ACT_APPLICATION_SECRET:
+        return isSetActApplicationSecret();
+      case APPLICATION_ID:
+        return isSetApplicationId();
       case ACCOUNT_ID:
         return isSetAccountId();
+      case SCOPES:
+        return isSetScopes();
       }
       throw new IllegalStateException();
     }
@@ -605,12 +733,21 @@ public class ApplicationAPI {
       if (that == null)
         return false;
 
-      boolean this_present_applicationSecret = true && this.isSetApplicationSecret();
-      boolean that_present_applicationSecret = true && that.isSetApplicationSecret();
-      if (this_present_applicationSecret || that_present_applicationSecret) {
-        if (!(this_present_applicationSecret && that_present_applicationSecret))
+      boolean this_present_actApplicationSecret = true && this.isSetActApplicationSecret();
+      boolean that_present_actApplicationSecret = true && that.isSetActApplicationSecret();
+      if (this_present_actApplicationSecret || that_present_actApplicationSecret) {
+        if (!(this_present_actApplicationSecret && that_present_actApplicationSecret))
           return false;
-        if (!this.applicationSecret.equals(that.applicationSecret))
+        if (!this.actApplicationSecret.equals(that.actApplicationSecret))
+          return false;
+      }
+
+      boolean this_present_applicationId = true && this.isSetApplicationId();
+      boolean that_present_applicationId = true && that.isSetApplicationId();
+      if (this_present_applicationId || that_present_applicationId) {
+        if (!(this_present_applicationId && that_present_applicationId))
+          return false;
+        if (!this.applicationId.equals(that.applicationId))
           return false;
       }
 
@@ -620,6 +757,15 @@ public class ApplicationAPI {
         if (!(this_present_accountId && that_present_accountId))
           return false;
         if (!this.accountId.equals(that.accountId))
+          return false;
+      }
+
+      boolean this_present_scopes = true && this.isSetScopes();
+      boolean that_present_scopes = true && that.isSetScopes();
+      if (this_present_scopes || that_present_scopes) {
+        if (!(this_present_scopes && that_present_scopes))
+          return false;
+        if (!this.scopes.equals(that.scopes))
           return false;
       }
 
@@ -639,12 +785,22 @@ public class ApplicationAPI {
       int lastComparison = 0;
       createToken_args typedOther = (createToken_args)other;
 
-      lastComparison = Boolean.valueOf(isSetApplicationSecret()).compareTo(typedOther.isSetApplicationSecret());
+      lastComparison = Boolean.valueOf(isSetActApplicationSecret()).compareTo(typedOther.isSetActApplicationSecret());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetApplicationSecret()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.applicationSecret, typedOther.applicationSecret);
+      if (isSetActApplicationSecret()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.actApplicationSecret, typedOther.actApplicationSecret);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetApplicationId()).compareTo(typedOther.isSetApplicationId());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetApplicationId()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.applicationId, typedOther.applicationId);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -655,6 +811,16 @@ public class ApplicationAPI {
       }
       if (isSetAccountId()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accountId, typedOther.accountId);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetScopes()).compareTo(typedOther.isSetScopes());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetScopes()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.scopes, typedOther.scopes);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -676,16 +842,40 @@ public class ApplicationAPI {
           break;
         }
         switch (field.id) {
-          case 1: // APPLICATION_SECRET
+          case 1: // ACT_APPLICATION_SECRET
             if (field.type == org.apache.thrift.protocol.TType.STRING) {
-              this.applicationSecret = iprot.readString();
+              this.actApplicationSecret = iprot.readString();
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 2: // ACCOUNT_ID
+          case 2: // APPLICATION_ID
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
+              this.applicationId = iprot.readString();
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // ACCOUNT_ID
             if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.accountId = iprot.readString();
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 4: // SCOPES
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
+                this.scopes = new ArrayList<String>(_list0.size);
+                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                {
+                  String _elem2;
+                  _elem2 = iprot.readString();
+                  this.scopes.add(_elem2);
+                }
+                iprot.readListEnd();
+              }
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -705,14 +895,31 @@ public class ApplicationAPI {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      if (this.applicationSecret != null) {
-        oprot.writeFieldBegin(APPLICATION_SECRET_FIELD_DESC);
-        oprot.writeString(this.applicationSecret);
+      if (this.actApplicationSecret != null) {
+        oprot.writeFieldBegin(ACT_APPLICATION_SECRET_FIELD_DESC);
+        oprot.writeString(this.actApplicationSecret);
+        oprot.writeFieldEnd();
+      }
+      if (this.applicationId != null) {
+        oprot.writeFieldBegin(APPLICATION_ID_FIELD_DESC);
+        oprot.writeString(this.applicationId);
         oprot.writeFieldEnd();
       }
       if (this.accountId != null) {
         oprot.writeFieldBegin(ACCOUNT_ID_FIELD_DESC);
         oprot.writeString(this.accountId);
+        oprot.writeFieldEnd();
+      }
+      if (this.scopes != null) {
+        oprot.writeFieldBegin(SCOPES_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.scopes.size()));
+          for (String _iter3 : this.scopes)
+          {
+            oprot.writeString(_iter3);
+          }
+          oprot.writeListEnd();
+        }
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -724,11 +931,19 @@ public class ApplicationAPI {
       StringBuilder sb = new StringBuilder("createToken_args(");
       boolean first = true;
 
-      sb.append("applicationSecret:");
-      if (this.applicationSecret == null) {
+      sb.append("actApplicationSecret:");
+      if (this.actApplicationSecret == null) {
         sb.append("null");
       } else {
-        sb.append(this.applicationSecret);
+        sb.append(this.actApplicationSecret);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("applicationId:");
+      if (this.applicationId == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.applicationId);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -737,6 +952,14 @@ public class ApplicationAPI {
         sb.append("null");
       } else {
         sb.append(this.accountId);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("scopes:");
+      if (this.scopes == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.scopes);
       }
       first = false;
       sb.append(")");
@@ -769,18 +992,18 @@ public class ApplicationAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createToken_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
-    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField E_ONE_FIELD_DESC = new org.apache.thrift.protocol.TField("eOne", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField E_TWO_FIELD_DESC = new org.apache.thrift.protocol.TField("eTwo", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public everfeeds.thrift.domain.Token success;
-    public everfeeds.thrift.error.Forbidden e;
-    public everfeeds.thrift.error.NotFound e;
+    public everfeeds.thrift.error.Forbidden eOne;
+    public everfeeds.thrift.error.NotFound eTwo;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
-      E((short)1, "e"),
-      E((short)2, "e");
+      E_ONE((short)1, "eOne"),
+      E_TWO((short)2, "eTwo");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -797,10 +1020,10 @@ public class ApplicationAPI {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
-          case 1: // E
-            return E;
-          case 2: // E
-            return E;
+          case 1: // E_ONE
+            return E_ONE;
+          case 2: // E_TWO
+            return E_TWO;
           default:
             return null;
         }
@@ -847,9 +1070,9 @@ public class ApplicationAPI {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Token.class)));
-      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+      tmpMap.put(_Fields.E_ONE, new org.apache.thrift.meta_data.FieldMetaData("eOne", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
-      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+      tmpMap.put(_Fields.E_TWO, new org.apache.thrift.meta_data.FieldMetaData("eTwo", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createToken_result.class, metaDataMap);
@@ -860,13 +1083,13 @@ public class ApplicationAPI {
 
     public createToken_result(
       everfeeds.thrift.domain.Token success,
-      everfeeds.thrift.error.Forbidden e,
-      everfeeds.thrift.error.NotFound e)
+      everfeeds.thrift.error.Forbidden eOne,
+      everfeeds.thrift.error.NotFound eTwo)
     {
       this();
       this.success = success;
-      this.e = e;
-      this.e = e;
+      this.eOne = eOne;
+      this.eTwo = eTwo;
     }
 
     /**
@@ -876,11 +1099,11 @@ public class ApplicationAPI {
       if (other.isSetSuccess()) {
         this.success = new everfeeds.thrift.domain.Token(other.success);
       }
-      if (other.isSetE()) {
-        this.e = new everfeeds.thrift.error.Forbidden(other.e);
+      if (other.isSetEOne()) {
+        this.eOne = new everfeeds.thrift.error.Forbidden(other.eOne);
       }
-      if (other.isSetE()) {
-        this.e = new everfeeds.thrift.error.NotFound(other.e);
+      if (other.isSetETwo()) {
+        this.eTwo = new everfeeds.thrift.error.NotFound(other.eTwo);
       }
     }
 
@@ -891,8 +1114,8 @@ public class ApplicationAPI {
     @Override
     public void clear() {
       this.success = null;
-      this.e = null;
-      this.e = null;
+      this.eOne = null;
+      this.eTwo = null;
     }
 
     public everfeeds.thrift.domain.Token getSuccess() {
@@ -919,51 +1142,51 @@ public class ApplicationAPI {
       }
     }
 
-    public everfeeds.thrift.error.Forbidden getE() {
-      return this.e;
+    public everfeeds.thrift.error.Forbidden getEOne() {
+      return this.eOne;
     }
 
-    public createToken_result setE(everfeeds.thrift.error.Forbidden e) {
-      this.e = e;
+    public createToken_result setEOne(everfeeds.thrift.error.Forbidden eOne) {
+      this.eOne = eOne;
       return this;
     }
 
-    public void unsetE() {
-      this.e = null;
+    public void unsetEOne() {
+      this.eOne = null;
     }
 
-    /** Returns true if field e is set (has been assigned a value) and false otherwise */
-    public boolean isSetE() {
-      return this.e != null;
+    /** Returns true if field eOne is set (has been assigned a value) and false otherwise */
+    public boolean isSetEOne() {
+      return this.eOne != null;
     }
 
-    public void setEIsSet(boolean value) {
+    public void setEOneIsSet(boolean value) {
       if (!value) {
-        this.e = null;
+        this.eOne = null;
       }
     }
 
-    public everfeeds.thrift.error.NotFound getE() {
-      return this.e;
+    public everfeeds.thrift.error.NotFound getETwo() {
+      return this.eTwo;
     }
 
-    public createToken_result setE(everfeeds.thrift.error.NotFound e) {
-      this.e = e;
+    public createToken_result setETwo(everfeeds.thrift.error.NotFound eTwo) {
+      this.eTwo = eTwo;
       return this;
     }
 
-    public void unsetE() {
-      this.e = null;
+    public void unsetETwo() {
+      this.eTwo = null;
     }
 
-    /** Returns true if field e is set (has been assigned a value) and false otherwise */
-    public boolean isSetE() {
-      return this.e != null;
+    /** Returns true if field eTwo is set (has been assigned a value) and false otherwise */
+    public boolean isSetETwo() {
+      return this.eTwo != null;
     }
 
-    public void setEIsSet(boolean value) {
+    public void setETwoIsSet(boolean value) {
       if (!value) {
-        this.e = null;
+        this.eTwo = null;
       }
     }
 
@@ -977,19 +1200,19 @@ public class ApplicationAPI {
         }
         break;
 
-      case E:
+      case E_ONE:
         if (value == null) {
-          unsetE();
+          unsetEOne();
         } else {
-          setE((everfeeds.thrift.error.Forbidden)value);
+          setEOne((everfeeds.thrift.error.Forbidden)value);
         }
         break;
 
-      case E:
+      case E_TWO:
         if (value == null) {
-          unsetE();
+          unsetETwo();
         } else {
-          setE((everfeeds.thrift.error.NotFound)value);
+          setETwo((everfeeds.thrift.error.NotFound)value);
         }
         break;
 
@@ -1001,11 +1224,11 @@ public class ApplicationAPI {
       case SUCCESS:
         return getSuccess();
 
-      case E:
-        return getE();
+      case E_ONE:
+        return getEOne();
 
-      case E:
-        return getE();
+      case E_TWO:
+        return getETwo();
 
       }
       throw new IllegalStateException();
@@ -1020,10 +1243,10 @@ public class ApplicationAPI {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
-      case E:
-        return isSetE();
-      case E:
-        return isSetE();
+      case E_ONE:
+        return isSetEOne();
+      case E_TWO:
+        return isSetETwo();
       }
       throw new IllegalStateException();
     }
@@ -1050,21 +1273,21 @@ public class ApplicationAPI {
           return false;
       }
 
-      boolean this_present_e = true && this.isSetE();
-      boolean that_present_e = true && that.isSetE();
-      if (this_present_e || that_present_e) {
-        if (!(this_present_e && that_present_e))
+      boolean this_present_eOne = true && this.isSetEOne();
+      boolean that_present_eOne = true && that.isSetEOne();
+      if (this_present_eOne || that_present_eOne) {
+        if (!(this_present_eOne && that_present_eOne))
           return false;
-        if (!this.e.equals(that.e))
+        if (!this.eOne.equals(that.eOne))
           return false;
       }
 
-      boolean this_present_e = true && this.isSetE();
-      boolean that_present_e = true && that.isSetE();
-      if (this_present_e || that_present_e) {
-        if (!(this_present_e && that_present_e))
+      boolean this_present_eTwo = true && this.isSetETwo();
+      boolean that_present_eTwo = true && that.isSetETwo();
+      if (this_present_eTwo || that_present_eTwo) {
+        if (!(this_present_eTwo && that_present_eTwo))
           return false;
-        if (!this.e.equals(that.e))
+        if (!this.eTwo.equals(that.eTwo))
           return false;
       }
 
@@ -1094,22 +1317,22 @@ public class ApplicationAPI {
           return lastComparison;
         }
       }
-      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      lastComparison = Boolean.valueOf(isSetEOne()).compareTo(typedOther.isSetEOne());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetE()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+      if (isSetEOne()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.eOne, typedOther.eOne);
         if (lastComparison != 0) {
           return lastComparison;
         }
       }
-      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      lastComparison = Boolean.valueOf(isSetETwo()).compareTo(typedOther.isSetETwo());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetE()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+      if (isSetETwo()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.eTwo, typedOther.eTwo);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1139,18 +1362,18 @@ public class ApplicationAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 1: // E
+          case 1: // E_ONE
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.e = new everfeeds.thrift.error.Forbidden();
-              this.e.read(iprot);
+              this.eOne = new everfeeds.thrift.error.Forbidden();
+              this.eOne.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 2: // E
+          case 2: // E_TWO
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.e = new everfeeds.thrift.error.NotFound();
-              this.e.read(iprot);
+              this.eTwo = new everfeeds.thrift.error.NotFound();
+              this.eTwo.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -1173,13 +1396,13 @@ public class ApplicationAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
-      } else if (this.isSetE()) {
-        oprot.writeFieldBegin(E_FIELD_DESC);
-        this.e.write(oprot);
+      } else if (this.isSetEOne()) {
+        oprot.writeFieldBegin(E_ONE_FIELD_DESC);
+        this.eOne.write(oprot);
         oprot.writeFieldEnd();
-      } else if (this.isSetE()) {
-        oprot.writeFieldBegin(E_FIELD_DESC);
-        this.e.write(oprot);
+      } else if (this.isSetETwo()) {
+        oprot.writeFieldBegin(E_TWO_FIELD_DESC);
+        this.eTwo.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -1199,19 +1422,19 @@ public class ApplicationAPI {
       }
       first = false;
       if (!first) sb.append(", ");
-      sb.append("e:");
-      if (this.e == null) {
+      sb.append("eOne:");
+      if (this.eOne == null) {
         sb.append("null");
       } else {
-        sb.append(this.e);
+        sb.append(this.eOne);
       }
       first = false;
       if (!first) sb.append(", ");
-      sb.append("e:");
-      if (this.e == null) {
+      sb.append("eTwo:");
+      if (this.eTwo == null) {
         sb.append("null");
       } else {
-        sb.append(this.e);
+        sb.append(this.eTwo);
       }
       first = false;
       sb.append(")");
@@ -1243,25 +1466,25 @@ public class ApplicationAPI {
   public static class createAccessAndAccount_args implements org.apache.thrift.TBase<createAccessAndAccount_args, createAccessAndAccount_args._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createAccessAndAccount_args");
 
-    private static final org.apache.thrift.protocol.TField APPLICATION_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("applicationSecret", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField ACT_APPLICATION_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("actApplicationSecret", org.apache.thrift.protocol.TType.STRING, (short)1);
     private static final org.apache.thrift.protocol.TField ACCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("access", org.apache.thrift.protocol.TType.STRUCT, (short)2);
     private static final org.apache.thrift.protocol.TField ACCESS_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("accessToken", org.apache.thrift.protocol.TType.STRING, (short)3);
     private static final org.apache.thrift.protocol.TField ACCESS_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("accessSecret", org.apache.thrift.protocol.TType.STRING, (short)4);
-    private static final org.apache.thrift.protocol.TField ACCESS_SHARD_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accessShardId", org.apache.thrift.protocol.TType.STRING, (short)5);
+    private static final org.apache.thrift.protocol.TField ACCESS_PARAMS_FIELD_DESC = new org.apache.thrift.protocol.TField("accessParams", org.apache.thrift.protocol.TType.LIST, (short)5);
 
-    public String applicationSecret;
+    public String actApplicationSecret;
     public everfeeds.thrift.domain.Access access;
     public String accessToken;
     public String accessSecret;
-    public String accessShardId;
+    public List<String> accessParams;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      APPLICATION_SECRET((short)1, "applicationSecret"),
+      ACT_APPLICATION_SECRET((short)1, "actApplicationSecret"),
       ACCESS((short)2, "access"),
       ACCESS_TOKEN((short)3, "accessToken"),
       ACCESS_SECRET((short)4, "accessSecret"),
-      ACCESS_SHARD_ID((short)5, "accessShardId");
+      ACCESS_PARAMS((short)5, "accessParams");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1276,16 +1499,16 @@ public class ApplicationAPI {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // APPLICATION_SECRET
-            return APPLICATION_SECRET;
+          case 1: // ACT_APPLICATION_SECRET
+            return ACT_APPLICATION_SECRET;
           case 2: // ACCESS
             return ACCESS;
           case 3: // ACCESS_TOKEN
             return ACCESS_TOKEN;
           case 4: // ACCESS_SECRET
             return ACCESS_SECRET;
-          case 5: // ACCESS_SHARD_ID
-            return ACCESS_SHARD_ID;
+          case 5: // ACCESS_PARAMS
+            return ACCESS_PARAMS;
           default:
             return null;
         }
@@ -1330,7 +1553,7 @@ public class ApplicationAPI {
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.APPLICATION_SECRET, new org.apache.thrift.meta_data.FieldMetaData("applicationSecret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+      tmpMap.put(_Fields.ACT_APPLICATION_SECRET, new org.apache.thrift.meta_data.FieldMetaData("actApplicationSecret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
       tmpMap.put(_Fields.ACCESS, new org.apache.thrift.meta_data.FieldMetaData("access", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Access.class)));
@@ -1338,8 +1561,9 @@ public class ApplicationAPI {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
       tmpMap.put(_Fields.ACCESS_SECRET, new org.apache.thrift.meta_data.FieldMetaData("accessSecret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
-      tmpMap.put(_Fields.ACCESS_SHARD_ID, new org.apache.thrift.meta_data.FieldMetaData("accessShardId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
+      tmpMap.put(_Fields.ACCESS_PARAMS, new org.apache.thrift.meta_data.FieldMetaData("accessParams", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createAccessAndAccount_args.class, metaDataMap);
     }
@@ -1348,26 +1572,26 @@ public class ApplicationAPI {
     }
 
     public createAccessAndAccount_args(
-      String applicationSecret,
+      String actApplicationSecret,
       everfeeds.thrift.domain.Access access,
       String accessToken,
       String accessSecret,
-      String accessShardId)
+      List<String> accessParams)
     {
       this();
-      this.applicationSecret = applicationSecret;
+      this.actApplicationSecret = actApplicationSecret;
       this.access = access;
       this.accessToken = accessToken;
       this.accessSecret = accessSecret;
-      this.accessShardId = accessShardId;
+      this.accessParams = accessParams;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public createAccessAndAccount_args(createAccessAndAccount_args other) {
-      if (other.isSetApplicationSecret()) {
-        this.applicationSecret = other.applicationSecret;
+      if (other.isSetActApplicationSecret()) {
+        this.actApplicationSecret = other.actApplicationSecret;
       }
       if (other.isSetAccess()) {
         this.access = new everfeeds.thrift.domain.Access(other.access);
@@ -1378,8 +1602,12 @@ public class ApplicationAPI {
       if (other.isSetAccessSecret()) {
         this.accessSecret = other.accessSecret;
       }
-      if (other.isSetAccessShardId()) {
-        this.accessShardId = other.accessShardId;
+      if (other.isSetAccessParams()) {
+        List<String> __this__accessParams = new ArrayList<String>();
+        for (String other_element : other.accessParams) {
+          __this__accessParams.add(other_element);
+        }
+        this.accessParams = __this__accessParams;
       }
     }
 
@@ -1389,34 +1617,34 @@ public class ApplicationAPI {
 
     @Override
     public void clear() {
-      this.applicationSecret = null;
+      this.actApplicationSecret = null;
       this.access = null;
       this.accessToken = null;
       this.accessSecret = null;
-      this.accessShardId = null;
+      this.accessParams = null;
     }
 
-    public String getApplicationSecret() {
-      return this.applicationSecret;
+    public String getActApplicationSecret() {
+      return this.actApplicationSecret;
     }
 
-    public createAccessAndAccount_args setApplicationSecret(String applicationSecret) {
-      this.applicationSecret = applicationSecret;
+    public createAccessAndAccount_args setActApplicationSecret(String actApplicationSecret) {
+      this.actApplicationSecret = actApplicationSecret;
       return this;
     }
 
-    public void unsetApplicationSecret() {
-      this.applicationSecret = null;
+    public void unsetActApplicationSecret() {
+      this.actApplicationSecret = null;
     }
 
-    /** Returns true if field applicationSecret is set (has been assigned a value) and false otherwise */
-    public boolean isSetApplicationSecret() {
-      return this.applicationSecret != null;
+    /** Returns true if field actApplicationSecret is set (has been assigned a value) and false otherwise */
+    public boolean isSetActApplicationSecret() {
+      return this.actApplicationSecret != null;
     }
 
-    public void setApplicationSecretIsSet(boolean value) {
+    public void setActApplicationSecretIsSet(boolean value) {
       if (!value) {
-        this.applicationSecret = null;
+        this.actApplicationSecret = null;
       }
     }
 
@@ -1492,37 +1720,52 @@ public class ApplicationAPI {
       }
     }
 
-    public String getAccessShardId() {
-      return this.accessShardId;
+    public int getAccessParamsSize() {
+      return (this.accessParams == null) ? 0 : this.accessParams.size();
     }
 
-    public createAccessAndAccount_args setAccessShardId(String accessShardId) {
-      this.accessShardId = accessShardId;
+    public java.util.Iterator<String> getAccessParamsIterator() {
+      return (this.accessParams == null) ? null : this.accessParams.iterator();
+    }
+
+    public void addToAccessParams(String elem) {
+      if (this.accessParams == null) {
+        this.accessParams = new ArrayList<String>();
+      }
+      this.accessParams.add(elem);
+    }
+
+    public List<String> getAccessParams() {
+      return this.accessParams;
+    }
+
+    public createAccessAndAccount_args setAccessParams(List<String> accessParams) {
+      this.accessParams = accessParams;
       return this;
     }
 
-    public void unsetAccessShardId() {
-      this.accessShardId = null;
+    public void unsetAccessParams() {
+      this.accessParams = null;
     }
 
-    /** Returns true if field accessShardId is set (has been assigned a value) and false otherwise */
-    public boolean isSetAccessShardId() {
-      return this.accessShardId != null;
+    /** Returns true if field accessParams is set (has been assigned a value) and false otherwise */
+    public boolean isSetAccessParams() {
+      return this.accessParams != null;
     }
 
-    public void setAccessShardIdIsSet(boolean value) {
+    public void setAccessParamsIsSet(boolean value) {
       if (!value) {
-        this.accessShardId = null;
+        this.accessParams = null;
       }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-      case APPLICATION_SECRET:
+      case ACT_APPLICATION_SECRET:
         if (value == null) {
-          unsetApplicationSecret();
+          unsetActApplicationSecret();
         } else {
-          setApplicationSecret((String)value);
+          setActApplicationSecret((String)value);
         }
         break;
 
@@ -1550,11 +1793,11 @@ public class ApplicationAPI {
         }
         break;
 
-      case ACCESS_SHARD_ID:
+      case ACCESS_PARAMS:
         if (value == null) {
-          unsetAccessShardId();
+          unsetAccessParams();
         } else {
-          setAccessShardId((String)value);
+          setAccessParams((List<String>)value);
         }
         break;
 
@@ -1563,8 +1806,8 @@ public class ApplicationAPI {
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-      case APPLICATION_SECRET:
-        return getApplicationSecret();
+      case ACT_APPLICATION_SECRET:
+        return getActApplicationSecret();
 
       case ACCESS:
         return getAccess();
@@ -1575,8 +1818,8 @@ public class ApplicationAPI {
       case ACCESS_SECRET:
         return getAccessSecret();
 
-      case ACCESS_SHARD_ID:
-        return getAccessShardId();
+      case ACCESS_PARAMS:
+        return getAccessParams();
 
       }
       throw new IllegalStateException();
@@ -1589,16 +1832,16 @@ public class ApplicationAPI {
       }
 
       switch (field) {
-      case APPLICATION_SECRET:
-        return isSetApplicationSecret();
+      case ACT_APPLICATION_SECRET:
+        return isSetActApplicationSecret();
       case ACCESS:
         return isSetAccess();
       case ACCESS_TOKEN:
         return isSetAccessToken();
       case ACCESS_SECRET:
         return isSetAccessSecret();
-      case ACCESS_SHARD_ID:
-        return isSetAccessShardId();
+      case ACCESS_PARAMS:
+        return isSetAccessParams();
       }
       throw new IllegalStateException();
     }
@@ -1616,12 +1859,12 @@ public class ApplicationAPI {
       if (that == null)
         return false;
 
-      boolean this_present_applicationSecret = true && this.isSetApplicationSecret();
-      boolean that_present_applicationSecret = true && that.isSetApplicationSecret();
-      if (this_present_applicationSecret || that_present_applicationSecret) {
-        if (!(this_present_applicationSecret && that_present_applicationSecret))
+      boolean this_present_actApplicationSecret = true && this.isSetActApplicationSecret();
+      boolean that_present_actApplicationSecret = true && that.isSetActApplicationSecret();
+      if (this_present_actApplicationSecret || that_present_actApplicationSecret) {
+        if (!(this_present_actApplicationSecret && that_present_actApplicationSecret))
           return false;
-        if (!this.applicationSecret.equals(that.applicationSecret))
+        if (!this.actApplicationSecret.equals(that.actApplicationSecret))
           return false;
       }
 
@@ -1652,12 +1895,12 @@ public class ApplicationAPI {
           return false;
       }
 
-      boolean this_present_accessShardId = true && this.isSetAccessShardId();
-      boolean that_present_accessShardId = true && that.isSetAccessShardId();
-      if (this_present_accessShardId || that_present_accessShardId) {
-        if (!(this_present_accessShardId && that_present_accessShardId))
+      boolean this_present_accessParams = true && this.isSetAccessParams();
+      boolean that_present_accessParams = true && that.isSetAccessParams();
+      if (this_present_accessParams || that_present_accessParams) {
+        if (!(this_present_accessParams && that_present_accessParams))
           return false;
-        if (!this.accessShardId.equals(that.accessShardId))
+        if (!this.accessParams.equals(that.accessParams))
           return false;
       }
 
@@ -1677,12 +1920,12 @@ public class ApplicationAPI {
       int lastComparison = 0;
       createAccessAndAccount_args typedOther = (createAccessAndAccount_args)other;
 
-      lastComparison = Boolean.valueOf(isSetApplicationSecret()).compareTo(typedOther.isSetApplicationSecret());
+      lastComparison = Boolean.valueOf(isSetActApplicationSecret()).compareTo(typedOther.isSetActApplicationSecret());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetApplicationSecret()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.applicationSecret, typedOther.applicationSecret);
+      if (isSetActApplicationSecret()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.actApplicationSecret, typedOther.actApplicationSecret);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1717,12 +1960,12 @@ public class ApplicationAPI {
           return lastComparison;
         }
       }
-      lastComparison = Boolean.valueOf(isSetAccessShardId()).compareTo(typedOther.isSetAccessShardId());
+      lastComparison = Boolean.valueOf(isSetAccessParams()).compareTo(typedOther.isSetAccessParams());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetAccessShardId()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accessShardId, typedOther.accessShardId);
+      if (isSetAccessParams()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accessParams, typedOther.accessParams);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1744,9 +1987,9 @@ public class ApplicationAPI {
           break;
         }
         switch (field.id) {
-          case 1: // APPLICATION_SECRET
+          case 1: // ACT_APPLICATION_SECRET
             if (field.type == org.apache.thrift.protocol.TType.STRING) {
-              this.applicationSecret = iprot.readString();
+              this.actApplicationSecret = iprot.readString();
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -1773,9 +2016,19 @@ public class ApplicationAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 5: // ACCESS_SHARD_ID
-            if (field.type == org.apache.thrift.protocol.TType.STRING) {
-              this.accessShardId = iprot.readString();
+          case 5: // ACCESS_PARAMS
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
+                this.accessParams = new ArrayList<String>(_list4.size);
+                for (int _i5 = 0; _i5 < _list4.size; ++_i5)
+                {
+                  String _elem6;
+                  _elem6 = iprot.readString();
+                  this.accessParams.add(_elem6);
+                }
+                iprot.readListEnd();
+              }
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -1795,9 +2048,9 @@ public class ApplicationAPI {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      if (this.applicationSecret != null) {
-        oprot.writeFieldBegin(APPLICATION_SECRET_FIELD_DESC);
-        oprot.writeString(this.applicationSecret);
+      if (this.actApplicationSecret != null) {
+        oprot.writeFieldBegin(ACT_APPLICATION_SECRET_FIELD_DESC);
+        oprot.writeString(this.actApplicationSecret);
         oprot.writeFieldEnd();
       }
       if (this.access != null) {
@@ -1815,9 +2068,16 @@ public class ApplicationAPI {
         oprot.writeString(this.accessSecret);
         oprot.writeFieldEnd();
       }
-      if (this.accessShardId != null) {
-        oprot.writeFieldBegin(ACCESS_SHARD_ID_FIELD_DESC);
-        oprot.writeString(this.accessShardId);
+      if (this.accessParams != null) {
+        oprot.writeFieldBegin(ACCESS_PARAMS_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.accessParams.size()));
+          for (String _iter7 : this.accessParams)
+          {
+            oprot.writeString(_iter7);
+          }
+          oprot.writeListEnd();
+        }
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -1829,11 +2089,11 @@ public class ApplicationAPI {
       StringBuilder sb = new StringBuilder("createAccessAndAccount_args(");
       boolean first = true;
 
-      sb.append("applicationSecret:");
-      if (this.applicationSecret == null) {
+      sb.append("actApplicationSecret:");
+      if (this.actApplicationSecret == null) {
         sb.append("null");
       } else {
-        sb.append(this.applicationSecret);
+        sb.append(this.actApplicationSecret);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -1861,11 +2121,11 @@ public class ApplicationAPI {
       }
       first = false;
       if (!first) sb.append(", ");
-      sb.append("accessShardId:");
-      if (this.accessShardId == null) {
+      sb.append("accessParams:");
+      if (this.accessParams == null) {
         sb.append("null");
       } else {
-        sb.append(this.accessShardId);
+        sb.append(this.accessParams);
       }
       first = false;
       sb.append(")");
@@ -1898,18 +2158,18 @@ public class ApplicationAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createAccessAndAccount_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
-    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField E_ONE_FIELD_DESC = new org.apache.thrift.protocol.TField("eOne", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField E_TWO_FIELD_DESC = new org.apache.thrift.protocol.TField("eTwo", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public everfeeds.thrift.domain.Account success;
-    public everfeeds.thrift.error.Forbidden e;
-    public everfeeds.thrift.error.NotFound e;
+    public everfeeds.thrift.error.Forbidden eOne;
+    public everfeeds.thrift.error.NotFound eTwo;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
-      E((short)1, "e"),
-      E((short)2, "e");
+      E_ONE((short)1, "eOne"),
+      E_TWO((short)2, "eTwo");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1926,10 +2186,10 @@ public class ApplicationAPI {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
-          case 1: // E
-            return E;
-          case 2: // E
-            return E;
+          case 1: // E_ONE
+            return E_ONE;
+          case 2: // E_TWO
+            return E_TWO;
           default:
             return null;
         }
@@ -1976,9 +2236,9 @@ public class ApplicationAPI {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Account.class)));
-      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+      tmpMap.put(_Fields.E_ONE, new org.apache.thrift.meta_data.FieldMetaData("eOne", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
-      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+      tmpMap.put(_Fields.E_TWO, new org.apache.thrift.meta_data.FieldMetaData("eTwo", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createAccessAndAccount_result.class, metaDataMap);
@@ -1989,13 +2249,13 @@ public class ApplicationAPI {
 
     public createAccessAndAccount_result(
       everfeeds.thrift.domain.Account success,
-      everfeeds.thrift.error.Forbidden e,
-      everfeeds.thrift.error.NotFound e)
+      everfeeds.thrift.error.Forbidden eOne,
+      everfeeds.thrift.error.NotFound eTwo)
     {
       this();
       this.success = success;
-      this.e = e;
-      this.e = e;
+      this.eOne = eOne;
+      this.eTwo = eTwo;
     }
 
     /**
@@ -2005,11 +2265,11 @@ public class ApplicationAPI {
       if (other.isSetSuccess()) {
         this.success = new everfeeds.thrift.domain.Account(other.success);
       }
-      if (other.isSetE()) {
-        this.e = new everfeeds.thrift.error.Forbidden(other.e);
+      if (other.isSetEOne()) {
+        this.eOne = new everfeeds.thrift.error.Forbidden(other.eOne);
       }
-      if (other.isSetE()) {
-        this.e = new everfeeds.thrift.error.NotFound(other.e);
+      if (other.isSetETwo()) {
+        this.eTwo = new everfeeds.thrift.error.NotFound(other.eTwo);
       }
     }
 
@@ -2020,8 +2280,8 @@ public class ApplicationAPI {
     @Override
     public void clear() {
       this.success = null;
-      this.e = null;
-      this.e = null;
+      this.eOne = null;
+      this.eTwo = null;
     }
 
     public everfeeds.thrift.domain.Account getSuccess() {
@@ -2048,51 +2308,51 @@ public class ApplicationAPI {
       }
     }
 
-    public everfeeds.thrift.error.Forbidden getE() {
-      return this.e;
+    public everfeeds.thrift.error.Forbidden getEOne() {
+      return this.eOne;
     }
 
-    public createAccessAndAccount_result setE(everfeeds.thrift.error.Forbidden e) {
-      this.e = e;
+    public createAccessAndAccount_result setEOne(everfeeds.thrift.error.Forbidden eOne) {
+      this.eOne = eOne;
       return this;
     }
 
-    public void unsetE() {
-      this.e = null;
+    public void unsetEOne() {
+      this.eOne = null;
     }
 
-    /** Returns true if field e is set (has been assigned a value) and false otherwise */
-    public boolean isSetE() {
-      return this.e != null;
+    /** Returns true if field eOne is set (has been assigned a value) and false otherwise */
+    public boolean isSetEOne() {
+      return this.eOne != null;
     }
 
-    public void setEIsSet(boolean value) {
+    public void setEOneIsSet(boolean value) {
       if (!value) {
-        this.e = null;
+        this.eOne = null;
       }
     }
 
-    public everfeeds.thrift.error.NotFound getE() {
-      return this.e;
+    public everfeeds.thrift.error.NotFound getETwo() {
+      return this.eTwo;
     }
 
-    public createAccessAndAccount_result setE(everfeeds.thrift.error.NotFound e) {
-      this.e = e;
+    public createAccessAndAccount_result setETwo(everfeeds.thrift.error.NotFound eTwo) {
+      this.eTwo = eTwo;
       return this;
     }
 
-    public void unsetE() {
-      this.e = null;
+    public void unsetETwo() {
+      this.eTwo = null;
     }
 
-    /** Returns true if field e is set (has been assigned a value) and false otherwise */
-    public boolean isSetE() {
-      return this.e != null;
+    /** Returns true if field eTwo is set (has been assigned a value) and false otherwise */
+    public boolean isSetETwo() {
+      return this.eTwo != null;
     }
 
-    public void setEIsSet(boolean value) {
+    public void setETwoIsSet(boolean value) {
       if (!value) {
-        this.e = null;
+        this.eTwo = null;
       }
     }
 
@@ -2106,19 +2366,19 @@ public class ApplicationAPI {
         }
         break;
 
-      case E:
+      case E_ONE:
         if (value == null) {
-          unsetE();
+          unsetEOne();
         } else {
-          setE((everfeeds.thrift.error.Forbidden)value);
+          setEOne((everfeeds.thrift.error.Forbidden)value);
         }
         break;
 
-      case E:
+      case E_TWO:
         if (value == null) {
-          unsetE();
+          unsetETwo();
         } else {
-          setE((everfeeds.thrift.error.NotFound)value);
+          setETwo((everfeeds.thrift.error.NotFound)value);
         }
         break;
 
@@ -2130,11 +2390,11 @@ public class ApplicationAPI {
       case SUCCESS:
         return getSuccess();
 
-      case E:
-        return getE();
+      case E_ONE:
+        return getEOne();
 
-      case E:
-        return getE();
+      case E_TWO:
+        return getETwo();
 
       }
       throw new IllegalStateException();
@@ -2149,10 +2409,10 @@ public class ApplicationAPI {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
-      case E:
-        return isSetE();
-      case E:
-        return isSetE();
+      case E_ONE:
+        return isSetEOne();
+      case E_TWO:
+        return isSetETwo();
       }
       throw new IllegalStateException();
     }
@@ -2179,21 +2439,21 @@ public class ApplicationAPI {
           return false;
       }
 
-      boolean this_present_e = true && this.isSetE();
-      boolean that_present_e = true && that.isSetE();
-      if (this_present_e || that_present_e) {
-        if (!(this_present_e && that_present_e))
+      boolean this_present_eOne = true && this.isSetEOne();
+      boolean that_present_eOne = true && that.isSetEOne();
+      if (this_present_eOne || that_present_eOne) {
+        if (!(this_present_eOne && that_present_eOne))
           return false;
-        if (!this.e.equals(that.e))
+        if (!this.eOne.equals(that.eOne))
           return false;
       }
 
-      boolean this_present_e = true && this.isSetE();
-      boolean that_present_e = true && that.isSetE();
-      if (this_present_e || that_present_e) {
-        if (!(this_present_e && that_present_e))
+      boolean this_present_eTwo = true && this.isSetETwo();
+      boolean that_present_eTwo = true && that.isSetETwo();
+      if (this_present_eTwo || that_present_eTwo) {
+        if (!(this_present_eTwo && that_present_eTwo))
           return false;
-        if (!this.e.equals(that.e))
+        if (!this.eTwo.equals(that.eTwo))
           return false;
       }
 
@@ -2223,22 +2483,22 @@ public class ApplicationAPI {
           return lastComparison;
         }
       }
-      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      lastComparison = Boolean.valueOf(isSetEOne()).compareTo(typedOther.isSetEOne());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetE()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+      if (isSetEOne()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.eOne, typedOther.eOne);
         if (lastComparison != 0) {
           return lastComparison;
         }
       }
-      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      lastComparison = Boolean.valueOf(isSetETwo()).compareTo(typedOther.isSetETwo());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetE()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+      if (isSetETwo()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.eTwo, typedOther.eTwo);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2268,18 +2528,18 @@ public class ApplicationAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 1: // E
+          case 1: // E_ONE
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.e = new everfeeds.thrift.error.Forbidden();
-              this.e.read(iprot);
+              this.eOne = new everfeeds.thrift.error.Forbidden();
+              this.eOne.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 2: // E
+          case 2: // E_TWO
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.e = new everfeeds.thrift.error.NotFound();
-              this.e.read(iprot);
+              this.eTwo = new everfeeds.thrift.error.NotFound();
+              this.eTwo.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -2302,13 +2562,13 @@ public class ApplicationAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
-      } else if (this.isSetE()) {
-        oprot.writeFieldBegin(E_FIELD_DESC);
-        this.e.write(oprot);
+      } else if (this.isSetEOne()) {
+        oprot.writeFieldBegin(E_ONE_FIELD_DESC);
+        this.eOne.write(oprot);
         oprot.writeFieldEnd();
-      } else if (this.isSetE()) {
-        oprot.writeFieldBegin(E_FIELD_DESC);
-        this.e.write(oprot);
+      } else if (this.isSetETwo()) {
+        oprot.writeFieldBegin(E_TWO_FIELD_DESC);
+        this.eTwo.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -2328,19 +2588,19 @@ public class ApplicationAPI {
       }
       first = false;
       if (!first) sb.append(", ");
-      sb.append("e:");
-      if (this.e == null) {
+      sb.append("eOne:");
+      if (this.eOne == null) {
         sb.append("null");
       } else {
-        sb.append(this.e);
+        sb.append(this.eOne);
       }
       first = false;
       if (!first) sb.append(", ");
-      sb.append("e:");
-      if (this.e == null) {
+      sb.append("eTwo:");
+      if (this.eTwo == null) {
         sb.append("null");
       } else {
-        sb.append(this.e);
+        sb.append(this.eTwo);
       }
       first = false;
       sb.append(")");

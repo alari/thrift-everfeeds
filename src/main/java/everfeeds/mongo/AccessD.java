@@ -6,6 +6,7 @@ import everfeeds.thrift.ttype.AccessType;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Dmitry Kurinskiy
@@ -24,7 +25,7 @@ public class AccessD {
 
   public String accessToken;
   public String accessSecret;
-  public String shardId;
+  public List<String> params;
 
   @Reference(lazy = true)
   public AccountD account;

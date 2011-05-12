@@ -12,9 +12,9 @@ namespace perl everfeeds.thrift.service
 namespace st Thrift.Everfeeds.Service
 
 service ApplicationAPI {
-  misc.Token createToken(1: t.String applicationSecret, 2: t.Id accountId) throws (1: e.Forbidden e, 2: e.NotFound e);
+  misc.Token createToken(1: t.String actApplicationSecret, 2: t.Id applicationId, 3: t.Id accountId, 4: list<string> scopes) throws (1: e.Forbidden eOne, 2: e.NotFound eTwo);
 
-  misc.Account createAccessAndAccount(1: t.String applicationSecret, 2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: t.String accessShardId) throws(1: e.Forbidden e, 2: e.NotFound e);
+  misc.Account createAccessAndAccount(1: t.String actApplicationSecret, 2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: list<string> accessParams) throws(1: e.Forbidden eOne, 2: e.NotFound eTwo);
 }
 
 service EntryAPI {
@@ -34,7 +34,7 @@ service AccountAPI extends ApplicationAPI {
   list<misc.Access> getAccesses(1: t.String token) throws(1: e.Forbidden e, 2: e.TokenExpired e, 3: e.TokenNotFound e, 4: e.NotFound e);
 
   // to create everything
-  misc.Access saveAccessToken(1: t.String token, 2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: t.String accessShardId) throws(1: e.Forbidden e, 2: e.TokenExpired e, 3: e.TokenNotFound e, 4: e.NotFound e);
+  misc.Access saveAccessToken(1: t.String token, 2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: list<string> accessParams) throws(1: e.Forbidden e, 2: e.TokenExpired e, 3: e.TokenNotFound e, 4: e.NotFound e);
   misc.Access saveAccess(1: t.String token, 2: misc.Access access) throws(1: e.Forbidden e, 2: e.TokenExpired e, 3: e.TokenNotFound e, 4: e.NotFound e);
 
   misc.Account saveAccount(1: t.String token, 2: misc.Account account) throws(1: e.Forbidden e, 2: e.TokenExpired e, 3: e.TokenNotFound e, 4: e.NotFound e);

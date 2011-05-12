@@ -2,6 +2,7 @@ package everfeeds.handlers;
 
 import com.google.code.morphia.Datastore;
 import everfeeds.MongoDB;
+import everfeeds.Scope;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.ApplicationD;
 import everfeeds.mongo.TokenD;
@@ -25,10 +26,16 @@ abstract public class Handler {
     if (token.expired) {
       throw new TokenExpired(String.format("Token expired at %s", token.expires.toString()));
     }
-    if(token.id.toString().endsWith("%")) {
-      throw new Forbidden("Access denied due to token scopes");
-    }
     return token;
+  }
+
+  protected void checkToken(TokenD tokenD, Scope scope) throws Forbidden, TokenNotFound {
+    if(tokenD == null) {
+      throw new TokenNotFound("Token not found while is checked");
+    }
+    if(!tokenD.hasScope(scope)) {
+      throw new Forbidden("Access denied: token has no scope '"+scope.toString()+"' which is required to perform this action");
+    }
   }
 
 

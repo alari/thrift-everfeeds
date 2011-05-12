@@ -4,6 +4,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
+import everfeeds.Scope;
 import everfeeds.thrift.domain.Token;
 import org.bson.types.ObjectId;
 
@@ -27,7 +28,7 @@ public class TokenD {
   @Indexed
   public ApplicationD application;
 
-  List<String> scopes;
+  public List<String> scopes;
 
   public Date dateCreated = new Date();
   public Date expires;
@@ -46,5 +47,9 @@ public class TokenD {
     expired = token.expired;
     expires = new Date(token.expires);
     scopes = token.scopes;
+  }
+
+  public boolean hasScope(Scope scope) {
+    return this.scopes.contains(scope.toString());
   }
 }

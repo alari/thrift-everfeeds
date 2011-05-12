@@ -1,5 +1,6 @@
 package everfeeds.handlers;
 
+import everfeeds.Scope;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.CategoryD;
 import everfeeds.mongo.TagD;
@@ -23,6 +24,7 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
   @Override
   public List<Tag> getTags(String token, String accessId) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, accessId);
+    checkToken(getTokenD(token), Scope.INFO);
 
     List<Tag> tags = new ArrayList<Tag>();
     Tag tag;
@@ -39,6 +41,7 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
   @Override
   public List<Category> getCategories(String token, String accessId) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, accessId);
+    checkToken(getTokenD(token), Scope.INFO);
 
     List<Category> categories = new ArrayList<Category>();
     Category category;
@@ -53,14 +56,17 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
   }
 
   @Override
-  public List<EntryKind> getKinds(String token, String accessId) throws TException {
+  public List<EntryKind> getKinds(String token, String accessId) throws TException, TokenNotFound, Forbidden, TokenExpired {
     // can't imagine how to do it
+    checkToken(getTokenD(token), Scope.INFO);
     return null;
   }
 
   @Override
   public Tag saveTag(String token, Tag tag) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, tag.accessId);
+    checkToken(getTokenD(token), Scope.INFO_ORDER);
+
     if (accessD == null) {
       throw new TException("You must specify a valid Tag Access ID!");
     }
@@ -85,6 +91,8 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
   @Override
   public Category saveCategory(String token, Category category) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, category.accessId);
+    checkToken(getTokenD(token), Scope.INFO_ORDER);
+
     if (accessD == null) {
       throw new TException("You must specify a valid Tag Access ID!");
     }

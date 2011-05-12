@@ -1,5 +1,6 @@
 package everfeeds.handlers;
 
+import everfeeds.Scope;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.TokenD;
 import everfeeds.thrift.domain.Access;
@@ -21,6 +22,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
   @Override
   public Account getAccount(String token) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
+    checkToken(tokenD, Scope.INFO);
 
     Account account = new Account();
     tokenD.account.syncToThrift(account);
@@ -30,6 +32,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
   @Override
   public List<Access> getAccesses(String token) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
+    checkToken(tokenD, Scope.INFO);
 
     List<Access> list = new ArrayList<Access>();
     for (AccessD a : getDS().createQuery(AccessD.class).field("account").equal(tokenD.account).asList()) {
@@ -41,8 +44,9 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
   }
 
   @Override
-  public Access saveAccessToken(String token, Access access, String accessToken, String accessSecret, String accessShardId) throws TException, TokenNotFound, Forbidden, TokenExpired {
+  public Access saveAccessToken(String token, Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
+    checkToken(tokenD, Scope.INFO_WRITE);
 
     AccessD accessD = findAccessD(access);
 
@@ -51,7 +55,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
     accessD.type = access.type;
     accessD.accessToken = accessToken;
     accessD.accessSecret = accessSecret;
-    accessD.shardId = accessShardId;
+    accessD.params = accessParams;
     accessD.expired = false;
     // Link an account
     accessD.account = tokenD.account;
@@ -67,6 +71,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
   @Override
   public Access saveAccess(String token, Access access) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
+    checkToken(tokenD, Scope.INFO_WRITE);
 
     AccessD accessD = findAccessD(access);
 
@@ -86,6 +91,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
   @Override
   public Account saveAccount(String token, Account account) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
+    checkToken(tokenD, Scope.INFO_WRITE);
 
     tokenD.account.syncFromThrift(account);
     getDS().save(tokenD.account);

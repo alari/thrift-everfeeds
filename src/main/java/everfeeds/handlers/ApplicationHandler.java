@@ -1,5 +1,6 @@
 package everfeeds.handlers;
 
+import everfeeds.Scope;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.AccountD;
 import everfeeds.mongo.ApplicationD;
@@ -12,18 +13,30 @@ import everfeeds.thrift.service.ApplicationAPI;
 import everfeeds.thrift.domain.Token;
 import org.apache.thrift.TException;
 
+import java.util.List;
+
 /**
  * @author Dmitry Kurinskiy
  * @since 09.05.11 15:49
  */
 public class ApplicationHandler extends Handler implements ApplicationAPI.Iface {
   @Override
-  public Token createToken(String applicationSecret, String accountId) throws TException, NotFound {
-    ApplicationD applicationD = getApplicationD(applicationSecret);
+  public Token createToken(String actApplicationSecret, String appId, String accountId, List<String> scopes) throws TException, NotFound, Forbidden {
+    ApplicationD actAppD = getApplicationD(actApplicationSecret);
+
+    if(actAppD == null || !actAppD.hasScope(Scope.APP_CREATE_TOKEN)) {
+      throw new Forbidden("Access denied for actor token");
+    }
+
+    ApplicationD appD = getDS().get(ApplicationD.class, appId);
+    if(appD == null) {
+      throw new NotFound("App not found for id");
+    }
+
     AccountD accountD = getDS().get(AccountD.class, accountId);
 
     TokenD tokenD = getDS().createQuery(TokenD.class)
-                        .filter("application", applicationD)
+                        .filter("application", appD)
                         .filter("account", accountD)
                         .get();
     if (tokenD != null) {
@@ -32,7 +45,13 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
 
     tokenD = new TokenD();
     tokenD.account = accountD;
-    tokenD.application = applicationD;
+    tokenD.application = appD;
+    tokenD.scopes.clear();
+    for(String s : scopes) {
+      if(appD.scopes.contains(s)) {
+        tokenD.scopes.add(s);
+      }
+    }
     getDS().save(tokenD);
 
     Token token = new Token();
@@ -42,10 +61,10 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
   }
 
   @Override
-  public Account createAccessAndAccount(String applicationSecret, Access access, String accessToken, String accessSecret, String accessShardId) throws TException, Forbidden {
+  public Account createAccessAndAccount(String applicationSecret, Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, Forbidden, NotFound {
+    ApplicationD applicationD = getApplicationD(applicationSecret);
 
-
-    if (!applicationSecret.equals("hardCode")) {
+    if (!applicationD.hasScope(Scope.APP_CREATE_ACCOUNT)) {
       throw new Forbidden("Access denied for token or wrong token given");
     }
 
@@ -55,7 +74,7 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
     accessD.type = access.type;
     accessD.accessToken = accessToken;
     accessD.accessSecret = accessSecret;
-    accessD.shardId = accessShardId;
+    accessD.params = accessParams;
     accessD.expired = false;
 
     if (accessD.account == null) {
