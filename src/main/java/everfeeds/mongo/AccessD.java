@@ -12,6 +12,8 @@ import java.util.Date;
  * @since 06.05.11 14:27
  */
 @Entity
+@Indexes({
+             @Index(value = "identity, type", unique = true, dropDups = true)})
 public class AccessD {
   @Id
   public ObjectId id;
@@ -24,7 +26,7 @@ public class AccessD {
   public String accessSecret;
   public String shardId;
 
-  @Reference
+  @Reference(lazy = true)
   public AccountD account;
 
   public AccessType type;

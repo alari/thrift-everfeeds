@@ -13,15 +13,22 @@ import java.util.List;
  * @since 06.05.11 14:40
  */
 @Entity
+@Indexes({
+             @Index(value = "kind,tags,category,dateCreated,-datePlaced"),
+             @Index(value = "kind,identity,access", unique = true, dropDups = true),
+             @Index(value = "access,isRead,-datePlaced")
+})
 public class EntryD {
   @Id
   public ObjectId id;
 
   @Reference
+  @Indexed
   public AccessD access;
 
 
   @Reference
+  @Indexed
   public AccountD account;
 
   @Version
@@ -37,11 +44,16 @@ public class EntryD {
   @Embedded
   public AuthorD author;
 
+  @Indexed
   public EntryKind kind;
 
+  @Indexed
   public boolean isAuthor;
+  @Indexed
   public boolean isPublicAvailable;
+  @Indexed
   public boolean isFavorite;
+  @Indexed
   public boolean isRead;
 
   public Date dateCreated = new Date();
@@ -52,13 +64,17 @@ public class EntryD {
     lastUpdated = new Date();
   }
 
+  @Indexed
   public Date datePlaced;
 
   @Reference
+  @Indexed
   public CategoryD category;
   @Reference
+  @Indexed
   public List<TagD> tags;
   @Reference
+  @Indexed
   public List<FilterD> filters;
 
   public void syncToThrift(Entry entry) {

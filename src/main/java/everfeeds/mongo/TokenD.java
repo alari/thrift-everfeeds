@@ -2,6 +2,7 @@ package everfeeds.mongo;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
 import everfeeds.thrift.Token;
 import org.bson.types.ObjectId;
@@ -19,9 +20,11 @@ public class TokenD {
   public ObjectId id;
 
   @Reference
+  @Indexed
   public AccountD account;
 
-  @Reference
+  @Reference(lazy = true)
+  @Indexed
   public ApplicationD application;
 
   List<String> scopes;

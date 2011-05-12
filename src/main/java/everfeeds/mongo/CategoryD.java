@@ -11,6 +11,9 @@ import java.util.Date;
  * @since 06.05.11 14:40
  */
 @Entity
+@Indexes(
+            @Index(value = "identity, access", unique = true)
+)
 public class CategoryD {
   @Id
   public ObjectId id;

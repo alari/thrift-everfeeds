@@ -11,11 +11,15 @@ import java.util.Date;
  * @since 06.05.11 14:40
  */
 @Entity
+@Indexes({
+             @Index(value = "access,identity", unique = true, dropDups = true)
+})
 public class TagD {
   @Id
   public ObjectId id;
 
   @Reference
+  @Indexed
   public AccessD access;
 
   @Version
