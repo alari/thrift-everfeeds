@@ -61,6 +61,21 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
   }
 
   @Override
+  public void createApp(String actApplicationSecret, String key, String secret, List<String> scopes) throws Forbidden, NotFound, TException {
+    ApplicationD actAppD = getApplicationD(actApplicationSecret);
+
+    if(actAppD == null || !actAppD.hasScope(Scope.APP_CREATE_TOKEN)) {
+      throw new Forbidden("Access denied for actor token");
+    }
+
+    ApplicationD appD = new ApplicationD();
+    appD.key = key;
+    appD.secret = secret;
+    appD.scopes = scopes;
+    getDS().save(appD);
+  }
+
+  @Override
   public Account createAccessAndAccount(String applicationSecret, Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, Forbidden, NotFound {
     ApplicationD applicationD = getApplicationD(applicationSecret);
 
