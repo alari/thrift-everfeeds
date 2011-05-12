@@ -5,7 +5,6 @@ import everfeeds.thrift.Entry;
 import everfeeds.thrift.EntryKind;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class EntryD {
   public String title;
 
   public String description;
-  @Reference(lazy=true)
+  @Reference(lazy = true)
   public EntryContentD content;
 
   @Embedded
@@ -62,7 +61,7 @@ public class EntryD {
   @Reference
   public List<FilterD> filters;
 
-  public void syncToThrift(Entry entry){
+  public void syncToThrift(Entry entry) {
     entry.id = id.toString();
     entry.accessId = access.id.toString();
 
@@ -88,17 +87,17 @@ public class EntryD {
     entry.categoryId = category.id.toString();
 
     entry.tagIds.clear();
-    for(TagD tag: tags){
+    for (TagD tag : tags) {
       entry.tagIds.add(tag.id.toString());
     }
 
     entry.filterIds.clear();
-    for(FilterD filter: filters){
+    for (FilterD filter : filters) {
       entry.filterIds.add(filter.id.toString());
     }
   }
 
-  public void syncFromThrift(Entry entry){
+  public void syncFromThrift(Entry entry) {
     identity = entry.getIdentity();
     title = entry.getTitle();
     description = entry.getDescription();

@@ -14,30 +14,30 @@ import org.apache.thrift.TException;
  */
 abstract public class Handler {
   protected TokenD getTokenD(String id) throws TException {
-   TokenD token = getDS().get(TokenD.class, id);
-    if(token.expired) {
+    TokenD token = getDS().get(TokenD.class, id);
+    if (token.expired) {
       throw new TException("Token expired");
     }
     return token;
   }
 
 
-  protected ApplicationD getApplicationD(String secret) throws TException{
+  protected ApplicationD getApplicationD(String secret) throws TException {
     ApplicationD applicationD;
 
     applicationD = getDS().createQuery(ApplicationD.class).filter("secret", secret).get();
-    if(applicationD == null) {
+    if (applicationD == null) {
       throw new TException("Application not found");
     }
 
     return applicationD;
   }
 
-  protected AccessD findAccessD(Access access) throws TException{
+  protected AccessD findAccessD(Access access) throws TException {
     AccessD accessD;
     if (!access.id.equals("") && access.id != null) {
       accessD = getDS().get(AccessD.class, access.getId());
-      if(accessD != null) {
+      if (accessD != null) {
         return accessD;
       }
     }
@@ -45,14 +45,14 @@ abstract public class Handler {
     accessD = getDS().createQuery(AccessD.class)
                   .filter("identity", access.identity)
                   .filter("type", access.type).get();
-    if(accessD != null) {
+    if (accessD != null) {
       return accessD;
     }
     return new AccessD();
   }
 
 
-  protected AccessD getAccessD(String token, String id) throws TException{
+  protected AccessD getAccessD(String token, String id) throws TException {
     TokenD tokenD = getTokenD(token);
 
     return getDS().createQuery(AccessD.class).filter("id", id).filter("account", tokenD.account).get();
@@ -62,7 +62,7 @@ abstract public class Handler {
     return MongoDB.getDS();
   }
 
-  protected void save(Object o){
+  protected void save(Object o) {
     getDS().save(o);
   }
 }

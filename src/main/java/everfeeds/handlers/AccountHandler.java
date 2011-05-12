@@ -1,7 +1,6 @@
 package everfeeds.handlers;
 
 import everfeeds.mongo.AccessD;
-import everfeeds.mongo.AccountD;
 import everfeeds.mongo.TokenD;
 import everfeeds.thrift.Access;
 import everfeeds.thrift.Account;
@@ -30,7 +29,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
     TokenD tokenD = getTokenD(token);
 
     List<Access> list = new ArrayList<Access>();
-    for(AccessD a : getDS().createQuery(AccessD.class).field("account").equal(tokenD.account).asList()){
+    for (AccessD a : getDS().createQuery(AccessD.class).field("account").equal(tokenD.account).asList()) {
       Access access = new Access();
       a.syncToThrift(access);
       list.add(access);
@@ -68,7 +67,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
 
     AccessD accessD = findAccessD(access);
 
-    if(accessD.account != tokenD.account) {
+    if (accessD.account != tokenD.account) {
       throw new TException("Access denied");
     }
 

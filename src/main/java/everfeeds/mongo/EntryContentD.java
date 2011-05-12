@@ -20,11 +20,11 @@ public class EntryContentD {
 
   public String content;
 
-  public void syncFromThrift(EntryContent entryContent){
+  public void syncFromThrift(EntryContent entryContent) {
     content = entryContent.content;
   }
 
-  public void syncToThrift(EntryContent entryContent){
+  public void syncToThrift(EntryContent entryContent) {
     entryContent.content = content;
     entryContent.id = id.toString();
   }

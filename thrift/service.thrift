@@ -52,8 +52,8 @@ service FilterAPI {
   filter.Filter saveFilter(1: t.String token, 2: filter.Filter filter);
 
   // to get simple mash of entries
-  list<entry.Entry> getMash(1: t.String token, 2: i16 page, 3: i16 maxCount);
-  list<entry.Entry> getMashNew(1: t.String token, 2: t.Timestamp splitDate, 3: i16 maxCount);
+  list<entry.Entry> getMash(1: t.String token, 10: t.Timestamp splitDate, 20: i16 page, 30: i16 maxCount);
+  list<entry.Entry> getMashNew(1: t.String token, 10: t.Timestamp splitDate, 20: i16 maxCount);
 
   // to filter entries
   list<entry.Entry> getFiltered(1: t.String token, 2: filter.Filter filter, 3: i16 page, 4: i16 maxCount);

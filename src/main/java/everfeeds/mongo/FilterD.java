@@ -45,23 +45,23 @@ public class FilterD {
     lastUpdated = new Date();
   }
 
-  public void syncToThrift(Filter filter){
+  public void syncToThrift(Filter filter) {
     filter.id = id.toString();
     filter.accessId = access.id.toString();
     filter.title = title;
 
     filter.categoryWith = categoriesWith;
     filter.categoryIds.clear();
-    for(CategoryD c : categories){
+    for (CategoryD c : categories) {
       filter.categoryIds.add(c.id.toString());
     }
 
     filter.withTagIds.clear();
-    for(TagD t:withTags){
+    for (TagD t : withTags) {
       filter.withTagIds.add(t.id.toString());
     }
     filter.withoutTagIds.clear();
-    for(TagD t:withoutTags){
+    for (TagD t : withoutTags) {
       filter.withoutTagIds.add(t.id.toString());
     }
 
@@ -69,7 +69,11 @@ public class FilterD {
     filter.kindsWith = kindsWith;
   }
 
-  public void syncFromThrift(Filter filter){
+  public void syncFromThrift(Filter filter) {
     title = filter.title;
+    kinds = filter.kinds;
+    kindsWith = filter.kindsWith;
+
+    categoriesWith = filter.categoryWith;
   }
 }

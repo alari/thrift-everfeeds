@@ -24,7 +24,7 @@ public class ApplicationAPI {
 
   public interface Iface {
 
-    public everfeeds.thrift.Token createToken(String applicationSecret, String accountId) throws org.apache.thrift.TException;
+    public Token createToken(String applicationSecret, String accountId) throws org.apache.thrift.TException;
 
     public Account createAccessAndAccount(String applicationSecret, Access access, String accessToken, String accessSecret, String accessShardId) throws org.apache.thrift.TException;
 
@@ -75,7 +75,7 @@ public class ApplicationAPI {
       return this.oprot_;
     }
 
-    public everfeeds.thrift.Token createToken(String applicationSecret, String accountId) throws org.apache.thrift.TException
+    public Token createToken(String applicationSecret, String accountId) throws org.apache.thrift.TException
     {
       send_createToken(applicationSecret, accountId);
       return recv_createToken();
@@ -92,7 +92,7 @@ public class ApplicationAPI {
       oprot_.getTransport().flush();
     }
 
-    public everfeeds.thrift.Token recv_createToken() throws org.apache.thrift.TException
+    public Token recv_createToken() throws org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -195,7 +195,7 @@ public class ApplicationAPI {
         prot.writeMessageEnd();
       }
 
-      public everfeeds.thrift.Token getResult() throws org.apache.thrift.TException {
+      public Token getResult() throws org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -730,7 +730,7 @@ public class ApplicationAPI {
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
-    public everfeeds.thrift.Token success;
+    public Token success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -796,7 +796,7 @@ public class ApplicationAPI {
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.Token.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Token.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createToken_result.class, metaDataMap);
     }
@@ -805,7 +805,7 @@ public class ApplicationAPI {
     }
 
     public createToken_result(
-      everfeeds.thrift.Token success)
+      Token success)
     {
       this();
       this.success = success;
@@ -816,7 +816,7 @@ public class ApplicationAPI {
      */
     public createToken_result(createToken_result other) {
       if (other.isSetSuccess()) {
-        this.success = new everfeeds.thrift.Token(other.success);
+        this.success = new Token(other.success);
       }
     }
 
@@ -829,11 +829,11 @@ public class ApplicationAPI {
       this.success = null;
     }
 
-    public everfeeds.thrift.Token getSuccess() {
+    public Token getSuccess() {
       return this.success;
     }
 
-    public createToken_result setSuccess(everfeeds.thrift.Token success) {
+    public createToken_result setSuccess(Token success) {
       this.success = success;
       return this;
     }
@@ -859,7 +859,7 @@ public class ApplicationAPI {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((everfeeds.thrift.Token)value);
+          setSuccess((Token)value);
         }
         break;
 
@@ -955,7 +955,7 @@ public class ApplicationAPI {
         switch (field.id) {
           case 0: // SUCCESS
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.success = new everfeeds.thrift.Token();
+              this.success = new Token();
               this.success.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);

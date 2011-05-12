@@ -26,7 +26,7 @@ public class FilterAPI {
 
     public Filter saveFilter(String token, Filter filter) throws org.apache.thrift.TException;
 
-    public List<Entry> getMash(String token, short page, short maxCount) throws org.apache.thrift.TException;
+    public List<Entry> getMash(String token, long splitDate, short page, short maxCount) throws org.apache.thrift.TException;
 
     public List<Entry> getMashNew(String token, long splitDate, short maxCount) throws org.apache.thrift.TException;
 
@@ -40,7 +40,7 @@ public class FilterAPI {
 
     public void saveFilter(String token, Filter filter, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveFilter_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getMash(String token, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getMash_call> resultHandler) throws org.apache.thrift.TException;
+    public void getMash(String token, long splitDate, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getMash_call> resultHandler) throws org.apache.thrift.TException;
 
     public void getMashNew(String token, long splitDate, short maxCount, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getMashNew_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -124,17 +124,18 @@ public class FilterAPI {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "saveFilter failed: unknown result");
     }
 
-    public List<Entry> getMash(String token, short page, short maxCount) throws org.apache.thrift.TException
+    public List<Entry> getMash(String token, long splitDate, short page, short maxCount) throws org.apache.thrift.TException
     {
-      send_getMash(token, page, maxCount);
+      send_getMash(token, splitDate, page, maxCount);
       return recv_getMash();
     }
 
-    public void send_getMash(String token, short page, short maxCount) throws org.apache.thrift.TException
+    public void send_getMash(String token, long splitDate, short page, short maxCount) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getMash", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getMash_args args = new getMash_args();
       args.setToken(token);
+      args.setSplitDate(splitDate);
       args.setPage(page);
       args.setMaxCount(maxCount);
       args.write(oprot_);
@@ -329,20 +330,22 @@ public class FilterAPI {
       }
     }
 
-    public void getMash(String token, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<getMash_call> resultHandler) throws org.apache.thrift.TException {
+    public void getMash(String token, long splitDate, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<getMash_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      getMash_call method_call = new getMash_call(token, page, maxCount, resultHandler, this, protocolFactory, transport);
+      getMash_call method_call = new getMash_call(token, splitDate, page, maxCount, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
 
     public static class getMash_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String token;
+      private long splitDate;
       private short page;
       private short maxCount;
-      public getMash_call(String token, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<getMash_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public getMash_call(String token, long splitDate, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<getMash_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.token = token;
+        this.splitDate = splitDate;
         this.page = page;
         this.maxCount = maxCount;
       }
@@ -351,6 +354,7 @@ public class FilterAPI {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getMash", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getMash_args args = new getMash_args();
         args.setToken(token);
+        args.setSplitDate(splitDate);
         args.setPage(page);
         args.setMaxCount(maxCount);
         args.write(prot);
@@ -563,7 +567,7 @@ public class FilterAPI {
         }
         iprot.readMessageEnd();
         getMash_result result = new getMash_result();
-        result.success = iface_.getMash(args.token, args.page, args.maxCount);
+        result.success = iface_.getMash(args.token, args.splitDate, args.page, args.maxCount);
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getMash", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -1340,18 +1344,21 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getMash_args");
 
     private static final org.apache.thrift.protocol.TField TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("token", org.apache.thrift.protocol.TType.STRING, (short)1);
-    private static final org.apache.thrift.protocol.TField PAGE_FIELD_DESC = new org.apache.thrift.protocol.TField("page", org.apache.thrift.protocol.TType.I16, (short)2);
-    private static final org.apache.thrift.protocol.TField MAX_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("maxCount", org.apache.thrift.protocol.TType.I16, (short)3);
+    private static final org.apache.thrift.protocol.TField SPLIT_DATE_FIELD_DESC = new org.apache.thrift.protocol.TField("splitDate", org.apache.thrift.protocol.TType.I64, (short)10);
+    private static final org.apache.thrift.protocol.TField PAGE_FIELD_DESC = new org.apache.thrift.protocol.TField("page", org.apache.thrift.protocol.TType.I16, (short)20);
+    private static final org.apache.thrift.protocol.TField MAX_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("maxCount", org.apache.thrift.protocol.TType.I16, (short)30);
 
     public String token;
+    public long splitDate;
     public short page;
     public short maxCount;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       TOKEN((short)1, "token"),
-      PAGE((short)2, "page"),
-      MAX_COUNT((short)3, "maxCount");
+      SPLIT_DATE((short)10, "splitDate"),
+      PAGE((short)20, "page"),
+      MAX_COUNT((short)30, "maxCount");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1368,9 +1375,11 @@ public class FilterAPI {
         switch(fieldId) {
           case 1: // TOKEN
             return TOKEN;
-          case 2: // PAGE
+          case 10: // SPLIT_DATE
+            return SPLIT_DATE;
+          case 20: // PAGE
             return PAGE;
-          case 3: // MAX_COUNT
+          case 30: // MAX_COUNT
             return MAX_COUNT;
           default:
             return null;
@@ -1412,15 +1421,18 @@ public class FilterAPI {
     }
 
     // isset id assignments
-    private static final int __PAGE_ISSET_ID = 0;
-    private static final int __MAXCOUNT_ISSET_ID = 1;
-    private BitSet __isset_bit_vector = new BitSet(2);
+    private static final int __SPLITDATE_ISSET_ID = 0;
+    private static final int __PAGE_ISSET_ID = 1;
+    private static final int __MAXCOUNT_ISSET_ID = 2;
+    private BitSet __isset_bit_vector = new BitSet(3);
 
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
+      tmpMap.put(_Fields.SPLIT_DATE, new org.apache.thrift.meta_data.FieldMetaData("splitDate", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64          , "Timestamp")));
       tmpMap.put(_Fields.PAGE, new org.apache.thrift.meta_data.FieldMetaData("page", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
       tmpMap.put(_Fields.MAX_COUNT, new org.apache.thrift.meta_data.FieldMetaData("maxCount", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -1434,11 +1446,14 @@ public class FilterAPI {
 
     public getMash_args(
       String token,
+      long splitDate,
       short page,
       short maxCount)
     {
       this();
       this.token = token;
+      this.splitDate = splitDate;
+      setSplitDateIsSet(true);
       this.page = page;
       setPageIsSet(true);
       this.maxCount = maxCount;
@@ -1454,6 +1469,7 @@ public class FilterAPI {
       if (other.isSetToken()) {
         this.token = other.token;
       }
+      this.splitDate = other.splitDate;
       this.page = other.page;
       this.maxCount = other.maxCount;
     }
@@ -1465,6 +1481,8 @@ public class FilterAPI {
     @Override
     public void clear() {
       this.token = null;
+      setSplitDateIsSet(false);
+      this.splitDate = 0;
       setPageIsSet(false);
       this.page = 0;
       setMaxCountIsSet(false);
@@ -1493,6 +1511,29 @@ public class FilterAPI {
       if (!value) {
         this.token = null;
       }
+    }
+
+    public long getSplitDate() {
+      return this.splitDate;
+    }
+
+    public getMash_args setSplitDate(long splitDate) {
+      this.splitDate = splitDate;
+      setSplitDateIsSet(true);
+      return this;
+    }
+
+    public void unsetSplitDate() {
+      __isset_bit_vector.clear(__SPLITDATE_ISSET_ID);
+    }
+
+    /** Returns true if field splitDate is set (has been assigned a value) and false otherwise */
+    public boolean isSetSplitDate() {
+      return __isset_bit_vector.get(__SPLITDATE_ISSET_ID);
+    }
+
+    public void setSplitDateIsSet(boolean value) {
+      __isset_bit_vector.set(__SPLITDATE_ISSET_ID, value);
     }
 
     public short getPage() {
@@ -1551,6 +1592,14 @@ public class FilterAPI {
         }
         break;
 
+      case SPLIT_DATE:
+        if (value == null) {
+          unsetSplitDate();
+        } else {
+          setSplitDate((Long)value);
+        }
+        break;
+
       case PAGE:
         if (value == null) {
           unsetPage();
@@ -1575,6 +1624,9 @@ public class FilterAPI {
       case TOKEN:
         return getToken();
 
+      case SPLIT_DATE:
+        return new Long(getSplitDate());
+
       case PAGE:
         return new Short(getPage());
 
@@ -1594,6 +1646,8 @@ public class FilterAPI {
       switch (field) {
       case TOKEN:
         return isSetToken();
+      case SPLIT_DATE:
+        return isSetSplitDate();
       case PAGE:
         return isSetPage();
       case MAX_COUNT:
@@ -1621,6 +1675,15 @@ public class FilterAPI {
         if (!(this_present_token && that_present_token))
           return false;
         if (!this.token.equals(that.token))
+          return false;
+      }
+
+      boolean this_present_splitDate = true;
+      boolean that_present_splitDate = true;
+      if (this_present_splitDate || that_present_splitDate) {
+        if (!(this_present_splitDate && that_present_splitDate))
+          return false;
+        if (this.splitDate != that.splitDate)
           return false;
       }
 
@@ -1664,6 +1727,16 @@ public class FilterAPI {
       }
       if (isSetToken()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.token, typedOther.token);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetSplitDate()).compareTo(typedOther.isSetSplitDate());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSplitDate()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.splitDate, typedOther.splitDate);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1712,7 +1785,15 @@ public class FilterAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 2: // PAGE
+          case 10: // SPLIT_DATE
+            if (field.type == org.apache.thrift.protocol.TType.I64) {
+              this.splitDate = iprot.readI64();
+              setSplitDateIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 20: // PAGE
             if (field.type == org.apache.thrift.protocol.TType.I16) {
               this.page = iprot.readI16();
               setPageIsSet(true);
@@ -1720,7 +1801,7 @@ public class FilterAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 3: // MAX_COUNT
+          case 30: // MAX_COUNT
             if (field.type == org.apache.thrift.protocol.TType.I16) {
               this.maxCount = iprot.readI16();
               setMaxCountIsSet(true);
@@ -1748,6 +1829,9 @@ public class FilterAPI {
         oprot.writeString(this.token);
         oprot.writeFieldEnd();
       }
+      oprot.writeFieldBegin(SPLIT_DATE_FIELD_DESC);
+      oprot.writeI64(this.splitDate);
+      oprot.writeFieldEnd();
       oprot.writeFieldBegin(PAGE_FIELD_DESC);
       oprot.writeI16(this.page);
       oprot.writeFieldEnd();
@@ -1769,6 +1853,10 @@ public class FilterAPI {
       } else {
         sb.append(this.token);
       }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("splitDate:");
+      sb.append(this.splitDate);
       first = false;
       if (!first) sb.append(", ");
       sb.append("page:");
@@ -2144,8 +2232,8 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getMashNew_args");
 
     private static final org.apache.thrift.protocol.TField TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("token", org.apache.thrift.protocol.TType.STRING, (short)1);
-    private static final org.apache.thrift.protocol.TField SPLIT_DATE_FIELD_DESC = new org.apache.thrift.protocol.TField("splitDate", org.apache.thrift.protocol.TType.I64, (short)2);
-    private static final org.apache.thrift.protocol.TField MAX_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("maxCount", org.apache.thrift.protocol.TType.I16, (short)3);
+    private static final org.apache.thrift.protocol.TField SPLIT_DATE_FIELD_DESC = new org.apache.thrift.protocol.TField("splitDate", org.apache.thrift.protocol.TType.I64, (short)10);
+    private static final org.apache.thrift.protocol.TField MAX_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("maxCount", org.apache.thrift.protocol.TType.I16, (short)20);
 
     public String token;
     public long splitDate;
@@ -2154,8 +2242,8 @@ public class FilterAPI {
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       TOKEN((short)1, "token"),
-      SPLIT_DATE((short)2, "splitDate"),
-      MAX_COUNT((short)3, "maxCount");
+      SPLIT_DATE((short)10, "splitDate"),
+      MAX_COUNT((short)20, "maxCount");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2172,9 +2260,9 @@ public class FilterAPI {
         switch(fieldId) {
           case 1: // TOKEN
             return TOKEN;
-          case 2: // SPLIT_DATE
+          case 10: // SPLIT_DATE
             return SPLIT_DATE;
-          case 3: // MAX_COUNT
+          case 20: // MAX_COUNT
             return MAX_COUNT;
           default:
             return null;
@@ -2516,7 +2604,7 @@ public class FilterAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 2: // SPLIT_DATE
+          case 10: // SPLIT_DATE
             if (field.type == org.apache.thrift.protocol.TType.I64) {
               this.splitDate = iprot.readI64();
               setSplitDateIsSet(true);
@@ -2524,7 +2612,7 @@ public class FilterAPI {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 3: // MAX_COUNT
+          case 20: // MAX_COUNT
             if (field.type == org.apache.thrift.protocol.TType.I16) {
               this.maxCount = iprot.readI16();
               setMaxCountIsSet(true);

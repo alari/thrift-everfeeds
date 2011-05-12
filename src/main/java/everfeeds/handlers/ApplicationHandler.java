@@ -7,8 +7,8 @@ import everfeeds.mongo.TokenD;
 import everfeeds.thrift.Access;
 import everfeeds.thrift.Account;
 import everfeeds.thrift.ApplicationAPI;
-import org.apache.thrift.TException;
 import everfeeds.thrift.Token;
+import org.apache.thrift.TException;
 
 /**
  * @author Dmitry Kurinskiy
@@ -24,7 +24,7 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
                         .filter("application", applicationD)
                         .filter("account", accountD)
                         .get();
-    if(tokenD != null) {
+    if (tokenD != null) {
       getDS().delete(tokenD);
     }
 
@@ -43,31 +43,31 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
   public Account createAccessAndAccount(String applicationSecret, Access access, String accessToken, String accessSecret, String accessShardId) throws TException {
 
 
-      if (!applicationSecret.equals("hardCode")) {
-        throw new TException("Access denied for token or wrong token given");
-      }
+    if (!applicationSecret.equals("hardCode")) {
+      throw new TException("Access denied for token or wrong token given");
+    }
 
-      AccessD accessD = findAccessD(access);
+    AccessD accessD = findAccessD(access);
 
-      // Token is renewed
-      accessD.type = access.type;
-      accessD.accessToken = accessToken;
-      accessD.accessSecret = accessSecret;
-      accessD.shardId = accessShardId;
-      accessD.expired = false;
+    // Token is renewed
+    accessD.type = access.type;
+    accessD.accessToken = accessToken;
+    accessD.accessSecret = accessSecret;
+    accessD.shardId = accessShardId;
+    accessD.expired = false;
 
-      if (accessD.account == null) {
-        accessD.account = new AccountD();
-        accessD.account.title = accessD.title;
-        getDS().save(accessD.account);
-      }
+    if (accessD.account == null) {
+      accessD.account = new AccountD();
+      accessD.account.title = accessD.title;
+      getDS().save(accessD.account);
+    }
 
-      getDS().save(accessD);
+    getDS().save(accessD);
 
-      Account account = new Account();
-      accessD.account.syncToThrift(account);
+    Account account = new Account();
+    accessD.account.syncToThrift(account);
 
-      return account;
+    return account;
 
   }
 

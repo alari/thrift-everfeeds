@@ -43,7 +43,7 @@ public class AccessD {
     lastUpdated = new Date();
   }
 
-  public void syncToThrift(Access access){
+  public void syncToThrift(Access access) {
     access.title = title;
     access.identity = identity;
     access.screenName = screenName;
@@ -52,7 +52,7 @@ public class AccessD {
     access.type = type;
   }
 
-  public void syncFromThrift(Access access){
+  public void syncFromThrift(Access access) {
     title = access.title;
     identity = access.identity;
     screenName = access.screenName;

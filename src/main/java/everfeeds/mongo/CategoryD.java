@@ -32,14 +32,14 @@ public class CategoryD {
     lastUpdated = new Date();
   }
 
-  public void syncToThrift(Category category){
+  public void syncToThrift(Category category) {
     category.id = id.toString();
     category.identity = identity;
     category.title = title;
     category.accessId = access.id.toString();
   }
 
-  public void syncFromThrift(Category category){
+  public void syncFromThrift(Category category) {
     identity = category.identity;
     title = category.title;
   }

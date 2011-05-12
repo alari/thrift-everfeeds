@@ -32,14 +32,14 @@ public class TagD {
     lastUpdated = new Date();
   }
 
-  public void syncToThrift(Tag tag){
+  public void syncToThrift(Tag tag) {
     tag.id = id.toString();
     tag.identity = identity;
     tag.title = title;
     tag.accessId = access.id.toString();
   }
 
-  public void syncFromThrift(Tag tag){
+  public void syncFromThrift(Tag tag) {
     identity = tag.identity;
     title = tag.title;
   }

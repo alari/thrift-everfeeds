@@ -31,12 +31,12 @@ public class AccountD {
     lastUpdated = new Date();
   }
 
-  public void syncToThrift(Account account){
+  public void syncToThrift(Account account) {
     account.title = title;
     account.id = id.toString();
   }
 
-  public void syncFromThrift(Account account){
+  public void syncFromThrift(Account account) {
     title = account.title;
   }
 }

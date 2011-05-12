@@ -36,14 +36,14 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
     }
 
     CategoryD categoryD = getDS().createQuery(CategoryD.class).filter("id", entry.categoryId).filter("access", accessD).get();
-    if(categoryD == null) {
+    if (categoryD == null) {
       throw new TException("Category not found or is not set.");
     }
     entryD.category = categoryD;
 
     entryD.tags.clear();
-    for(TagD t : getDS().createQuery(TagD.class).filter("access", accessD).fetch()){
-      if(entry.tagIds.contains(t.id.toString())) {
+    for (TagD t : getDS().createQuery(TagD.class).filter("access", accessD).fetch()) {
+      if (entry.tagIds.contains(t.id.toString())) {
         entryD.tags.add(t);
       }
     }
