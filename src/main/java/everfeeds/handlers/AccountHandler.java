@@ -2,9 +2,12 @@ package everfeeds.handlers;
 
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.TokenD;
-import everfeeds.thrift.Access;
-import everfeeds.thrift.Account;
-import everfeeds.thrift.AccountAPI;
+import everfeeds.thrift.domain.Access;
+import everfeeds.thrift.domain.Account;
+import everfeeds.thrift.error.Forbidden;
+import everfeeds.thrift.error.TokenExpired;
+import everfeeds.thrift.error.TokenNotFound;
+import everfeeds.thrift.service.AccountAPI;
 import org.apache.thrift.TException;
 
 import java.util.ArrayList;
@@ -16,7 +19,7 @@ import java.util.List;
  */
 public class AccountHandler extends ApplicationHandler implements AccountAPI.Iface {
   @Override
-  public Account getAccount(String token) throws TException {
+  public Account getAccount(String token) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
 
     Account account = new Account();
@@ -25,7 +28,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
   }
 
   @Override
-  public List<Access> getAccesses(String token) throws TException {
+  public List<Access> getAccesses(String token) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
 
     List<Access> list = new ArrayList<Access>();
@@ -38,7 +41,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
   }
 
   @Override
-  public Access saveAccessToken(String token, Access access, String accessToken, String accessSecret, String accessShardId) throws TException {
+  public Access saveAccessToken(String token, Access access, String accessToken, String accessSecret, String accessShardId) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
 
     AccessD accessD = findAccessD(access);
@@ -62,13 +65,13 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
   }
 
   @Override
-  public Access saveAccess(String token, Access access) throws TException {
+  public Access saveAccess(String token, Access access) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
 
     AccessD accessD = findAccessD(access);
 
     if (accessD.account != tokenD.account) {
-      throw new TException("Access denied");
+      throw new Forbidden("Access denied: accounts are not equal");
     }
 
     accessD.syncFromThrift(access);
@@ -81,7 +84,7 @@ public class AccountHandler extends ApplicationHandler implements AccountAPI.Ifa
   }
 
   @Override
-  public Account saveAccount(String token, Account account) throws TException {
+  public Account saveAccount(String token, Account account) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);
 
     tokenD.account.syncFromThrift(account);

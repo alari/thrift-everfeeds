@@ -5,7 +5,11 @@ import everfeeds.MongoDB;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.ApplicationD;
 import everfeeds.mongo.TokenD;
-import everfeeds.thrift.Access;
+import everfeeds.thrift.domain.Access;
+import everfeeds.thrift.error.Forbidden;
+import everfeeds.thrift.error.NotFound;
+import everfeeds.thrift.error.TokenExpired;
+import everfeeds.thrift.error.TokenNotFound;
 import org.apache.thrift.TException;
 
 /**
@@ -13,21 +17,27 @@ import org.apache.thrift.TException;
  * @since 06.05.11 19:11
  */
 abstract public class Handler {
-  protected TokenD getTokenD(String id) throws TException {
+  protected TokenD getTokenD(String id) throws TException, TokenNotFound, TokenExpired, Forbidden {
     TokenD token = getDS().get(TokenD.class, id);
+    if(token == null) {
+      throw new TokenNotFound(String.format("Cannot find token for %s", id));
+    }
     if (token.expired) {
-      throw new TException("Token expired");
+      throw new TokenExpired(String.format("Token expired at %s", token.expires.toString()));
+    }
+    if(token.id.toString().endsWith("%")) {
+      throw new Forbidden("Access denied due to token scopes");
     }
     return token;
   }
 
 
-  protected ApplicationD getApplicationD(String secret) throws TException {
+  protected ApplicationD getApplicationD(String secret) throws TException, NotFound {
     ApplicationD applicationD;
 
     applicationD = getDS().createQuery(ApplicationD.class).filter("secret", secret).get();
     if (applicationD == null) {
-      throw new TException("Application not found");
+      throw new NotFound("Application not found");
     }
 
     return applicationD;
@@ -52,7 +62,7 @@ abstract public class Handler {
   }
 
 
-  protected AccessD getAccessD(String token, String id) throws TException {
+  protected AccessD getAccessD(String token, String id) throws TException, Forbidden, TokenNotFound, TokenExpired {
     TokenD tokenD = getTokenD(token);
 
     return getDS().createQuery(AccessD.class).filter("id", id).filter("account", tokenD.account).get();
@@ -60,9 +70,5 @@ abstract public class Handler {
 
   protected Datastore getDS() {
     return MongoDB.getDS();
-  }
-
-  protected void save(Object o) {
-    getDS().save(o);
   }
 }

@@ -1,11 +1,11 @@
 include "t.thrift"
 include "enm.thrift"
 
-namespace cpp everfeeds.thrift
-namespace java everfeeds.thrift
-namespace php everfeeds.thrift
-namespace perl everfeeds.thrift
-namespace st Thrift.Everfeeds
+namespace cpp everfeeds.thrift.domain
+namespace java everfeeds.thrift.domain
+namespace php everfeeds.thrift.domain
+namespace perl everfeeds.thrift.domain
+namespace st Thrift.Everfeeds.Domain
 
 struct Token {
   1: t.Id id;

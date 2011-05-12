@@ -1,9 +1,13 @@
 package everfeeds.handlers;
 
 import everfeeds.mongo.*;
-import everfeeds.thrift.Entry;
-import everfeeds.thrift.EntryAPI;
-import everfeeds.thrift.EntryContent;
+import everfeeds.thrift.domain.Entry;
+import everfeeds.thrift.domain.EntryContent;
+import everfeeds.thrift.error.Forbidden;
+import everfeeds.thrift.error.NotFound;
+import everfeeds.thrift.error.TokenExpired;
+import everfeeds.thrift.error.TokenNotFound;
+import everfeeds.thrift.service.EntryAPI;
 import org.apache.thrift.TException;
 
 /**
@@ -12,11 +16,11 @@ import org.apache.thrift.TException;
  */
 public class EntryHandler extends Handler implements EntryAPI.Iface {
   @Override
-  public Entry saveEntry(String token, Entry entry, EntryContent content) throws TException {
+  public Entry saveEntry(String token, Entry entry, EntryContent content) throws TException, TokenNotFound, Forbidden, TokenExpired, NotFound {
     TokenD tokenD = getTokenD(token);
     AccessD accessD = getDS().createQuery(AccessD.class).filter("id", entry.accessId).get();
     if (accessD == null || accessD.account != tokenD.account) {
-      throw new TException("You must provide valid access id to entry");
+      throw new Forbidden("Wrong Access ID in entry");
     }
 
     EntryD entryD;
@@ -24,7 +28,7 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
     if (!entry.id.isEmpty()) {
       entryD = getDS().get(EntryD.class, entry.id);
       if (entryD == null) {
-        throw new TException("Entry not found by id");
+        throw new NotFound("Entry not found by id");
       }
     } else {
       entryD = getDS().createQuery(EntryD.class).filter("identity", entry.identity).filter("access", accessD).get();
@@ -37,7 +41,7 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
 
     CategoryD categoryD = getDS().createQuery(CategoryD.class).filter("id", entry.categoryId).filter("access", accessD).get();
     if (categoryD == null) {
-      throw new TException("Category not found or is not set.");
+      throw new NotFound("Category not found or is not set.");
     }
     entryD.category = categoryD;
 
@@ -63,7 +67,7 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
   }
 
   @Override
-  public EntryContent getEntryContent(String token, String entryId) throws TException {
+  public EntryContent getEntryContent(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     EntryD entryD = getEntryD(token, entryId);
     EntryContent content = new EntryContent();
     entryD.content.syncToThrift(content);
@@ -72,7 +76,7 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
   }
 
   @Override
-  public Entry getEntry(String token, String entryId) throws TException {
+  public Entry getEntry(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     EntryD entryD = getEntryD(token, entryId);
     Entry entry = new Entry();
     entryD.syncToThrift(entry);
@@ -80,25 +84,25 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
   }
 
   @Override
-  public void markRead(String token, String entryId) throws TException {
+  public void markRead(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     EntryD entryD = getEntryD(token, entryId);
     entryD.isRead = true;
     getDS().save(entryD);
   }
 
   @Override
-  public void markUnread(String token, String entryId) throws TException {
+  public void markUnread(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     EntryD entryD = getEntryD(token, entryId);
     entryD.isRead = true;
     getDS().save(entryD);
   }
 
-  EntryD getEntryD(String token, String id) throws TException {
+  EntryD getEntryD(String token, String id) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     TokenD tokenD = getTokenD(token);
     EntryD entryD = getDS().createQuery(EntryD.class).filter("account", tokenD.account).filter("id", id).get();
 
     if (entryD == null) {
-      throw new TException("Entry not found for id");
+      throw new NotFound("Entry not found for id");
     }
 
     return entryD;

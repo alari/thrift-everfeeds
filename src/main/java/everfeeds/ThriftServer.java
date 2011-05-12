@@ -1,7 +1,7 @@
 package everfeeds;
 
 import everfeeds.handlers.*;
-import everfeeds.thrift.*;
+import everfeeds.thrift.service.*;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;

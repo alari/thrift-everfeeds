@@ -1,7 +1,7 @@
 package everfeeds.mongo;
 
 import com.google.code.morphia.annotations.*;
-import everfeeds.thrift.Tag;
+import everfeeds.thrift.domain.Tag;
 import org.bson.types.ObjectId;
 
 import java.util.Date;

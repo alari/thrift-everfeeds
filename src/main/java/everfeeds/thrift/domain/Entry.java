@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.thrift;
+package everfeeds.thrift.domain;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -49,9 +49,9 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
   public String accessId;
   /**
    * 
-   * @see EntryKind
+   * @see everfeeds.thrift.ttype.EntryKind
    */
-  public EntryKind kind;
+  public everfeeds.thrift.ttype.EntryKind kind;
   public boolean isAuthor;
   public boolean isPublicAvailable;
   public boolean isFavorite;
@@ -76,7 +76,7 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     ACCESS_ID((short)10, "accessId"),
     /**
      * 
-     * @see EntryKind
+     * @see everfeeds.thrift.ttype.EntryKind
      */
     KIND((short)20, "kind"),
     IS_AUTHOR((short)30, "isAuthor"),
@@ -208,7 +208,7 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     tmpMap.put(_Fields.ACCESS_ID, new org.apache.thrift.meta_data.FieldMetaData("accessId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
     tmpMap.put(_Fields.KIND, new org.apache.thrift.meta_data.FieldMetaData("kind", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, EntryKind.class)));
+        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, everfeeds.thrift.ttype.EntryKind.class)));
     tmpMap.put(_Fields.IS_AUTHOR, new org.apache.thrift.meta_data.FieldMetaData("isAuthor", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
     tmpMap.put(_Fields.IS_PUBLIC_AVAILABLE, new org.apache.thrift.meta_data.FieldMetaData("isPublicAvailable", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -254,7 +254,7 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     String id,
     String identity,
     String accessId,
-    EntryKind kind,
+    everfeeds.thrift.ttype.EntryKind kind,
     boolean isAuthor,
     boolean isPublicAvailable,
     boolean isFavorite,
@@ -454,17 +454,17 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
 
   /**
    * 
-   * @see EntryKind
+   * @see everfeeds.thrift.ttype.EntryKind
    */
-  public EntryKind getKind() {
+  public everfeeds.thrift.ttype.EntryKind getKind() {
     return this.kind;
   }
 
   /**
    * 
-   * @see EntryKind
+   * @see everfeeds.thrift.ttype.EntryKind
    */
-  public Entry setKind(EntryKind kind) {
+  public Entry setKind(everfeeds.thrift.ttype.EntryKind kind) {
     this.kind = kind;
     return this;
   }
@@ -921,7 +921,7 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
       if (value == null) {
         unsetKind();
       } else {
-        setKind((EntryKind)value);
+        setKind((everfeeds.thrift.ttype.EntryKind)value);
       }
       break;
 
@@ -1622,7 +1622,7 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
           break;
         case 20: // KIND
           if (field.type == org.apache.thrift.protocol.TType.I32) {
-            this.kind = EntryKind.findByValue(iprot.readI32());
+            this.kind = everfeeds.thrift.ttype.EntryKind.findByValue(iprot.readI32());
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }

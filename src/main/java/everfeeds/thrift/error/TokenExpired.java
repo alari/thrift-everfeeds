@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.thrift;
+package everfeeds.thrift.error;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,19 +20,16 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Account implements org.apache.thrift.TBase<Account, Account._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Account");
+public class TokenExpired extends Exception implements org.apache.thrift.TBase<TokenExpired, TokenExpired._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("TokenExpired");
 
-  private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short)10);
+  private static final org.apache.thrift.protocol.TField ERR_MSG_FIELD_DESC = new org.apache.thrift.protocol.TField("errMsg", org.apache.thrift.protocol.TType.STRING, (short)1);
 
-  public String id;
-  public String title;
+  public String errMsg;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    ID((short)1, "id"),
-    TITLE((short)10, "title");
+    ERR_MSG((short)1, "errMsg");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -47,10 +44,8 @@ public class Account implements org.apache.thrift.TBase<Account, Account._Fields
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // ID
-          return ID;
-        case 10: // TITLE
-          return TITLE;
+        case 1: // ERR_MSG
+          return ERR_MSG;
         default:
           return null;
       }
@@ -95,111 +90,71 @@ public class Account implements org.apache.thrift.TBase<Account, Account._Fields
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
-    tmpMap.put(_Fields.TITLE, new org.apache.thrift.meta_data.FieldMetaData("title", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.ERR_MSG, new org.apache.thrift.meta_data.FieldMetaData("errMsg", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Account.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(TokenExpired.class, metaDataMap);
   }
 
-  public Account() {
+  public TokenExpired() {
   }
 
-  public Account(
-    String id,
-    String title)
+  public TokenExpired(
+    String errMsg)
   {
     this();
-    this.id = id;
-    this.title = title;
+    this.errMsg = errMsg;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public Account(Account other) {
-    if (other.isSetId()) {
-      this.id = other.id;
-    }
-    if (other.isSetTitle()) {
-      this.title = other.title;
+  public TokenExpired(TokenExpired other) {
+    if (other.isSetErrMsg()) {
+      this.errMsg = other.errMsg;
     }
   }
 
-  public Account deepCopy() {
-    return new Account(this);
+  public TokenExpired deepCopy() {
+    return new TokenExpired(this);
   }
 
   @Override
   public void clear() {
-    this.id = null;
-    this.title = null;
+    this.errMsg = null;
   }
 
-  public String getId() {
-    return this.id;
+  public String getErrMsg() {
+    return this.errMsg;
   }
 
-  public Account setId(String id) {
-    this.id = id;
+  public TokenExpired setErrMsg(String errMsg) {
+    this.errMsg = errMsg;
     return this;
   }
 
-  public void unsetId() {
-    this.id = null;
+  public void unsetErrMsg() {
+    this.errMsg = null;
   }
 
-  /** Returns true if field id is set (has been assigned a value) and false otherwise */
-  public boolean isSetId() {
-    return this.id != null;
+  /** Returns true if field errMsg is set (has been assigned a value) and false otherwise */
+  public boolean isSetErrMsg() {
+    return this.errMsg != null;
   }
 
-  public void setIdIsSet(boolean value) {
+  public void setErrMsgIsSet(boolean value) {
     if (!value) {
-      this.id = null;
-    }
-  }
-
-  public String getTitle() {
-    return this.title;
-  }
-
-  public Account setTitle(String title) {
-    this.title = title;
-    return this;
-  }
-
-  public void unsetTitle() {
-    this.title = null;
-  }
-
-  /** Returns true if field title is set (has been assigned a value) and false otherwise */
-  public boolean isSetTitle() {
-    return this.title != null;
-  }
-
-  public void setTitleIsSet(boolean value) {
-    if (!value) {
-      this.title = null;
+      this.errMsg = null;
     }
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case ID:
+    case ERR_MSG:
       if (value == null) {
-        unsetId();
+        unsetErrMsg();
       } else {
-        setId((String)value);
-      }
-      break;
-
-    case TITLE:
-      if (value == null) {
-        unsetTitle();
-      } else {
-        setTitle((String)value);
+        setErrMsg((String)value);
       }
       break;
 
@@ -208,11 +163,8 @@ public class Account implements org.apache.thrift.TBase<Account, Account._Fields
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case ID:
-      return getId();
-
-    case TITLE:
-      return getTitle();
+    case ERR_MSG:
+      return getErrMsg();
 
     }
     throw new IllegalStateException();
@@ -225,10 +177,8 @@ public class Account implements org.apache.thrift.TBase<Account, Account._Fields
     }
 
     switch (field) {
-    case ID:
-      return isSetId();
-    case TITLE:
-      return isSetTitle();
+    case ERR_MSG:
+      return isSetErrMsg();
     }
     throw new IllegalStateException();
   }
@@ -237,30 +187,21 @@ public class Account implements org.apache.thrift.TBase<Account, Account._Fields
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof Account)
-      return this.equals((Account)that);
+    if (that instanceof TokenExpired)
+      return this.equals((TokenExpired)that);
     return false;
   }
 
-  public boolean equals(Account that) {
+  public boolean equals(TokenExpired that) {
     if (that == null)
       return false;
 
-    boolean this_present_id = true && this.isSetId();
-    boolean that_present_id = true && that.isSetId();
-    if (this_present_id || that_present_id) {
-      if (!(this_present_id && that_present_id))
+    boolean this_present_errMsg = true && this.isSetErrMsg();
+    boolean that_present_errMsg = true && that.isSetErrMsg();
+    if (this_present_errMsg || that_present_errMsg) {
+      if (!(this_present_errMsg && that_present_errMsg))
         return false;
-      if (!this.id.equals(that.id))
-        return false;
-    }
-
-    boolean this_present_title = true && this.isSetTitle();
-    boolean that_present_title = true && that.isSetTitle();
-    if (this_present_title || that_present_title) {
-      if (!(this_present_title && that_present_title))
-        return false;
-      if (!this.title.equals(that.title))
+      if (!this.errMsg.equals(that.errMsg))
         return false;
     }
 
@@ -272,30 +213,20 @@ public class Account implements org.apache.thrift.TBase<Account, Account._Fields
     return 0;
   }
 
-  public int compareTo(Account other) {
+  public int compareTo(TokenExpired other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    Account typedOther = (Account)other;
+    TokenExpired typedOther = (TokenExpired)other;
 
-    lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
+    lastComparison = Boolean.valueOf(isSetErrMsg()).compareTo(typedOther.isSetErrMsg());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetId()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.id, typedOther.id);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetTitle()).compareTo(typedOther.isSetTitle());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetTitle()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.title, typedOther.title);
+    if (isSetErrMsg()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.errMsg, typedOther.errMsg);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -317,16 +248,9 @@ public class Account implements org.apache.thrift.TBase<Account, Account._Fields
         break;
       }
       switch (field.id) {
-        case 1: // ID
+        case 1: // ERR_MSG
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.id = iprot.readString();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        case 10: // TITLE
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.title = iprot.readString();
+            this.errMsg = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
@@ -346,14 +270,9 @@ public class Account implements org.apache.thrift.TBase<Account, Account._Fields
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
-    if (this.id != null) {
-      oprot.writeFieldBegin(ID_FIELD_DESC);
-      oprot.writeString(this.id);
-      oprot.writeFieldEnd();
-    }
-    if (this.title != null) {
-      oprot.writeFieldBegin(TITLE_FIELD_DESC);
-      oprot.writeString(this.title);
+    if (this.errMsg != null) {
+      oprot.writeFieldBegin(ERR_MSG_FIELD_DESC);
+      oprot.writeString(this.errMsg);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -362,22 +281,14 @@ public class Account implements org.apache.thrift.TBase<Account, Account._Fields
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("Account(");
+    StringBuilder sb = new StringBuilder("TokenExpired(");
     boolean first = true;
 
-    sb.append("id:");
-    if (this.id == null) {
+    sb.append("errMsg:");
+    if (this.errMsg == null) {
       sb.append("null");
     } else {
-      sb.append(this.id);
-    }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("title:");
-    if (this.title == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.title);
+      sb.append(this.errMsg);
     }
     first = false;
     sb.append(")");

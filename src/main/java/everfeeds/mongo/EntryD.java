@@ -1,8 +1,8 @@
 package everfeeds.mongo;
 
 import com.google.code.morphia.annotations.*;
-import everfeeds.thrift.Entry;
-import everfeeds.thrift.EntryKind;
+import everfeeds.thrift.domain.Entry;
+import everfeeds.thrift.ttype.EntryKind;
 import org.bson.types.ObjectId;
 
 import java.util.Date;

@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.thrift;
+package everfeeds.thrift.domain;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,22 +20,25 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EntryContent implements org.apache.thrift.TBase<EntryContent, EntryContent._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("EntryContent");
+public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Tag");
 
   private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField ENTRY_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("entryId", org.apache.thrift.protocol.TType.STRING, (short)2);
-  private static final org.apache.thrift.protocol.TField CONTENT_FIELD_DESC = new org.apache.thrift.protocol.TField("content", org.apache.thrift.protocol.TType.STRING, (short)10);
+  private static final org.apache.thrift.protocol.TField IDENTITY_FIELD_DESC = new org.apache.thrift.protocol.TField("identity", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField ACCESS_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accessId", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short)10);
 
   public String id;
-  public String entryId;
-  public String content;
+  public String identity;
+  public String accessId;
+  public String title;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     ID((short)1, "id"),
-    ENTRY_ID((short)2, "entryId"),
-    CONTENT((short)10, "content");
+    IDENTITY((short)2, "identity"),
+    ACCESS_ID((short)3, "accessId"),
+    TITLE((short)10, "title");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -52,10 +55,12 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
       switch(fieldId) {
         case 1: // ID
           return ID;
-        case 2: // ENTRY_ID
-          return ENTRY_ID;
-        case 10: // CONTENT
-          return CONTENT;
+        case 2: // IDENTITY
+          return IDENTITY;
+        case 3: // ACCESS_ID
+          return ACCESS_ID;
+        case 10: // TITLE
+          return TITLE;
         default:
           return null;
       }
@@ -102,59 +107,67 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
-    tmpMap.put(_Fields.ENTRY_ID, new org.apache.thrift.meta_data.FieldMetaData("entryId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
-    tmpMap.put(_Fields.CONTENT, new org.apache.thrift.meta_data.FieldMetaData("content", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.IDENTITY, new org.apache.thrift.meta_data.FieldMetaData("identity", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.ACCESS_ID, new org.apache.thrift.meta_data.FieldMetaData("accessId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.TITLE, new org.apache.thrift.meta_data.FieldMetaData("title", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(EntryContent.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Tag.class, metaDataMap);
   }
 
-  public EntryContent() {
+  public Tag() {
   }
 
-  public EntryContent(
+  public Tag(
     String id,
-    String entryId,
-    String content)
+    String identity,
+    String accessId,
+    String title)
   {
     this();
     this.id = id;
-    this.entryId = entryId;
-    this.content = content;
+    this.identity = identity;
+    this.accessId = accessId;
+    this.title = title;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public EntryContent(EntryContent other) {
+  public Tag(Tag other) {
     if (other.isSetId()) {
       this.id = other.id;
     }
-    if (other.isSetEntryId()) {
-      this.entryId = other.entryId;
+    if (other.isSetIdentity()) {
+      this.identity = other.identity;
     }
-    if (other.isSetContent()) {
-      this.content = other.content;
+    if (other.isSetAccessId()) {
+      this.accessId = other.accessId;
+    }
+    if (other.isSetTitle()) {
+      this.title = other.title;
     }
   }
 
-  public EntryContent deepCopy() {
-    return new EntryContent(this);
+  public Tag deepCopy() {
+    return new Tag(this);
   }
 
   @Override
   public void clear() {
     this.id = null;
-    this.entryId = null;
-    this.content = null;
+    this.identity = null;
+    this.accessId = null;
+    this.title = null;
   }
 
   public String getId() {
     return this.id;
   }
 
-  public EntryContent setId(String id) {
+  public Tag setId(String id) {
     this.id = id;
     return this;
   }
@@ -174,51 +187,75 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
     }
   }
 
-  public String getEntryId() {
-    return this.entryId;
+  public String getIdentity() {
+    return this.identity;
   }
 
-  public EntryContent setEntryId(String entryId) {
-    this.entryId = entryId;
+  public Tag setIdentity(String identity) {
+    this.identity = identity;
     return this;
   }
 
-  public void unsetEntryId() {
-    this.entryId = null;
+  public void unsetIdentity() {
+    this.identity = null;
   }
 
-  /** Returns true if field entryId is set (has been assigned a value) and false otherwise */
-  public boolean isSetEntryId() {
-    return this.entryId != null;
+  /** Returns true if field identity is set (has been assigned a value) and false otherwise */
+  public boolean isSetIdentity() {
+    return this.identity != null;
   }
 
-  public void setEntryIdIsSet(boolean value) {
+  public void setIdentityIsSet(boolean value) {
     if (!value) {
-      this.entryId = null;
+      this.identity = null;
     }
   }
 
-  public String getContent() {
-    return this.content;
+  public String getAccessId() {
+    return this.accessId;
   }
 
-  public EntryContent setContent(String content) {
-    this.content = content;
+  public Tag setAccessId(String accessId) {
+    this.accessId = accessId;
     return this;
   }
 
-  public void unsetContent() {
-    this.content = null;
+  public void unsetAccessId() {
+    this.accessId = null;
   }
 
-  /** Returns true if field content is set (has been assigned a value) and false otherwise */
-  public boolean isSetContent() {
-    return this.content != null;
+  /** Returns true if field accessId is set (has been assigned a value) and false otherwise */
+  public boolean isSetAccessId() {
+    return this.accessId != null;
   }
 
-  public void setContentIsSet(boolean value) {
+  public void setAccessIdIsSet(boolean value) {
     if (!value) {
-      this.content = null;
+      this.accessId = null;
+    }
+  }
+
+  public String getTitle() {
+    return this.title;
+  }
+
+  public Tag setTitle(String title) {
+    this.title = title;
+    return this;
+  }
+
+  public void unsetTitle() {
+    this.title = null;
+  }
+
+  /** Returns true if field title is set (has been assigned a value) and false otherwise */
+  public boolean isSetTitle() {
+    return this.title != null;
+  }
+
+  public void setTitleIsSet(boolean value) {
+    if (!value) {
+      this.title = null;
     }
   }
 
@@ -232,19 +269,27 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
       }
       break;
 
-    case ENTRY_ID:
+    case IDENTITY:
       if (value == null) {
-        unsetEntryId();
+        unsetIdentity();
       } else {
-        setEntryId((String)value);
+        setIdentity((String)value);
       }
       break;
 
-    case CONTENT:
+    case ACCESS_ID:
       if (value == null) {
-        unsetContent();
+        unsetAccessId();
       } else {
-        setContent((String)value);
+        setAccessId((String)value);
+      }
+      break;
+
+    case TITLE:
+      if (value == null) {
+        unsetTitle();
+      } else {
+        setTitle((String)value);
       }
       break;
 
@@ -256,11 +301,14 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
     case ID:
       return getId();
 
-    case ENTRY_ID:
-      return getEntryId();
+    case IDENTITY:
+      return getIdentity();
 
-    case CONTENT:
-      return getContent();
+    case ACCESS_ID:
+      return getAccessId();
+
+    case TITLE:
+      return getTitle();
 
     }
     throw new IllegalStateException();
@@ -275,10 +323,12 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
     switch (field) {
     case ID:
       return isSetId();
-    case ENTRY_ID:
-      return isSetEntryId();
-    case CONTENT:
-      return isSetContent();
+    case IDENTITY:
+      return isSetIdentity();
+    case ACCESS_ID:
+      return isSetAccessId();
+    case TITLE:
+      return isSetTitle();
     }
     throw new IllegalStateException();
   }
@@ -287,12 +337,12 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof EntryContent)
-      return this.equals((EntryContent)that);
+    if (that instanceof Tag)
+      return this.equals((Tag)that);
     return false;
   }
 
-  public boolean equals(EntryContent that) {
+  public boolean equals(Tag that) {
     if (that == null)
       return false;
 
@@ -305,21 +355,30 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
         return false;
     }
 
-    boolean this_present_entryId = true && this.isSetEntryId();
-    boolean that_present_entryId = true && that.isSetEntryId();
-    if (this_present_entryId || that_present_entryId) {
-      if (!(this_present_entryId && that_present_entryId))
+    boolean this_present_identity = true && this.isSetIdentity();
+    boolean that_present_identity = true && that.isSetIdentity();
+    if (this_present_identity || that_present_identity) {
+      if (!(this_present_identity && that_present_identity))
         return false;
-      if (!this.entryId.equals(that.entryId))
+      if (!this.identity.equals(that.identity))
         return false;
     }
 
-    boolean this_present_content = true && this.isSetContent();
-    boolean that_present_content = true && that.isSetContent();
-    if (this_present_content || that_present_content) {
-      if (!(this_present_content && that_present_content))
+    boolean this_present_accessId = true && this.isSetAccessId();
+    boolean that_present_accessId = true && that.isSetAccessId();
+    if (this_present_accessId || that_present_accessId) {
+      if (!(this_present_accessId && that_present_accessId))
         return false;
-      if (!this.content.equals(that.content))
+      if (!this.accessId.equals(that.accessId))
+        return false;
+    }
+
+    boolean this_present_title = true && this.isSetTitle();
+    boolean that_present_title = true && that.isSetTitle();
+    if (this_present_title || that_present_title) {
+      if (!(this_present_title && that_present_title))
+        return false;
+      if (!this.title.equals(that.title))
         return false;
     }
 
@@ -331,13 +390,13 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
     return 0;
   }
 
-  public int compareTo(EntryContent other) {
+  public int compareTo(Tag other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    EntryContent typedOther = (EntryContent)other;
+    Tag typedOther = (Tag)other;
 
     lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
     if (lastComparison != 0) {
@@ -349,22 +408,32 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetEntryId()).compareTo(typedOther.isSetEntryId());
+    lastComparison = Boolean.valueOf(isSetIdentity()).compareTo(typedOther.isSetIdentity());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetEntryId()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.entryId, typedOther.entryId);
+    if (isSetIdentity()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.identity, typedOther.identity);
       if (lastComparison != 0) {
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetContent()).compareTo(typedOther.isSetContent());
+    lastComparison = Boolean.valueOf(isSetAccessId()).compareTo(typedOther.isSetAccessId());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetContent()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.content, typedOther.content);
+    if (isSetAccessId()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accessId, typedOther.accessId);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetTitle()).compareTo(typedOther.isSetTitle());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetTitle()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.title, typedOther.title);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -393,16 +462,23 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 2: // ENTRY_ID
+        case 2: // IDENTITY
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.entryId = iprot.readString();
+            this.identity = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 10: // CONTENT
+        case 3: // ACCESS_ID
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.content = iprot.readString();
+            this.accessId = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 10: // TITLE
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.title = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
@@ -427,14 +503,19 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
       oprot.writeString(this.id);
       oprot.writeFieldEnd();
     }
-    if (this.entryId != null) {
-      oprot.writeFieldBegin(ENTRY_ID_FIELD_DESC);
-      oprot.writeString(this.entryId);
+    if (this.identity != null) {
+      oprot.writeFieldBegin(IDENTITY_FIELD_DESC);
+      oprot.writeString(this.identity);
       oprot.writeFieldEnd();
     }
-    if (this.content != null) {
-      oprot.writeFieldBegin(CONTENT_FIELD_DESC);
-      oprot.writeString(this.content);
+    if (this.accessId != null) {
+      oprot.writeFieldBegin(ACCESS_ID_FIELD_DESC);
+      oprot.writeString(this.accessId);
+      oprot.writeFieldEnd();
+    }
+    if (this.title != null) {
+      oprot.writeFieldBegin(TITLE_FIELD_DESC);
+      oprot.writeString(this.title);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -443,7 +524,7 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("EntryContent(");
+    StringBuilder sb = new StringBuilder("Tag(");
     boolean first = true;
 
     sb.append("id:");
@@ -454,19 +535,27 @@ public class EntryContent implements org.apache.thrift.TBase<EntryContent, Entry
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("entryId:");
-    if (this.entryId == null) {
+    sb.append("identity:");
+    if (this.identity == null) {
       sb.append("null");
     } else {
-      sb.append(this.entryId);
+      sb.append(this.identity);
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("content:");
-    if (this.content == null) {
+    sb.append("accessId:");
+    if (this.accessId == null) {
       sb.append("null");
     } else {
-      sb.append(this.content);
+      sb.append(this.accessId);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("title:");
+    if (this.title == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.title);
     }
     first = false;
     sb.append(")");

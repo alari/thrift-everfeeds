@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.thrift;
+package everfeeds.thrift.service;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -24,29 +24,29 @@ public class FilterAPI {
 
   public interface Iface {
 
-    public Filter saveFilter(String token, Filter filter) throws org.apache.thrift.TException;
+    public everfeeds.thrift.domain.Filter saveFilter(String token, everfeeds.thrift.domain.Filter filter) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
-    public List<Entry> getMash(String token, long splitDate, short page, short maxCount) throws org.apache.thrift.TException;
+    public List<everfeeds.thrift.domain.Entry> getMash(String token, long splitDate, short page, short maxCount) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException;
 
-    public List<Entry> getMashNew(String token, long splitDate, short maxCount) throws org.apache.thrift.TException;
+    public List<everfeeds.thrift.domain.Entry> getMashNew(String token, long splitDate, short maxCount) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException;
 
-    public List<Entry> getFiltered(String token, Filter filter, short page, short maxCount) throws org.apache.thrift.TException;
+    public List<everfeeds.thrift.domain.Entry> getFiltered(String token, everfeeds.thrift.domain.Filter filter, short page, short maxCount) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException;
 
-    public List<Entry> getFilteredNew(String token, Filter filter) throws org.apache.thrift.TException;
+    public List<everfeeds.thrift.domain.Entry> getFilteredNew(String token, everfeeds.thrift.domain.Filter filter) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface {
 
-    public void saveFilter(String token, Filter filter, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveFilter_call> resultHandler) throws org.apache.thrift.TException;
+    public void saveFilter(String token, everfeeds.thrift.domain.Filter filter, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveFilter_call> resultHandler) throws org.apache.thrift.TException;
 
     public void getMash(String token, long splitDate, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getMash_call> resultHandler) throws org.apache.thrift.TException;
 
     public void getMashNew(String token, long splitDate, short maxCount, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getMashNew_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getFiltered(String token, Filter filter, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getFiltered_call> resultHandler) throws org.apache.thrift.TException;
+    public void getFiltered(String token, everfeeds.thrift.domain.Filter filter, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getFiltered_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getFilteredNew(String token, Filter filter, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getFilteredNew_call> resultHandler) throws org.apache.thrift.TException;
+    public void getFilteredNew(String token, everfeeds.thrift.domain.Filter filter, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getFilteredNew_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -87,13 +87,13 @@ public class FilterAPI {
       return this.oprot_;
     }
 
-    public Filter saveFilter(String token, Filter filter) throws org.apache.thrift.TException
+    public everfeeds.thrift.domain.Filter saveFilter(String token, everfeeds.thrift.domain.Filter filter) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
     {
       send_saveFilter(token, filter);
       return recv_saveFilter();
     }
 
-    public void send_saveFilter(String token, Filter filter) throws org.apache.thrift.TException
+    public void send_saveFilter(String token, everfeeds.thrift.domain.Filter filter) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveFilter", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       saveFilter_args args = new saveFilter_args();
@@ -104,7 +104,7 @@ public class FilterAPI {
       oprot_.getTransport().flush();
     }
 
-    public Filter recv_saveFilter() throws org.apache.thrift.TException
+    public everfeeds.thrift.domain.Filter recv_saveFilter() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -121,10 +121,22 @@ public class FilterAPI {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "saveFilter failed: unknown result");
     }
 
-    public List<Entry> getMash(String token, long splitDate, short page, short maxCount) throws org.apache.thrift.TException
+    public List<everfeeds.thrift.domain.Entry> getMash(String token, long splitDate, short page, short maxCount) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException
     {
       send_getMash(token, splitDate, page, maxCount);
       return recv_getMash();
@@ -143,7 +155,7 @@ public class FilterAPI {
       oprot_.getTransport().flush();
     }
 
-    public List<Entry> recv_getMash() throws org.apache.thrift.TException
+    public List<everfeeds.thrift.domain.Entry> recv_getMash() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -160,10 +172,25 @@ public class FilterAPI {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getMash failed: unknown result");
     }
 
-    public List<Entry> getMashNew(String token, long splitDate, short maxCount) throws org.apache.thrift.TException
+    public List<everfeeds.thrift.domain.Entry> getMashNew(String token, long splitDate, short maxCount) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException
     {
       send_getMashNew(token, splitDate, maxCount);
       return recv_getMashNew();
@@ -181,7 +208,7 @@ public class FilterAPI {
       oprot_.getTransport().flush();
     }
 
-    public List<Entry> recv_getMashNew() throws org.apache.thrift.TException
+    public List<everfeeds.thrift.domain.Entry> recv_getMashNew() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -198,16 +225,31 @@ public class FilterAPI {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getMashNew failed: unknown result");
     }
 
-    public List<Entry> getFiltered(String token, Filter filter, short page, short maxCount) throws org.apache.thrift.TException
+    public List<everfeeds.thrift.domain.Entry> getFiltered(String token, everfeeds.thrift.domain.Filter filter, short page, short maxCount) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException
     {
       send_getFiltered(token, filter, page, maxCount);
       return recv_getFiltered();
     }
 
-    public void send_getFiltered(String token, Filter filter, short page, short maxCount) throws org.apache.thrift.TException
+    public void send_getFiltered(String token, everfeeds.thrift.domain.Filter filter, short page, short maxCount) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFiltered", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getFiltered_args args = new getFiltered_args();
@@ -220,7 +262,7 @@ public class FilterAPI {
       oprot_.getTransport().flush();
     }
 
-    public List<Entry> recv_getFiltered() throws org.apache.thrift.TException
+    public List<everfeeds.thrift.domain.Entry> recv_getFiltered() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -237,16 +279,31 @@ public class FilterAPI {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getFiltered failed: unknown result");
     }
 
-    public List<Entry> getFilteredNew(String token, Filter filter) throws org.apache.thrift.TException
+    public List<everfeeds.thrift.domain.Entry> getFilteredNew(String token, everfeeds.thrift.domain.Filter filter) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException
     {
       send_getFilteredNew(token, filter);
       return recv_getFilteredNew();
     }
 
-    public void send_getFilteredNew(String token, Filter filter) throws org.apache.thrift.TException
+    public void send_getFilteredNew(String token, everfeeds.thrift.domain.Filter filter) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFilteredNew", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getFilteredNew_args args = new getFilteredNew_args();
@@ -257,7 +314,7 @@ public class FilterAPI {
       oprot_.getTransport().flush();
     }
 
-    public List<Entry> recv_getFilteredNew() throws org.apache.thrift.TException
+    public List<everfeeds.thrift.domain.Entry> recv_getFilteredNew() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -273,6 +330,21 @@ public class FilterAPI {
       iprot_.readMessageEnd();
       if (result.isSetSuccess()) {
         return result.success;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
+      }
+      if (result.e != null) {
+        throw result.e;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getFilteredNew failed: unknown result");
     }
@@ -295,7 +367,7 @@ public class FilterAPI {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void saveFilter(String token, Filter filter, org.apache.thrift.async.AsyncMethodCallback<saveFilter_call> resultHandler) throws org.apache.thrift.TException {
+    public void saveFilter(String token, everfeeds.thrift.domain.Filter filter, org.apache.thrift.async.AsyncMethodCallback<saveFilter_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       saveFilter_call method_call = new saveFilter_call(token, filter, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
@@ -304,8 +376,8 @@ public class FilterAPI {
 
     public static class saveFilter_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String token;
-      private Filter filter;
-      public saveFilter_call(String token, Filter filter, org.apache.thrift.async.AsyncMethodCallback<saveFilter_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private everfeeds.thrift.domain.Filter filter;
+      public saveFilter_call(String token, everfeeds.thrift.domain.Filter filter, org.apache.thrift.async.AsyncMethodCallback<saveFilter_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.token = token;
         this.filter = filter;
@@ -320,7 +392,7 @@ public class FilterAPI {
         prot.writeMessageEnd();
       }
 
-      public Filter getResult() throws org.apache.thrift.TException {
+      public everfeeds.thrift.domain.Filter getResult() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -361,7 +433,7 @@ public class FilterAPI {
         prot.writeMessageEnd();
       }
 
-      public List<Entry> getResult() throws org.apache.thrift.TException {
+      public List<everfeeds.thrift.domain.Entry> getResult() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -399,7 +471,7 @@ public class FilterAPI {
         prot.writeMessageEnd();
       }
 
-      public List<Entry> getResult() throws org.apache.thrift.TException {
+      public List<everfeeds.thrift.domain.Entry> getResult() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -409,7 +481,7 @@ public class FilterAPI {
       }
     }
 
-    public void getFiltered(String token, Filter filter, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<getFiltered_call> resultHandler) throws org.apache.thrift.TException {
+    public void getFiltered(String token, everfeeds.thrift.domain.Filter filter, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<getFiltered_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getFiltered_call method_call = new getFiltered_call(token, filter, page, maxCount, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
@@ -418,10 +490,10 @@ public class FilterAPI {
 
     public static class getFiltered_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String token;
-      private Filter filter;
+      private everfeeds.thrift.domain.Filter filter;
       private short page;
       private short maxCount;
-      public getFiltered_call(String token, Filter filter, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<getFiltered_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public getFiltered_call(String token, everfeeds.thrift.domain.Filter filter, short page, short maxCount, org.apache.thrift.async.AsyncMethodCallback<getFiltered_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.token = token;
         this.filter = filter;
@@ -440,7 +512,7 @@ public class FilterAPI {
         prot.writeMessageEnd();
       }
 
-      public List<Entry> getResult() throws org.apache.thrift.TException {
+      public List<everfeeds.thrift.domain.Entry> getResult() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -450,7 +522,7 @@ public class FilterAPI {
       }
     }
 
-    public void getFilteredNew(String token, Filter filter, org.apache.thrift.async.AsyncMethodCallback<getFilteredNew_call> resultHandler) throws org.apache.thrift.TException {
+    public void getFilteredNew(String token, everfeeds.thrift.domain.Filter filter, org.apache.thrift.async.AsyncMethodCallback<getFilteredNew_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getFilteredNew_call method_call = new getFilteredNew_call(token, filter, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
@@ -459,8 +531,8 @@ public class FilterAPI {
 
     public static class getFilteredNew_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String token;
-      private Filter filter;
-      public getFilteredNew_call(String token, Filter filter, org.apache.thrift.async.AsyncMethodCallback<getFilteredNew_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private everfeeds.thrift.domain.Filter filter;
+      public getFilteredNew_call(String token, everfeeds.thrift.domain.Filter filter, org.apache.thrift.async.AsyncMethodCallback<getFilteredNew_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.token = token;
         this.filter = filter;
@@ -475,7 +547,7 @@ public class FilterAPI {
         prot.writeMessageEnd();
       }
 
-      public List<Entry> getResult() throws org.apache.thrift.TException {
+      public List<everfeeds.thrift.domain.Entry> getResult() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, everfeeds.thrift.error.WrongArgument, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -541,7 +613,25 @@ public class FilterAPI {
         }
         iprot.readMessageEnd();
         saveFilter_result result = new saveFilter_result();
-        result.success = iface_.saveFilter(args.token, args.filter);
+        try {
+          result.success = iface_.saveFilter(args.token, args.filter);
+        } catch (everfeeds.thrift.error.Forbidden e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenExpired e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenNotFound e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.NotFound e) {
+          result.e = e;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing saveFilter", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing saveFilter");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveFilter", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveFilter", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -567,7 +657,27 @@ public class FilterAPI {
         }
         iprot.readMessageEnd();
         getMash_result result = new getMash_result();
-        result.success = iface_.getMash(args.token, args.splitDate, args.page, args.maxCount);
+        try {
+          result.success = iface_.getMash(args.token, args.splitDate, args.page, args.maxCount);
+        } catch (everfeeds.thrift.error.Forbidden e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenExpired e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenNotFound e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.NotFound e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.WrongArgument e) {
+          result.e = e;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getMash", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getMash");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getMash", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getMash", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -593,7 +703,27 @@ public class FilterAPI {
         }
         iprot.readMessageEnd();
         getMashNew_result result = new getMashNew_result();
-        result.success = iface_.getMashNew(args.token, args.splitDate, args.maxCount);
+        try {
+          result.success = iface_.getMashNew(args.token, args.splitDate, args.maxCount);
+        } catch (everfeeds.thrift.error.Forbidden e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenExpired e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenNotFound e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.NotFound e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.WrongArgument e) {
+          result.e = e;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getMashNew", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getMashNew");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getMashNew", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getMashNew", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -619,7 +749,27 @@ public class FilterAPI {
         }
         iprot.readMessageEnd();
         getFiltered_result result = new getFiltered_result();
-        result.success = iface_.getFiltered(args.token, args.filter, args.page, args.maxCount);
+        try {
+          result.success = iface_.getFiltered(args.token, args.filter, args.page, args.maxCount);
+        } catch (everfeeds.thrift.error.Forbidden e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenExpired e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenNotFound e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.NotFound e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.WrongArgument e) {
+          result.e = e;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getFiltered", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getFiltered");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFiltered", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFiltered", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -645,7 +795,27 @@ public class FilterAPI {
         }
         iprot.readMessageEnd();
         getFilteredNew_result result = new getFilteredNew_result();
-        result.success = iface_.getFilteredNew(args.token, args.filter);
+        try {
+          result.success = iface_.getFilteredNew(args.token, args.filter);
+        } catch (everfeeds.thrift.error.Forbidden e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenExpired e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.TokenNotFound e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.NotFound e) {
+          result.e = e;
+        } catch (everfeeds.thrift.error.WrongArgument e) {
+          result.e = e;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getFilteredNew", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getFilteredNew");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFilteredNew", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFilteredNew", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -663,7 +833,7 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TField FILTER_FIELD_DESC = new org.apache.thrift.protocol.TField("filter", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public String token;
-    public Filter filter;
+    public everfeeds.thrift.domain.Filter filter;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -734,7 +904,7 @@ public class FilterAPI {
       tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
       tmpMap.put(_Fields.FILTER, new org.apache.thrift.meta_data.FieldMetaData("filter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Filter.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Filter.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(saveFilter_args.class, metaDataMap);
     }
@@ -744,7 +914,7 @@ public class FilterAPI {
 
     public saveFilter_args(
       String token,
-      Filter filter)
+      everfeeds.thrift.domain.Filter filter)
     {
       this();
       this.token = token;
@@ -759,7 +929,7 @@ public class FilterAPI {
         this.token = other.token;
       }
       if (other.isSetFilter()) {
-        this.filter = new Filter(other.filter);
+        this.filter = new everfeeds.thrift.domain.Filter(other.filter);
       }
     }
 
@@ -797,11 +967,11 @@ public class FilterAPI {
       }
     }
 
-    public Filter getFilter() {
+    public everfeeds.thrift.domain.Filter getFilter() {
       return this.filter;
     }
 
-    public saveFilter_args setFilter(Filter filter) {
+    public saveFilter_args setFilter(everfeeds.thrift.domain.Filter filter) {
       this.filter = filter;
       return this;
     }
@@ -835,7 +1005,7 @@ public class FilterAPI {
         if (value == null) {
           unsetFilter();
         } else {
-          setFilter((Filter)value);
+          setFilter((everfeeds.thrift.domain.Filter)value);
         }
         break;
 
@@ -962,7 +1132,7 @@ public class FilterAPI {
             break;
           case 2: // FILTER
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.filter = new Filter();
+              this.filter = new everfeeds.thrift.domain.Filter();
               this.filter.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
@@ -1047,12 +1217,24 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("saveFilter_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)4);
 
-    public Filter success;
+    public everfeeds.thrift.domain.Filter success;
+    public everfeeds.thrift.error.Forbidden e;
+    public everfeeds.thrift.error.TokenExpired e;
+    public everfeeds.thrift.error.TokenNotFound e;
+    public everfeeds.thrift.error.NotFound e;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      E((short)1, "e"),
+      E((short)2, "e"),
+      E((short)3, "e"),
+      E((short)4, "e");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1069,6 +1251,14 @@ public class FilterAPI {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // E
+            return E;
+          case 2: // E
+            return E;
+          case 3: // E
+            return E;
+          case 4: // E
+            return E;
           default:
             return null;
         }
@@ -1114,7 +1304,15 @@ public class FilterAPI {
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Filter.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Filter.class)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(saveFilter_result.class, metaDataMap);
     }
@@ -1123,10 +1321,18 @@ public class FilterAPI {
     }
 
     public saveFilter_result(
-      Filter success)
+      everfeeds.thrift.domain.Filter success,
+      everfeeds.thrift.error.Forbidden e,
+      everfeeds.thrift.error.TokenExpired e,
+      everfeeds.thrift.error.TokenNotFound e,
+      everfeeds.thrift.error.NotFound e)
     {
       this();
       this.success = success;
+      this.e = e;
+      this.e = e;
+      this.e = e;
+      this.e = e;
     }
 
     /**
@@ -1134,7 +1340,19 @@ public class FilterAPI {
      */
     public saveFilter_result(saveFilter_result other) {
       if (other.isSetSuccess()) {
-        this.success = new Filter(other.success);
+        this.success = new everfeeds.thrift.domain.Filter(other.success);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.Forbidden(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenExpired(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenNotFound(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.NotFound(other.e);
       }
     }
 
@@ -1145,13 +1363,17 @@ public class FilterAPI {
     @Override
     public void clear() {
       this.success = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
     }
 
-    public Filter getSuccess() {
+    public everfeeds.thrift.domain.Filter getSuccess() {
       return this.success;
     }
 
-    public saveFilter_result setSuccess(Filter success) {
+    public saveFilter_result setSuccess(everfeeds.thrift.domain.Filter success) {
       this.success = success;
       return this;
     }
@@ -1171,13 +1393,141 @@ public class FilterAPI {
       }
     }
 
+    public everfeeds.thrift.error.Forbidden getE() {
+      return this.e;
+    }
+
+    public saveFilter_result setE(everfeeds.thrift.error.Forbidden e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenExpired getE() {
+      return this.e;
+    }
+
+    public saveFilter_result setE(everfeeds.thrift.error.TokenExpired e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenNotFound getE() {
+      return this.e;
+    }
+
+    public saveFilter_result setE(everfeeds.thrift.error.TokenNotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.NotFound getE() {
+      return this.e;
+    }
+
+    public saveFilter_result setE(everfeeds.thrift.error.NotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((Filter)value);
+          setSuccess((everfeeds.thrift.domain.Filter)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.Forbidden)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenExpired)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenNotFound)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.NotFound)value);
         }
         break;
 
@@ -1188,6 +1538,18 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
 
       }
       throw new IllegalStateException();
@@ -1202,6 +1564,14 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
       }
       throw new IllegalStateException();
     }
@@ -1225,6 +1595,42 @@ public class FilterAPI {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
           return false;
       }
 
@@ -1254,6 +1660,46 @@ public class FilterAPI {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -1273,8 +1719,40 @@ public class FilterAPI {
         switch (field.id) {
           case 0: // SUCCESS
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.success = new Filter();
+              this.success = new everfeeds.thrift.domain.Filter();
               this.success.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 1: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.Forbidden();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenExpired();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenNotFound();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 4: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.NotFound();
+              this.e.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -1297,6 +1775,22 @@ public class FilterAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -1312,6 +1806,38 @@ public class FilterAPI {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
       }
       first = false;
       sb.append(")");
@@ -1898,12 +2424,27 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getMash_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)5);
 
-    public List<Entry> success;
+    public List<everfeeds.thrift.domain.Entry> success;
+    public everfeeds.thrift.error.Forbidden e;
+    public everfeeds.thrift.error.TokenExpired e;
+    public everfeeds.thrift.error.TokenNotFound e;
+    public everfeeds.thrift.error.NotFound e;
+    public everfeeds.thrift.error.WrongArgument e;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      E((short)1, "e"),
+      E((short)2, "e"),
+      E((short)3, "e"),
+      E((short)4, "e"),
+      E((short)5, "e");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1920,6 +2461,16 @@ public class FilterAPI {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // E
+            return E;
+          case 2: // E
+            return E;
+          case 3: // E
+            return E;
+          case 4: // E
+            return E;
+          case 5: // E
+            return E;
           default:
             return null;
         }
@@ -1966,7 +2517,17 @@ public class FilterAPI {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Entry.class))));
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Entry.class))));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getMash_result.class, metaDataMap);
     }
@@ -1975,10 +2536,20 @@ public class FilterAPI {
     }
 
     public getMash_result(
-      List<Entry> success)
+      List<everfeeds.thrift.domain.Entry> success,
+      everfeeds.thrift.error.Forbidden e,
+      everfeeds.thrift.error.TokenExpired e,
+      everfeeds.thrift.error.TokenNotFound e,
+      everfeeds.thrift.error.NotFound e,
+      everfeeds.thrift.error.WrongArgument e)
     {
       this();
       this.success = success;
+      this.e = e;
+      this.e = e;
+      this.e = e;
+      this.e = e;
+      this.e = e;
     }
 
     /**
@@ -1986,11 +2557,26 @@ public class FilterAPI {
      */
     public getMash_result(getMash_result other) {
       if (other.isSetSuccess()) {
-        List<Entry> __this__success = new ArrayList<Entry>();
-        for (Entry other_element : other.success) {
-          __this__success.add(new Entry(other_element));
+        List<everfeeds.thrift.domain.Entry> __this__success = new ArrayList<everfeeds.thrift.domain.Entry>();
+        for (everfeeds.thrift.domain.Entry other_element : other.success) {
+          __this__success.add(new everfeeds.thrift.domain.Entry(other_element));
         }
         this.success = __this__success;
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.Forbidden(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenExpired(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenNotFound(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.NotFound(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.WrongArgument(other.e);
       }
     }
 
@@ -2001,28 +2587,33 @@ public class FilterAPI {
     @Override
     public void clear() {
       this.success = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
     }
 
     public int getSuccessSize() {
       return (this.success == null) ? 0 : this.success.size();
     }
 
-    public java.util.Iterator<Entry> getSuccessIterator() {
+    public java.util.Iterator<everfeeds.thrift.domain.Entry> getSuccessIterator() {
       return (this.success == null) ? null : this.success.iterator();
     }
 
-    public void addToSuccess(Entry elem) {
+    public void addToSuccess(everfeeds.thrift.domain.Entry elem) {
       if (this.success == null) {
-        this.success = new ArrayList<Entry>();
+        this.success = new ArrayList<everfeeds.thrift.domain.Entry>();
       }
       this.success.add(elem);
     }
 
-    public List<Entry> getSuccess() {
+    public List<everfeeds.thrift.domain.Entry> getSuccess() {
       return this.success;
     }
 
-    public getMash_result setSuccess(List<Entry> success) {
+    public getMash_result setSuccess(List<everfeeds.thrift.domain.Entry> success) {
       this.success = success;
       return this;
     }
@@ -2042,13 +2633,173 @@ public class FilterAPI {
       }
     }
 
+    public everfeeds.thrift.error.Forbidden getE() {
+      return this.e;
+    }
+
+    public getMash_result setE(everfeeds.thrift.error.Forbidden e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenExpired getE() {
+      return this.e;
+    }
+
+    public getMash_result setE(everfeeds.thrift.error.TokenExpired e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenNotFound getE() {
+      return this.e;
+    }
+
+    public getMash_result setE(everfeeds.thrift.error.TokenNotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.NotFound getE() {
+      return this.e;
+    }
+
+    public getMash_result setE(everfeeds.thrift.error.NotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.WrongArgument getE() {
+      return this.e;
+    }
+
+    public getMash_result setE(everfeeds.thrift.error.WrongArgument e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((List<Entry>)value);
+          setSuccess((List<everfeeds.thrift.domain.Entry>)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.Forbidden)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenExpired)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenNotFound)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.NotFound)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.WrongArgument)value);
         }
         break;
 
@@ -2059,6 +2810,21 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
 
       }
       throw new IllegalStateException();
@@ -2073,6 +2839,16 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
       }
       throw new IllegalStateException();
     }
@@ -2096,6 +2872,51 @@ public class FilterAPI {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
           return false;
       }
 
@@ -2125,6 +2946,56 @@ public class FilterAPI {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -2146,16 +3017,56 @@ public class FilterAPI {
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list16 = iprot.readListBegin();
-                this.success = new ArrayList<Entry>(_list16.size);
+                this.success = new ArrayList<everfeeds.thrift.domain.Entry>(_list16.size);
                 for (int _i17 = 0; _i17 < _list16.size; ++_i17)
                 {
-                  Entry _elem18;
-                  _elem18 = new Entry();
+                  everfeeds.thrift.domain.Entry _elem18;
+                  _elem18 = new everfeeds.thrift.domain.Entry();
                   _elem18.read(iprot);
                   this.success.add(_elem18);
                 }
                 iprot.readListEnd();
               }
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 1: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.Forbidden();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenExpired();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenNotFound();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 4: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.NotFound();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 5: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.WrongArgument();
+              this.e.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -2178,12 +3089,32 @@ public class FilterAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (Entry _iter19 : this.success)
+          for (everfeeds.thrift.domain.Entry _iter19 : this.success)
           {
             _iter19.write(oprot);
           }
           oprot.writeListEnd();
         }
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -2200,6 +3131,46 @@ public class FilterAPI {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
       }
       first = false;
       sb.append(")");
@@ -2702,12 +3673,27 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getMashNew_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)5);
 
-    public List<Entry> success;
+    public List<everfeeds.thrift.domain.Entry> success;
+    public everfeeds.thrift.error.Forbidden e;
+    public everfeeds.thrift.error.TokenExpired e;
+    public everfeeds.thrift.error.TokenNotFound e;
+    public everfeeds.thrift.error.NotFound e;
+    public everfeeds.thrift.error.WrongArgument e;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      E((short)1, "e"),
+      E((short)2, "e"),
+      E((short)3, "e"),
+      E((short)4, "e"),
+      E((short)5, "e");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2724,6 +3710,16 @@ public class FilterAPI {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // E
+            return E;
+          case 2: // E
+            return E;
+          case 3: // E
+            return E;
+          case 4: // E
+            return E;
+          case 5: // E
+            return E;
           default:
             return null;
         }
@@ -2770,7 +3766,17 @@ public class FilterAPI {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Entry.class))));
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Entry.class))));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getMashNew_result.class, metaDataMap);
     }
@@ -2779,10 +3785,20 @@ public class FilterAPI {
     }
 
     public getMashNew_result(
-      List<Entry> success)
+      List<everfeeds.thrift.domain.Entry> success,
+      everfeeds.thrift.error.Forbidden e,
+      everfeeds.thrift.error.TokenExpired e,
+      everfeeds.thrift.error.TokenNotFound e,
+      everfeeds.thrift.error.NotFound e,
+      everfeeds.thrift.error.WrongArgument e)
     {
       this();
       this.success = success;
+      this.e = e;
+      this.e = e;
+      this.e = e;
+      this.e = e;
+      this.e = e;
     }
 
     /**
@@ -2790,11 +3806,26 @@ public class FilterAPI {
      */
     public getMashNew_result(getMashNew_result other) {
       if (other.isSetSuccess()) {
-        List<Entry> __this__success = new ArrayList<Entry>();
-        for (Entry other_element : other.success) {
-          __this__success.add(new Entry(other_element));
+        List<everfeeds.thrift.domain.Entry> __this__success = new ArrayList<everfeeds.thrift.domain.Entry>();
+        for (everfeeds.thrift.domain.Entry other_element : other.success) {
+          __this__success.add(new everfeeds.thrift.domain.Entry(other_element));
         }
         this.success = __this__success;
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.Forbidden(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenExpired(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenNotFound(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.NotFound(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.WrongArgument(other.e);
       }
     }
 
@@ -2805,28 +3836,33 @@ public class FilterAPI {
     @Override
     public void clear() {
       this.success = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
     }
 
     public int getSuccessSize() {
       return (this.success == null) ? 0 : this.success.size();
     }
 
-    public java.util.Iterator<Entry> getSuccessIterator() {
+    public java.util.Iterator<everfeeds.thrift.domain.Entry> getSuccessIterator() {
       return (this.success == null) ? null : this.success.iterator();
     }
 
-    public void addToSuccess(Entry elem) {
+    public void addToSuccess(everfeeds.thrift.domain.Entry elem) {
       if (this.success == null) {
-        this.success = new ArrayList<Entry>();
+        this.success = new ArrayList<everfeeds.thrift.domain.Entry>();
       }
       this.success.add(elem);
     }
 
-    public List<Entry> getSuccess() {
+    public List<everfeeds.thrift.domain.Entry> getSuccess() {
       return this.success;
     }
 
-    public getMashNew_result setSuccess(List<Entry> success) {
+    public getMashNew_result setSuccess(List<everfeeds.thrift.domain.Entry> success) {
       this.success = success;
       return this;
     }
@@ -2846,13 +3882,173 @@ public class FilterAPI {
       }
     }
 
+    public everfeeds.thrift.error.Forbidden getE() {
+      return this.e;
+    }
+
+    public getMashNew_result setE(everfeeds.thrift.error.Forbidden e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenExpired getE() {
+      return this.e;
+    }
+
+    public getMashNew_result setE(everfeeds.thrift.error.TokenExpired e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenNotFound getE() {
+      return this.e;
+    }
+
+    public getMashNew_result setE(everfeeds.thrift.error.TokenNotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.NotFound getE() {
+      return this.e;
+    }
+
+    public getMashNew_result setE(everfeeds.thrift.error.NotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.WrongArgument getE() {
+      return this.e;
+    }
+
+    public getMashNew_result setE(everfeeds.thrift.error.WrongArgument e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((List<Entry>)value);
+          setSuccess((List<everfeeds.thrift.domain.Entry>)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.Forbidden)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenExpired)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenNotFound)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.NotFound)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.WrongArgument)value);
         }
         break;
 
@@ -2863,6 +4059,21 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
 
       }
       throw new IllegalStateException();
@@ -2877,6 +4088,16 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
       }
       throw new IllegalStateException();
     }
@@ -2900,6 +4121,51 @@ public class FilterAPI {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
           return false;
       }
 
@@ -2929,6 +4195,56 @@ public class FilterAPI {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -2950,16 +4266,56 @@ public class FilterAPI {
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list20 = iprot.readListBegin();
-                this.success = new ArrayList<Entry>(_list20.size);
+                this.success = new ArrayList<everfeeds.thrift.domain.Entry>(_list20.size);
                 for (int _i21 = 0; _i21 < _list20.size; ++_i21)
                 {
-                  Entry _elem22;
-                  _elem22 = new Entry();
+                  everfeeds.thrift.domain.Entry _elem22;
+                  _elem22 = new everfeeds.thrift.domain.Entry();
                   _elem22.read(iprot);
                   this.success.add(_elem22);
                 }
                 iprot.readListEnd();
               }
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 1: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.Forbidden();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenExpired();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenNotFound();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 4: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.NotFound();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 5: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.WrongArgument();
+              this.e.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -2982,12 +4338,32 @@ public class FilterAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (Entry _iter23 : this.success)
+          for (everfeeds.thrift.domain.Entry _iter23 : this.success)
           {
             _iter23.write(oprot);
           }
           oprot.writeListEnd();
         }
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -3004,6 +4380,46 @@ public class FilterAPI {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
       }
       first = false;
       sb.append(")");
@@ -3041,7 +4457,7 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TField MAX_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("maxCount", org.apache.thrift.protocol.TType.I16, (short)4);
 
     public String token;
-    public Filter filter;
+    public everfeeds.thrift.domain.Filter filter;
     public short page;
     public short maxCount;
 
@@ -3123,7 +4539,7 @@ public class FilterAPI {
       tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
       tmpMap.put(_Fields.FILTER, new org.apache.thrift.meta_data.FieldMetaData("filter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Filter.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Filter.class)));
       tmpMap.put(_Fields.PAGE, new org.apache.thrift.meta_data.FieldMetaData("page", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
       tmpMap.put(_Fields.MAX_COUNT, new org.apache.thrift.meta_data.FieldMetaData("maxCount", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -3137,7 +4553,7 @@ public class FilterAPI {
 
     public getFiltered_args(
       String token,
-      Filter filter,
+      everfeeds.thrift.domain.Filter filter,
       short page,
       short maxCount)
     {
@@ -3160,7 +4576,7 @@ public class FilterAPI {
         this.token = other.token;
       }
       if (other.isSetFilter()) {
-        this.filter = new Filter(other.filter);
+        this.filter = new everfeeds.thrift.domain.Filter(other.filter);
       }
       this.page = other.page;
       this.maxCount = other.maxCount;
@@ -3204,11 +4620,11 @@ public class FilterAPI {
       }
     }
 
-    public Filter getFilter() {
+    public everfeeds.thrift.domain.Filter getFilter() {
       return this.filter;
     }
 
-    public getFiltered_args setFilter(Filter filter) {
+    public getFiltered_args setFilter(everfeeds.thrift.domain.Filter filter) {
       this.filter = filter;
       return this;
     }
@@ -3288,7 +4704,7 @@ public class FilterAPI {
         if (value == null) {
           unsetFilter();
         } else {
-          setFilter((Filter)value);
+          setFilter((everfeeds.thrift.domain.Filter)value);
         }
         break;
 
@@ -3479,7 +4895,7 @@ public class FilterAPI {
             break;
           case 2: // FILTER
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.filter = new Filter();
+              this.filter = new everfeeds.thrift.domain.Filter();
               this.filter.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
@@ -3596,12 +5012,27 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getFiltered_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)5);
 
-    public List<Entry> success;
+    public List<everfeeds.thrift.domain.Entry> success;
+    public everfeeds.thrift.error.Forbidden e;
+    public everfeeds.thrift.error.TokenExpired e;
+    public everfeeds.thrift.error.TokenNotFound e;
+    public everfeeds.thrift.error.NotFound e;
+    public everfeeds.thrift.error.WrongArgument e;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      E((short)1, "e"),
+      E((short)2, "e"),
+      E((short)3, "e"),
+      E((short)4, "e"),
+      E((short)5, "e");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -3618,6 +5049,16 @@ public class FilterAPI {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // E
+            return E;
+          case 2: // E
+            return E;
+          case 3: // E
+            return E;
+          case 4: // E
+            return E;
+          case 5: // E
+            return E;
           default:
             return null;
         }
@@ -3664,7 +5105,17 @@ public class FilterAPI {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Entry.class))));
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Entry.class))));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getFiltered_result.class, metaDataMap);
     }
@@ -3673,10 +5124,20 @@ public class FilterAPI {
     }
 
     public getFiltered_result(
-      List<Entry> success)
+      List<everfeeds.thrift.domain.Entry> success,
+      everfeeds.thrift.error.Forbidden e,
+      everfeeds.thrift.error.TokenExpired e,
+      everfeeds.thrift.error.TokenNotFound e,
+      everfeeds.thrift.error.NotFound e,
+      everfeeds.thrift.error.WrongArgument e)
     {
       this();
       this.success = success;
+      this.e = e;
+      this.e = e;
+      this.e = e;
+      this.e = e;
+      this.e = e;
     }
 
     /**
@@ -3684,11 +5145,26 @@ public class FilterAPI {
      */
     public getFiltered_result(getFiltered_result other) {
       if (other.isSetSuccess()) {
-        List<Entry> __this__success = new ArrayList<Entry>();
-        for (Entry other_element : other.success) {
-          __this__success.add(new Entry(other_element));
+        List<everfeeds.thrift.domain.Entry> __this__success = new ArrayList<everfeeds.thrift.domain.Entry>();
+        for (everfeeds.thrift.domain.Entry other_element : other.success) {
+          __this__success.add(new everfeeds.thrift.domain.Entry(other_element));
         }
         this.success = __this__success;
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.Forbidden(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenExpired(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenNotFound(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.NotFound(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.WrongArgument(other.e);
       }
     }
 
@@ -3699,28 +5175,33 @@ public class FilterAPI {
     @Override
     public void clear() {
       this.success = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
     }
 
     public int getSuccessSize() {
       return (this.success == null) ? 0 : this.success.size();
     }
 
-    public java.util.Iterator<Entry> getSuccessIterator() {
+    public java.util.Iterator<everfeeds.thrift.domain.Entry> getSuccessIterator() {
       return (this.success == null) ? null : this.success.iterator();
     }
 
-    public void addToSuccess(Entry elem) {
+    public void addToSuccess(everfeeds.thrift.domain.Entry elem) {
       if (this.success == null) {
-        this.success = new ArrayList<Entry>();
+        this.success = new ArrayList<everfeeds.thrift.domain.Entry>();
       }
       this.success.add(elem);
     }
 
-    public List<Entry> getSuccess() {
+    public List<everfeeds.thrift.domain.Entry> getSuccess() {
       return this.success;
     }
 
-    public getFiltered_result setSuccess(List<Entry> success) {
+    public getFiltered_result setSuccess(List<everfeeds.thrift.domain.Entry> success) {
       this.success = success;
       return this;
     }
@@ -3740,13 +5221,173 @@ public class FilterAPI {
       }
     }
 
+    public everfeeds.thrift.error.Forbidden getE() {
+      return this.e;
+    }
+
+    public getFiltered_result setE(everfeeds.thrift.error.Forbidden e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenExpired getE() {
+      return this.e;
+    }
+
+    public getFiltered_result setE(everfeeds.thrift.error.TokenExpired e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenNotFound getE() {
+      return this.e;
+    }
+
+    public getFiltered_result setE(everfeeds.thrift.error.TokenNotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.NotFound getE() {
+      return this.e;
+    }
+
+    public getFiltered_result setE(everfeeds.thrift.error.NotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.WrongArgument getE() {
+      return this.e;
+    }
+
+    public getFiltered_result setE(everfeeds.thrift.error.WrongArgument e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((List<Entry>)value);
+          setSuccess((List<everfeeds.thrift.domain.Entry>)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.Forbidden)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenExpired)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenNotFound)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.NotFound)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.WrongArgument)value);
         }
         break;
 
@@ -3757,6 +5398,21 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
 
       }
       throw new IllegalStateException();
@@ -3771,6 +5427,16 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
       }
       throw new IllegalStateException();
     }
@@ -3794,6 +5460,51 @@ public class FilterAPI {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
           return false;
       }
 
@@ -3823,6 +5534,56 @@ public class FilterAPI {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -3844,16 +5605,56 @@ public class FilterAPI {
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list24 = iprot.readListBegin();
-                this.success = new ArrayList<Entry>(_list24.size);
+                this.success = new ArrayList<everfeeds.thrift.domain.Entry>(_list24.size);
                 for (int _i25 = 0; _i25 < _list24.size; ++_i25)
                 {
-                  Entry _elem26;
-                  _elem26 = new Entry();
+                  everfeeds.thrift.domain.Entry _elem26;
+                  _elem26 = new everfeeds.thrift.domain.Entry();
                   _elem26.read(iprot);
                   this.success.add(_elem26);
                 }
                 iprot.readListEnd();
               }
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 1: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.Forbidden();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenExpired();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenNotFound();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 4: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.NotFound();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 5: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.WrongArgument();
+              this.e.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -3876,12 +5677,32 @@ public class FilterAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (Entry _iter27 : this.success)
+          for (everfeeds.thrift.domain.Entry _iter27 : this.success)
           {
             _iter27.write(oprot);
           }
           oprot.writeListEnd();
         }
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -3898,6 +5719,46 @@ public class FilterAPI {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
       }
       first = false;
       sb.append(")");
@@ -3933,7 +5794,7 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TField FILTER_FIELD_DESC = new org.apache.thrift.protocol.TField("filter", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public String token;
-    public Filter filter;
+    public everfeeds.thrift.domain.Filter filter;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -4004,7 +5865,7 @@ public class FilterAPI {
       tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
       tmpMap.put(_Fields.FILTER, new org.apache.thrift.meta_data.FieldMetaData("filter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Filter.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Filter.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getFilteredNew_args.class, metaDataMap);
     }
@@ -4014,7 +5875,7 @@ public class FilterAPI {
 
     public getFilteredNew_args(
       String token,
-      Filter filter)
+      everfeeds.thrift.domain.Filter filter)
     {
       this();
       this.token = token;
@@ -4029,7 +5890,7 @@ public class FilterAPI {
         this.token = other.token;
       }
       if (other.isSetFilter()) {
-        this.filter = new Filter(other.filter);
+        this.filter = new everfeeds.thrift.domain.Filter(other.filter);
       }
     }
 
@@ -4067,11 +5928,11 @@ public class FilterAPI {
       }
     }
 
-    public Filter getFilter() {
+    public everfeeds.thrift.domain.Filter getFilter() {
       return this.filter;
     }
 
-    public getFilteredNew_args setFilter(Filter filter) {
+    public getFilteredNew_args setFilter(everfeeds.thrift.domain.Filter filter) {
       this.filter = filter;
       return this;
     }
@@ -4105,7 +5966,7 @@ public class FilterAPI {
         if (value == null) {
           unsetFilter();
         } else {
-          setFilter((Filter)value);
+          setFilter((everfeeds.thrift.domain.Filter)value);
         }
         break;
 
@@ -4232,7 +6093,7 @@ public class FilterAPI {
             break;
           case 2: // FILTER
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.filter = new Filter();
+              this.filter = new everfeeds.thrift.domain.Filter();
               this.filter.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
@@ -4317,12 +6178,27 @@ public class FilterAPI {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getFilteredNew_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField E_FIELD_DESC = new org.apache.thrift.protocol.TField("e", org.apache.thrift.protocol.TType.STRUCT, (short)5);
 
-    public List<Entry> success;
+    public List<everfeeds.thrift.domain.Entry> success;
+    public everfeeds.thrift.error.Forbidden e;
+    public everfeeds.thrift.error.TokenExpired e;
+    public everfeeds.thrift.error.TokenNotFound e;
+    public everfeeds.thrift.error.NotFound e;
+    public everfeeds.thrift.error.WrongArgument e;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      E((short)1, "e"),
+      E((short)2, "e"),
+      E((short)3, "e"),
+      E((short)4, "e"),
+      E((short)5, "e");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -4339,6 +6215,16 @@ public class FilterAPI {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // E
+            return E;
+          case 2: // E
+            return E;
+          case 3: // E
+            return E;
+          case 4: // E
+            return E;
+          case 5: // E
+            return E;
           default:
             return null;
         }
@@ -4385,7 +6271,17 @@ public class FilterAPI {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Entry.class))));
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.thrift.domain.Entry.class))));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.E, new org.apache.thrift.meta_data.FieldMetaData("e", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getFilteredNew_result.class, metaDataMap);
     }
@@ -4394,10 +6290,20 @@ public class FilterAPI {
     }
 
     public getFilteredNew_result(
-      List<Entry> success)
+      List<everfeeds.thrift.domain.Entry> success,
+      everfeeds.thrift.error.Forbidden e,
+      everfeeds.thrift.error.TokenExpired e,
+      everfeeds.thrift.error.TokenNotFound e,
+      everfeeds.thrift.error.NotFound e,
+      everfeeds.thrift.error.WrongArgument e)
     {
       this();
       this.success = success;
+      this.e = e;
+      this.e = e;
+      this.e = e;
+      this.e = e;
+      this.e = e;
     }
 
     /**
@@ -4405,11 +6311,26 @@ public class FilterAPI {
      */
     public getFilteredNew_result(getFilteredNew_result other) {
       if (other.isSetSuccess()) {
-        List<Entry> __this__success = new ArrayList<Entry>();
-        for (Entry other_element : other.success) {
-          __this__success.add(new Entry(other_element));
+        List<everfeeds.thrift.domain.Entry> __this__success = new ArrayList<everfeeds.thrift.domain.Entry>();
+        for (everfeeds.thrift.domain.Entry other_element : other.success) {
+          __this__success.add(new everfeeds.thrift.domain.Entry(other_element));
         }
         this.success = __this__success;
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.Forbidden(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenExpired(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.TokenNotFound(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.NotFound(other.e);
+      }
+      if (other.isSetE()) {
+        this.e = new everfeeds.thrift.error.WrongArgument(other.e);
       }
     }
 
@@ -4420,28 +6341,33 @@ public class FilterAPI {
     @Override
     public void clear() {
       this.success = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
+      this.e = null;
     }
 
     public int getSuccessSize() {
       return (this.success == null) ? 0 : this.success.size();
     }
 
-    public java.util.Iterator<Entry> getSuccessIterator() {
+    public java.util.Iterator<everfeeds.thrift.domain.Entry> getSuccessIterator() {
       return (this.success == null) ? null : this.success.iterator();
     }
 
-    public void addToSuccess(Entry elem) {
+    public void addToSuccess(everfeeds.thrift.domain.Entry elem) {
       if (this.success == null) {
-        this.success = new ArrayList<Entry>();
+        this.success = new ArrayList<everfeeds.thrift.domain.Entry>();
       }
       this.success.add(elem);
     }
 
-    public List<Entry> getSuccess() {
+    public List<everfeeds.thrift.domain.Entry> getSuccess() {
       return this.success;
     }
 
-    public getFilteredNew_result setSuccess(List<Entry> success) {
+    public getFilteredNew_result setSuccess(List<everfeeds.thrift.domain.Entry> success) {
       this.success = success;
       return this;
     }
@@ -4461,13 +6387,173 @@ public class FilterAPI {
       }
     }
 
+    public everfeeds.thrift.error.Forbidden getE() {
+      return this.e;
+    }
+
+    public getFilteredNew_result setE(everfeeds.thrift.error.Forbidden e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenExpired getE() {
+      return this.e;
+    }
+
+    public getFilteredNew_result setE(everfeeds.thrift.error.TokenExpired e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.TokenNotFound getE() {
+      return this.e;
+    }
+
+    public getFilteredNew_result setE(everfeeds.thrift.error.TokenNotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.NotFound getE() {
+      return this.e;
+    }
+
+    public getFilteredNew_result setE(everfeeds.thrift.error.NotFound e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
+    public everfeeds.thrift.error.WrongArgument getE() {
+      return this.e;
+    }
+
+    public getFilteredNew_result setE(everfeeds.thrift.error.WrongArgument e) {
+      this.e = e;
+      return this;
+    }
+
+    public void unsetE() {
+      this.e = null;
+    }
+
+    /** Returns true if field e is set (has been assigned a value) and false otherwise */
+    public boolean isSetE() {
+      return this.e != null;
+    }
+
+    public void setEIsSet(boolean value) {
+      if (!value) {
+        this.e = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((List<Entry>)value);
+          setSuccess((List<everfeeds.thrift.domain.Entry>)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.Forbidden)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenExpired)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.TokenNotFound)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.NotFound)value);
+        }
+        break;
+
+      case E:
+        if (value == null) {
+          unsetE();
+        } else {
+          setE((everfeeds.thrift.error.WrongArgument)value);
         }
         break;
 
@@ -4478,6 +6564,21 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
+
+      case E:
+        return getE();
 
       }
       throw new IllegalStateException();
@@ -4492,6 +6593,16 @@ public class FilterAPI {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
+      case E:
+        return isSetE();
       }
       throw new IllegalStateException();
     }
@@ -4515,6 +6626,51 @@ public class FilterAPI {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
+          return false;
+      }
+
+      boolean this_present_e = true && this.isSetE();
+      boolean that_present_e = true && that.isSetE();
+      if (this_present_e || that_present_e) {
+        if (!(this_present_e && that_present_e))
+          return false;
+        if (!this.e.equals(that.e))
           return false;
       }
 
@@ -4544,6 +6700,56 @@ public class FilterAPI {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetE()).compareTo(typedOther.isSetE());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetE()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.e, typedOther.e);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -4565,16 +6771,56 @@ public class FilterAPI {
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
                 org.apache.thrift.protocol.TList _list28 = iprot.readListBegin();
-                this.success = new ArrayList<Entry>(_list28.size);
+                this.success = new ArrayList<everfeeds.thrift.domain.Entry>(_list28.size);
                 for (int _i29 = 0; _i29 < _list28.size; ++_i29)
                 {
-                  Entry _elem30;
-                  _elem30 = new Entry();
+                  everfeeds.thrift.domain.Entry _elem30;
+                  _elem30 = new everfeeds.thrift.domain.Entry();
                   _elem30.read(iprot);
                   this.success.add(_elem30);
                 }
                 iprot.readListEnd();
               }
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 1: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.Forbidden();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenExpired();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.TokenNotFound();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 4: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.NotFound();
+              this.e.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 5: // E
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.e = new everfeeds.thrift.error.WrongArgument();
+              this.e.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -4597,12 +6843,32 @@ public class FilterAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (Entry _iter31 : this.success)
+          for (everfeeds.thrift.domain.Entry _iter31 : this.success)
           {
             _iter31.write(oprot);
           }
           oprot.writeListEnd();
         }
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetE()) {
+        oprot.writeFieldBegin(E_FIELD_DESC);
+        this.e.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -4619,6 +6885,46 @@ public class FilterAPI {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("e:");
+      if (this.e == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.e);
       }
       first = false;
       sb.append(")");

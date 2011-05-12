@@ -5,9 +5,10 @@ import everfeeds.mongo.CategoryD;
 import everfeeds.mongo.EntryD;
 import everfeeds.mongo.FilterD;
 import everfeeds.mongo.TagD;
-import everfeeds.thrift.Entry;
-import everfeeds.thrift.Filter;
-import everfeeds.thrift.FilterAPI;
+import everfeeds.thrift.error.*;
+import everfeeds.thrift.service.FilterAPI;
+import everfeeds.thrift.domain.Entry;
+import everfeeds.thrift.domain.Filter;
 import org.apache.thrift.TException;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class FilterHandler extends Handler implements FilterAPI.Iface {
   @Override
-  public Filter saveFilter(String token, Filter filter) throws TException {
+  public Filter saveFilter(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
 
     FilterD filterD = getFilterD(token, filter);
     setRelsFromThrift(filterD, filter);
@@ -34,7 +35,10 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
   }
 
   @Override
-  public List<Entry> getMash(String token, long splitDate, short page, short maxCount) throws TException {
+  public List<Entry> getMash(String token, long splitDate, short page, short maxCount) throws TException, TokenNotFound, Forbidden, TokenExpired, WrongArgument {
+    if (splitDate < 1) {
+      throw new WrongArgument("You must set split date to get entries");
+    }
     return getEntriesForQuery(getDS().createQuery(EntryD.class)
                                   .filter("account", getTokenD(token).account)
                                   .filter("dateCreated <", new Date(splitDate))
@@ -42,7 +46,10 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
   }
 
   @Override
-  public List<Entry> getMashNew(String token, long splitDate, short maxCount) throws TException {
+  public List<Entry> getMashNew(String token, long splitDate, short maxCount) throws TException, TokenNotFound, Forbidden, TokenExpired, WrongArgument {
+    if (splitDate < 1) {
+      throw new WrongArgument("You must set split date to get entries");
+    }
     return getEntriesForQuery(getDS().createQuery(EntryD.class)
                                   .filter("account", getTokenD(token).account)
                                   .filter("dateCreated >", new Date(splitDate))
@@ -50,9 +57,9 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
   }
 
   @Override
-  public List<Entry> getFiltered(String token, Filter filter, short page, short maxCount) throws TException {
+  public List<Entry> getFiltered(String token, Filter filter, short page, short maxCount) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound, WrongArgument {
     if (filter.splitDate < 1) {
-      throw new TException("You must set filter split date to get entries");
+      throw new WrongArgument("You must set filter split date to get entries");
     }
 
     FilterD filterD = getFilterD(token, filter);
@@ -67,9 +74,9 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
   }
 
   @Override
-  public List<Entry> getFilteredNew(String token, Filter filter) throws TException {
+  public List<Entry> getFilteredNew(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound, WrongArgument {
     if (filter.splitDate < 1) {
-      throw new TException("You must set filter split date to get entries");
+      throw new WrongArgument("You must set filter split date to get entries");
     }
 
     FilterD filterD = getFilterD(token, filter);
@@ -123,7 +130,7 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
     return entries;
   }
 
-  protected FilterD getFilterD(String token, Filter filter) throws TException {
+  protected FilterD getFilterD(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     FilterD filterD;
     if (!filter.id.isEmpty()) {
       filterD = getDS().get(FilterD.class, filter.id);
@@ -131,13 +138,13 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
         throw new TException("Filter not found by id");
       }
       if (filterD.access.account != getTokenD(token).account) {
-        throw new TException("Forbidden");
+        throw new Forbidden("Forbidden");
       }
     } else {
       filterD = new FilterD();
       filterD.access = getAccessD(token, filter.accessId);
       if (filterD.access == null) {
-        throw new TException("Filter access not found by ID");
+        throw new NotFound("Filter access not found by ID");
       }
     }
     return filterD;

@@ -4,10 +4,12 @@ import everfeeds.mongo.AccessD;
 import everfeeds.mongo.AccountD;
 import everfeeds.mongo.ApplicationD;
 import everfeeds.mongo.TokenD;
-import everfeeds.thrift.Access;
-import everfeeds.thrift.Account;
-import everfeeds.thrift.ApplicationAPI;
-import everfeeds.thrift.Token;
+import everfeeds.thrift.domain.Access;
+import everfeeds.thrift.domain.Account;
+import everfeeds.thrift.error.Forbidden;
+import everfeeds.thrift.error.NotFound;
+import everfeeds.thrift.service.ApplicationAPI;
+import everfeeds.thrift.domain.Token;
 import org.apache.thrift.TException;
 
 /**
@@ -16,7 +18,7 @@ import org.apache.thrift.TException;
  */
 public class ApplicationHandler extends Handler implements ApplicationAPI.Iface {
   @Override
-  public Token createToken(String applicationSecret, String accountId) throws TException {
+  public Token createToken(String applicationSecret, String accountId) throws TException, NotFound {
     ApplicationD applicationD = getApplicationD(applicationSecret);
     AccountD accountD = getDS().get(AccountD.class, accountId);
 
@@ -40,11 +42,11 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
   }
 
   @Override
-  public Account createAccessAndAccount(String applicationSecret, Access access, String accessToken, String accessSecret, String accessShardId) throws TException {
+  public Account createAccessAndAccount(String applicationSecret, Access access, String accessToken, String accessSecret, String accessShardId) throws TException, Forbidden {
 
 
     if (!applicationSecret.equals("hardCode")) {
-      throw new TException("Access denied for token or wrong token given");
+      throw new Forbidden("Access denied for token or wrong token given");
     }
 
     AccessD accessD = findAccessD(access);

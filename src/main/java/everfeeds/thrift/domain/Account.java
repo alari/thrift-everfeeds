@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.thrift;
+package everfeeds.thrift.domain;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,24 +20,18 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Tag");
+public class Account implements org.apache.thrift.TBase<Account, Account._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Account");
 
   private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField IDENTITY_FIELD_DESC = new org.apache.thrift.protocol.TField("identity", org.apache.thrift.protocol.TType.STRING, (short)2);
-  private static final org.apache.thrift.protocol.TField ACCESS_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accessId", org.apache.thrift.protocol.TType.STRING, (short)3);
   private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short)10);
 
   public String id;
-  public String identity;
-  public String accessId;
   public String title;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     ID((short)1, "id"),
-    IDENTITY((short)2, "identity"),
-    ACCESS_ID((short)3, "accessId"),
     TITLE((short)10, "title");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -55,10 +49,6 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
       switch(fieldId) {
         case 1: // ID
           return ID;
-        case 2: // IDENTITY
-          return IDENTITY;
-        case 3: // ACCESS_ID
-          return ACCESS_ID;
         case 10: // TITLE
           return TITLE;
         default:
@@ -107,59 +97,43 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
-    tmpMap.put(_Fields.IDENTITY, new org.apache.thrift.meta_data.FieldMetaData("identity", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
-    tmpMap.put(_Fields.ACCESS_ID, new org.apache.thrift.meta_data.FieldMetaData("accessId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     tmpMap.put(_Fields.TITLE, new org.apache.thrift.meta_data.FieldMetaData("title", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Tag.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Account.class, metaDataMap);
   }
 
-  public Tag() {
+  public Account() {
   }
 
-  public Tag(
+  public Account(
     String id,
-    String identity,
-    String accessId,
     String title)
   {
     this();
     this.id = id;
-    this.identity = identity;
-    this.accessId = accessId;
     this.title = title;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public Tag(Tag other) {
+  public Account(Account other) {
     if (other.isSetId()) {
       this.id = other.id;
-    }
-    if (other.isSetIdentity()) {
-      this.identity = other.identity;
-    }
-    if (other.isSetAccessId()) {
-      this.accessId = other.accessId;
     }
     if (other.isSetTitle()) {
       this.title = other.title;
     }
   }
 
-  public Tag deepCopy() {
-    return new Tag(this);
+  public Account deepCopy() {
+    return new Account(this);
   }
 
   @Override
   public void clear() {
     this.id = null;
-    this.identity = null;
-    this.accessId = null;
     this.title = null;
   }
 
@@ -167,7 +141,7 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     return this.id;
   }
 
-  public Tag setId(String id) {
+  public Account setId(String id) {
     this.id = id;
     return this;
   }
@@ -187,59 +161,11 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     }
   }
 
-  public String getIdentity() {
-    return this.identity;
-  }
-
-  public Tag setIdentity(String identity) {
-    this.identity = identity;
-    return this;
-  }
-
-  public void unsetIdentity() {
-    this.identity = null;
-  }
-
-  /** Returns true if field identity is set (has been assigned a value) and false otherwise */
-  public boolean isSetIdentity() {
-    return this.identity != null;
-  }
-
-  public void setIdentityIsSet(boolean value) {
-    if (!value) {
-      this.identity = null;
-    }
-  }
-
-  public String getAccessId() {
-    return this.accessId;
-  }
-
-  public Tag setAccessId(String accessId) {
-    this.accessId = accessId;
-    return this;
-  }
-
-  public void unsetAccessId() {
-    this.accessId = null;
-  }
-
-  /** Returns true if field accessId is set (has been assigned a value) and false otherwise */
-  public boolean isSetAccessId() {
-    return this.accessId != null;
-  }
-
-  public void setAccessIdIsSet(boolean value) {
-    if (!value) {
-      this.accessId = null;
-    }
-  }
-
   public String getTitle() {
     return this.title;
   }
 
-  public Tag setTitle(String title) {
+  public Account setTitle(String title) {
     this.title = title;
     return this;
   }
@@ -269,22 +195,6 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
       }
       break;
 
-    case IDENTITY:
-      if (value == null) {
-        unsetIdentity();
-      } else {
-        setIdentity((String)value);
-      }
-      break;
-
-    case ACCESS_ID:
-      if (value == null) {
-        unsetAccessId();
-      } else {
-        setAccessId((String)value);
-      }
-      break;
-
     case TITLE:
       if (value == null) {
         unsetTitle();
@@ -300,12 +210,6 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     switch (field) {
     case ID:
       return getId();
-
-    case IDENTITY:
-      return getIdentity();
-
-    case ACCESS_ID:
-      return getAccessId();
 
     case TITLE:
       return getTitle();
@@ -323,10 +227,6 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     switch (field) {
     case ID:
       return isSetId();
-    case IDENTITY:
-      return isSetIdentity();
-    case ACCESS_ID:
-      return isSetAccessId();
     case TITLE:
       return isSetTitle();
     }
@@ -337,12 +237,12 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof Tag)
-      return this.equals((Tag)that);
+    if (that instanceof Account)
+      return this.equals((Account)that);
     return false;
   }
 
-  public boolean equals(Tag that) {
+  public boolean equals(Account that) {
     if (that == null)
       return false;
 
@@ -352,24 +252,6 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
       if (!(this_present_id && that_present_id))
         return false;
       if (!this.id.equals(that.id))
-        return false;
-    }
-
-    boolean this_present_identity = true && this.isSetIdentity();
-    boolean that_present_identity = true && that.isSetIdentity();
-    if (this_present_identity || that_present_identity) {
-      if (!(this_present_identity && that_present_identity))
-        return false;
-      if (!this.identity.equals(that.identity))
-        return false;
-    }
-
-    boolean this_present_accessId = true && this.isSetAccessId();
-    boolean that_present_accessId = true && that.isSetAccessId();
-    if (this_present_accessId || that_present_accessId) {
-      if (!(this_present_accessId && that_present_accessId))
-        return false;
-      if (!this.accessId.equals(that.accessId))
         return false;
     }
 
@@ -390,13 +272,13 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     return 0;
   }
 
-  public int compareTo(Tag other) {
+  public int compareTo(Account other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    Tag typedOther = (Tag)other;
+    Account typedOther = (Account)other;
 
     lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
     if (lastComparison != 0) {
@@ -404,26 +286,6 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     }
     if (isSetId()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.id, typedOther.id);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetIdentity()).compareTo(typedOther.isSetIdentity());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetIdentity()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.identity, typedOther.identity);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetAccessId()).compareTo(typedOther.isSetAccessId());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetAccessId()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accessId, typedOther.accessId);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -462,20 +324,6 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 2: // IDENTITY
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.identity = iprot.readString();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
-        case 3: // ACCESS_ID
-          if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.accessId = iprot.readString();
-          } else { 
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-          }
-          break;
         case 10: // TITLE
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.title = iprot.readString();
@@ -503,16 +351,6 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
       oprot.writeString(this.id);
       oprot.writeFieldEnd();
     }
-    if (this.identity != null) {
-      oprot.writeFieldBegin(IDENTITY_FIELD_DESC);
-      oprot.writeString(this.identity);
-      oprot.writeFieldEnd();
-    }
-    if (this.accessId != null) {
-      oprot.writeFieldBegin(ACCESS_ID_FIELD_DESC);
-      oprot.writeString(this.accessId);
-      oprot.writeFieldEnd();
-    }
     if (this.title != null) {
       oprot.writeFieldBegin(TITLE_FIELD_DESC);
       oprot.writeString(this.title);
@@ -524,7 +362,7 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("Tag(");
+    StringBuilder sb = new StringBuilder("Account(");
     boolean first = true;
 
     sb.append("id:");
@@ -532,22 +370,6 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
       sb.append("null");
     } else {
       sb.append(this.id);
-    }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("identity:");
-    if (this.identity == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.identity);
-    }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("accessId:");
-    if (this.accessId == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.accessId);
     }
     first = false;
     if (!first) sb.append(", ");

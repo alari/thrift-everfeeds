@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.thrift;
+package everfeeds.thrift.domain;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,25 +20,42 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Category implements org.apache.thrift.TBase<Category, Category._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Category");
+public class Access implements org.apache.thrift.TBase<Access, Access._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Access");
 
   private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.STRING, (short)1);
   private static final org.apache.thrift.protocol.TField IDENTITY_FIELD_DESC = new org.apache.thrift.protocol.TField("identity", org.apache.thrift.protocol.TType.STRING, (short)2);
-  private static final org.apache.thrift.protocol.TField ACCESS_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accessId", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField ACCOUNT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accountId", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short)4);
+  private static final org.apache.thrift.protocol.TField EXPIRED_FIELD_DESC = new org.apache.thrift.protocol.TField("expired", org.apache.thrift.protocol.TType.BOOL, (short)5);
   private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short)10);
+  private static final org.apache.thrift.protocol.TField SCREEN_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("screenName", org.apache.thrift.protocol.TType.STRING, (short)11);
 
   public String id;
   public String identity;
-  public String accessId;
+  public String accountId;
+  /**
+   * 
+   * @see everfeeds.thrift.ttype.AccessType
+   */
+  public everfeeds.thrift.ttype.AccessType type;
+  public boolean expired;
   public String title;
+  public String screenName;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     ID((short)1, "id"),
     IDENTITY((short)2, "identity"),
-    ACCESS_ID((short)3, "accessId"),
-    TITLE((short)10, "title");
+    ACCOUNT_ID((short)3, "accountId"),
+    /**
+     * 
+     * @see everfeeds.thrift.ttype.AccessType
+     */
+    TYPE((short)4, "type"),
+    EXPIRED((short)5, "expired"),
+    TITLE((short)10, "title"),
+    SCREEN_NAME((short)11, "screenName");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -57,10 +74,16 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
           return ID;
         case 2: // IDENTITY
           return IDENTITY;
-        case 3: // ACCESS_ID
-          return ACCESS_ID;
+        case 3: // ACCOUNT_ID
+          return ACCOUNT_ID;
+        case 4: // TYPE
+          return TYPE;
+        case 5: // EXPIRED
+          return EXPIRED;
         case 10: // TITLE
           return TITLE;
+        case 11: // SCREEN_NAME
+          return SCREEN_NAME;
         default:
           return null;
       }
@@ -101,6 +124,8 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
   }
 
   // isset id assignments
+  private static final int __EXPIRED_ISSET_ID = 0;
+  private BitSet __isset_bit_vector = new BitSet(1);
 
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -109,65 +134,91 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
     tmpMap.put(_Fields.IDENTITY, new org.apache.thrift.meta_data.FieldMetaData("identity", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
-    tmpMap.put(_Fields.ACCESS_ID, new org.apache.thrift.meta_data.FieldMetaData("accessId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.ACCOUNT_ID, new org.apache.thrift.meta_data.FieldMetaData("accountId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
+    tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, everfeeds.thrift.ttype.AccessType.class)));
+    tmpMap.put(_Fields.EXPIRED, new org.apache.thrift.meta_data.FieldMetaData("expired", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
     tmpMap.put(_Fields.TITLE, new org.apache.thrift.meta_data.FieldMetaData("title", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.SCREEN_NAME, new org.apache.thrift.meta_data.FieldMetaData("screenName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Category.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Access.class, metaDataMap);
   }
 
-  public Category() {
+  public Access() {
   }
 
-  public Category(
+  public Access(
     String id,
     String identity,
-    String accessId,
-    String title)
+    String accountId,
+    everfeeds.thrift.ttype.AccessType type,
+    boolean expired,
+    String title,
+    String screenName)
   {
     this();
     this.id = id;
     this.identity = identity;
-    this.accessId = accessId;
+    this.accountId = accountId;
+    this.type = type;
+    this.expired = expired;
+    setExpiredIsSet(true);
     this.title = title;
+    this.screenName = screenName;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public Category(Category other) {
+  public Access(Access other) {
+    __isset_bit_vector.clear();
+    __isset_bit_vector.or(other.__isset_bit_vector);
     if (other.isSetId()) {
       this.id = other.id;
     }
     if (other.isSetIdentity()) {
       this.identity = other.identity;
     }
-    if (other.isSetAccessId()) {
-      this.accessId = other.accessId;
+    if (other.isSetAccountId()) {
+      this.accountId = other.accountId;
     }
+    if (other.isSetType()) {
+      this.type = other.type;
+    }
+    this.expired = other.expired;
     if (other.isSetTitle()) {
       this.title = other.title;
     }
+    if (other.isSetScreenName()) {
+      this.screenName = other.screenName;
+    }
   }
 
-  public Category deepCopy() {
-    return new Category(this);
+  public Access deepCopy() {
+    return new Access(this);
   }
 
   @Override
   public void clear() {
     this.id = null;
     this.identity = null;
-    this.accessId = null;
+    this.accountId = null;
+    this.type = null;
+    setExpiredIsSet(false);
+    this.expired = false;
     this.title = null;
+    this.screenName = null;
   }
 
   public String getId() {
     return this.id;
   }
 
-  public Category setId(String id) {
+  public Access setId(String id) {
     this.id = id;
     return this;
   }
@@ -191,7 +242,7 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
     return this.identity;
   }
 
-  public Category setIdentity(String identity) {
+  public Access setIdentity(String identity) {
     this.identity = identity;
     return this;
   }
@@ -211,35 +262,90 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
     }
   }
 
-  public String getAccessId() {
-    return this.accessId;
+  public String getAccountId() {
+    return this.accountId;
   }
 
-  public Category setAccessId(String accessId) {
-    this.accessId = accessId;
+  public Access setAccountId(String accountId) {
+    this.accountId = accountId;
     return this;
   }
 
-  public void unsetAccessId() {
-    this.accessId = null;
+  public void unsetAccountId() {
+    this.accountId = null;
   }
 
-  /** Returns true if field accessId is set (has been assigned a value) and false otherwise */
-  public boolean isSetAccessId() {
-    return this.accessId != null;
+  /** Returns true if field accountId is set (has been assigned a value) and false otherwise */
+  public boolean isSetAccountId() {
+    return this.accountId != null;
   }
 
-  public void setAccessIdIsSet(boolean value) {
+  public void setAccountIdIsSet(boolean value) {
     if (!value) {
-      this.accessId = null;
+      this.accountId = null;
     }
+  }
+
+  /**
+   * 
+   * @see everfeeds.thrift.ttype.AccessType
+   */
+  public everfeeds.thrift.ttype.AccessType getType() {
+    return this.type;
+  }
+
+  /**
+   * 
+   * @see everfeeds.thrift.ttype.AccessType
+   */
+  public Access setType(everfeeds.thrift.ttype.AccessType type) {
+    this.type = type;
+    return this;
+  }
+
+  public void unsetType() {
+    this.type = null;
+  }
+
+  /** Returns true if field type is set (has been assigned a value) and false otherwise */
+  public boolean isSetType() {
+    return this.type != null;
+  }
+
+  public void setTypeIsSet(boolean value) {
+    if (!value) {
+      this.type = null;
+    }
+  }
+
+  public boolean isExpired() {
+    return this.expired;
+  }
+
+  public Access setExpired(boolean expired) {
+    this.expired = expired;
+    setExpiredIsSet(true);
+    return this;
+  }
+
+  public void unsetExpired() {
+    __isset_bit_vector.clear(__EXPIRED_ISSET_ID);
+  }
+
+  /** Returns true if field expired is set (has been assigned a value) and false otherwise */
+  public boolean isSetExpired() {
+    return __isset_bit_vector.get(__EXPIRED_ISSET_ID);
+  }
+
+  public void setExpiredIsSet(boolean value) {
+    __isset_bit_vector.set(__EXPIRED_ISSET_ID, value);
   }
 
   public String getTitle() {
     return this.title;
   }
 
-  public Category setTitle(String title) {
+  public Access setTitle(String title) {
     this.title = title;
     return this;
   }
@@ -256,6 +362,30 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
   public void setTitleIsSet(boolean value) {
     if (!value) {
       this.title = null;
+    }
+  }
+
+  public String getScreenName() {
+    return this.screenName;
+  }
+
+  public Access setScreenName(String screenName) {
+    this.screenName = screenName;
+    return this;
+  }
+
+  public void unsetScreenName() {
+    this.screenName = null;
+  }
+
+  /** Returns true if field screenName is set (has been assigned a value) and false otherwise */
+  public boolean isSetScreenName() {
+    return this.screenName != null;
+  }
+
+  public void setScreenNameIsSet(boolean value) {
+    if (!value) {
+      this.screenName = null;
     }
   }
 
@@ -277,11 +407,27 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
       }
       break;
 
-    case ACCESS_ID:
+    case ACCOUNT_ID:
       if (value == null) {
-        unsetAccessId();
+        unsetAccountId();
       } else {
-        setAccessId((String)value);
+        setAccountId((String)value);
+      }
+      break;
+
+    case TYPE:
+      if (value == null) {
+        unsetType();
+      } else {
+        setType((everfeeds.thrift.ttype.AccessType)value);
+      }
+      break;
+
+    case EXPIRED:
+      if (value == null) {
+        unsetExpired();
+      } else {
+        setExpired((Boolean)value);
       }
       break;
 
@@ -290,6 +436,14 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
         unsetTitle();
       } else {
         setTitle((String)value);
+      }
+      break;
+
+    case SCREEN_NAME:
+      if (value == null) {
+        unsetScreenName();
+      } else {
+        setScreenName((String)value);
       }
       break;
 
@@ -304,11 +458,20 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
     case IDENTITY:
       return getIdentity();
 
-    case ACCESS_ID:
-      return getAccessId();
+    case ACCOUNT_ID:
+      return getAccountId();
+
+    case TYPE:
+      return getType();
+
+    case EXPIRED:
+      return new Boolean(isExpired());
 
     case TITLE:
       return getTitle();
+
+    case SCREEN_NAME:
+      return getScreenName();
 
     }
     throw new IllegalStateException();
@@ -325,10 +488,16 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
       return isSetId();
     case IDENTITY:
       return isSetIdentity();
-    case ACCESS_ID:
-      return isSetAccessId();
+    case ACCOUNT_ID:
+      return isSetAccountId();
+    case TYPE:
+      return isSetType();
+    case EXPIRED:
+      return isSetExpired();
     case TITLE:
       return isSetTitle();
+    case SCREEN_NAME:
+      return isSetScreenName();
     }
     throw new IllegalStateException();
   }
@@ -337,12 +506,12 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof Category)
-      return this.equals((Category)that);
+    if (that instanceof Access)
+      return this.equals((Access)that);
     return false;
   }
 
-  public boolean equals(Category that) {
+  public boolean equals(Access that) {
     if (that == null)
       return false;
 
@@ -364,12 +533,30 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
         return false;
     }
 
-    boolean this_present_accessId = true && this.isSetAccessId();
-    boolean that_present_accessId = true && that.isSetAccessId();
-    if (this_present_accessId || that_present_accessId) {
-      if (!(this_present_accessId && that_present_accessId))
+    boolean this_present_accountId = true && this.isSetAccountId();
+    boolean that_present_accountId = true && that.isSetAccountId();
+    if (this_present_accountId || that_present_accountId) {
+      if (!(this_present_accountId && that_present_accountId))
         return false;
-      if (!this.accessId.equals(that.accessId))
+      if (!this.accountId.equals(that.accountId))
+        return false;
+    }
+
+    boolean this_present_type = true && this.isSetType();
+    boolean that_present_type = true && that.isSetType();
+    if (this_present_type || that_present_type) {
+      if (!(this_present_type && that_present_type))
+        return false;
+      if (!this.type.equals(that.type))
+        return false;
+    }
+
+    boolean this_present_expired = true;
+    boolean that_present_expired = true;
+    if (this_present_expired || that_present_expired) {
+      if (!(this_present_expired && that_present_expired))
+        return false;
+      if (this.expired != that.expired)
         return false;
     }
 
@@ -382,6 +569,15 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
         return false;
     }
 
+    boolean this_present_screenName = true && this.isSetScreenName();
+    boolean that_present_screenName = true && that.isSetScreenName();
+    if (this_present_screenName || that_present_screenName) {
+      if (!(this_present_screenName && that_present_screenName))
+        return false;
+      if (!this.screenName.equals(that.screenName))
+        return false;
+    }
+
     return true;
   }
 
@@ -390,13 +586,13 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
     return 0;
   }
 
-  public int compareTo(Category other) {
+  public int compareTo(Access other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    Category typedOther = (Category)other;
+    Access typedOther = (Access)other;
 
     lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
     if (lastComparison != 0) {
@@ -418,12 +614,32 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetAccessId()).compareTo(typedOther.isSetAccessId());
+    lastComparison = Boolean.valueOf(isSetAccountId()).compareTo(typedOther.isSetAccountId());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetAccessId()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accessId, typedOther.accessId);
+    if (isSetAccountId()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accountId, typedOther.accountId);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetType()).compareTo(typedOther.isSetType());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetType()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.type, typedOther.type);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetExpired()).compareTo(typedOther.isSetExpired());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetExpired()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.expired, typedOther.expired);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -434,6 +650,16 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
     }
     if (isSetTitle()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.title, typedOther.title);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetScreenName()).compareTo(typedOther.isSetScreenName());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetScreenName()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.screenName, typedOther.screenName);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -469,9 +695,24 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 3: // ACCESS_ID
+        case 3: // ACCOUNT_ID
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.accessId = iprot.readString();
+            this.accountId = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 4: // TYPE
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
+            this.type = everfeeds.thrift.ttype.AccessType.findByValue(iprot.readI32());
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 5: // EXPIRED
+          if (field.type == org.apache.thrift.protocol.TType.BOOL) {
+            this.expired = iprot.readBool();
+            setExpiredIsSet(true);
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
@@ -479,6 +720,13 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
         case 10: // TITLE
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.title = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 11: // SCREEN_NAME
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.screenName = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
@@ -508,14 +756,27 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
       oprot.writeString(this.identity);
       oprot.writeFieldEnd();
     }
-    if (this.accessId != null) {
-      oprot.writeFieldBegin(ACCESS_ID_FIELD_DESC);
-      oprot.writeString(this.accessId);
+    if (this.accountId != null) {
+      oprot.writeFieldBegin(ACCOUNT_ID_FIELD_DESC);
+      oprot.writeString(this.accountId);
       oprot.writeFieldEnd();
     }
+    if (this.type != null) {
+      oprot.writeFieldBegin(TYPE_FIELD_DESC);
+      oprot.writeI32(this.type.getValue());
+      oprot.writeFieldEnd();
+    }
+    oprot.writeFieldBegin(EXPIRED_FIELD_DESC);
+    oprot.writeBool(this.expired);
+    oprot.writeFieldEnd();
     if (this.title != null) {
       oprot.writeFieldBegin(TITLE_FIELD_DESC);
       oprot.writeString(this.title);
+      oprot.writeFieldEnd();
+    }
+    if (this.screenName != null) {
+      oprot.writeFieldBegin(SCREEN_NAME_FIELD_DESC);
+      oprot.writeString(this.screenName);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -524,7 +785,7 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("Category(");
+    StringBuilder sb = new StringBuilder("Access(");
     boolean first = true;
 
     sb.append("id:");
@@ -543,12 +804,24 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("accessId:");
-    if (this.accessId == null) {
+    sb.append("accountId:");
+    if (this.accountId == null) {
       sb.append("null");
     } else {
-      sb.append(this.accessId);
+      sb.append(this.accountId);
     }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("type:");
+    if (this.type == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.type);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("expired:");
+    sb.append(this.expired);
     first = false;
     if (!first) sb.append(", ");
     sb.append("title:");
@@ -556,6 +829,14 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
       sb.append("null");
     } else {
       sb.append(this.title);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("screenName:");
+    if (this.screenName == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.screenName);
     }
     first = false;
     sb.append(")");
@@ -576,6 +857,8 @@ public class Category implements org.apache.thrift.TBase<Category, Category._Fie
 
   private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
     try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
       throw new java.io.IOException(te);

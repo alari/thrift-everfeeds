@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.thrift;
+package everfeeds.thrift.domain;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
   public boolean categoryWith;
   public List<String> withTagIds;
   public List<String> withoutTagIds;
-  public List<EntryKind> kinds;
+  public List<everfeeds.thrift.ttype.EntryKind> kinds;
   public boolean kindsWith;
   public long splitDate;
 
@@ -158,7 +158,7 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
             new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING            , "Id"))));
     tmpMap.put(_Fields.KINDS, new org.apache.thrift.meta_data.FieldMetaData("kinds", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, EntryKind.class))));
+            new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, everfeeds.thrift.ttype.EntryKind.class))));
     tmpMap.put(_Fields.KINDS_WITH, new org.apache.thrift.meta_data.FieldMetaData("kindsWith", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
     tmpMap.put(_Fields.SPLIT_DATE, new org.apache.thrift.meta_data.FieldMetaData("splitDate", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -178,7 +178,7 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     boolean categoryWith,
     List<String> withTagIds,
     List<String> withoutTagIds,
-    List<EntryKind> kinds,
+    List<everfeeds.thrift.ttype.EntryKind> kinds,
     boolean kindsWith,
     long splitDate)
   {
@@ -236,8 +236,8 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
       this.withoutTagIds = __this__withoutTagIds;
     }
     if (other.isSetKinds()) {
-      List<EntryKind> __this__kinds = new ArrayList<EntryKind>();
-      for (EntryKind other_element : other.kinds) {
+      List<everfeeds.thrift.ttype.EntryKind> __this__kinds = new ArrayList<everfeeds.thrift.ttype.EntryKind>();
+      for (everfeeds.thrift.ttype.EntryKind other_element : other.kinds) {
         __this__kinds.add(other_element);
       }
       this.kinds = __this__kinds;
@@ -483,22 +483,22 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     return (this.kinds == null) ? 0 : this.kinds.size();
   }
 
-  public java.util.Iterator<EntryKind> getKindsIterator() {
+  public java.util.Iterator<everfeeds.thrift.ttype.EntryKind> getKindsIterator() {
     return (this.kinds == null) ? null : this.kinds.iterator();
   }
 
-  public void addToKinds(EntryKind elem) {
+  public void addToKinds(everfeeds.thrift.ttype.EntryKind elem) {
     if (this.kinds == null) {
-      this.kinds = new ArrayList<EntryKind>();
+      this.kinds = new ArrayList<everfeeds.thrift.ttype.EntryKind>();
     }
     this.kinds.add(elem);
   }
 
-  public List<EntryKind> getKinds() {
+  public List<everfeeds.thrift.ttype.EntryKind> getKinds() {
     return this.kinds;
   }
 
-  public Filter setKinds(List<EntryKind> kinds) {
+  public Filter setKinds(List<everfeeds.thrift.ttype.EntryKind> kinds) {
     this.kinds = kinds;
     return this;
   }
@@ -626,7 +626,7 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
       if (value == null) {
         unsetKinds();
       } else {
-        setKinds((List<EntryKind>)value);
+        setKinds((List<everfeeds.thrift.ttype.EntryKind>)value);
       }
       break;
 
@@ -1036,11 +1036,11 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
           if (field.type == org.apache.thrift.protocol.TType.LIST) {
             {
               org.apache.thrift.protocol.TList _list9 = iprot.readListBegin();
-              this.kinds = new ArrayList<EntryKind>(_list9.size);
+              this.kinds = new ArrayList<everfeeds.thrift.ttype.EntryKind>(_list9.size);
               for (int _i10 = 0; _i10 < _list9.size; ++_i10)
               {
-                EntryKind _elem11;
-                _elem11 = EntryKind.findByValue(iprot.readI32());
+                everfeeds.thrift.ttype.EntryKind _elem11;
+                _elem11 = everfeeds.thrift.ttype.EntryKind.findByValue(iprot.readI32());
                 this.kinds.add(_elem11);
               }
               iprot.readListEnd();
@@ -1138,7 +1138,7 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
       oprot.writeFieldBegin(KINDS_FIELD_DESC);
       {
         oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, this.kinds.size()));
-        for (EntryKind _iter15 : this.kinds)
+        for (everfeeds.thrift.ttype.EntryKind _iter15 : this.kinds)
         {
           oprot.writeI32(_iter15.getValue());
         }

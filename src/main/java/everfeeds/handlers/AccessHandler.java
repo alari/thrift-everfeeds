@@ -3,10 +3,13 @@ package everfeeds.handlers;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.CategoryD;
 import everfeeds.mongo.TagD;
-import everfeeds.thrift.AccessAPI;
-import everfeeds.thrift.Category;
-import everfeeds.thrift.EntryKind;
-import everfeeds.thrift.Tag;
+import everfeeds.thrift.error.Forbidden;
+import everfeeds.thrift.error.TokenExpired;
+import everfeeds.thrift.error.TokenNotFound;
+import everfeeds.thrift.service.AccessAPI;
+import everfeeds.thrift.domain.Category;
+import everfeeds.thrift.domain.Tag;
+import everfeeds.thrift.ttype.EntryKind;
 import org.apache.thrift.TException;
 
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ import java.util.List;
  */
 public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
   @Override
-  public List<Tag> getTags(String token, String accessId) throws TException {
+  public List<Tag> getTags(String token, String accessId) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, accessId);
 
     List<Tag> tags = new ArrayList<Tag>();
@@ -34,7 +37,7 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
   }
 
   @Override
-  public List<Category> getCategories(String token, String accessId) throws TException {
+  public List<Category> getCategories(String token, String accessId) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, accessId);
 
     List<Category> categories = new ArrayList<Category>();
@@ -56,7 +59,7 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
   }
 
   @Override
-  public Tag saveTag(String token, Tag tag) throws TException {
+  public Tag saveTag(String token, Tag tag) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, tag.accessId);
     if (accessD == null) {
       throw new TException("You must specify a valid Tag Access ID!");
@@ -80,7 +83,7 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
   }
 
   @Override
-  public Category saveCategory(String token, Category category) throws TException {
+  public Category saveCategory(String token, Category category) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, category.accessId);
     if (accessD == null) {
       throw new TException("You must specify a valid Tag Access ID!");

@@ -4,7 +4,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.PrePersist;
 import com.google.code.morphia.annotations.Version;
-import everfeeds.thrift.Account;
+import everfeeds.thrift.domain.Account;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
