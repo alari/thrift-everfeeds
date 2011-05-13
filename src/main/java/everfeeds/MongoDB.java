@@ -37,8 +37,8 @@ public class MongoDB {
 
   protected MongoDB() {
     try {
-    this.mongo = new Mongo();
-    } catch(Exception e) {
+      this.mongo = new Mongo();
+    } catch (Exception e) {
       System.err.println(e.getMessage());
     }
     this.db = this.mongo.getDB("everfeeds");
