@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 public class AccountAPI {
 
-  public interface Iface extends ApplicationAPI.Iface {
+  public interface Iface {
 
     public everfeeds.thrift.domain.Account getAccount(String token) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
@@ -36,7 +36,7 @@ public class AccountAPI {
 
   }
 
-  public interface AsyncIface extends ApplicationAPI .AsyncIface {
+  public interface AsyncIface {
 
     public void getAccount(String token, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getAccount_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -50,7 +50,7 @@ public class AccountAPI {
 
   }
 
-  public static class Client extends ApplicationAPI.Client implements org.apache.thrift.TServiceClient, Iface {
+  public static class Client implements org.apache.thrift.TServiceClient, Iface {
     public static class Factory implements org.apache.thrift.TServiceClientFactory<Client> {
       public Factory() {}
       public Client getClient(org.apache.thrift.protocol.TProtocol prot) {
@@ -68,7 +68,23 @@ public class AccountAPI {
 
     public Client(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot)
     {
-      super(iprot, oprot);
+      iprot_ = iprot;
+      oprot_ = oprot;
+    }
+
+    protected org.apache.thrift.protocol.TProtocol iprot_;
+    protected org.apache.thrift.protocol.TProtocol oprot_;
+
+    protected int seqid_;
+
+    public org.apache.thrift.protocol.TProtocol getInputProtocol()
+    {
+      return this.iprot_;
+    }
+
+    public org.apache.thrift.protocol.TProtocol getOutputProtocol()
+    {
+      return this.oprot_;
     }
 
     public everfeeds.thrift.domain.Account getAccount(String token) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.TokenExpired, everfeeds.thrift.error.TokenNotFound, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
@@ -318,7 +334,7 @@ public class AccountAPI {
     }
 
   }
-  public static class AsyncClient extends ApplicationAPI.AsyncClient implements AsyncIface {
+  public static class AsyncClient extends org.apache.thrift.async.TAsyncClient implements AsyncIface {
     public static class Factory implements org.apache.thrift.async.TAsyncClientFactory<AsyncClient> {
       private org.apache.thrift.async.TAsyncClientManager clientManager;
       private org.apache.thrift.protocol.TProtocolFactory protocolFactory;
@@ -515,11 +531,10 @@ public class AccountAPI {
 
   }
 
-  public static class Processor extends ApplicationAPI.Processor implements org.apache.thrift.TProcessor {
+  public static class Processor implements org.apache.thrift.TProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class.getName());
     public Processor(Iface iface)
     {
-      super(iface);
       iface_ = iface;
       processMap_.put("getAccount", new getAccount());
       processMap_.put("getAccesses", new getAccesses());
@@ -528,7 +543,12 @@ public class AccountAPI {
       processMap_.put("saveAccount", new saveAccount());
     }
 
+    protected static interface ProcessFunction {
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException;
+    }
+
     private Iface iface_;
+    protected final HashMap<String,ProcessFunction> processMap_ = new HashMap<String,ProcessFunction>();
 
     public boolean process(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
     {
@@ -2544,14 +2564,14 @@ public class AccountAPI {
           case 0: // SUCCESS
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list12 = iprot.readListBegin();
-                this.success = new ArrayList<everfeeds.thrift.domain.Access>(_list12.size);
-                for (int _i13 = 0; _i13 < _list12.size; ++_i13)
+                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
+                this.success = new ArrayList<everfeeds.thrift.domain.Access>(_list0.size);
+                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
                 {
-                  everfeeds.thrift.domain.Access _elem14;
-                  _elem14 = new everfeeds.thrift.domain.Access();
-                  _elem14.read(iprot);
-                  this.success.add(_elem14);
+                  everfeeds.thrift.domain.Access _elem2;
+                  _elem2 = new everfeeds.thrift.domain.Access();
+                  _elem2.read(iprot);
+                  this.success.add(_elem2);
                 }
                 iprot.readListEnd();
               }
@@ -2609,9 +2629,9 @@ public class AccountAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (everfeeds.thrift.domain.Access _iter15 : this.success)
+          for (everfeeds.thrift.domain.Access _iter3 : this.success)
           {
-            _iter15.write(oprot);
+            _iter3.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -3263,13 +3283,13 @@ public class AccountAPI {
           case 5: // ACCESS_PARAMS
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list16 = iprot.readListBegin();
-                this.accessParams = new ArrayList<String>(_list16.size);
-                for (int _i17 = 0; _i17 < _list16.size; ++_i17)
+                org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
+                this.accessParams = new ArrayList<String>(_list4.size);
+                for (int _i5 = 0; _i5 < _list4.size; ++_i5)
                 {
-                  String _elem18;
-                  _elem18 = iprot.readString();
-                  this.accessParams.add(_elem18);
+                  String _elem6;
+                  _elem6 = iprot.readString();
+                  this.accessParams.add(_elem6);
                 }
                 iprot.readListEnd();
               }
@@ -3316,9 +3336,9 @@ public class AccountAPI {
         oprot.writeFieldBegin(ACCESS_PARAMS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.accessParams.size()));
-          for (String _iter19 : this.accessParams)
+          for (String _iter7 : this.accessParams)
           {
-            oprot.writeString(_iter19);
+            oprot.writeString(_iter7);
           }
           oprot.writeListEnd();
         }

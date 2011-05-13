@@ -9,7 +9,7 @@ import everfeeds.thrift.domain.Access;
 import everfeeds.thrift.domain.Account;
 import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.NotFound;
-import everfeeds.thrift.service.ApplicationAPI;
+import everfeeds.secure.thrift.ApplicationAPI;
 import everfeeds.thrift.domain.Token;
 import org.apache.thrift.TException;
 

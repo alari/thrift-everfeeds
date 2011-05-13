@@ -3,6 +3,7 @@ package everfeeds;
 import everfeeds.handlers.*;
 import everfeeds.thrift.service.*;
 import org.apache.thrift.server.TServer;
+import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
@@ -26,34 +27,50 @@ public class ThriftServer {
       filterAPI = new FilterAPI.Processor(new FilterHandler());
       applicationAPI = new ApplicationAPI.Processor(new ApplicationHandler());
 
-      Runnable simple = new Runnable() {
+      Runnable publicServer = new Runnable() {
         public void run() {
-          runServer();
+          runPublicServer();
         }
       };
 
-      new Thread(simple).start();
+      Runnable privateServer = new Runnable() {
+        public void run() {
+          runPrivateServer();
+        }
+      };
+
+      new Thread(publicServer).start();
+      new Thread(privateServer).start();
     } catch (Exception x) {
       x.printStackTrace();
     }
   }
 
-
-  public static void runServer() {
+  public static void runPublicServer() {
     try {
       TServerTransport serverTransport = new TServerSocket(9090);
-      //TServer server = new TSimpleServer(new Args(serverTransport).processor(processor));
-
-      // Use this for a multithreaded server
 
       TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport)
                                                     .processor(entryAPI)
                                                     .processor(accessAPI)
                                                     .processor(accountAPI)
-                                                    .processor(filterAPI)
+                                                    .processor(filterAPI));
+
+      System.out.println("Starting the runPublicServer server...");
+      server.serve();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void runPrivateServer() {
+    try {
+      TServerTransport serverTransport = new TServerSocket(9099);
+
+      TServer server = new TSimpleServer(new TServer.Args(serverTransport)
                                                     .processor(applicationAPI));
 
-      System.out.println("Starting the runServer server...");
+      System.out.println("Starting the runPrivateServer server...");
       server.serve();
     } catch (Exception e) {
       e.printStackTrace();

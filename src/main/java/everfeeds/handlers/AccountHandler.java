@@ -18,7 +18,7 @@ import java.util.List;
  * @author Dmitry Kurinskiy
  * @since 06.05.11 19:11
  */
-public class AccountHandler extends ApplicationHandler implements AccountAPI.Iface {
+public class AccountHandler extends Handler implements AccountAPI.Iface {
   @Override
   public Account getAccount(String token) throws TException, TokenNotFound, Forbidden, TokenExpired {
     TokenD tokenD = getTokenD(token);

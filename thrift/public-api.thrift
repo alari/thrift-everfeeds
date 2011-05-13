@@ -11,14 +11,6 @@ namespace php everfeeds.thrift.service
 namespace perl everfeeds.thrift.service
 namespace st Thrift.Everfeeds.Service
 
-service ApplicationAPI {
-  misc.Token createToken(1: t.String actApplicationSecret, 2: t.Id applicationId, 3: t.Id accountId, 4: list<string> scopes) throws (1: e.Forbidden eOne, 2: e.NotFound eTwo);
-
-  void createApp(1: t.String actApplicationSecret, 2: string key, 3: string secret, 4: list<string> scopes) throws(1: e.Forbidden eOne, 2: e.NotFound eTwo);
-
-  misc.Account createAccessAndAccount(1: t.String actApplicationSecret, 2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: list<string> accessParams) throws(1: e.Forbidden eOne, 2: e.NotFound eTwo);
-}
-
 service EntryAPI {
   entry.Entry saveEntry(1: t.String token, 3: entry.Entry entry, 4: entry.EntryContent content) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
@@ -30,7 +22,7 @@ service EntryAPI {
   void markUnread(1: t.String token, 2: t.Id entryId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 }
 
-service AccountAPI extends ApplicationAPI {
+service AccountAPI {
   // to discover basic information about current account
   misc.Account getAccount(1: t.String token) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   list<misc.Access> getAccesses(1: t.String token) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
