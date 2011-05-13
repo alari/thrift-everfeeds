@@ -1,4 +1,4 @@
-package everfeeds;
+package everfeeds.thrift.util;
 
 import java.util.HashMap;
 import java.util.Map;

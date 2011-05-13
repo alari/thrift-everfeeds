@@ -1,7 +1,7 @@
 package everfeeds.handlers;
 
 import com.google.code.morphia.query.Query;
-import everfeeds.Scope;
+import everfeeds.thrift.util.Scope;
 import everfeeds.mongo.*;
 import everfeeds.thrift.error.*;
 import everfeeds.thrift.service.FilterAPI;

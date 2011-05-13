@@ -1,6 +1,6 @@
 package everfeeds.handlers;
 
-import everfeeds.Scope;
+import everfeeds.thrift.util.Scope;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.TokenD;
 import everfeeds.thrift.domain.Access;
@@ -9,6 +9,7 @@ import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.TokenExpired;
 import everfeeds.thrift.error.TokenNotFound;
 import everfeeds.thrift.service.AccountAPI;
+import everfeeds.thrift.util.Type;
 import org.apache.thrift.TException;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class AccountHandler extends Handler implements AccountAPI.Iface {
 
     accessD.syncFromThrift(access);
     // Token is renewed
-    accessD.type = access.type;
+    accessD.type = Type.getByThrift(access.type);
     accessD.accessToken = accessToken;
     accessD.accessSecret = accessSecret;
     accessD.params = accessParams;

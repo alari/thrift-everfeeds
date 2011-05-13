@@ -3,6 +3,7 @@ package everfeeds.mongo;
 import com.google.code.morphia.annotations.*;
 import everfeeds.thrift.domain.Access;
 import everfeeds.thrift.ttype.AccessType;
+import everfeeds.thrift.util.Type;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
@@ -30,7 +31,7 @@ public class AccessD {
   @Reference(lazy = true)
   public AccountD account;
 
-  public AccessType type;
+  public Type type;
 
   public String title;
   public String screenName;
@@ -52,7 +53,7 @@ public class AccessD {
     access.screenName = screenName;
     access.expired = expired;
     access.id = id.toString();
-    access.type = type;
+    access.type = type.toThrift();
   }
 
   public void syncFromThrift(Access access) {

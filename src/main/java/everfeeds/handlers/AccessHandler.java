@@ -1,6 +1,6 @@
 package everfeeds.handlers;
 
-import everfeeds.Scope;
+import everfeeds.thrift.util.Scope;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.CategoryD;
 import everfeeds.mongo.TagD;

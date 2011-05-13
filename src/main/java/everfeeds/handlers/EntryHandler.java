@@ -1,6 +1,6 @@
 package everfeeds.handlers;
 
-import everfeeds.Scope;
+import everfeeds.thrift.util.Scope;
 import everfeeds.mongo.*;
 import everfeeds.thrift.domain.Entry;
 import everfeeds.thrift.domain.EntryContent;

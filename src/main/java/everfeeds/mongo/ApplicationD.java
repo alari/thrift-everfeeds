@@ -3,7 +3,7 @@ package everfeeds.mongo;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
-import everfeeds.Scope;
+import everfeeds.thrift.util.Scope;
 import org.bson.types.ObjectId;
 
 import java.util.List;

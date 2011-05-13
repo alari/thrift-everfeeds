@@ -2,7 +2,7 @@ package everfeeds.handlers;
 
 import com.google.code.morphia.Datastore;
 import everfeeds.MongoDB;
-import everfeeds.Scope;
+import everfeeds.thrift.util.Scope;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.ApplicationD;
 import everfeeds.mongo.TokenD;

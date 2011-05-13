@@ -3,6 +3,7 @@ package everfeeds.mongo;
 import com.google.code.morphia.annotations.*;
 import everfeeds.thrift.domain.Entry;
 import everfeeds.thrift.ttype.EntryKind;
+import everfeeds.thrift.util.Kind;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
@@ -45,7 +46,7 @@ public class EntryD {
   public AuthorD author;
 
   @Indexed
-  public EntryKind kind;
+  public Kind kind;
 
   @Indexed
   public boolean isAuthor;
@@ -77,6 +78,9 @@ public class EntryD {
   @Indexed
   public List<FilterD> filters;
 
+  @Reference
+  public Original original;
+
   public void syncToThrift(Entry entry) {
     entry.id = id.toString();
     entry.accessId = access.id.toString();
@@ -90,7 +94,7 @@ public class EntryD {
     entry.authorPicUrl = author.imageUrl;
     entry.authorScreenName = author.screenName;
 
-    entry.kind = kind;
+    entry.kind = kind.toThrift();
 
     entry.isAuthor = isAuthor;
     entry.isPublicAvailable = isPublicAvailable;
@@ -124,7 +128,7 @@ public class EntryD {
     author.imageUrl = entry.getAuthorPicUrl();
     author.screenName = entry.getAuthorScreenName();
 
-    kind = entry.getKind();
+    kind = Kind.getByThrift(entry.kind);
 
     isAuthor = entry.isIsAuthor();
     isPublicAvailable = entry.isIsPublicAvailable();
