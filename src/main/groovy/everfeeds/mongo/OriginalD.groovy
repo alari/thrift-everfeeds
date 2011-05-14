@@ -10,7 +10,7 @@ import org.bson.types.ObjectId
  */
 @Entity
 @Typed
-class Original {
+class OriginalD {
   @Id public ObjectId id;
 
   public Map data;

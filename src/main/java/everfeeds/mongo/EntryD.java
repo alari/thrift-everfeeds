@@ -2,7 +2,6 @@ package everfeeds.mongo;
 
 import com.google.code.morphia.annotations.*;
 import everfeeds.thrift.domain.Entry;
-import everfeeds.thrift.ttype.EntryKind;
 import everfeeds.thrift.util.Kind;
 import org.bson.types.ObjectId;
 
@@ -79,7 +78,7 @@ public class EntryD {
   public List<FilterD> filters;
 
   @Reference
-  public Original original;
+  public OriginalD original;
 
   public void syncToThrift(Entry entry) {
     entry.id = id.toString();

@@ -19,6 +19,8 @@ enum EntryKind {
   PHOTO = 11,
   VIDEO = 12,
   WALL = 13,
+
+  DM = 14,
 }
 
 enum AccessType {

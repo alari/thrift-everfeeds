@@ -23,7 +23,8 @@ public enum EntryKind implements TEnum {
   NEWS(10),
   PHOTO(11),
   VIDEO(12),
-  WALL(13);
+  WALL(13),
+  DM(14);
 
   private final int value;
 
@@ -70,6 +71,8 @@ public enum EntryKind implements TEnum {
         return VIDEO;
       case 13:
         return WALL;
+      case 14:
+        return DM;
       default:
         return null;
     }

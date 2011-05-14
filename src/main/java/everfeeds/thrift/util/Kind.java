@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public enum Kind {
   STATUS(EntryKind.STATUS, "status"),
+  DM(EntryKind.DM, "directm"),
   NOTE(EntryKind.NOTE, "note"),
   ATOM(EntryKind.ATOM, "atom"),
   EMAIL(EntryKind.EMAIL, "email"),

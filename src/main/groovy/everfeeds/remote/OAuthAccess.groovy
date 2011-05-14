@@ -38,11 +38,12 @@ class OAuthAccess {
 
   static private Map<Type, OAuthService> cachedServices = [:];
 
-  static private log = Logger.getLogger(OAuthAccess)
+  static private Logger log = Logger.getLogger(OAuthAccess)
 
+  @Typed(TypePolicy.MIXED)
   static public OAuthService getOAuthService(Type type) {
     if (!cachedServices.containsKey(type)) {
-      ConfigObject conf = ConfigHolder.config.oauth.get(type.toString())
+      ConfigObject conf = ConfigHolder.config.oauth."${type.toString()}"
       cachedServices.put(type, buildOAuthService(
           conf.key.toString(),
           conf.secret.toString(),
@@ -91,18 +92,22 @@ class OAuthAccess {
     ""
   }
 
+  @Typed(TypePolicy.MIXED)
   final public Object callOAuthApiJSON(String url, Verb verb) {
     new JsonSlurper().parseText callOAuthApi(url, verb)
   }
 
+  @Typed(TypePolicy.MIXED)
   final public Object callOAuthApiJSON(String url) {
     new JsonSlurper().parseText callOAuthApi(url)
   }
 
+  @Typed(TypePolicy.MIXED)
   final public Object callOAuthApiJSON(String url, Map<String, String> params) {
     new JsonSlurper().parseText callOAuthApi(url, params)
   }
 
+  @Typed(TypePolicy.MIXED)
   final public Object callOAuthApiJSON(String url, Map<String, String> params, Verb verb) {
     new JsonSlurper().parseText callOAuthApi(url, params, verb)
   }
