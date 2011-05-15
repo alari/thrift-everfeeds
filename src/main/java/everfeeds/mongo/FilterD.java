@@ -3,6 +3,7 @@ package everfeeds.mongo;
 import com.google.code.morphia.annotations.*;
 import everfeeds.thrift.domain.Filter;
 import everfeeds.thrift.ttype.EntryKind;
+import everfeeds.thrift.util.Kind;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
@@ -34,11 +35,14 @@ public class FilterD {
   @Reference
   public List<TagD> withoutTags;
 
-  public List<EntryKind> kinds;
+  public List<Kind> kinds;
   public boolean kindsWith;
 
   public Date dateCreated = new Date();
   public Date lastUpdated = new Date();
+
+  @Transient
+  public Date splitDate = new Date();
 
   @PrePersist
   void prePersist() {
@@ -49,6 +53,7 @@ public class FilterD {
     filter.id = id.toString();
     filter.accessId = access.id.toString();
     filter.title = title;
+    filter.splitDate = splitDate.getTime();
 
     filter.categoryWith = categoriesWith;
     filter.categoryIds.clear();
@@ -65,14 +70,21 @@ public class FilterD {
       filter.withoutTagIds.add(t.id.toString());
     }
 
-    filter.kinds = kinds;
+    filter.kinds.clear();
+    for(Kind k : kinds) {
+      filter.kinds.add(k.toThrift());
+    }
     filter.kindsWith = kindsWith;
   }
 
   public void syncFromThrift(Filter filter) {
     title = filter.title;
-    kinds = filter.kinds;
+    kinds.clear();
+    for(EntryKind k : filter.kinds) {
+      kinds.add(Kind.getByThrift(k));
+    }
     kindsWith = filter.kindsWith;
+    splitDate = new Date(filter.splitDate);
 
     categoriesWith = filter.categoryWith;
   }

@@ -25,6 +25,8 @@ abstract class Parser {
   protected Map<String,TagD> tagsCache = [:]
   boolean isParsed = false
 
+  Parser(){}
+
   Parser(final original, AccessD access, EntryD entry = null) {
     this.original = original
     this.access = access
@@ -37,18 +39,18 @@ abstract class Parser {
     isParsed = false
   }
 
-  public void setEntryD(EntryD entryD) {
+  public void setEntry(EntryD entryD) {
     entry = entryD
     isParsed = false
   }
 
-  protected void setOriginal(original) {
+  public void setOriginal(original) {
     this.original = original
     entry = null
     isParsed = false
   }
 
-  public void setAccessD(AccessD accessD) {
+  public void setAccess(AccessD accessD) {
     access = accessD
     entry = null
     isParsed = false
@@ -61,7 +63,7 @@ abstract class Parser {
   }
 
   @Typed(TypePolicy.MIXED)
-  public EntryD getEntryD() {
+  public EntryD getResult() {
     if(!isParsed) {
       if(!access) {
         throw new Exception("Cannot parse original without an accessD being set")
@@ -98,7 +100,7 @@ abstract class Parser {
     if(entry.content){
       ds.save(entry.content)
     }
-    ds.save(entryD)
+    ds.save(result)
     entry
   }
 

@@ -6,9 +6,9 @@ package everfeeds.remote.twitter
  */
 @Typed
 public enum TwitterCategory {
-  TIMELINE("timeline", TwitterRawUrl.HOME_TIMELINE),
-  MENTIONS("mentions", TwitterRawUrl.MENTIONS),
-  MESSAGES("messages", TwitterRawUrl.MESSAGES);
+  TIMELINE("timeline", TwitterRawUrl.HOME_TIMELINE, TwitterParser.Status),
+  MENTIONS("mentions", TwitterRawUrl.MENTIONS, TwitterParser.Status),
+  MESSAGES("messages", TwitterRawUrl.MESSAGES, TwitterParser.DM);
 
     private static Map<String,TwitterCategory> byIdentity = [:]
 
@@ -24,10 +24,12 @@ public enum TwitterCategory {
 
   private String identity
   private TwitterRawUrl url
+  private Class<TwitterParser> parser
 
-  private TwitterCategory(String identity, TwitterRawUrl url) {
+  private TwitterCategory(String identity, TwitterRawUrl url, Class parser) {
     this.identity = identity
     this.url = url
+    this.parser = parser
   }
 
   public String getIdentity() {
@@ -36,5 +38,9 @@ public enum TwitterCategory {
 
   public TwitterRawUrl getUrl(){
     url
+  }
+
+  public Class<TwitterParser> getParserClass(){
+    parser
   }
 }

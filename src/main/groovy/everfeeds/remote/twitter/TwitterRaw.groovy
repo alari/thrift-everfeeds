@@ -17,8 +17,11 @@ public class TwitterRaw {
   private TwitterRaw() {
   }
 
-  public getJson(OAuthAccess access, TwitterRawUrl url, short maxCount){
-    access.callOAuthApiJSON "${url}?count=${maxCount}&include_entities=1";
+  public getJson(OAuthAccess access, TwitterRawUrl url, short maxCount=800, String query = ""){
+    String callUrl = url.toString()
+    callUrl += callUrl.contains("?") ? "&" : "?"
+    callUrl += "count=${maxCount}&include_entities=1"
+    access.callOAuthApiJSON callUrl;
   }
 
   public postJson(OAuthAccess access, TwitterRawUrl url, Map<String,String> params) {

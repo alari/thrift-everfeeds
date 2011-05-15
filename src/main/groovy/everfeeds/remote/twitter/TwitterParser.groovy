@@ -49,7 +49,7 @@ class TwitterParser extends Parser {
 
   @Override
   boolean getIsFavorite() {
-    return false
+    original?.favorited && ( original?.getBoolean("favorited") || original.favorited )
   }
 
   @Override
@@ -90,6 +90,10 @@ class TwitterParser extends Parser {
     public Kind getKind() {
       Kind.DM
     }
+
+  boolean getIsAuthor() {
+    original.sender.id.toString() == access.identity
+  }
 
     @Override
     AuthorD getAuthor() {
