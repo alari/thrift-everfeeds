@@ -33,9 +33,10 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
   private static final org.apache.thrift.protocol.TField IS_READ_FIELD_DESC = new org.apache.thrift.protocol.TField("isRead", org.apache.thrift.protocol.TType.BOOL, (short)33);
   private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short)40);
   private static final org.apache.thrift.protocol.TField DESCRIPTION_FIELD_DESC = new org.apache.thrift.protocol.TField("description", org.apache.thrift.protocol.TType.STRING, (short)41);
+  private static final org.apache.thrift.protocol.TField SOURCE_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("sourceUrl", org.apache.thrift.protocol.TType.STRING, (short)42);
   private static final org.apache.thrift.protocol.TField AUTHOR_FIELD_DESC = new org.apache.thrift.protocol.TField("author", org.apache.thrift.protocol.TType.STRING, (short)50);
   private static final org.apache.thrift.protocol.TField AUTHOR_IDENTITY_FIELD_DESC = new org.apache.thrift.protocol.TField("authorIdentity", org.apache.thrift.protocol.TType.STRING, (short)51);
-  private static final org.apache.thrift.protocol.TField AUTHOR_PIC_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("authorPicUrl", org.apache.thrift.protocol.TType.STRING, (short)52);
+  private static final org.apache.thrift.protocol.TField AUTHOR_IMAGE_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("authorImageUrl", org.apache.thrift.protocol.TType.STRING, (short)52);
   private static final org.apache.thrift.protocol.TField AUTHOR_SCREEN_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("authorScreenName", org.apache.thrift.protocol.TType.STRING, (short)53);
   private static final org.apache.thrift.protocol.TField DATE_CREATED_FIELD_DESC = new org.apache.thrift.protocol.TField("dateCreated", org.apache.thrift.protocol.TType.I64, (short)60);
   private static final org.apache.thrift.protocol.TField LAST_UPDATED_FIELD_DESC = new org.apache.thrift.protocol.TField("lastUpdated", org.apache.thrift.protocol.TType.I64, (short)61);
@@ -58,9 +59,10 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
   public boolean isRead;
   public String title;
   public String description;
+  public String sourceUrl;
   public String author;
   public String authorIdentity;
-  public String authorPicUrl;
+  public String authorImageUrl;
   public String authorScreenName;
   public long dateCreated;
   public long lastUpdated;
@@ -85,9 +87,10 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     IS_READ((short)33, "isRead"),
     TITLE((short)40, "title"),
     DESCRIPTION((short)41, "description"),
+    SOURCE_URL((short)42, "sourceUrl"),
     AUTHOR((short)50, "author"),
     AUTHOR_IDENTITY((short)51, "authorIdentity"),
-    AUTHOR_PIC_URL((short)52, "authorPicUrl"),
+    AUTHOR_IMAGE_URL((short)52, "authorImageUrl"),
     AUTHOR_SCREEN_NAME((short)53, "authorScreenName"),
     DATE_CREATED((short)60, "dateCreated"),
     LAST_UPDATED((short)61, "lastUpdated"),
@@ -129,12 +132,14 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
           return TITLE;
         case 41: // DESCRIPTION
           return DESCRIPTION;
+        case 42: // SOURCE_URL
+          return SOURCE_URL;
         case 50: // AUTHOR
           return AUTHOR;
         case 51: // AUTHOR_IDENTITY
           return AUTHOR_IDENTITY;
-        case 52: // AUTHOR_PIC_URL
-          return AUTHOR_PIC_URL;
+        case 52: // AUTHOR_IMAGE_URL
+          return AUTHOR_IMAGE_URL;
         case 53: // AUTHOR_SCREEN_NAME
           return AUTHOR_SCREEN_NAME;
         case 60: // DATE_CREATED
@@ -221,11 +226,13 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     tmpMap.put(_Fields.DESCRIPTION, new org.apache.thrift.meta_data.FieldMetaData("description", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.SOURCE_URL, new org.apache.thrift.meta_data.FieldMetaData("sourceUrl", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     tmpMap.put(_Fields.AUTHOR, new org.apache.thrift.meta_data.FieldMetaData("author", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     tmpMap.put(_Fields.AUTHOR_IDENTITY, new org.apache.thrift.meta_data.FieldMetaData("authorIdentity", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
-    tmpMap.put(_Fields.AUTHOR_PIC_URL, new org.apache.thrift.meta_data.FieldMetaData("authorPicUrl", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+    tmpMap.put(_Fields.AUTHOR_IMAGE_URL, new org.apache.thrift.meta_data.FieldMetaData("authorImageUrl", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     tmpMap.put(_Fields.AUTHOR_SCREEN_NAME, new org.apache.thrift.meta_data.FieldMetaData("authorScreenName", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
@@ -260,6 +267,7 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     boolean isFavorite,
     boolean isRead,
     String title,
+    String sourceUrl,
     String categoryId,
     List<String> tagIds,
     List<String> filterIds)
@@ -278,6 +286,7 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     this.isRead = isRead;
     setIsReadIsSet(true);
     this.title = title;
+    this.sourceUrl = sourceUrl;
     this.categoryId = categoryId;
     this.tagIds = tagIds;
     this.filterIds = filterIds;
@@ -311,14 +320,17 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     if (other.isSetDescription()) {
       this.description = other.description;
     }
+    if (other.isSetSourceUrl()) {
+      this.sourceUrl = other.sourceUrl;
+    }
     if (other.isSetAuthor()) {
       this.author = other.author;
     }
     if (other.isSetAuthorIdentity()) {
       this.authorIdentity = other.authorIdentity;
     }
-    if (other.isSetAuthorPicUrl()) {
-      this.authorPicUrl = other.authorPicUrl;
+    if (other.isSetAuthorImageUrl()) {
+      this.authorImageUrl = other.authorImageUrl;
     }
     if (other.isSetAuthorScreenName()) {
       this.authorScreenName = other.authorScreenName;
@@ -365,9 +377,10 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     this.isRead = false;
     this.title = null;
     this.description = null;
+    this.sourceUrl = null;
     this.author = null;
     this.authorIdentity = null;
-    this.authorPicUrl = null;
+    this.authorImageUrl = null;
     this.authorScreenName = null;
     setDateCreatedIsSet(false);
     this.dateCreated = 0;
@@ -624,6 +637,30 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     }
   }
 
+  public String getSourceUrl() {
+    return this.sourceUrl;
+  }
+
+  public Entry setSourceUrl(String sourceUrl) {
+    this.sourceUrl = sourceUrl;
+    return this;
+  }
+
+  public void unsetSourceUrl() {
+    this.sourceUrl = null;
+  }
+
+  /** Returns true if field sourceUrl is set (has been assigned a value) and false otherwise */
+  public boolean isSetSourceUrl() {
+    return this.sourceUrl != null;
+  }
+
+  public void setSourceUrlIsSet(boolean value) {
+    if (!value) {
+      this.sourceUrl = null;
+    }
+  }
+
   public String getAuthor() {
     return this.author;
   }
@@ -672,27 +709,27 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     }
   }
 
-  public String getAuthorPicUrl() {
-    return this.authorPicUrl;
+  public String getAuthorImageUrl() {
+    return this.authorImageUrl;
   }
 
-  public Entry setAuthorPicUrl(String authorPicUrl) {
-    this.authorPicUrl = authorPicUrl;
+  public Entry setAuthorImageUrl(String authorImageUrl) {
+    this.authorImageUrl = authorImageUrl;
     return this;
   }
 
-  public void unsetAuthorPicUrl() {
-    this.authorPicUrl = null;
+  public void unsetAuthorImageUrl() {
+    this.authorImageUrl = null;
   }
 
-  /** Returns true if field authorPicUrl is set (has been assigned a value) and false otherwise */
-  public boolean isSetAuthorPicUrl() {
-    return this.authorPicUrl != null;
+  /** Returns true if field authorImageUrl is set (has been assigned a value) and false otherwise */
+  public boolean isSetAuthorImageUrl() {
+    return this.authorImageUrl != null;
   }
 
-  public void setAuthorPicUrlIsSet(boolean value) {
+  public void setAuthorImageUrlIsSet(boolean value) {
     if (!value) {
-      this.authorPicUrl = null;
+      this.authorImageUrl = null;
     }
   }
 
@@ -973,6 +1010,14 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
       }
       break;
 
+    case SOURCE_URL:
+      if (value == null) {
+        unsetSourceUrl();
+      } else {
+        setSourceUrl((String)value);
+      }
+      break;
+
     case AUTHOR:
       if (value == null) {
         unsetAuthor();
@@ -989,11 +1034,11 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
       }
       break;
 
-    case AUTHOR_PIC_URL:
+    case AUTHOR_IMAGE_URL:
       if (value == null) {
-        unsetAuthorPicUrl();
+        unsetAuthorImageUrl();
       } else {
-        setAuthorPicUrl((String)value);
+        setAuthorImageUrl((String)value);
       }
       break;
 
@@ -1088,14 +1133,17 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
     case DESCRIPTION:
       return getDescription();
 
+    case SOURCE_URL:
+      return getSourceUrl();
+
     case AUTHOR:
       return getAuthor();
 
     case AUTHOR_IDENTITY:
       return getAuthorIdentity();
 
-    case AUTHOR_PIC_URL:
-      return getAuthorPicUrl();
+    case AUTHOR_IMAGE_URL:
+      return getAuthorImageUrl();
 
     case AUTHOR_SCREEN_NAME:
       return getAuthorScreenName();
@@ -1149,12 +1197,14 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
       return isSetTitle();
     case DESCRIPTION:
       return isSetDescription();
+    case SOURCE_URL:
+      return isSetSourceUrl();
     case AUTHOR:
       return isSetAuthor();
     case AUTHOR_IDENTITY:
       return isSetAuthorIdentity();
-    case AUTHOR_PIC_URL:
-      return isSetAuthorPicUrl();
+    case AUTHOR_IMAGE_URL:
+      return isSetAuthorImageUrl();
     case AUTHOR_SCREEN_NAME:
       return isSetAuthorScreenName();
     case DATE_CREATED:
@@ -1276,6 +1326,15 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
         return false;
     }
 
+    boolean this_present_sourceUrl = true && this.isSetSourceUrl();
+    boolean that_present_sourceUrl = true && that.isSetSourceUrl();
+    if (this_present_sourceUrl || that_present_sourceUrl) {
+      if (!(this_present_sourceUrl && that_present_sourceUrl))
+        return false;
+      if (!this.sourceUrl.equals(that.sourceUrl))
+        return false;
+    }
+
     boolean this_present_author = true && this.isSetAuthor();
     boolean that_present_author = true && that.isSetAuthor();
     if (this_present_author || that_present_author) {
@@ -1294,12 +1353,12 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
         return false;
     }
 
-    boolean this_present_authorPicUrl = true && this.isSetAuthorPicUrl();
-    boolean that_present_authorPicUrl = true && that.isSetAuthorPicUrl();
-    if (this_present_authorPicUrl || that_present_authorPicUrl) {
-      if (!(this_present_authorPicUrl && that_present_authorPicUrl))
+    boolean this_present_authorImageUrl = true && this.isSetAuthorImageUrl();
+    boolean that_present_authorImageUrl = true && that.isSetAuthorImageUrl();
+    if (this_present_authorImageUrl || that_present_authorImageUrl) {
+      if (!(this_present_authorImageUrl && that_present_authorImageUrl))
         return false;
-      if (!this.authorPicUrl.equals(that.authorPicUrl))
+      if (!this.authorImageUrl.equals(that.authorImageUrl))
         return false;
     }
 
@@ -1482,6 +1541,16 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetSourceUrl()).compareTo(typedOther.isSetSourceUrl());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetSourceUrl()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.sourceUrl, typedOther.sourceUrl);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     lastComparison = Boolean.valueOf(isSetAuthor()).compareTo(typedOther.isSetAuthor());
     if (lastComparison != 0) {
       return lastComparison;
@@ -1502,12 +1571,12 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetAuthorPicUrl()).compareTo(typedOther.isSetAuthorPicUrl());
+    lastComparison = Boolean.valueOf(isSetAuthorImageUrl()).compareTo(typedOther.isSetAuthorImageUrl());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetAuthorPicUrl()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.authorPicUrl, typedOther.authorPicUrl);
+    if (isSetAuthorImageUrl()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.authorImageUrl, typedOther.authorImageUrl);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1673,6 +1742,13 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
+        case 42: // SOURCE_URL
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.sourceUrl = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
         case 50: // AUTHOR
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.author = iprot.readString();
@@ -1687,9 +1763,9 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 52: // AUTHOR_PIC_URL
+        case 52: // AUTHOR_IMAGE_URL
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.authorPicUrl = iprot.readString();
+            this.authorImageUrl = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
@@ -1825,6 +1901,11 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
         oprot.writeFieldEnd();
       }
     }
+    if (this.sourceUrl != null) {
+      oprot.writeFieldBegin(SOURCE_URL_FIELD_DESC);
+      oprot.writeString(this.sourceUrl);
+      oprot.writeFieldEnd();
+    }
     if (this.author != null) {
       if (isSetAuthor()) {
         oprot.writeFieldBegin(AUTHOR_FIELD_DESC);
@@ -1839,10 +1920,10 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
         oprot.writeFieldEnd();
       }
     }
-    if (this.authorPicUrl != null) {
-      if (isSetAuthorPicUrl()) {
-        oprot.writeFieldBegin(AUTHOR_PIC_URL_FIELD_DESC);
-        oprot.writeString(this.authorPicUrl);
+    if (this.authorImageUrl != null) {
+      if (isSetAuthorImageUrl()) {
+        oprot.writeFieldBegin(AUTHOR_IMAGE_URL_FIELD_DESC);
+        oprot.writeString(this.authorImageUrl);
         oprot.writeFieldEnd();
       }
     }
@@ -1971,6 +2052,14 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
       }
       first = false;
     }
+    if (!first) sb.append(", ");
+    sb.append("sourceUrl:");
+    if (this.sourceUrl == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.sourceUrl);
+    }
+    first = false;
     if (isSetAuthor()) {
       if (!first) sb.append(", ");
       sb.append("author:");
@@ -1991,13 +2080,13 @@ public class Entry implements org.apache.thrift.TBase<Entry, Entry._Fields>, jav
       }
       first = false;
     }
-    if (isSetAuthorPicUrl()) {
+    if (isSetAuthorImageUrl()) {
       if (!first) sb.append(", ");
-      sb.append("authorPicUrl:");
-      if (this.authorPicUrl == null) {
+      sb.append("authorImageUrl:");
+      if (this.authorImageUrl == null) {
         sb.append("null");
       } else {
-        sb.append(this.authorPicUrl);
+        sb.append(this.authorImageUrl);
       }
       first = false;
     }

@@ -44,6 +44,8 @@ public class EntryD {
   @Embedded
   public AuthorD author;
 
+  public String sourceUrl;
+
   @Indexed
   public Kind kind;
 
@@ -87,10 +89,11 @@ public class EntryD {
     entry.identity = identity;
     entry.title = title;
     entry.description = description;
+    entry.sourceUrl = sourceUrl;
 
     entry.author = author.title;
     entry.authorIdentity = author.identity;
-    entry.authorPicUrl = author.imageUrl;
+    entry.authorImageUrl = author.imageUrl;
     entry.authorScreenName = author.screenName;
 
     entry.kind = kind.toThrift();
@@ -120,11 +123,12 @@ public class EntryD {
     identity = entry.getIdentity();
     title = entry.getTitle();
     description = entry.getDescription();
+    sourceUrl = entry.sourceUrl;
 
     author = new AuthorD();
     author.title = entry.getAuthor();
     author.identity = entry.getAuthorIdentity();
-    author.imageUrl = entry.getAuthorPicUrl();
+    author.imageUrl = entry.getAuthorImageUrl();
     author.screenName = entry.getAuthorScreenName();
 
     kind = Kind.getByThrift(entry.kind);

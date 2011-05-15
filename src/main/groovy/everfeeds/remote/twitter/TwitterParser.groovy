@@ -1,17 +1,23 @@
 package everfeeds.remote.twitter
 
+import com.twitter.Autolink
 import everfeeds.remote.Parser
 import everfeeds.thrift.util.Kind
 import java.text.SimpleDateFormat
-import com.twitter.Autolink
+import everfeeds.mongo.*
 
 /**
  * @author Dmitry Kurinskiy
  * @since 14.05.11 12:19
  */
-class TwitterParser extends Parser{
+@Typed
+class TwitterParser extends Parser {
   static protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH)
   static protected Autolink autolink = new Autolink()
+
+  TwitterParser(original, AccessD access, EntryD entry) {
+    super(original, access, entry)
+  }
 
   public Kind getKind() {
     Kind.STATUS
@@ -21,67 +27,97 @@ class TwitterParser extends Parser{
     original.id
   }
 
-   boolean getAccessIsAuthor(){
-    original.user.id.toString() == accessor.access.identity
+  boolean getIsAuthor() {
+    original.user.id.toString() == access.identity
   }
 
-  boolean getIsPublic(){
-    ! original.user?.protected
+  boolean getIsPublicAvailable() {
+    !original.user?.protected
   }
 
   String getSourceUrl() {
-    "http://twitter.com/${author}/status/${identity}"
+    "http://twitter.com/${original.user.screen_name}/status/${original.id}"
   }
 
   String getTitle() {
     original.text
   }
 
-  String getContent() {
+  String getDescription() {
     autolink.autoLink(title)
   }
 
-  Date getPlacedDate() {
+  @Override
+  boolean getIsFavorite() {
+    return false
+  }
+
+  @Override
+  boolean getIsRead() {
+    entry.isRead
+  }
+
+  @Override
+  EntryContentD getContent() {
+    return null
+  }
+
+  @Override
+  AuthorD getAuthor() {
+    new AuthorD(
+        identity: original.user.id,
+        title: original.user.name,
+        screenName: original.user.screen_name,
+        imageUrl: original.user.profile_image_url
+    )
+  }
+
+  @Override
+  Date getDatePlaced() {
     simpleDateFormat.parse(original.created_at)
   }
 
+  @Override
+  List<TagD> getTags() {
+    TwitterTag.values().findAll {it.check(original)}*.identity.collect {tagsCache.get(it)}
+  }
+
   class DM extends TwitterParser {
+    DM(original, AccessD access, EntryD entry) {
+      super(original, access, entry)
+    }
+
     public Kind getKind() {
       Kind.DM
+    }
+
+    @Override
+    AuthorD getAuthor() {
+      new AuthorD(
+          identity: original.sender.id,
+          title: original.sender.name,
+          screenName: original.sender.screen_name,
+          imageUrl: original.sender.profile_image_url
+      )
+    }
+
+    boolean getIsPublicAvailable() {
+      false
+    }
+
+    String getSourceUrl() {
+      ""
+    }
+
+    Date getDatePlaced() {
+      simpleDateFormat.parse(original.sender.created_at)
     }
   }
 
   class Status extends TwitterParser {
 
-  }
-
-
-
-
-
-
-
-  String getAuthor() {
-    original.user.screen_name
-  }
-
-  String getAuthorIdentity(){
-    original.user.id
-  }
-
-    String getImageUrl() {
-    original.user.profile_image_url
-  }
-
-
-
-
-
-  List<String> getTagIdentities() {
-    List<String> tags = []
-    accessor.TAGS.each {tagId, tagData ->
-      if (tagData.check(original)) tags.add tagId
+    Status(original, AccessD access, EntryD entry) {
+      super(original, access, entry)
     }
-    tags
   }
 }

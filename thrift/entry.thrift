@@ -29,12 +29,13 @@ struct Entry {
   # Common content fields
   40: t.String title;
   41: optional t.String description;
+  42: t.String sourceUrl;
   // String content; to be required separately
 
   # Author info
   50: optional t.String author;
   51: optional t.String authorIdentity;
-  52: optional t.String authorPicUrl;
+  52: optional t.String authorImageUrl;
   53: optional t.String authorScreenName;
 
   # Dates
