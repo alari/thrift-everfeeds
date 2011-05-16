@@ -10,7 +10,7 @@ import everfeeds.mongo.*
  * @author Dmitry Kurinskiy
  * @since 14.05.11 12:19
  */
-@Typed
+@Typed(TypePolicy.MIXED)
 class TwitterParser extends Parser {
   static protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH)
   static protected Autolink autolink = new Autolink()
