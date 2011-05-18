@@ -44,7 +44,7 @@ abstract public class Handler {
     AccessD accessD;
     if (access.id != null && !access.id.isEmpty()) {
       accessD = getDS().get(AccessD.class, access.id);
-      if (accessD != null) {
+      if (accessD != null) { System.out.println("Found an old access!");
         return accessD;
       }
     }
@@ -55,7 +55,10 @@ abstract public class Handler {
     if (accessD != null) { System.out.println("AccessD = "+accessD.id);
       return accessD;
     }
-    return new AccessD();
+    accessD = new AccessD();
+    accessD.type = Type.getByThrift(access.type);
+    accessD.identity = access.identity;
+    return accessD;
   }
 
 

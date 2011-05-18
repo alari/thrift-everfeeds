@@ -80,13 +80,12 @@ public class ThriftServer {
     try {
       TServerTransport serverTransport = new TServerSocket(9099);
 
-      TServer server = new TSimpleServer(new TServer.Args(serverTransport)
-                                                    .processor(applicationAPI)
-                                                //    .processor(remoteAPI)
-      );
+      TServer server = new TSimpleServer(new TServer.Args(serverTransport).processor(applicationAPI));
+      TServer server2 = new TSimpleServer(new TServer.Args(serverTransport).processor(remoteAPI));
 
       System.out.println("Starting the Private server...");
       server.serve();
+      server2.serve();
     } catch (Exception e) {
       e.printStackTrace();
     }

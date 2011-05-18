@@ -37,8 +37,10 @@ public class TokenD {
 
   public void syncToThrift(Token token) {
     token.id = id.toString();
-    token.accountId = account.id.toString();
-    token.expires = expires.getTime();
+    token.accountId = account.id != null ? account.id.toString(): "";
+    if(expires != null) {
+      token.expires = expires.getTime();
+    }
     token.expired = expired;
     token.scopes = scopes;
   }

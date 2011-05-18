@@ -14,6 +14,7 @@ import everfeeds.secure.thrift.ApplicationAPI;
 import everfeeds.thrift.domain.Token;
 import everfeeds.thrift.util.Type;
 import org.apache.thrift.TException;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
@@ -24,12 +25,12 @@ import java.util.List;
 public class ApplicationHandler extends Handler implements ApplicationAPI.Iface {
   @Override
   public Token createToken(String appId, String accountId, List<String> scopes) throws TException, NotFound, Forbidden {
-    ApplicationD appD = getDS().get(ApplicationD.class, appId);
+    ApplicationD appD = getDS().get(ApplicationD.class, new ObjectId(appId));
     if(appD == null) {
       throw new NotFound("App not found for id");
     }
 
-    AccountD accountD = getDS().get(AccountD.class, accountId);
+    AccountD accountD = getDS().get(AccountD.class, new ObjectId(accountId));
 
     TokenD tokenD = getDS().createQuery(TokenD.class)
                         .filter("application", appD)
@@ -42,7 +43,7 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
     tokenD = new TokenD();
     tokenD.account = accountD;
     tokenD.application = appD;
-    tokenD.scopes.clear();
+    if(tokenD.scopes != null) tokenD.scopes.clear();
     for(String s : scopes) {
       if(appD.scopes.contains(s)) {
         tokenD.scopes.add(s);
@@ -73,6 +74,7 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
   public Account createAccessAndAccount(Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, Forbidden, NotFound {
 
     AccessD accessD = findAccessD(access);
+    System.out.println("Found access: ("+accessD.id+") for "+access.identity+" : "+access.type);
     // Token is renewed
     accessD.type = Type.getByThrift(access.type);
     accessD.accessToken = accessToken;
@@ -87,6 +89,8 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
     }
 
     getDS().save(accessD);
+    assert accessD.id != null;
+    System.out.println(accessD.id+" "+accessD.identity+" "+accessD.type);
 
     Account account = new Account();
     accessD.account.syncToThrift(account);
