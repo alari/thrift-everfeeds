@@ -1,5 +1,6 @@
-package everfeeds.handlers;
+package everfeeds.secure.handlers;
 
+import everfeeds.handlers.Handler;
 import everfeeds.thrift.util.Scope;
 import everfeeds.mongo.AccessD;
 import everfeeds.mongo.AccountD;
@@ -22,13 +23,7 @@ import java.util.List;
  */
 public class ApplicationHandler extends Handler implements ApplicationAPI.Iface {
   @Override
-  public Token createToken(String actApplicationSecret, String appId, String accountId, List<String> scopes) throws TException, NotFound, Forbidden {
-    ApplicationD actAppD = getApplicationD(actApplicationSecret);
-
-    if(actAppD == null || !actAppD.hasScope(Scope.APP_CREATE_TOKEN)) {
-      throw new Forbidden("Access denied for actor token");
-    }
-
+  public Token createToken(String appId, String accountId, List<String> scopes) throws TException, NotFound, Forbidden {
     ApplicationD appD = getDS().get(ApplicationD.class, appId);
     if(appD == null) {
       throw new NotFound("App not found for id");
@@ -62,27 +57,20 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
   }
 
   @Override
-  public void createApp(String actApplicationSecret, String key, String secret, List<String> scopes) throws Forbidden, NotFound, TException {
-    ApplicationD actAppD = getApplicationD(actApplicationSecret);
-
-    if(actAppD == null || !actAppD.hasScope(Scope.APP_CREATE_TOKEN)) {
-      throw new Forbidden("Access denied for actor token");
+  public String createApp(String key, String secret, List<String> scopes) throws Forbidden, NotFound, TException {
+    ApplicationD appD = getDS().createQuery(ApplicationD.class).filter("key", key).get();
+    if(appD == null) {
+      appD = new ApplicationD();
+      appD.key = key;
     }
-
-    ApplicationD appD = new ApplicationD();
-    appD.key = key;
     appD.secret = secret;
     appD.scopes = scopes;
     getDS().save(appD);
+    return appD.id.toString();
   }
 
   @Override
-  public Account createAccessAndAccount(String applicationSecret, Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, Forbidden, NotFound {
-    ApplicationD applicationD = getApplicationD(applicationSecret);
-
-    if (!applicationD.hasScope(Scope.APP_CREATE_ACCOUNT)) {
-      throw new Forbidden("Access denied for token or wrong token given");
-    }
+  public Account createAccessAndAccount(Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, Forbidden, NotFound {
 
     AccessD accessD = findAccessD(access);
 
@@ -106,6 +94,11 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
 
     return account;
 
+  }
+
+  @Override
+  public String ping() throws TException {
+    return "pong";
   }
 
 }

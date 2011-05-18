@@ -1,6 +1,7 @@
 package everfeeds;
 
 import everfeeds.handlers.*;
+import everfeeds.secure.handlers.ApplicationHandler;
 import everfeeds.secure.thrift.ApplicationAPI;
 import everfeeds.thrift.service.*;
 import org.apache.thrift.server.TServer;

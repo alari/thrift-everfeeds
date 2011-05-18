@@ -1,12 +1,10 @@
 package everfeeds.remote
 
-import everfeeds.mongo.CategoryD
 import everfeeds.mongo.EntryD
 import everfeeds.MongoDB
 import com.google.code.morphia.Datastore
 import everfeeds.mongo.FilterD
 import everfeeds.thrift.domain.Entry
-import everfeeds.mongo.AccessD
 
 /**
  * @author Dmitry Kurinskiy
@@ -14,12 +12,6 @@ import everfeeds.mongo.AccessD
  */
 @Typed
 abstract class Remote {
-  protected AccessD access
-
-  Remote(AccessD access) {
-    this.access = access
-  }
-
   protected Datastore getDs(){
     MongoDB.getDS();
   }

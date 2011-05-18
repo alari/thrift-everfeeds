@@ -6,7 +6,6 @@ import everfeeds.mongo.CategoryD
 import everfeeds.mongo.FilterD
 import everfeeds.remote.OAuthAccess
 import everfeeds.mongo.TagD
-import everfeeds.mongo.AccessD
 
 /**
  * @author Dmitry Kurinskiy
@@ -14,10 +13,6 @@ import everfeeds.mongo.AccessD
  */
 @Typed
 class TwitterRemote extends Remote{
-  TwitterRemote(AccessD access) {
-    super(access)
-  }
-
   private TwitterRaw getRaw(){
     TwitterRaw.getInstance()
   }
@@ -27,7 +22,7 @@ class TwitterRemote extends Remote{
     List<EntryD> entries = []
 
     // Prepare the list of categories to pull from
-    List<CategoryD> categories = ds.createQuery(CategoryD).filter("access", access).asList()
+    List<CategoryD> categories = ds.createQuery(CategoryD).filter("access", filterD.access).asList()
     if(filterD.categories.size()) {
       if(filterD.categoriesWith) categories = filterD.categories
       else categories = categories - filterD.categories
@@ -35,12 +30,12 @@ class TwitterRemote extends Remote{
 
     // Prepare tags cache
     Map<String,TagD> tags = [:]
-    ds.createQuery(TagD).filter("access", access).asList().each {
+    ds.createQuery(TagD).filter("access", filterD.access).asList().each {
       tags.put it.identity, it
     }
 
     // Prepare oauth accessor
-    OAuthAccess oAuthAccess = new OAuthAccess(access)
+    OAuthAccess oAuthAccess = new OAuthAccess(filterD.access)
 
     categories.each{CategoryD category->
       // Enum category
@@ -48,7 +43,7 @@ class TwitterRemote extends Remote{
 
       // Preparing parser for category
       TwitterParser parser = c.parserClass.newInstance()
-      parser.access = access
+      parser.access = filterD.access
       parser.category = category
       parser.tagsCache = tags
 
