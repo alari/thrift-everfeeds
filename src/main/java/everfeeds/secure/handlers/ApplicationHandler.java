@@ -73,7 +73,6 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
   public Account createAccessAndAccount(Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, Forbidden, NotFound {
 
     AccessD accessD = findAccessD(access);
-
     // Token is renewed
     accessD.type = Type.getByThrift(access.type);
     accessD.accessToken = accessToken;
@@ -91,7 +90,6 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
 
     Account account = new Account();
     accessD.account.syncToThrift(account);
-
     return account;
 
   }

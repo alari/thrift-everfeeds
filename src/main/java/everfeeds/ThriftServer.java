@@ -26,6 +26,7 @@ public class ThriftServer {
 
   public static void main(String[] args) {
     try {
+      org.apache.log4j.BasicConfigurator.configure();
       if(args[0].contains("test")) {
         Environment.setTesting();
       } else if(args[0].contains("prod")) {
@@ -68,7 +69,7 @@ public class ThriftServer {
                                                     .processor(accountAPI)
                                                     .processor(filterAPI));
 
-      System.out.println("Starting the runPublicServer server...");
+      System.out.println("Starting the Public server...");
       server.serve();
     } catch (Exception e) {
       e.printStackTrace();
@@ -81,9 +82,10 @@ public class ThriftServer {
 
       TServer server = new TSimpleServer(new TServer.Args(serverTransport)
                                                     .processor(applicationAPI)
-                                                    .processor(remoteAPI));
+                                                //    .processor(remoteAPI)
+      );
 
-      System.out.println("Starting the runPrivateServer server...");
+      System.out.println("Starting the Private server...");
       server.serve();
     } catch (Exception e) {
       e.printStackTrace();

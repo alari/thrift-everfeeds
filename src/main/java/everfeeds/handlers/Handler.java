@@ -10,6 +10,7 @@ import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.NotFound;
 import everfeeds.thrift.error.TokenExpired;
 import everfeeds.thrift.error.TokenNotFound;
+import everfeeds.thrift.util.Type;
 import org.apache.thrift.TException;
 
 import java.util.List;
@@ -41,8 +42,8 @@ abstract public class Handler {
 
   protected AccessD findAccessD(Access access) throws TException {
     AccessD accessD;
-    if (!access.id.equals("") && access.id != null) {
-      accessD = getDS().get(AccessD.class, access.getId());
+    if (access.id != null && !access.id.isEmpty()) {
+      accessD = getDS().get(AccessD.class, access.id);
       if (accessD != null) {
         return accessD;
       }
@@ -50,8 +51,8 @@ abstract public class Handler {
 
     accessD = getDS().createQuery(AccessD.class)
                   .filter("identity", access.identity)
-                  .filter("type", access.type).get();
-    if (accessD != null) {
+                  .filter("type", Type.getByThrift(access.type)).get();
+    if (accessD != null) { System.out.println("AccessD = "+accessD.id);
       return accessD;
     }
     return new AccessD();

@@ -11,6 +11,18 @@ public enum Environment {
 
   static private Environment current = Environment.DEVELOPMENT;
 
+  static public boolean isTesting(){
+    return current == TESTING;
+  }
+
+  static public boolean isDevelopment(){
+    return current == DEVELOPMENT;
+  }
+
+  static public boolean isProduction(){
+    return current == PRODUCTION;
+  }
+
   static public void setTesting(){
     current = TESTING;
   }
@@ -19,7 +31,7 @@ public enum Environment {
     current = PRODUCTION;
   }
 
-  static Environment getCurrent(){
+  static public Environment getCurrent(){
     return current;
   }
 }
