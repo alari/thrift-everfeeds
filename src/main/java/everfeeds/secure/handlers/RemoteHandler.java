@@ -1,6 +1,8 @@
 package everfeeds.secure.handlers;
 
 import everfeeds.handlers.Handler;
+import everfeeds.mongo.FilterD;
+import everfeeds.remote.twitter.TwitterRemote;
 import everfeeds.secure.thrift.RemoteAPI;
 import everfeeds.thrift.domain.Entry;
 import everfeeds.thrift.domain.Filter;
@@ -17,10 +19,17 @@ import java.util.List;
 public class RemoteHandler extends Handler implements RemoteAPI.Iface{
   @Override
   public List<Entry> pull(Filter filter) throws Forbidden, NotFound, TException {
-    return null;
+    FilterD filterD = new FilterD();
+    filterD.syncFromThrift(filter);
+    filterD = setFilterRelationsFromThrift(filterD, filter);
+    return new TwitterRemote().pullToThrift(filterD);
   }
 
   @Override
   public void saveEntries(Filter filter) throws Forbidden, NotFound, TException {
+    FilterD filterD = new FilterD();
+    filterD.syncFromThrift(filter);
+    filterD = setFilterRelationsFromThrift(filterD, filter);
+    new TwitterRemote().saveEntries(filterD);
   }
 }

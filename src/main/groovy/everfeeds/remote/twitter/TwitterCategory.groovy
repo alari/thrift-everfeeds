@@ -10,7 +10,7 @@ public enum TwitterCategory {
   MENTIONS("mentions", TwitterRawUrl.MENTIONS, TwitterParser.Status),
   MESSAGES("messages", TwitterRawUrl.MESSAGES, TwitterParser.DM);
 
-    private static Map<String,TwitterCategory> byIdentity = [:]
+  private static Map<String, TwitterCategory> byIdentity = [:]
 
   static {
     TwitterCategory.values().each {
@@ -36,11 +36,11 @@ public enum TwitterCategory {
     identity
   }
 
-  public TwitterRawUrl getUrl(){
+  public TwitterRawUrl getUrl() {
     url
   }
 
-  public Class<TwitterParser> getParserClass(){
+  public Class<TwitterParser> getParserClass() {
     parser
   }
 }

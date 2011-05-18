@@ -2,7 +2,9 @@ package everfeeds;
 
 import everfeeds.handlers.*;
 import everfeeds.secure.handlers.ApplicationHandler;
+import everfeeds.secure.handlers.RemoteHandler;
 import everfeeds.secure.thrift.ApplicationAPI;
+import everfeeds.secure.thrift.RemoteAPI;
 import everfeeds.thrift.service.*;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
@@ -20,14 +22,22 @@ public class ThriftServer {
   static private AccessAPI.Processor accessAPI;
   static private FilterAPI.Processor filterAPI;
   static private ApplicationAPI.Processor applicationAPI;
+  static private RemoteAPI.Processor remoteAPI;
 
   public static void main(String[] args) {
     try {
+      if(args[0].contains("test")) {
+        Environment.setTesting();
+      } else if(args[0].contains("prod")) {
+        Environment.setProduction();
+      }
+
       entryAPI = new EntryAPI.Processor(new EntryHandler());
       accountAPI = new AccountAPI.Processor(new AccountHandler());
       accessAPI = new AccessAPI.Processor(new AccessHandler());
       filterAPI = new FilterAPI.Processor(new FilterHandler());
       applicationAPI = new ApplicationAPI.Processor(new ApplicationHandler());
+      remoteAPI = new RemoteAPI.Processor(new RemoteHandler());
 
       Runnable publicServer = new Runnable() {
         public void run() {
@@ -70,7 +80,8 @@ public class ThriftServer {
       TServerTransport serverTransport = new TServerSocket(9099);
 
       TServer server = new TSimpleServer(new TServer.Args(serverTransport)
-                                                    .processor(applicationAPI));
+                                                    .processor(applicationAPI)
+                                                    .processor(remoteAPI));
 
       System.out.println("Starting the runPrivateServer server...");
       server.serve();

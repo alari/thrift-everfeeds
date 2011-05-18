@@ -49,7 +49,7 @@ class TwitterParser extends Parser {
 
   @Override
   boolean getIsFavorite() {
-    original?.favorited && ( original?.getBoolean("favorited") || original.favorited )
+    original?.favorited && (original?.getBoolean("favorited") || original.favorited)
   }
 
   @Override
@@ -91,9 +91,9 @@ class TwitterParser extends Parser {
       Kind.DM
     }
 
-  boolean getIsAuthor() {
-    original.sender.id.toString() == access.identity
-  }
+    boolean getIsAuthor() {
+      original.sender.id.toString() == access.identity
+    }
 
     @Override
     AuthorD getAuthor() {

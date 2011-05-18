@@ -1,16 +1,9 @@
 package everfeeds.remote
 
-import everfeeds.mongo.EntryD
-import everfeeds.thrift.util.Kind
-import everfeeds.mongo.AccessD
-import everfeeds.MongoDB
-import everfeeds.mongo.OriginalD
-import everfeeds.mongo.EntryContentD
-import everfeeds.mongo.AuthorD
-import everfeeds.mongo.CategoryD
-import everfeeds.mongo.TagD
-import everfeeds.mongo.FilterD
 import com.google.code.morphia.Datastore
+import everfeeds.MongoDB
+import everfeeds.thrift.util.Kind
+import everfeeds.mongo.*
 
 /**
  * @author Dmitry Kurinskiy
@@ -22,10 +15,10 @@ abstract class Parser {
   protected EntryD entry
   protected AccessD access
   protected CategoryD categoryD
-  protected Map<String,TagD> tagsCache = [:]
+  protected Map<String, TagD> tagsCache = [:]
   boolean isParsed = false
 
-  Parser(){}
+  Parser() {}
 
   Parser(final original, AccessD access, EntryD entry = null) {
     this.original = original
@@ -33,7 +26,7 @@ abstract class Parser {
     this.entry = entry ?: new EntryD()
   }
 
-  public void setTagsCache(Map<String,TagD> cache) {
+  public void setTagsCache(Map<String, TagD> cache) {
     tagsCache = cache
     entry = null
     isParsed = false
@@ -64,19 +57,15 @@ abstract class Parser {
 
   @Typed(TypePolicy.MIXED)
   public EntryD getResult() {
-    if(!isParsed) {
-      if(!access) {
+    if (!isParsed) {
+      if (!access) {
         throw new Exception("Cannot parse original without an accessD being set")
       }
-      if(!original) {
+      if (!original) {
         throw new Exception("Nothing to parse: no original provided")
       }
-      if(!entry) {
-        entry = ds.createQuery(EntryD)
-            .filter("access", access)
-            .filter("kind", kind)
-            .filter("identity", identity)
-            .get() ?: new EntryD()
+      if (!entry) {
+        entry = ds.createQuery(EntryD).filter("access", access).filter("kind", kind).filter("identity", identity).get() ?: new EntryD()
       }
       isParsed = true
 
@@ -86,30 +75,30 @@ abstract class Parser {
       entry.original = originalD
       entry.content = content
 
-      ["isAuthor","isPublicAvailable","isFavorite","isRead",
-          "identity","title","description","sourceUrl",
-          "author","kind","datePlaced","tags","filters","category"].each{
+      ["isAuthor", "isPublicAvailable", "isFavorite", "isRead",
+          "identity", "title", "description", "sourceUrl",
+          "author", "kind", "datePlaced", "tags", "filters", "category"].each {
         entry."${it}" = this."${it}"
       }
     }
     entry
   }
 
-  public EntryD save(){
+  public EntryD save() {
     ds.save(entry.original)
-    if(entry.content){
+    if (entry.content) {
       ds.save(entry.content)
     }
     ds.save(result)
     entry
   }
 
-  protected Datastore getDs(){
+  protected Datastore getDs() {
     MongoDB.getDS();
   }
 
-  private OriginalD getOriginalD(){
-    if(!entry.original) {
+  private OriginalD getOriginalD() {
+    if (!entry.original) {
       entry.original = new OriginalD()
     }
     // set original as map
@@ -131,7 +120,7 @@ abstract class Parser {
 
   abstract public String getDescription()
 
-  public String getSourceUrl(){""}
+  public String getSourceUrl() {""}
 
   abstract public EntryContentD getContent()
 
@@ -143,10 +132,10 @@ abstract class Parser {
 
   abstract public List<TagD> getTags()
 
-  public List<FilterD> getFilters(){null}
+  public List<FilterD> getFilters() {null}
 
-    public CategoryD getCategory(){
-    if(!categoryD) {
+  public CategoryD getCategory() {
+    if (!categoryD) {
       throw new Exception("Category is not set for entry")
     }
     categoryD

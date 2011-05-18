@@ -2,16 +2,17 @@ package everfeeds.handlers;
 
 import com.google.code.morphia.Datastore;
 import everfeeds.MongoDB;
+import everfeeds.mongo.*;
+import everfeeds.thrift.domain.Filter;
 import everfeeds.thrift.util.Scope;
-import everfeeds.mongo.AccessD;
-import everfeeds.mongo.ApplicationD;
-import everfeeds.mongo.TokenD;
 import everfeeds.thrift.domain.Access;
 import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.NotFound;
 import everfeeds.thrift.error.TokenExpired;
 import everfeeds.thrift.error.TokenNotFound;
 import org.apache.thrift.TException;
+
+import java.util.List;
 
 /**
  * @author Dmitry Kurinskiy
@@ -38,18 +39,6 @@ abstract public class Handler {
     }
   }
 
-
-  protected ApplicationD getApplicationD(String secret) throws TException, NotFound {
-    ApplicationD applicationD;
-
-    applicationD = getDS().createQuery(ApplicationD.class).filter("secret", secret).get();
-    if (applicationD == null) {
-      throw new NotFound("Application not found");
-    }
-
-    return applicationD;
-  }
-
   protected AccessD findAccessD(Access access) throws TException {
     AccessD accessD;
     if (!access.id.equals("") && access.id != null) {
@@ -73,6 +62,37 @@ abstract public class Handler {
     TokenD tokenD = getTokenD(token);
 
     return getDS().createQuery(AccessD.class).filter("id", id).filter("account", tokenD.account).get();
+  }
+
+
+  protected FilterD setFilterRelationsFromThrift(FilterD filterD, Filter filter) {
+    // Syncing categories and tags
+    filterD.categories.clear();
+    filterD.withoutTags.clear();
+    filterD.withTags.clear();
+
+    List<CategoryD> categories = getDS().createQuery(CategoryD.class)
+                                     .filter("access", filterD.access)
+                                     .asList();
+    List<TagD> tags = getDS().createQuery(TagD.class)
+                          .filter("access", filterD.access)
+                          .asList();
+
+    for (CategoryD c : categories) {
+      if (filter.categoryIds.contains(c.id.toString())) {
+        filterD.categories.add(c);
+      }
+    }
+
+    for (TagD t : tags) {
+      if (filter.withoutTagIds.contains(t.id.toString())) {
+        filterD.withoutTags.add(t);
+      } else if (filter.withTagIds.contains(t.id.toString())) {
+        filterD.withTags.add(t);
+      }
+    }
+
+    return filterD;
   }
 
   protected Datastore getDS() {

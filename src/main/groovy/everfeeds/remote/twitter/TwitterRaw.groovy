@@ -1,6 +1,6 @@
 package everfeeds.remote.twitter
 
-import everfeeds.remote.OAuthAccess;
+import everfeeds.remote.OAuthAccess
 
 /**
  * @author Dmitry Kurinskiy
@@ -17,14 +17,14 @@ public class TwitterRaw {
   private TwitterRaw() {
   }
 
-  public getJson(OAuthAccess access, TwitterRawUrl url, short maxCount=800, String query = ""){
+  public getJson(OAuthAccess access, TwitterRawUrl url, short maxCount = 800, String query = "") {
     String callUrl = url.toString()
     callUrl += callUrl.contains("?") ? "&" : "?"
     callUrl += "count=${maxCount}&include_entities=1"
     access.callOAuthApiJSON callUrl;
   }
 
-  public postJson(OAuthAccess access, TwitterRawUrl url, Map<String,String> params) {
+  public postJson(OAuthAccess access, TwitterRawUrl url, Map<String, String> params) {
     access.callOAuthApiJSON url.toString(), params
   }
 }

@@ -23,7 +23,7 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
     checkToken(getTokenD(token), Scope.FEED_WRITE);
 
     FilterD filterD = getFilterD(token, filter);
-    setRelsFromThrift(filterD, filter);
+    setFilterRelationsFromThrift(filterD, filter);
 
     // Saving filter domain
     filterD.syncFromThrift(filter);
@@ -70,7 +70,7 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
     }
 
     FilterD filterD = getFilterD(token, filter);
-    setRelsFromThrift(filterD, filter);
+    setFilterRelationsFromThrift(filterD, filter);
     filterD.syncFromThrift(filter);
 
     Query<EntryD> query = getDS().createQuery(EntryD.class);
@@ -89,7 +89,7 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
     }
 
     FilterD filterD = getFilterD(token, filter);
-    setRelsFromThrift(filterD, filter);
+    setFilterRelationsFromThrift(filterD, filter);
     filterD.syncFromThrift(filter);
 
     Query<EntryD> query = getDS().createQuery(EntryD.class);
@@ -156,36 +156,6 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
         throw new NotFound("Filter access not found by ID");
       }
     }
-    return filterD;
-  }
-
-  protected FilterD setRelsFromThrift(FilterD filterD, Filter filter) {
-    // Syncing categories and tags
-    filterD.categories.clear();
-    filterD.withoutTags.clear();
-    filterD.withTags.clear();
-
-    List<CategoryD> categories = getDS().createQuery(CategoryD.class)
-                                     .filter("access", filterD.access)
-                                     .asList();
-    List<TagD> tags = getDS().createQuery(TagD.class)
-                          .filter("access", filterD.access)
-                          .asList();
-
-    for (CategoryD c : categories) {
-      if (filter.categoryIds.contains(c.id.toString())) {
-        filterD.categories.add(c);
-      }
-    }
-
-    for (TagD t : tags) {
-      if (filter.withoutTagIds.contains(t.id.toString())) {
-        filterD.withoutTags.add(t);
-      } else if (filter.withTagIds.contains(t.id.toString())) {
-        filterD.withTags.add(t);
-      }
-    }
-
     return filterD;
   }
 }

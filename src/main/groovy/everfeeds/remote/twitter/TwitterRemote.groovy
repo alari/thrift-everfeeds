@@ -1,19 +1,19 @@
 package everfeeds.remote.twitter
 
-import everfeeds.remote.Remote
-import everfeeds.mongo.EntryD
 import everfeeds.mongo.CategoryD
+import everfeeds.mongo.EntryD
 import everfeeds.mongo.FilterD
-import everfeeds.remote.OAuthAccess
 import everfeeds.mongo.TagD
+import everfeeds.remote.OAuthAccess
+import everfeeds.remote.Remote
 
 /**
  * @author Dmitry Kurinskiy
  * @since 14.05.11 11:31
  */
 @Typed
-class TwitterRemote extends Remote{
-  private TwitterRaw getRaw(){
+class TwitterRemote extends Remote {
+  private TwitterRaw getRaw() {
     TwitterRaw.getInstance()
   }
 
@@ -23,13 +23,13 @@ class TwitterRemote extends Remote{
 
     // Prepare the list of categories to pull from
     List<CategoryD> categories = ds.createQuery(CategoryD).filter("access", filterD.access).asList()
-    if(filterD.categories.size()) {
-      if(filterD.categoriesWith) categories = filterD.categories
+    if (filterD.categories.size()) {
+      if (filterD.categoriesWith) categories = filterD.categories
       else categories = categories - filterD.categories
     }
 
     // Prepare tags cache
-    Map<String,TagD> tags = [:]
+    Map<String, TagD> tags = [:]
     ds.createQuery(TagD).filter("access", filterD.access).asList().each {
       tags.put it.identity, it
     }
@@ -37,7 +37,7 @@ class TwitterRemote extends Remote{
     // Prepare oauth accessor
     OAuthAccess oAuthAccess = new OAuthAccess(filterD.access)
 
-    categories.each{CategoryD category->
+    categories.each {CategoryD category ->
       // Enum category
       TwitterCategory c = TwitterCategory.getByIdentity(category.identity)
 
@@ -48,21 +48,21 @@ class TwitterRemote extends Remote{
       parser.tagsCache = tags
 
       // Getting raw json from remote api
-      raw.getJson(oAuthAccess, c.url).each{
+      raw.getJson(oAuthAccess, c.url).each {
         // Parse json original
         parser.original = it
         EntryD entry = parser.result
 
         // Perform after-parse filtering
-        if(filterD.withTags.size() && !entry.tags.intersect(filterD.withTags).size()) {
+        if (filterD.withTags.size() && !entry.tags.intersect(filterD.withTags).size()) {
           return;
         }
-        if(filterD.withoutTags.size() && entry.tags.intersect(filterD.withoutTags).size()) {
+        if (filterD.withoutTags.size() && entry.tags.intersect(filterD.withoutTags).size()) {
           return;
         }
-        if(filterD.kinds.size()) {
-          if(filterD.kindsWith && !filterD.kinds.contains(entry.kind)) return;
-          else if(filterD.kinds.contains(entry.kind)) return;
+        if (filterD.kinds.size()) {
+          if (filterD.kindsWith && !filterD.kinds.contains(entry.kind)) return;
+          else if (filterD.kinds.contains(entry.kind)) return;
         }
 
         // Everything is okay, adding entry to result list
