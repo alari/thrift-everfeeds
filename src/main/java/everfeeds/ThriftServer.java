@@ -20,10 +20,13 @@ public class ThriftServer {
   public static void main(String[] args) {
     try {
       org.apache.log4j.BasicConfigurator.configure();
-      if(args[0].contains("test")) {
-        Environment.setTesting();
-      } else if(args[0].contains("prod")) {
-        Environment.setProduction();
+      if(args.length>0) {
+        System.out.println("Entering non-development mode");
+        if(args[0].contains("test")) {
+          Environment.setTesting();
+        } else if(args[0].contains("prod")) {
+          Environment.setProduction();
+        }
       }
 
       kernelAPI = new KernelAPI.Processor(new KernelHandler());

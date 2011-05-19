@@ -15,6 +15,9 @@ class TwitterParser extends Parser {
   static protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH)
   static protected Autolink autolink = new Autolink()
 
+  TwitterParser(){
+  }
+
   TwitterParser(original, AccessD access, EntryD entry) {
     super(original, access, entry)
   }
@@ -82,7 +85,7 @@ class TwitterParser extends Parser {
     TwitterTag.values().findAll {it.check(original)}*.identity.collect {tagsCache.get(it)}
   }
 
-  class DM extends TwitterParser {
+  static class DM extends TwitterParser {
     DM(original, AccessD access, EntryD entry) {
       super(original, access, entry)
     }
@@ -118,7 +121,10 @@ class TwitterParser extends Parser {
     }
   }
 
-  class Status extends TwitterParser {
+  static class Status extends TwitterParser {
+
+    Status(){
+    }
 
     Status(original, AccessD access, EntryD entry) {
       super(original, access, entry)

@@ -72,9 +72,9 @@ class OAuthAccess {
         }
       }
 
-      def tkn = new Token(accessD.accessToken, accessD.accessSecret)
+      Token tkn = new Token(accessD.accessToken, accessD.accessSecret)
       service.signRequest(tkn, request);
-      final result = request.send()
+      Response result = sendRequest(request)
       if (result != null) {
         if (result.body != null) {
           return result?.body;
@@ -83,13 +83,18 @@ class OAuthAccess {
           return response.getStream().getText("UTF-8") // TODO(low): other encodings
         }
       }
-      return ""
+      return "{}"
 
 
     } catch (e) {
       log.error "OAuth Api call failed", e
     }
-    ""
+    "{}"
+  }
+
+  @Typed(TypePolicy.DYNAMIC)
+  final private Response sendRequest(OAuthRequest request){
+     request.send()
   }
 
   @Typed(TypePolicy.MIXED)

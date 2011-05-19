@@ -25,7 +25,7 @@ class ThriftPrivateClient {
     System.out.println "Private client running"
   }
 
-  static public KernelAPI.Client getKernelClient(){
+  static public KernelAPI.Client getClient(){
     if(kernelApi == null) {
       initClient()
     }

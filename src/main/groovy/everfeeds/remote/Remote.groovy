@@ -17,16 +17,28 @@ abstract class Remote {
   }
 
   public void saveEntries(FilterD filterD) {
-    if (filterD.id) {
-      ds.save(pull(filterD).collect {it.filters.add filterD; it})
-    } else {
-      ds.save pull(filterD)
+    try {
+      if (filterD.id) {
+        ds.save(pull(filterD).collect {it.filters.add filterD; it})
+      } else {
+        ds.save pull(filterD)
+      }
+    } catch(InvalidTokenException e) {
+      filterD.access.expired = true
+      ds.save(filterD.access)
+      null
     }
   }
 
   public List<Entry> pullToThrift(FilterD filterD) {
-    pull(filterD).collect {Entry e = new Entry(); it.syncToThrift e; e}
+    try {
+      pull(filterD).collect {Entry e = new Entry(); it.syncToThrift e; e}
+    } catch(InvalidTokenException e) {
+      filterD.access.expired = true
+      ds.save(filterD.access)
+      []
+    }
   }
 
-  abstract public List<EntryD> pull(FilterD filterD)
+  abstract public List<EntryD> pull(FilterD filterD) throws InvalidTokenException
 }

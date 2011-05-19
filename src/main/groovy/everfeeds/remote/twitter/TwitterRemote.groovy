@@ -6,6 +6,8 @@ import everfeeds.mongo.FilterD
 import everfeeds.mongo.TagD
 import everfeeds.remote.OAuthAccess
 import everfeeds.remote.Remote
+import everfeeds.MongoDB
+import everfeeds.remote.InvalidTokenException
 
 /**
  * @author Dmitry Kurinskiy
@@ -18,11 +20,18 @@ class TwitterRemote extends Remote {
   }
 
   @Override
-  List<EntryD> pull(FilterD filterD) {
+  List<EntryD> pull(FilterD filterD) throws InvalidTokenException {
     List<EntryD> entries = []
 
     // Prepare the list of categories to pull from
     List<CategoryD> categories = ds.createQuery(CategoryD).filter("access", filterD.access).asList()
+    if(!categories.size()) {
+      TwitterCategory.values().collect { it.domain }.each{CategoryD c->
+        c.access = filterD.access
+        MongoDB.getDS().save(c)
+        categories.add c
+      }
+    }
     if (filterD.categories.size()) {
       if (filterD.categoriesWith) categories = filterD.categories
       else categories = categories - filterD.categories
@@ -30,7 +39,15 @@ class TwitterRemote extends Remote {
 
     // Prepare tags cache
     Map<String, TagD> tags = [:]
-    ds.createQuery(TagD).filter("access", filterD.access).asList().each {
+    List<TagD> tagsList = ds.createQuery(TagD).filter("access", filterD.access).asList()
+    if(!tagsList.size()) {
+      TwitterTag.values().collect { it.domain }.each{TagD t->
+        t.access = filterD.access
+        MongoDB.getDS().save(t)
+        tagsList.add t
+      }
+    }
+    tagsList.each {
       tags.put it.identity, it
     }
 
@@ -48,7 +65,12 @@ class TwitterRemote extends Remote {
       parser.tagsCache = tags
 
       // Getting raw json from remote api
-      raw.getJson(oAuthAccess, c.url).each {
+      def result = raw.getJson(oAuthAccess, c.url)
+      if(result instanceof Map && (result as Map)?.error) {
+        throw new InvalidTokenException()
+      }
+      result.each {
+        System.out.println("test:"+it);
         // Parse json original
         parser.original = it
         EntryD entry = parser.result

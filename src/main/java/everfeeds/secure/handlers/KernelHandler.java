@@ -2,10 +2,9 @@ package everfeeds.secure.handlers;
 
 import everfeeds.handlers.Handler;
 import everfeeds.mongo.*;
-import everfeeds.remote.twitter.TwitterRemote;
+import everfeeds.remote.RemoteFactory;
 import everfeeds.secure.thrift.KernelAPI;
 import everfeeds.thrift.domain.*;
-import everfeeds.thrift.util.Scope;
 import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.NotFound;
 import everfeeds.thrift.util.Type;
@@ -106,16 +105,27 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
   public List<Entry> remotePullEntries(Filter filter) throws Forbidden, NotFound, TException {
     FilterD filterD = new FilterD();
     filterD.syncFromThrift(filter);
+    if(filter.accessId == null || filter.accessId.isEmpty()) {
+      throw new NotFound("Access not found by id: no id provided");
+    }
+    filterD.access = getDS().get(AccessD.class, new ObjectId(filter.accessId));
+    if(filterD.access == null) {
+      throw new NotFound("Access not found by id: "+filter.accessId);
+    }
     filterD = setFilterRelationsFromThrift(filterD, filter);
-    return new TwitterRemote().pullToThrift(filterD);
+    return RemoteFactory.getInstance(filterD.access.type).pullToThrift(filterD);
   }
 
   @Override
   public void remoteSaveEntries(Filter filter) throws Forbidden, NotFound, TException {
     FilterD filterD = new FilterD();
     filterD.syncFromThrift(filter);
+    filterD.access = getDS().get(AccessD.class, filter.accessId);
+    if(filterD.access == null) {
+      throw new NotFound("Access not found by id");
+    }
     filterD = setFilterRelationsFromThrift(filterD, filter);
-    new TwitterRemote().saveEntries(filterD);
+    RemoteFactory.getInstance(filterD.access.type).saveEntries(filterD);
   }
 
 }

@@ -10,7 +10,7 @@ import everfeeds.thrift.domain.Token
 class ApplicationTest extends GroovyTestCase{
 
   String getAppId() {
-    ThriftPrivateClient.kernelClient.createApp("test key", "test secret", [Scope.FEED_READ.toString()])
+    ThriftPrivateClient.client.createApp("test key", "test secret", [Scope.FEED_READ.toString()])
   }
 
   String getAccountId(){
@@ -18,13 +18,13 @@ class ApplicationTest extends GroovyTestCase{
     a.identity = "testing"
     a.type = AccessType.TWITTER
     a.title = "my testing access"
-    ThriftPrivateClient.kernelClient.authenticate(a, "token", "secret", [])?.id
+    ThriftPrivateClient.client.authenticate(a, "token", "secret", [])?.id
   }
 
   void testCreateApp(){
-    String id = ThriftPrivateClient.kernelClient.createApp("test key", "test secret", [Scope.FEED_READ.toString()])
+    String id = ThriftPrivateClient.client.createApp("test key", "test secret", [Scope.FEED_READ.toString()])
     assert id
-    assertEquals id, ThriftPrivateClient.kernelClient.createApp("test key", "222", [])
+    assertEquals id, ThriftPrivateClient.client.createApp("test key", "222", [])
   }
 
   void testCreateAccessAndAccount(){
@@ -33,18 +33,18 @@ class ApplicationTest extends GroovyTestCase{
     a.type = AccessType.TWITTER
     a.title = "my testing access"
 
-    Account account = ThriftPrivateClient.kernelClient.authenticate(a, "token", "secret", [])
+    Account account = ThriftPrivateClient.client.authenticate(a, "token", "secret", [])
     assert account.id
 
-    assertEquals account.id, ThriftPrivateClient.kernelClient.authenticate(a, "token", "secret", [])?.id
+    assertEquals account.id, ThriftPrivateClient.client.authenticate(a, "token", "secret", [])?.id
   }
 
   void testCreateToken(){
 
-    Token tkn = ThriftPrivateClient.kernelClient.createToken(appId, accountId, [])
+    Token tkn = ThriftPrivateClient.client.createToken(appId, accountId, [])
     assert tkn.id
 
-    tkn = ThriftPrivateClient.kernelClient.createToken(appId, accountId, [Scope.FEED_READ.toString(), Scope.FEED_WRITE.toString()])
+    tkn = ThriftPrivateClient.client.createToken(appId, accountId, [Scope.FEED_READ.toString(), Scope.FEED_WRITE.toString()])
     assertNotNull tkn.id
     assert Scope.FEED_READ.toString() in tkn.scopes
     assert !(Scope.FEED_WRITE.toString() in tkn.scopes)

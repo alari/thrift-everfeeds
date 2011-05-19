@@ -12,6 +12,7 @@ namespace perl everfeeds.thrift
 namespace st Thrift.Everfeeds
 
 service EverfeedsAPI {
+// ENTRY DOMAIN
   entry.Entry saveEntry(1: t.String token, 3: entry.Entry entry, 4: entry.EntryContent content) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
   // to dive into entry contents
@@ -20,6 +21,7 @@ service EverfeedsAPI {
 
   void markEntryRead(1: t.String token, 2: t.Id entryId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   void markEntryUnread(1: t.String token, 2: t.Id entryId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
+// END ENTRY DOMAIN
 
   // to discover basic information about current account
   misc.Account getAccount(1: t.String token) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);

@@ -1,5 +1,7 @@
 package everfeeds.remote.twitter
 
+import everfeeds.mongo.CategoryD
+
 /**
  * @author Dmitry Kurinskiy
  * @since 14.05.11 11:31
@@ -42,5 +44,11 @@ public enum TwitterCategory {
 
   public Class<TwitterParser> getParserClass() {
     parser
+  }
+
+  public CategoryD getDomain(){
+    CategoryD categoryD = new CategoryD()
+    categoryD.identity = identity
+    categoryD
   }
 }

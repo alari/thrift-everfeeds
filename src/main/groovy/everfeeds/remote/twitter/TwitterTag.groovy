@@ -1,5 +1,7 @@
 package everfeeds.remote.twitter
 
+import everfeeds.mongo.TagD
+
 /**
  * @author Dmitry Kurinskiy
  * @since 14.05.11 11:32
@@ -34,6 +36,12 @@ public enum TwitterTag {
 
   public String getIdentity() {
     identity
+  }
+
+  public TagD getDomain() {
+    TagD tagD = new TagD()
+    tagD.identity = identity
+    tagD
   }
 
   public boolean check(node) {
