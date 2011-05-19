@@ -7,7 +7,6 @@ import everfeeds.mongo.TagD;
 import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.TokenExpired;
 import everfeeds.thrift.error.TokenNotFound;
-import everfeeds.thrift.service.AccessAPI;
 import everfeeds.thrift.domain.Category;
 import everfeeds.thrift.domain.Tag;
 import everfeeds.thrift.ttype.EntryKind;
@@ -20,8 +19,8 @@ import java.util.List;
  * @author Dmitry Kurinskiy
  * @since 06.05.11 19:11
  */
-public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
-  @Override
+public class AccessHandler extends AccountHandler {
+
   public List<Tag> getTags(String token, String accessId) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, accessId);
     checkToken(getTokenD(token), Scope.INFO);
@@ -38,7 +37,7 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
     return tags;
   }
 
-  @Override
+
   public List<Category> getCategories(String token, String accessId) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, accessId);
     checkToken(getTokenD(token), Scope.INFO);
@@ -55,14 +54,14 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
     return categories;
   }
 
-  @Override
+
   public List<EntryKind> getKinds(String token, String accessId) throws TException, TokenNotFound, Forbidden, TokenExpired {
     // can't imagine how to do it
     checkToken(getTokenD(token), Scope.INFO);
     return null;
   }
 
-  @Override
+
   public Tag saveTag(String token, Tag tag) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, tag.accessId);
     checkToken(getTokenD(token), Scope.INFO_ORDER);
@@ -88,7 +87,7 @@ public class AccessHandler extends AccountHandler implements AccessAPI.Iface {
     return tag;
   }
 
-  @Override
+
   public Category saveCategory(String token, Category category) throws TException, Forbidden, TokenNotFound, TokenExpired {
     AccessD accessD = getAccessD(token, category.accessId);
     checkToken(getTokenD(token), Scope.INFO_ORDER);

@@ -2,16 +2,14 @@ import org.apache.thrift.transport.TTransport
 import org.apache.thrift.transport.TSocket
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.protocol.TProtocol
-import everfeeds.secure.thrift.ApplicationAPI
-import everfeeds.secure.thrift.RemoteAPI
+import everfeeds.secure.thrift.KernelAPI
 /**
  * @author Dmitry Kurinskiy
  * @since 18.05.11 19:04
  */
 @Typed
 class ThriftPrivateClient {
-  static private ApplicationAPI.Client appApi
-  static private RemoteAPI.Client remoteApi
+  static private KernelAPI.Client kernelApi
 
   public static void main(String[] args) {
     initClient()
@@ -22,23 +20,15 @@ class ThriftPrivateClient {
     transport.open()
     TProtocol protocol = new  TBinaryProtocol(transport);
 
-    appApi = new ApplicationAPI.Client(protocol)
-    remoteApi = new RemoteAPI.Client(protocol)
+    kernelApi = new KernelAPI.Client(protocol);
 
     System.out.println "Private client running"
   }
 
-  static public ApplicationAPI.Client getAppClient(){
-    if(appApi == null) {
+  static public KernelAPI.Client getKernelClient(){
+    if(kernelApi == null) {
       initClient()
     }
-    appApi
-  }
-
-  static public RemoteAPI.Client getRemoteClient(){
-    if(remoteApi == null) {
-      initClient()
-    }
-    remoteApi
+    kernelApi
   }
 }

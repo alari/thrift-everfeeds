@@ -5,45 +5,37 @@ include "t.thrift"
 include "enm.thrift"
 include "e.thrift"
 
-namespace cpp everfeeds.thrift.service
-namespace java everfeeds.thrift.service
-namespace php everfeeds.thrift.service
-namespace perl everfeeds.thrift.service
-namespace st Thrift.Everfeeds.Service
+namespace cpp everfeeds.thrift
+namespace java everfeeds.thrift
+namespace php everfeeds.thrift
+namespace perl everfeeds.thrift
+namespace st Thrift.Everfeeds
 
-service EntryAPI {
+service EverfeedsAPI {
   entry.Entry saveEntry(1: t.String token, 3: entry.Entry entry, 4: entry.EntryContent content) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
   // to dive into entry contents
   entry.EntryContent getEntryContent(1: t.String token, 5: t.Id entryId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   entry.Entry getEntry(1: t.String token, 5: t.Id entryId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
-  void markRead(1: t.String token, 2: t.Id entryId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
-  void markUnread(1: t.String token, 2: t.Id entryId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
-}
+  void markEntryRead(1: t.String token, 2: t.Id entryId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
+  void markEntryUnread(1: t.String token, 2: t.Id entryId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
-service AccountAPI {
   // to discover basic information about current account
   misc.Account getAccount(1: t.String token) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   list<misc.Access> getAccesses(1: t.String token) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
   // to create everything
-  misc.Access saveAccessToken(1: t.String token, 2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: list<string> accessParams) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   misc.Access saveAccess(1: t.String token, 2: misc.Access access) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
   misc.Account saveAccount(1: t.String token, 2: misc.Account account) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
-}
 
-service AccessAPI extends AccountAPI {
-  // to get access info
   list<misc.Tag> getTags(1: t.String token, 5: t.Id accessId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   list<misc.Category> getCategories(1: t.String token, 5: t.Id accessId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   list<enm.EntryKind> getKinds(1: t.String token, 5: t.Id accessId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   misc.Tag saveTag(1: t.String token, 3: misc.Tag tag) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   misc.Category saveCategory(1: t.String token, 3: misc.Category category) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
-}
 
-service FilterAPI {
   filter.Filter saveFilter(1: t.String token, 2: filter.Filter filter) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
   // to get simple mash of entries

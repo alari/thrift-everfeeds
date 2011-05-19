@@ -6,6 +6,7 @@ import everfeeds.thrift.ttype.EntryKind;
 import everfeeds.thrift.util.Kind;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,15 +28,15 @@ public class FilterD {
   public String title;
 
   @Reference
-  public List<CategoryD> categories;
+  public List<CategoryD> categories = new ArrayList<CategoryD>();
   public boolean categoriesWith;
 
   @Reference
-  public List<TagD> withTags;
+  public List<TagD> withTags = new ArrayList<TagD>();
   @Reference
-  public List<TagD> withoutTags;
+  public List<TagD> withoutTags = new ArrayList<TagD>();
 
-  public List<Kind> kinds;
+  public List<Kind> kinds = new ArrayList<Kind>();
   public boolean kindsWith;
 
   public Date dateCreated = new Date();
@@ -80,7 +81,7 @@ public class FilterD {
   public void syncFromThrift(Filter filter) {
     title = filter.title;
     kinds.clear();
-    for(EntryKind k : filter.kinds) {
+    if(filter.kinds != null) for(EntryKind k : filter.kinds) {
       kinds.add(Kind.getByThrift(k));
     }
     kindsWith = filter.kindsWith;

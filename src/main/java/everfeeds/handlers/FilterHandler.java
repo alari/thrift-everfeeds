@@ -4,7 +4,6 @@ import com.google.code.morphia.query.Query;
 import everfeeds.thrift.util.Scope;
 import everfeeds.mongo.*;
 import everfeeds.thrift.error.*;
-import everfeeds.thrift.service.FilterAPI;
 import everfeeds.thrift.domain.Entry;
 import everfeeds.thrift.domain.Filter;
 import org.apache.thrift.TException;
@@ -17,8 +16,8 @@ import java.util.List;
  * @author Dmitry Kurinskiy
  * @since 06.05.11 19:11
  */
-public class FilterHandler extends Handler implements FilterAPI.Iface {
-  @Override
+public class FilterHandler extends Handler {
+
   public Filter saveFilter(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     checkToken(getTokenD(token), Scope.FEED_WRITE);
 
@@ -33,7 +32,7 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
     return filter;
   }
 
-  @Override
+
   public List<Entry> getMash(String token, long splitDate, short page, short maxCount) throws TException, TokenNotFound, Forbidden, TokenExpired, WrongArgument {
     TokenD tokenD = getTokenD(token);
     checkToken(tokenD, Scope.FEED_READ);
@@ -47,7 +46,7 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
                                   .limit(maxCount).offset(page * maxCount));
   }
 
-  @Override
+
   public List<Entry> getMashNew(String token, long splitDate, short maxCount) throws TException, TokenNotFound, Forbidden, TokenExpired, WrongArgument {
     TokenD tokenD = getTokenD(token);
     checkToken(tokenD, Scope.FEED_READ);
@@ -61,7 +60,7 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
                                   .limit(maxCount));
   }
 
-  @Override
+
   public List<Entry> getFiltered(String token, Filter filter, short page, short maxCount) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound, WrongArgument {
     checkToken(getTokenD(token), Scope.FEED_READ);
 
@@ -80,7 +79,7 @@ public class FilterHandler extends Handler implements FilterAPI.Iface {
     return getEntriesForQuery(query.filter("dateCreated <", new Date(filter.splitDate)));
   }
 
-  @Override
+
   public List<Entry> getFilteredNew(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound, WrongArgument {
     checkToken(getTokenD(token), Scope.FEED_READ);
 

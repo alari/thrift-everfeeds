@@ -12,6 +12,7 @@ import everfeeds.thrift.error.TokenExpired;
 import everfeeds.thrift.error.TokenNotFound;
 import everfeeds.thrift.util.Type;
 import org.apache.thrift.TException;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  */
 abstract public class Handler {
   protected TokenD getTokenD(String id) throws TException, TokenNotFound, TokenExpired, Forbidden {
-    TokenD token = getDS().get(TokenD.class, id);
+    TokenD token = getDS().get(TokenD.class, new ObjectId(id));
     if(token == null) {
       throw new TokenNotFound(String.format("Cannot find token for %s", id));
     }
@@ -43,8 +44,8 @@ abstract public class Handler {
   protected AccessD findAccessD(Access access) throws TException {
     AccessD accessD;
     if (access.id != null && !access.id.isEmpty()) {
-      accessD = getDS().get(AccessD.class, access.id);
-      if (accessD != null) { System.out.println("Found an old access!");
+      accessD = getDS().get(AccessD.class, new ObjectId(access.id));
+      if (accessD != null) {
         return accessD;
       }
     }
@@ -52,7 +53,7 @@ abstract public class Handler {
     accessD = getDS().createQuery(AccessD.class)
                   .filter("identity", access.identity)
                   .filter("type", Type.getByThrift(access.type)).get();
-    if (accessD != null) { System.out.println("AccessD = "+accessD.id);
+    if (accessD != null) {
       return accessD;
     }
     accessD = new AccessD();
@@ -65,7 +66,7 @@ abstract public class Handler {
   protected AccessD getAccessD(String token, String id) throws TException, Forbidden, TokenNotFound, TokenExpired {
     TokenD tokenD = getTokenD(token);
 
-    return getDS().createQuery(AccessD.class).filter("id", id).filter("account", tokenD.account).get();
+    return getDS().createQuery(AccessD.class).filter("id", new ObjectId(id)).filter("account", tokenD.account).get();
   }
 
 

@@ -8,15 +8,13 @@ import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.NotFound;
 import everfeeds.thrift.error.TokenExpired;
 import everfeeds.thrift.error.TokenNotFound;
-import everfeeds.thrift.service.EntryAPI;
 import org.apache.thrift.TException;
 
 /**
  * @author Dmitry Kurinskiy
  * @since 06.05.11 19:11
  */
-public class EntryHandler extends Handler implements EntryAPI.Iface {
-  @Override
+public class EntryHandler extends Handler {
   public Entry saveEntry(String token, Entry entry, EntryContent content) throws TException, TokenNotFound, Forbidden, TokenExpired, NotFound {
     TokenD tokenD = getTokenD(token);
     checkToken(tokenD, Scope.FEED_WRITE);
@@ -69,7 +67,7 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
     return entry;
   }
 
-  @Override
+
   public EntryContent getEntryContent(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
@@ -80,7 +78,7 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
     return content;
   }
 
-  @Override
+
   public Entry getEntry(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
@@ -89,16 +87,15 @@ public class EntryHandler extends Handler implements EntryAPI.Iface {
     return entry;
   }
 
-  @Override
-  public void markRead(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
+
+  public void markEntryRead(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
     entryD.isRead = true;
     getDS().save(entryD);
   }
 
-  @Override
-  public void markUnread(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
+  public void markEntryUnread(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
     entryD.isRead = true;

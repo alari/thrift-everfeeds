@@ -5,6 +5,6 @@
  */
 class PingPongTest extends GroovyTestCase{
   void testPong(){
-    assertEquals "pong", ThriftPrivateClient.appClient.ping()
+    assertEquals "pong", ThriftPrivateClient.kernelClient.ping()
   }
 }

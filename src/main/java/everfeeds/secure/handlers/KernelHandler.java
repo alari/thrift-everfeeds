@@ -1,28 +1,25 @@
 package everfeeds.secure.handlers;
 
 import everfeeds.handlers.Handler;
+import everfeeds.mongo.*;
+import everfeeds.remote.twitter.TwitterRemote;
+import everfeeds.secure.thrift.KernelAPI;
+import everfeeds.thrift.domain.*;
 import everfeeds.thrift.util.Scope;
-import everfeeds.mongo.AccessD;
-import everfeeds.mongo.AccountD;
-import everfeeds.mongo.ApplicationD;
-import everfeeds.mongo.TokenD;
-import everfeeds.thrift.domain.Access;
-import everfeeds.thrift.domain.Account;
 import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.NotFound;
-import everfeeds.secure.thrift.ApplicationAPI;
-import everfeeds.thrift.domain.Token;
 import everfeeds.thrift.util.Type;
 import org.apache.thrift.TException;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Dmitry Kurinskiy
  * @since 09.05.11 15:49
  */
-public class ApplicationHandler extends Handler implements ApplicationAPI.Iface {
+public class KernelHandler extends Handler implements KernelAPI.Iface {
   @Override
   public Token createToken(String appId, String accountId, List<String> scopes) throws TException, NotFound, Forbidden {
     ApplicationD appD = getDS().get(ApplicationD.class, new ObjectId(appId));
@@ -43,7 +40,11 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
     tokenD = new TokenD();
     tokenD.account = accountD;
     tokenD.application = appD;
-    if(tokenD.scopes != null) tokenD.scopes.clear();
+    if(tokenD.scopes != null) {
+      tokenD.scopes.clear();
+    } else {
+      tokenD.scopes = new ArrayList<String>();
+    }
     for(String s : scopes) {
       if(appD.scopes.contains(s)) {
         tokenD.scopes.add(s);
@@ -71,10 +72,9 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
   }
 
   @Override
-  public Account createAccessAndAccount(Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, Forbidden, NotFound {
+  public Account authenticate(Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, Forbidden, NotFound {
 
     AccessD accessD = findAccessD(access);
-    System.out.println("Found access: ("+accessD.id+") for "+access.identity+" : "+access.type);
     // Token is renewed
     accessD.type = Type.getByThrift(access.type);
     accessD.accessToken = accessToken;
@@ -90,7 +90,6 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
 
     getDS().save(accessD);
     assert accessD.id != null;
-    System.out.println(accessD.id+" "+accessD.identity+" "+accessD.type);
 
     Account account = new Account();
     accessD.account.syncToThrift(account);
@@ -101,6 +100,22 @@ public class ApplicationHandler extends Handler implements ApplicationAPI.Iface 
   @Override
   public String ping() throws TException {
     return "pong";
+  }
+
+  @Override
+  public List<Entry> remotePullEntries(Filter filter) throws Forbidden, NotFound, TException {
+    FilterD filterD = new FilterD();
+    filterD.syncFromThrift(filter);
+    filterD = setFilterRelationsFromThrift(filterD, filter);
+    return new TwitterRemote().pullToThrift(filterD);
+  }
+
+  @Override
+  public void remoteSaveEntries(Filter filter) throws Forbidden, NotFound, TException {
+    FilterD filterD = new FilterD();
+    filterD.syncFromThrift(filter);
+    filterD = setFilterRelationsFromThrift(filterD, filter);
+    new TwitterRemote().saveEntries(filterD);
   }
 
 }
