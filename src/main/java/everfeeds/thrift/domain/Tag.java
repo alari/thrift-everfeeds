@@ -27,18 +27,21 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
   private static final org.apache.thrift.protocol.TField IDENTITY_FIELD_DESC = new org.apache.thrift.protocol.TField("identity", org.apache.thrift.protocol.TType.STRING, (short)2);
   private static final org.apache.thrift.protocol.TField ACCESS_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accessId", org.apache.thrift.protocol.TType.STRING, (short)3);
   private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short)10);
+  private static final org.apache.thrift.protocol.TField PARENT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("parentId", org.apache.thrift.protocol.TType.STRING, (short)20);
 
   public String id;
   public String identity;
   public String accessId;
   public String title;
+  public String parentId;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     ID((short)1, "id"),
     IDENTITY((short)2, "identity"),
     ACCESS_ID((short)3, "accessId"),
-    TITLE((short)10, "title");
+    TITLE((short)10, "title"),
+    PARENT_ID((short)20, "parentId");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -61,6 +64,8 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
           return ACCESS_ID;
         case 10: // TITLE
           return TITLE;
+        case 20: // PARENT_ID
+          return PARENT_ID;
         default:
           return null;
       }
@@ -113,6 +118,8 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
     tmpMap.put(_Fields.TITLE, new org.apache.thrift.meta_data.FieldMetaData("title", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "String")));
+    tmpMap.put(_Fields.PARENT_ID, new org.apache.thrift.meta_data.FieldMetaData("parentId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Tag.class, metaDataMap);
   }
@@ -124,13 +131,15 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     String id,
     String identity,
     String accessId,
-    String title)
+    String title,
+    String parentId)
   {
     this();
     this.id = id;
     this.identity = identity;
     this.accessId = accessId;
     this.title = title;
+    this.parentId = parentId;
   }
 
   /**
@@ -149,6 +158,9 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     if (other.isSetTitle()) {
       this.title = other.title;
     }
+    if (other.isSetParentId()) {
+      this.parentId = other.parentId;
+    }
   }
 
   public Tag deepCopy() {
@@ -161,6 +173,7 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     this.identity = null;
     this.accessId = null;
     this.title = null;
+    this.parentId = null;
   }
 
   public String getId() {
@@ -259,6 +272,30 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     }
   }
 
+  public String getParentId() {
+    return this.parentId;
+  }
+
+  public Tag setParentId(String parentId) {
+    this.parentId = parentId;
+    return this;
+  }
+
+  public void unsetParentId() {
+    this.parentId = null;
+  }
+
+  /** Returns true if field parentId is set (has been assigned a value) and false otherwise */
+  public boolean isSetParentId() {
+    return this.parentId != null;
+  }
+
+  public void setParentIdIsSet(boolean value) {
+    if (!value) {
+      this.parentId = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case ID:
@@ -293,6 +330,14 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
       }
       break;
 
+    case PARENT_ID:
+      if (value == null) {
+        unsetParentId();
+      } else {
+        setParentId((String)value);
+      }
+      break;
+
     }
   }
 
@@ -309,6 +354,9 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
 
     case TITLE:
       return getTitle();
+
+    case PARENT_ID:
+      return getParentId();
 
     }
     throw new IllegalStateException();
@@ -329,6 +377,8 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
       return isSetAccessId();
     case TITLE:
       return isSetTitle();
+    case PARENT_ID:
+      return isSetParentId();
     }
     throw new IllegalStateException();
   }
@@ -379,6 +429,15 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
       if (!(this_present_title && that_present_title))
         return false;
       if (!this.title.equals(that.title))
+        return false;
+    }
+
+    boolean this_present_parentId = true && this.isSetParentId();
+    boolean that_present_parentId = true && that.isSetParentId();
+    if (this_present_parentId || that_present_parentId) {
+      if (!(this_present_parentId && that_present_parentId))
+        return false;
+      if (!this.parentId.equals(that.parentId))
         return false;
     }
 
@@ -438,6 +497,16 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetParentId()).compareTo(typedOther.isSetParentId());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetParentId()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.parentId, typedOther.parentId);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -483,6 +552,13 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
+        case 20: // PARENT_ID
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.parentId = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
         default:
           org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
@@ -516,6 +592,11 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
     if (this.title != null) {
       oprot.writeFieldBegin(TITLE_FIELD_DESC);
       oprot.writeString(this.title);
+      oprot.writeFieldEnd();
+    }
+    if (this.parentId != null) {
+      oprot.writeFieldBegin(PARENT_ID_FIELD_DESC);
+      oprot.writeString(this.parentId);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -556,6 +637,14 @@ public class Tag implements org.apache.thrift.TBase<Tag, Tag._Fields>, java.io.S
       sb.append("null");
     } else {
       sb.append(this.title);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("parentId:");
+    if (this.parentId == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.parentId);
     }
     first = false;
     sb.append(")");

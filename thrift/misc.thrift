@@ -23,6 +23,8 @@ struct Tag {
   3: t.String accessId;
 
   10: t.String title;
+
+  20: t.Id parentId;
 }
 
 struct Category {
@@ -31,6 +33,8 @@ struct Category {
   3: t.String accessId;
 
   10: t.String title;
+
+  20: t.Id parentId;
 }
 
 struct Access {

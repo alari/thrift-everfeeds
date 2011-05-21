@@ -39,6 +39,8 @@ public class FilterD {
   public List<Kind> kinds = new ArrayList<Kind>();
   public boolean kindsWith;
 
+  public boolean unreadOnly = false;
+
   public Date dateCreated = new Date();
   public Date lastUpdated = new Date();
 
@@ -55,6 +57,8 @@ public class FilterD {
     filter.accessId = access.id.toString();
     filter.title = title;
     filter.splitDate = splitDate.getTime();
+
+    filter.unreadOnly = unreadOnly;
 
     filter.categoryWith = categoriesWith;
     filter.categoryIds.clear();
@@ -88,5 +92,7 @@ public class FilterD {
     splitDate = new Date(filter.splitDate);
 
     categoriesWith = filter.categoryWith;
+
+    unreadOnly = filter.unreadOnly;
   }
 }

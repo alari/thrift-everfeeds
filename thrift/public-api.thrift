@@ -32,12 +32,15 @@ service EverfeedsAPI {
 
   misc.Account saveAccount(1: t.String token, 2: misc.Account account) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
+// entries systematization
   list<misc.Tag> getTags(1: t.String token, 5: t.Id accessId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   list<misc.Category> getCategories(1: t.String token, 5: t.Id accessId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   list<enm.EntryKind> getKinds(1: t.String token, 5: t.Id accessId) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
+
   misc.Tag saveTag(1: t.String token, 3: misc.Tag tag) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
   misc.Category saveCategory(1: t.String token, 3: misc.Category category) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
+// filtering
   filter.Filter saveFilter(1: t.String token, 2: filter.Filter filter) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF);
 
   // to get simple mash of entries

@@ -33,6 +33,7 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
   private static final org.apache.thrift.protocol.TField KINDS_FIELD_DESC = new org.apache.thrift.protocol.TField("kinds", org.apache.thrift.protocol.TType.LIST, (short)30);
   private static final org.apache.thrift.protocol.TField KINDS_WITH_FIELD_DESC = new org.apache.thrift.protocol.TField("kindsWith", org.apache.thrift.protocol.TType.BOOL, (short)31);
   private static final org.apache.thrift.protocol.TField SPLIT_DATE_FIELD_DESC = new org.apache.thrift.protocol.TField("splitDate", org.apache.thrift.protocol.TType.I64, (short)40);
+  private static final org.apache.thrift.protocol.TField UNREAD_ONLY_FIELD_DESC = new org.apache.thrift.protocol.TField("unreadOnly", org.apache.thrift.protocol.TType.BOOL, (short)51);
 
   public String id;
   public String accessId;
@@ -44,6 +45,7 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
   public List<everfeeds.thrift.ttype.EntryKind> kinds;
   public boolean kindsWith;
   public long splitDate;
+  public boolean unreadOnly;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -56,7 +58,8 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     WITHOUT_TAG_IDS((short)21, "withoutTagIds"),
     KINDS((short)30, "kinds"),
     KINDS_WITH((short)31, "kindsWith"),
-    SPLIT_DATE((short)40, "splitDate");
+    SPLIT_DATE((short)40, "splitDate"),
+    UNREAD_ONLY((short)51, "unreadOnly");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -91,6 +94,8 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
           return KINDS_WITH;
         case 40: // SPLIT_DATE
           return SPLIT_DATE;
+        case 51: // UNREAD_ONLY
+          return UNREAD_ONLY;
         default:
           return null;
       }
@@ -134,7 +139,8 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
   private static final int __CATEGORYWITH_ISSET_ID = 0;
   private static final int __KINDSWITH_ISSET_ID = 1;
   private static final int __SPLITDATE_ISSET_ID = 2;
-  private BitSet __isset_bit_vector = new BitSet(3);
+  private static final int __UNREADONLY_ISSET_ID = 3;
+  private BitSet __isset_bit_vector = new BitSet(4);
 
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
@@ -163,6 +169,8 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
     tmpMap.put(_Fields.SPLIT_DATE, new org.apache.thrift.meta_data.FieldMetaData("splitDate", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64        , "Timestamp")));
+    tmpMap.put(_Fields.UNREAD_ONLY, new org.apache.thrift.meta_data.FieldMetaData("unreadOnly", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Filter.class, metaDataMap);
   }
@@ -180,7 +188,8 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     List<String> withoutTagIds,
     List<everfeeds.thrift.ttype.EntryKind> kinds,
     boolean kindsWith,
-    long splitDate)
+    long splitDate,
+    boolean unreadOnly)
   {
     this();
     this.id = id;
@@ -196,6 +205,8 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     setKindsWithIsSet(true);
     this.splitDate = splitDate;
     setSplitDateIsSet(true);
+    this.unreadOnly = unreadOnly;
+    setUnreadOnlyIsSet(true);
   }
 
   /**
@@ -244,6 +255,7 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     }
     this.kindsWith = other.kindsWith;
     this.splitDate = other.splitDate;
+    this.unreadOnly = other.unreadOnly;
   }
 
   public Filter deepCopy() {
@@ -265,6 +277,8 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     this.kindsWith = false;
     setSplitDateIsSet(false);
     this.splitDate = 0;
+    setUnreadOnlyIsSet(false);
+    this.unreadOnly = false;
   }
 
   public String getId() {
@@ -564,6 +578,29 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     __isset_bit_vector.set(__SPLITDATE_ISSET_ID, value);
   }
 
+  public boolean isUnreadOnly() {
+    return this.unreadOnly;
+  }
+
+  public Filter setUnreadOnly(boolean unreadOnly) {
+    this.unreadOnly = unreadOnly;
+    setUnreadOnlyIsSet(true);
+    return this;
+  }
+
+  public void unsetUnreadOnly() {
+    __isset_bit_vector.clear(__UNREADONLY_ISSET_ID);
+  }
+
+  /** Returns true if field unreadOnly is set (has been assigned a value) and false otherwise */
+  public boolean isSetUnreadOnly() {
+    return __isset_bit_vector.get(__UNREADONLY_ISSET_ID);
+  }
+
+  public void setUnreadOnlyIsSet(boolean value) {
+    __isset_bit_vector.set(__UNREADONLY_ISSET_ID, value);
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case ID:
@@ -646,6 +683,14 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
       }
       break;
 
+    case UNREAD_ONLY:
+      if (value == null) {
+        unsetUnreadOnly();
+      } else {
+        setUnreadOnly((Boolean)value);
+      }
+      break;
+
     }
   }
 
@@ -681,6 +726,9 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     case SPLIT_DATE:
       return new Long(getSplitDate());
 
+    case UNREAD_ONLY:
+      return new Boolean(isUnreadOnly());
+
     }
     throw new IllegalStateException();
   }
@@ -712,6 +760,8 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
       return isSetKindsWith();
     case SPLIT_DATE:
       return isSetSplitDate();
+    case UNREAD_ONLY:
+      return isSetUnreadOnly();
     }
     throw new IllegalStateException();
   }
@@ -816,6 +866,15 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
       if (!(this_present_splitDate && that_present_splitDate))
         return false;
       if (this.splitDate != that.splitDate)
+        return false;
+    }
+
+    boolean this_present_unreadOnly = true;
+    boolean that_present_unreadOnly = true;
+    if (this_present_unreadOnly || that_present_unreadOnly) {
+      if (!(this_present_unreadOnly && that_present_unreadOnly))
+        return false;
+      if (this.unreadOnly != that.unreadOnly)
         return false;
     }
 
@@ -931,6 +990,16 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     }
     if (isSetSplitDate()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.splitDate, typedOther.splitDate);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetUnreadOnly()).compareTo(typedOther.isSetUnreadOnly());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetUnreadOnly()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.unreadOnly, typedOther.unreadOnly);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1065,6 +1134,14 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
+        case 51: // UNREAD_ONLY
+          if (field.type == org.apache.thrift.protocol.TType.BOOL) {
+            this.unreadOnly = iprot.readBool();
+            setUnreadOnlyIsSet(true);
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
         default:
           org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
@@ -1152,6 +1229,9 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     oprot.writeFieldBegin(SPLIT_DATE_FIELD_DESC);
     oprot.writeI64(this.splitDate);
     oprot.writeFieldEnd();
+    oprot.writeFieldBegin(UNREAD_ONLY_FIELD_DESC);
+    oprot.writeBool(this.unreadOnly);
+    oprot.writeFieldEnd();
     oprot.writeFieldStop();
     oprot.writeStructEnd();
   }
@@ -1227,6 +1307,10 @@ public class Filter implements org.apache.thrift.TBase<Filter, Filter._Fields>, 
     if (!first) sb.append(", ");
     sb.append("splitDate:");
     sb.append(this.splitDate);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("unreadOnly:");
+    sb.append(this.unreadOnly);
     first = false;
     sb.append(")");
     return sb.toString();

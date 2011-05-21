@@ -24,6 +24,9 @@ public class CategoryD {
   @Reference
   public AccessD access;
 
+  @Reference(lazy = true)
+  public CategoryD parent;
+
   public String identity;
   public String title;
 
@@ -40,6 +43,7 @@ public class CategoryD {
     category.identity = identity;
     category.title = title;
     category.accessId = access.id.toString();
+    category.parentId = parent == null ? "" : parent.id.toString();
   }
 
   public void syncFromThrift(Category category) {

@@ -9,8 +9,7 @@ import java.util.Map;
  */
 public enum Scope {
 
-  APP_CREATE_TOKEN("appCreateToken"),
-  APP_CREATE_ACCOUNT("appCreateAccount"),
+
   INFO("accountInfo"),
   INFO_WRITE("writeAccountInfo"),
   INFO_ORDER("writeAccountOrder"),

@@ -22,6 +22,9 @@ public class TagD {
   @Indexed
   public AccessD access;
 
+  @Reference(lazy = true)
+  public TagD parent;
+
   @Version
   public Long version;
 
@@ -41,6 +44,7 @@ public class TagD {
     tag.identity = identity;
     tag.title = title;
     tag.accessId = access.id.toString();
+    tag.parentId = parent == null ? "" : parent.id.toString();
   }
 
   public void syncFromThrift(Tag tag) {

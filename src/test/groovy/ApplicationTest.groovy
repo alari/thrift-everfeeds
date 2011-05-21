@@ -55,4 +55,9 @@ class ApplicationTest extends GroovyTestCase{
     assert Scope.FEED_READ.toString() in tkn.scopes
     assert !(Scope.FEED_WRITE.toString() in tkn.scopes)
   }
+
+  void testListApps(){
+    assert getAppId()
+    assert getAppId() in ThriftPrivateClient.client.listApps()*.id
+  }
 }

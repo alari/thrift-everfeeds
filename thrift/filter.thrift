@@ -23,4 +23,6 @@ struct Filter {
   31: bool kindsWith;
 
   40: t.Timestamp splitDate;
+
+  51: bool unreadOnly;
 }
