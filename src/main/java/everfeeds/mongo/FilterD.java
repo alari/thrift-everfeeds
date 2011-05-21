@@ -1,6 +1,7 @@
 package everfeeds.mongo;
 
 import com.google.code.morphia.annotations.*;
+import everfeeds.MongoDB;
 import everfeeds.thrift.domain.Filter;
 import everfeeds.thrift.ttype.EntryKind;
 import everfeeds.thrift.util.Kind;

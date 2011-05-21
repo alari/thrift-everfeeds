@@ -54,11 +54,18 @@ public class AccessD {
     access.expired = expired;
     access.id = id.toString();
     access.type = type.toThrift();
+    access.accountId = account.id.toString();
   }
 
   public void syncFromThrift(Access access) {
     title = access.title;
     identity = access.identity;
     screenName = access.screenName;
+  }
+
+  public void syncFullFromThrift(Access access) {
+    syncFromThrift(access);
+    expired = access.expired;
+    type = Type.getByThrift( access.type );
   }
 }

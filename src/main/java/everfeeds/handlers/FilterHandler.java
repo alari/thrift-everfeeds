@@ -120,6 +120,9 @@ public class FilterHandler extends Handler {
         query.filter("kind nin", filterD.kinds);
       }
     }
+    if(filterD.unreadOnly) {
+      query.filter("isRead", false);
+    }
 
     return query;
   }

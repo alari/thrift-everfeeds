@@ -55,3 +55,10 @@ struct Account {
 
   10: t.String title;
 }
+
+struct Author {
+  10: t.String title;
+  11: t.String identity;
+  12: t.String imageUrl;
+  13: t.String screenName;
+}

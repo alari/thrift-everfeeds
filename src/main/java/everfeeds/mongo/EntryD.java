@@ -91,10 +91,7 @@ public class EntryD {
     entry.description = description;
     entry.sourceUrl = sourceUrl;
 
-    entry.author = author.title;
-    entry.authorIdentity = author.identity;
-    entry.authorImageUrl = author.imageUrl;
-    entry.authorScreenName = author.screenName;
+    entry.author = author.toThrift();
 
     entry.kind = kind.toThrift();
 
@@ -126,10 +123,7 @@ public class EntryD {
     sourceUrl = entry.sourceUrl;
 
     author = new AuthorD();
-    author.title = entry.getAuthor();
-    author.identity = entry.getAuthorIdentity();
-    author.imageUrl = entry.getAuthorImageUrl();
-    author.screenName = entry.getAuthorScreenName();
+    author.syncFromThrift(entry.author);
 
     kind = Kind.getByThrift(entry.kind);
 

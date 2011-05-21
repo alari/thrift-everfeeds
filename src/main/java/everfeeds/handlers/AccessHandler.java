@@ -11,6 +11,7 @@ import everfeeds.thrift.domain.Category;
 import everfeeds.thrift.domain.Tag;
 import everfeeds.thrift.ttype.EntryKind;
 import org.apache.thrift.TException;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class AccessHandler extends AccountHandler {
   public List<EntryKind> getKinds(String token, String accessId) throws TException, TokenNotFound, Forbidden, TokenExpired {
     // can't imagine how to do it
     checkToken(getTokenD(token), Scope.INFO);
-    return null;
+    return new ArrayList<EntryKind>();
   }
 
 
@@ -78,6 +79,15 @@ public class AccessHandler extends AccountHandler {
         tagD = new TagD();
         tagD.access = accessD;
       }
+    }
+    if(tag.parentId != null && !tag.parentId.isEmpty()) {
+      TagD parentTag = getDS().createQuery(TagD.class).filter("id", new ObjectId(tag.parentId)).filter("access", accessD).get();
+      if(parentTag == null) {
+        throw new Forbidden("Access to parent tag is forbidden");
+      }
+      tagD.parent = parentTag;
+    } else {
+      tagD.parent = null;
     }
 
     tagD.syncFromThrift(tag);

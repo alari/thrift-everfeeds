@@ -1,5 +1,6 @@
 include "t.thrift"
 include "enm.thrift"
+include "misc.thrift"
 
 namespace cpp everfeeds.thrift.domain
 namespace java everfeeds.thrift.domain
@@ -33,10 +34,7 @@ struct Entry {
   // String content; to be required separately
 
   # Author info
-  50: optional t.String author;
-  51: optional t.String authorIdentity;
-  52: optional t.String authorImageUrl;
-  53: optional t.String authorScreenName;
+  50: optional misc.Author author;
 
   # Dates
   60: optional t.Timestamp dateCreated;
