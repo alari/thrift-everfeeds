@@ -6,6 +6,7 @@ import everfeeds.thrift.domain.Account
 import everfeeds.thrift.domain.Access
 import everfeeds.thrift.ttype.AccessType
 import everfeeds.thrift.error.Forbidden
+import everfeeds.secure.thrift.Application
 /**
  * @author Dmitry Kurinskiy
  * @since 18.05.11 23:22
@@ -18,7 +19,10 @@ class RemoteTest extends GroovyTestCase{
       ThriftPrivateClient.client.remotePullEntries filter
     }
 
-    String appId = ThriftPrivateClient.client.createApp("test remote", "secret", [Scope.FEED_READ.toString(),Scope.INFO.toString()])
+    Application app = new Application()
+    app.key = "test remote"
+    app.scopes = [Scope.FEED_READ.toString(),Scope.INFO.toString()]
+    String appId = ThriftPrivateClient.client.saveApp(app)?.id
     assertNotNull appId
 
     Access access = new Access()

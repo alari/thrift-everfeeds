@@ -8,6 +8,7 @@ import everfeeds.thrift.util.Scope;
 import everfeeds.thrift.domain.Token;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class TokenD {
   @Indexed
   public ApplicationD application;
 
-  public List<String> scopes;
+  public List<String> scopes = new ArrayList<String>();
 
   public Date dateCreated = new Date();
   public Date expires;
@@ -48,7 +49,10 @@ public class TokenD {
   public void syncFromThrift(Token token) {
     expired = token.expired;
     expires = new Date(token.expires);
-    scopes = token.scopes;
+    scopes.clear();
+    if(token.scopes != null) {
+      scopes = token.scopes;
+    }
   }
 
   public boolean hasScope(Scope scope) {

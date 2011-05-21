@@ -3,14 +3,19 @@ import everfeeds.thrift.domain.Access
 import everfeeds.thrift.ttype.AccessType
 import everfeeds.thrift.domain.Account
 import everfeeds.thrift.domain.Token
+import everfeeds.secure.thrift.Application
 /**
  * @author Dmitry Kurinskiy
  * @since 18.05.11 19:57
  */
 class ApplicationTest extends GroovyTestCase{
 
-  String getAppId() {
-    ThriftPrivateClient.client.createApp("test key", "test secret", [Scope.FEED_READ.toString()])
+  String getAppId(String key = "test key") {
+    Application app = new Application();
+    app.key = key
+    app.secret = "test secret"
+    app.scopes = [Scope.FEED_READ.toString()]
+    return ThriftPrivateClient.client.saveApp(app)?.id
   }
 
   String getAccountId(){
@@ -22,9 +27,10 @@ class ApplicationTest extends GroovyTestCase{
   }
 
   void testCreateApp(){
-    String id = ThriftPrivateClient.client.createApp("test key", "test secret", [Scope.FEED_READ.toString()])
+    String id = getAppId("test1")
     assert id
-    assertEquals id, ThriftPrivateClient.client.createApp("test key", "222", [])
+    assertEquals id, getAppId("test1")
+    assertNotSame id, getAppId("test2")
   }
 
   void testCreateAccessAndAccount(){

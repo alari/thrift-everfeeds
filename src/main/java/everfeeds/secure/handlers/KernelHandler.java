@@ -3,6 +3,7 @@ package everfeeds.secure.handlers;
 import everfeeds.handlers.Handler;
 import everfeeds.mongo.*;
 import everfeeds.remote.RemoteFactory;
+import everfeeds.secure.thrift.Application;
 import everfeeds.secure.thrift.KernelAPI;
 import everfeeds.thrift.domain.*;
 import everfeeds.thrift.error.Forbidden;
@@ -58,16 +59,26 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
   }
 
   @Override
-  public String createApp(String key, String secret, List<String> scopes) throws Forbidden, NotFound, TException {
-    ApplicationD appD = getDS().createQuery(ApplicationD.class).filter("key", key).get();
+  public Application saveApp(Application app) throws Forbidden, TException {
+    ApplicationD appD = getDS().createQuery(ApplicationD.class).filter("key", app.key).get();
     if(appD == null) {
       appD = new ApplicationD();
-      appD.key = key;
     }
-    appD.secret = secret;
-    appD.scopes = scopes;
+    appD.syncFromThrift(app);
     getDS().save(appD);
-    return appD.id.toString();
+    appD.syncToThrift(app);
+    return app;
+  }
+
+  @Override
+  public List<Application> listApps() throws TException {
+    List<Application> apps = new ArrayList<Application>();
+    for(ApplicationD appD : getDS().createQuery(ApplicationD.class).asList()) {
+      Application app = new Application();
+      appD.syncToThrift(app);
+      apps.add(app);
+    }
+    return apps;
   }
 
   @Override

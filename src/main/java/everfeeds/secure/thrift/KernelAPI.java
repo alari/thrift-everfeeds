@@ -28,7 +28,9 @@ public class KernelAPI {
 
     public everfeeds.thrift.domain.Token createToken(String applicationId, String accountId, List<String> scopes) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
-    public String createApp(String key, String secret, List<String> scopes) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
+    public Application saveApp(Application app) throws everfeeds.thrift.error.Forbidden, org.apache.thrift.TException;
+
+    public List<Application> listApps() throws org.apache.thrift.TException;
 
     public everfeeds.thrift.domain.Account authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
@@ -44,7 +46,9 @@ public class KernelAPI {
 
     public void createToken(String applicationId, String accountId, List<String> scopes, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.createToken_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void createApp(String key, String secret, List<String> scopes, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.createApp_call> resultHandler) throws org.apache.thrift.TException;
+    public void saveApp(Application app, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.saveApp_call> resultHandler) throws org.apache.thrift.TException;
+
+    public void listApps(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.listApps_call> resultHandler) throws org.apache.thrift.TException;
 
     public void authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.authenticate_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -170,25 +174,23 @@ public class KernelAPI {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "createToken failed: unknown result");
     }
 
-    public String createApp(String key, String secret, List<String> scopes) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
+    public Application saveApp(Application app) throws everfeeds.thrift.error.Forbidden, org.apache.thrift.TException
     {
-      send_createApp(key, secret, scopes);
-      return recv_createApp();
+      send_saveApp(app);
+      return recv_saveApp();
     }
 
-    public void send_createApp(String key, String secret, List<String> scopes) throws org.apache.thrift.TException
+    public void send_saveApp(Application app) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createApp", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
-      createApp_args args = new createApp_args();
-      args.setKey(key);
-      args.setSecret(secret);
-      args.setScopes(scopes);
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveApp", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
+      saveApp_args args = new saveApp_args();
+      args.setApp(app);
       args.write(oprot_);
       oprot_.writeMessageEnd();
       oprot_.getTransport().flush();
     }
 
-    public String recv_createApp() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
+    public Application recv_saveApp() throws everfeeds.thrift.error.Forbidden, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -197,9 +199,9 @@ public class KernelAPI {
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "createApp failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "saveApp failed: out of sequence response");
       }
-      createApp_result result = new createApp_result();
+      saveApp_result result = new saveApp_result();
       result.read(iprot_);
       iprot_.readMessageEnd();
       if (result.isSetSuccess()) {
@@ -208,10 +210,42 @@ public class KernelAPI {
       if (result.eOne != null) {
         throw result.eOne;
       }
-      if (result.eTwo != null) {
-        throw result.eTwo;
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "saveApp failed: unknown result");
+    }
+
+    public List<Application> listApps() throws org.apache.thrift.TException
+    {
+      send_listApps();
+      return recv_listApps();
+    }
+
+    public void send_listApps() throws org.apache.thrift.TException
+    {
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listApps", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
+      listApps_args args = new listApps_args();
+      args.write(oprot_);
+      oprot_.writeMessageEnd();
+      oprot_.getTransport().flush();
+    }
+
+    public List<Application> recv_listApps() throws org.apache.thrift.TException
+    {
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
+        iprot_.readMessageEnd();
+        throw x;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "createApp failed: unknown result");
+      if (msg.seqid != seqid_) {
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "listApps failed: out of sequence response");
+      }
+      listApps_result result = new listApps_result();
+      result.read(iprot_);
+      iprot_.readMessageEnd();
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "listApps failed: unknown result");
     }
 
     public everfeeds.thrift.domain.Account authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
@@ -425,41 +459,64 @@ public class KernelAPI {
       }
     }
 
-    public void createApp(String key, String secret, List<String> scopes, org.apache.thrift.async.AsyncMethodCallback<createApp_call> resultHandler) throws org.apache.thrift.TException {
+    public void saveApp(Application app, org.apache.thrift.async.AsyncMethodCallback<saveApp_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      createApp_call method_call = new createApp_call(key, secret, scopes, resultHandler, this, protocolFactory, transport);
+      saveApp_call method_call = new saveApp_call(app, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class createApp_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private String key;
-      private String secret;
-      private List<String> scopes;
-      public createApp_call(String key, String secret, List<String> scopes, org.apache.thrift.async.AsyncMethodCallback<createApp_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class saveApp_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private Application app;
+      public saveApp_call(Application app, org.apache.thrift.async.AsyncMethodCallback<saveApp_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.key = key;
-        this.secret = secret;
-        this.scopes = scopes;
+        this.app = app;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createApp", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        createApp_args args = new createApp_args();
-        args.setKey(key);
-        args.setSecret(secret);
-        args.setScopes(scopes);
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveApp", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        saveApp_args args = new saveApp_args();
+        args.setApp(app);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public String getResult() throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException {
+      public Application getResult() throws everfeeds.thrift.error.Forbidden, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_createApp();
+        return (new Client(prot)).recv_saveApp();
+      }
+    }
+
+    public void listApps(org.apache.thrift.async.AsyncMethodCallback<listApps_call> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      listApps_call method_call = new listApps_call(resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
+      manager.call(method_call);
+    }
+
+    public static class listApps_call extends org.apache.thrift.async.TAsyncMethodCall {
+      public listApps_call(org.apache.thrift.async.AsyncMethodCallback<listApps_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listApps", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        listApps_args args = new listApps_args();
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public List<Application> getResult() throws org.apache.thrift.TException {
+        if (getState() != State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_listApps();
       }
     }
 
@@ -577,7 +634,8 @@ public class KernelAPI {
       iface_ = iface;
       processMap_.put("ping", new ping());
       processMap_.put("createToken", new createToken());
-      processMap_.put("createApp", new createApp());
+      processMap_.put("saveApp", new saveApp());
+      processMap_.put("listApps", new listApps());
       processMap_.put("authenticate", new authenticate());
       processMap_.put("remotePullEntries", new remotePullEntries());
       processMap_.put("remoteSaveEntries", new remoteSaveEntries());
@@ -674,39 +732,63 @@ public class KernelAPI {
 
     }
 
-    private class createApp implements ProcessFunction {
+    private class saveApp implements ProcessFunction {
       public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
-        createApp_args args = new createApp_args();
+        saveApp_args args = new saveApp_args();
         try {
           args.read(iprot);
         } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
           org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createApp", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveApp", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
         iprot.readMessageEnd();
-        createApp_result result = new createApp_result();
+        saveApp_result result = new saveApp_result();
         try {
-          result.success = iface_.createApp(args.key, args.secret, args.scopes);
+          result.success = iface_.saveApp(args.app);
         } catch (everfeeds.thrift.error.Forbidden eOne) {
           result.eOne = eOne;
-        } catch (everfeeds.thrift.error.NotFound eTwo) {
-          result.eTwo = eTwo;
         } catch (Throwable th) {
-          LOGGER.error("Internal error processing createApp", th);
-          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing createApp");
-          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createApp", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          LOGGER.error("Internal error processing saveApp", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing saveApp");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveApp", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createApp", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("saveApp", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
+        result.write(oprot);
+        oprot.writeMessageEnd();
+        oprot.getTransport().flush();
+      }
+
+    }
+
+    private class listApps implements ProcessFunction {
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
+      {
+        listApps_args args = new listApps_args();
+        try {
+          args.read(iprot);
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
+          iprot.readMessageEnd();
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listApps", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
+        iprot.readMessageEnd();
+        listApps_result result = new listApps_result();
+        result.success = iface_.listApps();
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listApps", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -1737,13 +1819,13 @@ public class KernelAPI {
           case 4: // SCOPES
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                this.scopes = new ArrayList<String>(_list0.size);
-                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
+                this.scopes = new ArrayList<String>(_list4.size);
+                for (int _i5 = 0; _i5 < _list4.size; ++_i5)
                 {
-                  String _elem2;
-                  _elem2 = iprot.readString();
-                  this.scopes.add(_elem2);
+                  String _elem6;
+                  _elem6 = iprot.readString();
+                  this.scopes.add(_elem6);
                 }
                 iprot.readListEnd();
               }
@@ -1780,9 +1862,9 @@ public class KernelAPI {
         oprot.writeFieldBegin(SCOPES_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.scopes.size()));
-          for (String _iter3 : this.scopes)
+          for (String _iter7 : this.scopes)
           {
-            oprot.writeString(_iter3);
+            oprot.writeString(_iter7);
           }
           oprot.writeListEnd();
         }
@@ -2321,22 +2403,16 @@ public class KernelAPI {
 
   }
 
-  public static class createApp_args implements org.apache.thrift.TBase<createApp_args, createApp_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createApp_args");
+  public static class saveApp_args implements org.apache.thrift.TBase<saveApp_args, saveApp_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("saveApp_args");
 
-    private static final org.apache.thrift.protocol.TField KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("key", org.apache.thrift.protocol.TType.STRING, (short)2);
-    private static final org.apache.thrift.protocol.TField SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("secret", org.apache.thrift.protocol.TType.STRING, (short)3);
-    private static final org.apache.thrift.protocol.TField SCOPES_FIELD_DESC = new org.apache.thrift.protocol.TField("scopes", org.apache.thrift.protocol.TType.LIST, (short)4);
+    private static final org.apache.thrift.protocol.TField APP_FIELD_DESC = new org.apache.thrift.protocol.TField("app", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
-    public String key;
-    public String secret;
-    public List<String> scopes;
+    public Application app;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      KEY((short)2, "key"),
-      SECRET((short)3, "secret"),
-      SCOPES((short)4, "scopes");
+      APP((short)1, "app");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2351,12 +2427,8 @@ public class KernelAPI {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 2: // KEY
-            return KEY;
-          case 3: // SECRET
-            return SECRET;
-          case 4: // SCOPES
-            return SCOPES;
+          case 1: // APP
+            return APP;
           default:
             return null;
         }
@@ -2401,171 +2473,71 @@ public class KernelAPI {
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.KEY, new org.apache.thrift.meta_data.FieldMetaData("key", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      tmpMap.put(_Fields.SECRET, new org.apache.thrift.meta_data.FieldMetaData("secret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      tmpMap.put(_Fields.SCOPES, new org.apache.thrift.meta_data.FieldMetaData("scopes", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
+      tmpMap.put(_Fields.APP, new org.apache.thrift.meta_data.FieldMetaData("app", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Application.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createApp_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(saveApp_args.class, metaDataMap);
     }
 
-    public createApp_args() {
+    public saveApp_args() {
     }
 
-    public createApp_args(
-      String key,
-      String secret,
-      List<String> scopes)
+    public saveApp_args(
+      Application app)
     {
       this();
-      this.key = key;
-      this.secret = secret;
-      this.scopes = scopes;
+      this.app = app;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public createApp_args(createApp_args other) {
-      if (other.isSetKey()) {
-        this.key = other.key;
-      }
-      if (other.isSetSecret()) {
-        this.secret = other.secret;
-      }
-      if (other.isSetScopes()) {
-        List<String> __this__scopes = new ArrayList<String>();
-        for (String other_element : other.scopes) {
-          __this__scopes.add(other_element);
-        }
-        this.scopes = __this__scopes;
+    public saveApp_args(saveApp_args other) {
+      if (other.isSetApp()) {
+        this.app = new Application(other.app);
       }
     }
 
-    public createApp_args deepCopy() {
-      return new createApp_args(this);
+    public saveApp_args deepCopy() {
+      return new saveApp_args(this);
     }
 
     @Override
     public void clear() {
-      this.key = null;
-      this.secret = null;
-      this.scopes = null;
+      this.app = null;
     }
 
-    public String getKey() {
-      return this.key;
+    public Application getApp() {
+      return this.app;
     }
 
-    public createApp_args setKey(String key) {
-      this.key = key;
+    public saveApp_args setApp(Application app) {
+      this.app = app;
       return this;
     }
 
-    public void unsetKey() {
-      this.key = null;
+    public void unsetApp() {
+      this.app = null;
     }
 
-    /** Returns true if field key is set (has been assigned a value) and false otherwise */
-    public boolean isSetKey() {
-      return this.key != null;
+    /** Returns true if field app is set (has been assigned a value) and false otherwise */
+    public boolean isSetApp() {
+      return this.app != null;
     }
 
-    public void setKeyIsSet(boolean value) {
+    public void setAppIsSet(boolean value) {
       if (!value) {
-        this.key = null;
-      }
-    }
-
-    public String getSecret() {
-      return this.secret;
-    }
-
-    public createApp_args setSecret(String secret) {
-      this.secret = secret;
-      return this;
-    }
-
-    public void unsetSecret() {
-      this.secret = null;
-    }
-
-    /** Returns true if field secret is set (has been assigned a value) and false otherwise */
-    public boolean isSetSecret() {
-      return this.secret != null;
-    }
-
-    public void setSecretIsSet(boolean value) {
-      if (!value) {
-        this.secret = null;
-      }
-    }
-
-    public int getScopesSize() {
-      return (this.scopes == null) ? 0 : this.scopes.size();
-    }
-
-    public java.util.Iterator<String> getScopesIterator() {
-      return (this.scopes == null) ? null : this.scopes.iterator();
-    }
-
-    public void addToScopes(String elem) {
-      if (this.scopes == null) {
-        this.scopes = new ArrayList<String>();
-      }
-      this.scopes.add(elem);
-    }
-
-    public List<String> getScopes() {
-      return this.scopes;
-    }
-
-    public createApp_args setScopes(List<String> scopes) {
-      this.scopes = scopes;
-      return this;
-    }
-
-    public void unsetScopes() {
-      this.scopes = null;
-    }
-
-    /** Returns true if field scopes is set (has been assigned a value) and false otherwise */
-    public boolean isSetScopes() {
-      return this.scopes != null;
-    }
-
-    public void setScopesIsSet(boolean value) {
-      if (!value) {
-        this.scopes = null;
+        this.app = null;
       }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-      case KEY:
+      case APP:
         if (value == null) {
-          unsetKey();
+          unsetApp();
         } else {
-          setKey((String)value);
-        }
-        break;
-
-      case SECRET:
-        if (value == null) {
-          unsetSecret();
-        } else {
-          setSecret((String)value);
-        }
-        break;
-
-      case SCOPES:
-        if (value == null) {
-          unsetScopes();
-        } else {
-          setScopes((List<String>)value);
+          setApp((Application)value);
         }
         break;
 
@@ -2574,14 +2546,8 @@ public class KernelAPI {
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-      case KEY:
-        return getKey();
-
-      case SECRET:
-        return getSecret();
-
-      case SCOPES:
-        return getScopes();
+      case APP:
+        return getApp();
 
       }
       throw new IllegalStateException();
@@ -2594,12 +2560,8 @@ public class KernelAPI {
       }
 
       switch (field) {
-      case KEY:
-        return isSetKey();
-      case SECRET:
-        return isSetSecret();
-      case SCOPES:
-        return isSetScopes();
+      case APP:
+        return isSetApp();
       }
       throw new IllegalStateException();
     }
@@ -2608,39 +2570,21 @@ public class KernelAPI {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof createApp_args)
-        return this.equals((createApp_args)that);
+      if (that instanceof saveApp_args)
+        return this.equals((saveApp_args)that);
       return false;
     }
 
-    public boolean equals(createApp_args that) {
+    public boolean equals(saveApp_args that) {
       if (that == null)
         return false;
 
-      boolean this_present_key = true && this.isSetKey();
-      boolean that_present_key = true && that.isSetKey();
-      if (this_present_key || that_present_key) {
-        if (!(this_present_key && that_present_key))
+      boolean this_present_app = true && this.isSetApp();
+      boolean that_present_app = true && that.isSetApp();
+      if (this_present_app || that_present_app) {
+        if (!(this_present_app && that_present_app))
           return false;
-        if (!this.key.equals(that.key))
-          return false;
-      }
-
-      boolean this_present_secret = true && this.isSetSecret();
-      boolean that_present_secret = true && that.isSetSecret();
-      if (this_present_secret || that_present_secret) {
-        if (!(this_present_secret && that_present_secret))
-          return false;
-        if (!this.secret.equals(that.secret))
-          return false;
-      }
-
-      boolean this_present_scopes = true && this.isSetScopes();
-      boolean that_present_scopes = true && that.isSetScopes();
-      if (this_present_scopes || that_present_scopes) {
-        if (!(this_present_scopes && that_present_scopes))
-          return false;
-        if (!this.scopes.equals(that.scopes))
+        if (!this.app.equals(that.app))
           return false;
       }
 
@@ -2652,40 +2596,20 @@ public class KernelAPI {
       return 0;
     }
 
-    public int compareTo(createApp_args other) {
+    public int compareTo(saveApp_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      createApp_args typedOther = (createApp_args)other;
+      saveApp_args typedOther = (saveApp_args)other;
 
-      lastComparison = Boolean.valueOf(isSetKey()).compareTo(typedOther.isSetKey());
+      lastComparison = Boolean.valueOf(isSetApp()).compareTo(typedOther.isSetApp());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetKey()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.key, typedOther.key);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = Boolean.valueOf(isSetSecret()).compareTo(typedOther.isSetSecret());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetSecret()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.secret, typedOther.secret);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = Boolean.valueOf(isSetScopes()).compareTo(typedOther.isSetScopes());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetScopes()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.scopes, typedOther.scopes);
+      if (isSetApp()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.app, typedOther.app);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2707,33 +2631,10 @@ public class KernelAPI {
           break;
         }
         switch (field.id) {
-          case 2: // KEY
-            if (field.type == org.apache.thrift.protocol.TType.STRING) {
-              this.key = iprot.readString();
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case 3: // SECRET
-            if (field.type == org.apache.thrift.protocol.TType.STRING) {
-              this.secret = iprot.readString();
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case 4: // SCOPES
-            if (field.type == org.apache.thrift.protocol.TType.LIST) {
-              {
-                org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
-                this.scopes = new ArrayList<String>(_list4.size);
-                for (int _i5 = 0; _i5 < _list4.size; ++_i5)
-                {
-                  String _elem6;
-                  _elem6 = iprot.readString();
-                  this.scopes.add(_elem6);
-                }
-                iprot.readListEnd();
-              }
+          case 1: // APP
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.app = new Application();
+              this.app.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -2753,26 +2654,9 @@ public class KernelAPI {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      if (this.key != null) {
-        oprot.writeFieldBegin(KEY_FIELD_DESC);
-        oprot.writeString(this.key);
-        oprot.writeFieldEnd();
-      }
-      if (this.secret != null) {
-        oprot.writeFieldBegin(SECRET_FIELD_DESC);
-        oprot.writeString(this.secret);
-        oprot.writeFieldEnd();
-      }
-      if (this.scopes != null) {
-        oprot.writeFieldBegin(SCOPES_FIELD_DESC);
-        {
-          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.scopes.size()));
-          for (String _iter7 : this.scopes)
-          {
-            oprot.writeString(_iter7);
-          }
-          oprot.writeListEnd();
-        }
+      if (this.app != null) {
+        oprot.writeFieldBegin(APP_FIELD_DESC);
+        this.app.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -2781,30 +2665,14 @@ public class KernelAPI {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("createApp_args(");
+      StringBuilder sb = new StringBuilder("saveApp_args(");
       boolean first = true;
 
-      sb.append("key:");
-      if (this.key == null) {
+      sb.append("app:");
+      if (this.app == null) {
         sb.append("null");
       } else {
-        sb.append(this.key);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("secret:");
-      if (this.secret == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.secret);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("scopes:");
-      if (this.scopes == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.scopes);
+        sb.append(this.app);
       }
       first = false;
       sb.append(")");
@@ -2833,22 +2701,19 @@ public class KernelAPI {
 
   }
 
-  public static class createApp_result implements org.apache.thrift.TBase<createApp_result, createApp_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createApp_result");
+  public static class saveApp_result implements org.apache.thrift.TBase<saveApp_result, saveApp_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("saveApp_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
     private static final org.apache.thrift.protocol.TField E_ONE_FIELD_DESC = new org.apache.thrift.protocol.TField("eOne", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-    private static final org.apache.thrift.protocol.TField E_TWO_FIELD_DESC = new org.apache.thrift.protocol.TField("eTwo", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
-    public String success;
+    public Application success;
     public everfeeds.thrift.error.Forbidden eOne;
-    public everfeeds.thrift.error.NotFound eTwo;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
-      E_ONE((short)1, "eOne"),
-      E_TWO((short)2, "eTwo");
+      E_ONE((short)1, "eOne");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2867,8 +2732,6 @@ public class KernelAPI {
             return SUCCESS;
           case 1: // E_ONE
             return E_ONE;
-          case 2: // E_TWO
-            return E_TWO;
           default:
             return null;
         }
@@ -2914,60 +2777,52 @@ public class KernelAPI {
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "Id")));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Application.class)));
       tmpMap.put(_Fields.E_ONE, new org.apache.thrift.meta_data.FieldMetaData("eOne", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
-      tmpMap.put(_Fields.E_TWO, new org.apache.thrift.meta_data.FieldMetaData("eTwo", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createApp_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(saveApp_result.class, metaDataMap);
     }
 
-    public createApp_result() {
+    public saveApp_result() {
     }
 
-    public createApp_result(
-      String success,
-      everfeeds.thrift.error.Forbidden eOne,
-      everfeeds.thrift.error.NotFound eTwo)
+    public saveApp_result(
+      Application success,
+      everfeeds.thrift.error.Forbidden eOne)
     {
       this();
       this.success = success;
       this.eOne = eOne;
-      this.eTwo = eTwo;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public createApp_result(createApp_result other) {
+    public saveApp_result(saveApp_result other) {
       if (other.isSetSuccess()) {
-        this.success = other.success;
+        this.success = new Application(other.success);
       }
       if (other.isSetEOne()) {
         this.eOne = new everfeeds.thrift.error.Forbidden(other.eOne);
       }
-      if (other.isSetETwo()) {
-        this.eTwo = new everfeeds.thrift.error.NotFound(other.eTwo);
-      }
     }
 
-    public createApp_result deepCopy() {
-      return new createApp_result(this);
+    public saveApp_result deepCopy() {
+      return new saveApp_result(this);
     }
 
     @Override
     public void clear() {
       this.success = null;
       this.eOne = null;
-      this.eTwo = null;
     }
 
-    public String getSuccess() {
+    public Application getSuccess() {
       return this.success;
     }
 
-    public createApp_result setSuccess(String success) {
+    public saveApp_result setSuccess(Application success) {
       this.success = success;
       return this;
     }
@@ -2991,7 +2846,7 @@ public class KernelAPI {
       return this.eOne;
     }
 
-    public createApp_result setEOne(everfeeds.thrift.error.Forbidden eOne) {
+    public saveApp_result setEOne(everfeeds.thrift.error.Forbidden eOne) {
       this.eOne = eOne;
       return this;
     }
@@ -3011,37 +2866,13 @@ public class KernelAPI {
       }
     }
 
-    public everfeeds.thrift.error.NotFound getETwo() {
-      return this.eTwo;
-    }
-
-    public createApp_result setETwo(everfeeds.thrift.error.NotFound eTwo) {
-      this.eTwo = eTwo;
-      return this;
-    }
-
-    public void unsetETwo() {
-      this.eTwo = null;
-    }
-
-    /** Returns true if field eTwo is set (has been assigned a value) and false otherwise */
-    public boolean isSetETwo() {
-      return this.eTwo != null;
-    }
-
-    public void setETwoIsSet(boolean value) {
-      if (!value) {
-        this.eTwo = null;
-      }
-    }
-
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((String)value);
+          setSuccess((Application)value);
         }
         break;
 
@@ -3050,14 +2881,6 @@ public class KernelAPI {
           unsetEOne();
         } else {
           setEOne((everfeeds.thrift.error.Forbidden)value);
-        }
-        break;
-
-      case E_TWO:
-        if (value == null) {
-          unsetETwo();
-        } else {
-          setETwo((everfeeds.thrift.error.NotFound)value);
         }
         break;
 
@@ -3071,9 +2894,6 @@ public class KernelAPI {
 
       case E_ONE:
         return getEOne();
-
-      case E_TWO:
-        return getETwo();
 
       }
       throw new IllegalStateException();
@@ -3090,8 +2910,6 @@ public class KernelAPI {
         return isSetSuccess();
       case E_ONE:
         return isSetEOne();
-      case E_TWO:
-        return isSetETwo();
       }
       throw new IllegalStateException();
     }
@@ -3100,12 +2918,12 @@ public class KernelAPI {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof createApp_result)
-        return this.equals((createApp_result)that);
+      if (that instanceof saveApp_result)
+        return this.equals((saveApp_result)that);
       return false;
     }
 
-    public boolean equals(createApp_result that) {
+    public boolean equals(saveApp_result that) {
       if (that == null)
         return false;
 
@@ -3127,15 +2945,6 @@ public class KernelAPI {
           return false;
       }
 
-      boolean this_present_eTwo = true && this.isSetETwo();
-      boolean that_present_eTwo = true && that.isSetETwo();
-      if (this_present_eTwo || that_present_eTwo) {
-        if (!(this_present_eTwo && that_present_eTwo))
-          return false;
-        if (!this.eTwo.equals(that.eTwo))
-          return false;
-      }
-
       return true;
     }
 
@@ -3144,13 +2953,13 @@ public class KernelAPI {
       return 0;
     }
 
-    public int compareTo(createApp_result other) {
+    public int compareTo(saveApp_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      createApp_result typedOther = (createApp_result)other;
+      saveApp_result typedOther = (saveApp_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
@@ -3168,16 +2977,6 @@ public class KernelAPI {
       }
       if (isSetEOne()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.eOne, typedOther.eOne);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = Boolean.valueOf(isSetETwo()).compareTo(typedOther.isSetETwo());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetETwo()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.eTwo, typedOther.eTwo);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3200,8 +2999,9 @@ public class KernelAPI {
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == org.apache.thrift.protocol.TType.STRING) {
-              this.success = iprot.readString();
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.success = new Application();
+              this.success.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -3210,14 +3010,6 @@ public class KernelAPI {
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.eOne = new everfeeds.thrift.error.Forbidden();
               this.eOne.read(iprot);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
-          case 2: // E_TWO
-            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.eTwo = new everfeeds.thrift.error.NotFound();
-              this.eTwo.read(iprot);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
@@ -3238,15 +3030,11 @@ public class KernelAPI {
 
       if (this.isSetSuccess()) {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-        oprot.writeString(this.success);
+        this.success.write(oprot);
         oprot.writeFieldEnd();
       } else if (this.isSetEOne()) {
         oprot.writeFieldBegin(E_ONE_FIELD_DESC);
         this.eOne.write(oprot);
-        oprot.writeFieldEnd();
-      } else if (this.isSetETwo()) {
-        oprot.writeFieldBegin(E_TWO_FIELD_DESC);
-        this.eTwo.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -3255,7 +3043,7 @@ public class KernelAPI {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("createApp_result(");
+      StringBuilder sb = new StringBuilder("saveApp_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -3273,12 +3061,540 @@ public class KernelAPI {
         sb.append(this.eOne);
       }
       first = false;
-      if (!first) sb.append(", ");
-      sb.append("eTwo:");
-      if (this.eTwo == null) {
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+  }
+
+  public static class listApps_args implements org.apache.thrift.TBase<listApps_args, listApps_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("listApps_args");
+
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(listApps_args.class, metaDataMap);
+    }
+
+    public listApps_args() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public listApps_args(listApps_args other) {
+    }
+
+    public listApps_args deepCopy() {
+      return new listApps_args(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof listApps_args)
+        return this.equals((listApps_args)that);
+      return false;
+    }
+
+    public boolean equals(listApps_args that) {
+      if (that == null)
+        return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(listApps_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      listApps_args typedOther = (listApps_args)other;
+
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
+          break;
+        }
+        switch (field.id) {
+          default:
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      // check for required fields of primitive type, which can't be checked in the validate method
+      validate();
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      validate();
+
+      oprot.writeStructBegin(STRUCT_DESC);
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("listApps_args(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+  }
+
+  public static class listApps_result implements org.apache.thrift.TBase<listApps_result, listApps_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("listApps_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+
+    public List<Application> success;
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Application.class))));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(listApps_result.class, metaDataMap);
+    }
+
+    public listApps_result() {
+    }
+
+    public listApps_result(
+      List<Application> success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public listApps_result(listApps_result other) {
+      if (other.isSetSuccess()) {
+        List<Application> __this__success = new ArrayList<Application>();
+        for (Application other_element : other.success) {
+          __this__success.add(new Application(other_element));
+        }
+        this.success = __this__success;
+      }
+    }
+
+    public listApps_result deepCopy() {
+      return new listApps_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public int getSuccessSize() {
+      return (this.success == null) ? 0 : this.success.size();
+    }
+
+    public java.util.Iterator<Application> getSuccessIterator() {
+      return (this.success == null) ? null : this.success.iterator();
+    }
+
+    public void addToSuccess(Application elem) {
+      if (this.success == null) {
+        this.success = new ArrayList<Application>();
+      }
+      this.success.add(elem);
+    }
+
+    public List<Application> getSuccess() {
+      return this.success;
+    }
+
+    public listApps_result setSuccess(List<Application> success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((List<Application>)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof listApps_result)
+        return this.equals((listApps_result)that);
+      return false;
+    }
+
+    public boolean equals(listApps_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(listApps_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      listApps_result typedOther = (listApps_result)other;
+
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
+          break;
+        }
+        switch (field.id) {
+          case 0: // SUCCESS
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
+                this.success = new ArrayList<Application>(_list8.size);
+                for (int _i9 = 0; _i9 < _list8.size; ++_i9)
+                {
+                  Application _elem10;
+                  _elem10 = new Application();
+                  _elem10.read(iprot);
+                  this.success.add(_elem10);
+                }
+                iprot.readListEnd();
+              }
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      // check for required fields of primitive type, which can't be checked in the validate method
+      validate();
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      oprot.writeStructBegin(STRUCT_DESC);
+
+      if (this.isSetSuccess()) {
+        oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
+          for (Application _iter11 : this.success)
+          {
+            _iter11.write(oprot);
+          }
+          oprot.writeListEnd();
+        }
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("listApps_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
         sb.append("null");
       } else {
-        sb.append(this.eTwo);
+        sb.append(this.success);
       }
       first = false;
       sb.append(")");
@@ -3787,13 +4103,13 @@ public class KernelAPI {
           case 5: // ACCESS_PARAMS
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
-                this.accessParams = new ArrayList<String>(_list8.size);
-                for (int _i9 = 0; _i9 < _list8.size; ++_i9)
+                org.apache.thrift.protocol.TList _list12 = iprot.readListBegin();
+                this.accessParams = new ArrayList<String>(_list12.size);
+                for (int _i13 = 0; _i13 < _list12.size; ++_i13)
                 {
-                  String _elem10;
-                  _elem10 = iprot.readString();
-                  this.accessParams.add(_elem10);
+                  String _elem14;
+                  _elem14 = iprot.readString();
+                  this.accessParams.add(_elem14);
                 }
                 iprot.readListEnd();
               }
@@ -3835,9 +4151,9 @@ public class KernelAPI {
         oprot.writeFieldBegin(ACCESS_PARAMS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.accessParams.size()));
-          for (String _iter11 : this.accessParams)
+          for (String _iter15 : this.accessParams)
           {
-            oprot.writeString(_iter11);
+            oprot.writeString(_iter15);
           }
           oprot.writeListEnd();
         }
@@ -5071,14 +5387,14 @@ public class KernelAPI {
           case 0: // SUCCESS
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list12 = iprot.readListBegin();
-                this.success = new ArrayList<everfeeds.thrift.domain.Entry>(_list12.size);
-                for (int _i13 = 0; _i13 < _list12.size; ++_i13)
+                org.apache.thrift.protocol.TList _list16 = iprot.readListBegin();
+                this.success = new ArrayList<everfeeds.thrift.domain.Entry>(_list16.size);
+                for (int _i17 = 0; _i17 < _list16.size; ++_i17)
                 {
-                  everfeeds.thrift.domain.Entry _elem14;
-                  _elem14 = new everfeeds.thrift.domain.Entry();
-                  _elem14.read(iprot);
-                  this.success.add(_elem14);
+                  everfeeds.thrift.domain.Entry _elem18;
+                  _elem18 = new everfeeds.thrift.domain.Entry();
+                  _elem18.read(iprot);
+                  this.success.add(_elem18);
                 }
                 iprot.readListEnd();
               }
@@ -5120,9 +5436,9 @@ public class KernelAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (everfeeds.thrift.domain.Entry _iter15 : this.success)
+          for (everfeeds.thrift.domain.Entry _iter19 : this.success)
           {
-            _iter15.write(oprot);
+            _iter19.write(oprot);
           }
           oprot.writeListEnd();
         }
