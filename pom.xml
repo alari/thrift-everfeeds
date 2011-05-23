@@ -10,7 +10,7 @@
 
   <properties>
     <repo>http://groovypp.artifactoryonline.com/groovypp</repo>
-    <groovypp-version>0.4.232_1.8.0</groovypp-version>
+    <groovypp-version>0.4.246_1.8.0</groovypp-version>
   </properties>
 
 
