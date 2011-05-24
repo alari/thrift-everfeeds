@@ -1,4 +1,4 @@
-package everfeeds.mongo
+@Typed package everfeeds.mongo
 
 import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Id
@@ -9,9 +9,8 @@ import org.bson.types.ObjectId
  * @since 13.05.11 17:34
  */
 @Entity
-@Typed
 class OriginalD {
-  @Id public ObjectId id;
+  @Id ObjectId id;
 
-  public Map data;
+  Map<String,?> data;
 }
