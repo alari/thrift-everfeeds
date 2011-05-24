@@ -47,7 +47,7 @@ public class AccountHandler extends Handler {
 
     AccessD accessD = findAccessD(access);
 
-    if (accessD.account != tokenD.account) {
+    if (accessD.account.id != tokenD.account.id) {
       throw new Forbidden("Access denied: accounts are not equal");
     }
 
