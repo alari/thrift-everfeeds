@@ -11,6 +11,8 @@ import com.mongodb.Mongo;
  * @since 06.05.11 15:18
  */
 public class MongoDB {
+  static public final String DB_NAME = "everfeeds";
+
   protected Mongo mongo;
   protected DB db;
   protected Datastore ds;
@@ -35,13 +37,21 @@ public class MongoDB {
     return getInstance().ads;
   }
 
+  static public Mongo getMongo(){
+    return getInstance().mongo;
+  }
+
+  static public Morphia getMorphia(){
+    return getInstance().morphia;
+  }
+
   protected MongoDB() {
     try {
       this.mongo = new Mongo();
     } catch (Exception e) {
       System.err.println(e.getMessage());
     }
-    this.db = this.mongo.getDB("everfeeds");
+    this.db = this.mongo.getDB(DB_NAME);
     this.ds = this.morphia.createDatastore(this.mongo, this.db.getName());
     this.ads = (AdvancedDatastore) ds;
   }

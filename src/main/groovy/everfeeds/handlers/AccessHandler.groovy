@@ -27,10 +27,10 @@ public class AccessHandler extends AccountHandler {
     checkToken(getTokenD(token), Scope.INFO);
 
     List<Tag> tags = new ArrayList<Tag>();
-    Tag tag;
+    //Tag tag;
 
-    for (TagD t : getDS().createQuery(TagD.class).filter("access", accessD).fetch()) {
-      tag = new Tag();
+    tagDAO.findAllByAccess(accessD).each {TagD t->
+      Tag tag = new Tag();
       t.syncToThrift(tag);
       tags.add(tag);
     }
@@ -44,10 +44,10 @@ public class AccessHandler extends AccountHandler {
     checkToken(getTokenD(token), Scope.INFO);
 
     List<Category> categories = new ArrayList<Category>();
-    Category category;
+    //Category category;
 
-    for (CategoryD c : getDS().createQuery(CategoryD.class).filter("access", accessD).fetch()) {
-      category = new Category();
+    categoryDAO.findAllByAccess(accessD).each {CategoryD c->
+      Category category = new Category();
       c.syncToThrift(category);
       categories.add(category);
     }
@@ -70,18 +70,14 @@ public class AccessHandler extends AccountHandler {
     if (accessD == null) {
       throw new TException("You must specify a valid Tag Access ID!");
     }
-    TagD tagD;
-    if (!tag.id.isEmpty()) {
-      tagD = getDS().createQuery(TagD.class).filter("id", tag.id).filter("access", accessD).get();
-    } else {
-      tagD = getDS().createQuery(TagD.class).filter("identity", tag.identity).filter("access", accessD).get();
+    TagD tagD = tagDAO.getByThrift(tag, accessD);
       if (tagD == null) {
         tagD = new TagD();
         tagD.access = accessD;
       }
-    }
+
     if(tag.parentId != null && !tag.parentId.isEmpty()) {
-      TagD parentTag = getDS().createQuery(TagD.class).filter("id", new ObjectId(tag.parentId)).filter("access", accessD).get();
+      TagD parentTag = tagDAO.getByIdAndAccess(tag.parentId, accessD)
       if(parentTag == null) {
         throw new Forbidden("Access to parent tag is forbidden");
       }
@@ -91,7 +87,7 @@ public class AccessHandler extends AccountHandler {
     }
 
     tagD.syncFromThrift(tag);
-    getDS().save(tagD);
+    tagDAO.save(tagD);
     tagD.syncToThrift(tag);
 
     return tag;
@@ -103,21 +99,26 @@ public class AccessHandler extends AccountHandler {
     checkToken(getTokenD(token), Scope.INFO_ORDER);
 
     if (accessD == null) {
-      throw new TException("You must specify a valid Tag Access ID!");
+      throw new TException("You must specify a valid Category Access ID!");
     }
-    CategoryD categoryD;
-    if (!category.id.isEmpty()) {
-      categoryD = getDS().createQuery(CategoryD.class).filter("id", category.id).filter("access", accessD).get();
-    } else {
-      categoryD = getDS().createQuery(CategoryD.class).filter("identity", category.identity).filter("access", accessD).get();
+    CategoryD categoryD = categoryDAO.getByThrift(category, accessD);
       if (categoryD == null) {
         categoryD = new CategoryD();
         categoryD.access = accessD;
       }
+
+       if(category.parentId != null && !category.parentId.isEmpty()) {
+      CategoryD parentCategory = categoryDAO.getByIdAndAccess(category.parentId, accessD)
+      if(parentCategory == null) {
+        throw new Forbidden("Access to parent category is forbidden");
+      }
+      categoryD.parent = parentCategory;
+    } else {
+      categoryD.parent = null;
     }
 
     categoryD.syncFromThrift(category);
-    getDS().save(categoryD);
+    categoryDAO.save(categoryD);
     categoryD.syncToThrift(category);
 
     return category;

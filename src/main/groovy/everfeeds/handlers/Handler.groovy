@@ -11,17 +11,26 @@ import everfeeds.thrift.error.TokenNotFound;
 import everfeeds.thrift.util.Scope;
 import everfeeds.thrift.util.Type;
 import org.apache.thrift.TException;
-import org.bson.types.ObjectId;
-
-import java.util.List;
+import everfeeds.dao.*
 
 /**
  * @author Dmitry Kurinskiy
  * @since 06.05.11 19:11
  */
 abstract public class Handler {
+  protected AccessDAO getAccessDAO(){AccessDAO.getInstance()}
+  protected AccountDAO getAccountDAO(){AccountDAO.getInstance()}
+  protected ApplicationDAO getApplicationDAO(){ApplicationDAO.getInstance()}
+  protected CategoryDAO getCategoryDAO(){CategoryDAO.getInstance()}
+  protected EntryContentDAO getEntryContentDAO(){EntryContentDAO.getInstance()}
+  protected EntryDAO getEntryDAO(){EntryDAO.getInstance()}
+  protected FilterDAO getFilterDAO(){FilterDAO.getInstance()}
+  protected OriginalDAO getOriginalDAO(){OriginalDAO.getInstance()}
+  protected TagDAO getTagDAO(){TagDAO.getInstance()}
+  protected TokenDAO getTokenDAO(){TokenDAO.getInstance()}
+
   protected TokenD getTokenD(String id) throws TException, TokenNotFound, TokenExpired, Forbidden {
-    TokenD token = getDS().get(TokenD.class, new ObjectId(id));
+    TokenD token = tokenDAO.getById(id)
     if (token == null) {
       throw new TokenNotFound(String.format("Cannot find token for %s", id));
     }
@@ -41,20 +50,12 @@ abstract public class Handler {
   }
 
   protected AccessD findAccessD(Access access) throws TException {
-    AccessD accessD;
-    if (access.id != null && !access.id.isEmpty()) {
-      accessD = getDS().get(AccessD.class, new ObjectId(access.id));
-      if (accessD != null) {
-        return accessD;
-      }
-    }
+    AccessD accessD = accessDAO.getByThrift(access)
 
-    accessD = getDS().createQuery(AccessD.class)
-                  .filter("identity", access.identity)
-                  .filter("type", Type.getByThrift(access.type)).get();
     if (accessD != null) {
       return accessD;
     }
+
     accessD = new AccessD();
     accessD.type = Type.getByThrift(access.type);
     accessD.identity = access.identity;
@@ -65,7 +66,7 @@ abstract public class Handler {
   protected AccessD getAccessD(String token, String id) throws TException, Forbidden, TokenNotFound, TokenExpired {
     TokenD tokenD = getTokenD(token);
 
-    return getDS().createQuery(AccessD.class).filter("id", new ObjectId(id)).filter("account", tokenD.account).get();
+    return accessDAO.getByIdAndAccount(id, tokenD.account)
   }
 
 

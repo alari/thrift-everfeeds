@@ -11,7 +11,9 @@ import everfeeds.thrift.error.TokenNotFound;
 import org.apache.thrift.TException;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List
+import everfeeds.dao.TokenDAO
+import everfeeds.dao.AccessDAO;
 
 /**
  * @author Dmitry Kurinskiy
@@ -33,7 +35,7 @@ public class AccountHandler extends Handler {
     checkToken(tokenD, Scope.INFO);
 
     List<Access> list = new ArrayList<Access>();
-    for (AccessD a : getDS().createQuery(AccessD.class).field("account").equal(tokenD.account).asList()) {
+    accessDAO.findAllByAccount(tokenD.account).each{AccessD a ->
       Access access = new Access();
       a.syncToThrift(access);
       list.add(access);
@@ -52,7 +54,7 @@ public class AccountHandler extends Handler {
     }
 
     accessD.syncFromThrift(access);
-    getDS().save(accessD);
+    accessDAO.save(accessD)
 
     // Sync back
     accessD.syncToThrift(access);
@@ -65,7 +67,7 @@ public class AccountHandler extends Handler {
     checkToken(tokenD, Scope.INFO_WRITE);
 
     tokenD.account.syncFromThrift(account);
-    getDS().save(tokenD.account);
+    accountDAO.save(tokenD.account);
     tokenD.account.syncToThrift(account);
 
     return account;

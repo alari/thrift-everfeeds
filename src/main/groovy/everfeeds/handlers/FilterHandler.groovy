@@ -26,7 +26,7 @@ public class FilterHandler extends Handler {
 
     // Saving filter domain
     filterD.syncFromThrift(filter);
-    getDS().save(filterD);
+    filterDAO.save(filterD);
     filterD.syncToThrift(filter);
 
     return filter;
@@ -40,12 +40,8 @@ public class FilterHandler extends Handler {
     if (splitDate < 1) {
       throw new WrongArgument("You must set split date to get entries");
     }
-    return getEntriesForQuery(getDS().createQuery(EntryD.class)
-                                  .filter("account", tokenD.account)
-                                  .filter("dateCreated <", new Date(splitDate))
-                                  .limit(maxCount).offset(page * maxCount));
+    return domainsToThrift(entryDAO.findAllMash(tokenD.account, splitDate, maxCount, page))
   }
-
 
   public List<Entry> getMashNew(String token, long splitDate, short maxCount) throws TException, TokenNotFound, Forbidden, TokenExpired, WrongArgument {
     TokenD tokenD = getTokenD(token);
@@ -54,10 +50,7 @@ public class FilterHandler extends Handler {
     if (splitDate < 1) {
       throw new WrongArgument("You must set split date to get entries");
     }
-    return getEntriesForQuery(getDS().createQuery(EntryD.class)
-                                  .filter("account", tokenD.account)
-                                  .filter("dateCreated >", new Date(splitDate))
-                                  .limit(maxCount));
+    return domainsToThrift(entryDAO.findAllMashNew(tokenD.account, splitDate, maxCount))
   }
 
 
@@ -72,11 +65,7 @@ public class FilterHandler extends Handler {
     setFilterRelationsFromThrift(filterD, filter);
     filterD.syncFromThrift(filter);
 
-    Query<EntryD> query = getDS().createQuery(EntryD.class);
-
-    query = applyFilter(query, filterD);
-
-    return getEntriesForQuery(query.filter("dateCreated <", new Date(filter.splitDate)));
+    return domainsToThrift(entryDAO.findAllFiltered(filterD, page, maxCount))
   }
 
 
@@ -91,47 +80,10 @@ public class FilterHandler extends Handler {
     setFilterRelationsFromThrift(filterD, filter);
     filterD.syncFromThrift(filter);
 
-    Query<EntryD> query = getDS().createQuery(EntryD.class);
-
-    query = applyFilter(query, filterD);
-
-    return getEntriesForQuery(query.filter("dateCreated >", new Date(filter.splitDate)));
+    return domainsToThrift(entryDAO.findAllFilteredNew(filterD))
   }
 
-  Query<EntryD> applyFilter(Query<EntryD> query, FilterD filterD) {
-    query.filter("access", filterD.access);
-    if (filterD.categories.size() > 0) {
-      if (filterD.categoriesWith) {
-        query.filter("category in", filterD.categories);
-      } else {
-        query.filter("category nin", filterD.categories);
-      }
-    }
-    if (filterD.withTags.size() > 0) {
-      query.filter("tags all", filterD.withTags);
-    }
-    if (filterD.withoutTags.size() > 0) {
-      query.filter("tags nin", filterD.withoutTags);
-    }
-    if (filterD.kinds.size() > 0) {
-      if (filterD.kindsWith) {
-        query.filter("kind in", filterD.kinds);
-      } else {
-        query.filter("kind nin", filterD.kinds);
-      }
-    }
-    if(filterD.unreadOnly) {
-      query.filter("isRead", false);
-    }
-
-    return query;
-  }
-
-  protected List<Entry> getEntriesForQuery(Query<EntryD> query) {
-    return getEntriesForDomains(query.order("-datePlaced").asList());
-  }
-
-  protected List<Entry> getEntriesForDomains(List<EntryD> entryDs) {
+  private List<Entry> domainsToThrift(List<EntryD> entryDs){
     List<Entry> entries = new ArrayList<Entry>();
     for (EntryD eD : entryDs) {
       Entry e = new Entry();
@@ -144,11 +96,11 @@ public class FilterHandler extends Handler {
   protected FilterD getFilterD(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     FilterD filterD;
     if (!filter.id.isEmpty()) {
-      filterD = getDS().get(FilterD.class, filter.id);
+      filterD = filterDAO.getById(filter.id);
       if (filterD == null) {
-        throw new TException("Filter not found by id");
+        throw new NotFound("Filter not found by id");
       }
-      if (filterD.access.account != getTokenD(token).account) {
+      if (filterD.access.account.id != getTokenD(token).account.id) {
         throw new Forbidden("Forbidden");
       }
     } else {

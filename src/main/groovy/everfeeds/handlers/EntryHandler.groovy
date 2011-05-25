@@ -8,7 +8,8 @@ import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.NotFound;
 import everfeeds.thrift.error.TokenExpired;
 import everfeeds.thrift.error.TokenNotFound;
-import org.apache.thrift.TException;
+import org.apache.thrift.TException
+import everfeeds.dao.TagDAO;
 
 /**
  * @author Dmitry Kurinskiy
@@ -19,48 +20,43 @@ public class EntryHandler extends Handler {
     TokenD tokenD = getTokenD(token);
     checkToken(tokenD, Scope.FEED_WRITE);
 
-    AccessD accessD = getDS().createQuery(AccessD.class).filter("id", entry.accessId).get();
-    if (accessD == null || accessD.account != tokenD.account) {
+    AccessD accessD = accessDAO.getById(entry.accessId);
+    if (accessD == null || accessD.account.id != tokenD.account.id) {
       throw new Forbidden("Wrong Access ID in entry");
     }
 
-    EntryD entryD;
+    EntryD entryD = entryDAO.getByThrift(entry, accessD);
 
-    if (!entry.id.isEmpty()) {
-      entryD = getDS().get(EntryD.class, entry.id);
-      if (entryD == null) {
+      if (entry.id && entryD == null) {
         throw new NotFound("Entry not found by id");
       }
-    } else {
-      entryD = getDS().createQuery(EntryD.class).filter("identity", entry.identity).filter("access", accessD).get();
-    }
 
     if (entryD == null) {
       entryD = new EntryD();
       entryD.content = new EntryContentD();
     }
 
-    CategoryD categoryD = getDS().createQuery(CategoryD.class).filter("id", entry.categoryId).filter("access", accessD).get();
+    CategoryD categoryD = categoryDAO.getByIdAndAccess(entry.categoryId, accessD);
     if (categoryD == null) {
       throw new NotFound("Category not found or is not set.");
     }
     entryD.category = categoryD;
 
     entryD.tags.clear();
-    for (TagD t : getDS().createQuery(TagD.class).filter("access", accessD).fetch()) {
+    tagDAO.findAllByAccess(accessD).each{TagD t->
       if (entry.tagIds.contains(t.id.toString())) {
         entryD.tags.add(t);
       }
     }
 
     entryD.content.syncFromThrift(content);
-    getDS().save(entryD.content);
+    entryContentDAO.save(entryD.content);
 
     entryD.access = accessD;
     entryD.account = tokenD.account;
     entryD.syncFromThrift(entry);
 
-    getDS().save(entryD);
+    entryDAO.save(entryD);
 
     entryD.syncToThrift(entry);
 
@@ -105,10 +101,13 @@ public class EntryHandler extends Handler {
   EntryD getEntryD(String token, String id) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     checkToken(getTokenD(token), Scope.FEED_READ);
     TokenD tokenD = getTokenD(token);
-    EntryD entryD = getDS().createQuery(EntryD.class).filter("account", tokenD.account).filter("id", id).get();
+    EntryD entryD = entryDAO.getById(id);
 
     if (entryD == null) {
       throw new NotFound("Entry not found for id");
+    }
+    if(entryD.account.id != tokenD.account.id) {
+      throw new Forbidden("Forbidden")
     }
 
     return entryD;

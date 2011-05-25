@@ -22,19 +22,16 @@ import java.util.List;
 public class KernelHandler extends Handler implements KernelAPI.Iface {
   @Override
   public Token createToken(String appId, String accountId, List<String> scopes) throws TException, NotFound, Forbidden {
-    ApplicationD appD = getDS().get(ApplicationD.class, new ObjectId(appId));
+    ApplicationD appD = applicationDAO.getById(appId)
     if(appD == null) {
       throw new NotFound("App not found for id");
     }
 
-    AccountD accountD = getDS().get(AccountD.class, new ObjectId(accountId));
+    AccountD accountD = accountDAO.getById(accountId)
 
-    TokenD tokenD = getDS().createQuery(TokenD.class)
-                        .filter("application", appD)
-                        .filter("account", accountD)
-                        .get();
+    TokenD tokenD = tokenDAO.getByApplicationAndAccount(appD, accountD)
     if (tokenD != null) {
-      getDS().delete(tokenD);
+      tokenDAO.delete(tokenD);
     }
 
     tokenD = new TokenD();
@@ -50,7 +47,7 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
         tokenD.scopes.add(s);
       }
     }
-    getDS().save(tokenD);
+    tokenDAO.save(tokenD);
 
     Token token = new Token();
     tokenD.syncToThrift(token);
@@ -60,12 +57,12 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
 
   @Override
   public Application saveApp(Application app) throws Forbidden, TException {
-    ApplicationD appD = getDS().createQuery(ApplicationD.class).filter("key", app.key).get();
+    ApplicationD appD = applicationDAO.getByKey(app.key)
     if(appD == null) {
       appD = new ApplicationD();
     }
     appD.syncFromThrift(app);
-    getDS().save(appD);
+    applicationDAO.save(appD);
     appD.syncToThrift(app);
     return app;
   }
@@ -73,7 +70,7 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
   @Override
   public List<Application> listApps() throws TException {
     List<Application> apps = new ArrayList<Application>();
-    for(ApplicationD appD : getDS().createQuery(ApplicationD.class).asList()) {
+    applicationDAO.list().each {ApplicationD appD ->
       Application app = new Application();
       appD.syncToThrift(app);
       apps.add(app);
@@ -95,10 +92,10 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
     if (accessD.account == null) {
       accessD.account = new AccountD();
       accessD.account.title = accessD.title;
-      getDS().save(accessD.account);
+      accountDAO.save(accessD.account);
     }
 
-    getDS().save(accessD);
+    accessDAO.save(accessD);
     assert accessD.id != null;
 
     Account account = new Account();
@@ -131,7 +128,7 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
   public void remoteSaveEntries(Filter filter) throws Forbidden, NotFound, TException {
     FilterD filterD = new FilterD();
     filterD.syncFromThrift(filter);
-    filterD.access = getDS().get(AccessD.class, filter.accessId);
+    filterD.access = accessDAO.getById(filter.accessId);
     if(filterD.access == null) {
       throw new NotFound("Access not found by id");
     }

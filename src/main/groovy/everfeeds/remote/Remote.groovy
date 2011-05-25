@@ -5,6 +5,7 @@ import everfeeds.MongoDB
 import everfeeds.mongo.EntryD
 import everfeeds.mongo.FilterD
 import everfeeds.thrift.domain.Entry
+import everfeeds.dao.AccessDAO
 
 /**
  * @author Dmitry Kurinskiy
@@ -25,7 +26,7 @@ abstract class Remote {
       }
     } catch(InvalidTokenException e) {
       filterD.access.expired = true
-      ds.save(filterD.access)
+      AccessDAO.instance.save(filterD.access)
       null
     }
   }
@@ -35,7 +36,7 @@ abstract class Remote {
       pull(filterD).collect {Entry e = new Entry(); it.syncToThrift e; e}
     } catch(InvalidTokenException e) {
       filterD.access.expired = true
-      ds.save(filterD.access)
+      AccessDAO.instance.save(filterD.access)
       []
     }
   }
