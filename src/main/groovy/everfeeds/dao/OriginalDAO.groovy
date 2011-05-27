@@ -21,6 +21,7 @@ class OriginalDAO extends BasicDAO<OriginalD, ObjectId> {
   }
 
   public OriginalD getById(String id) {
+    if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))
   }
 

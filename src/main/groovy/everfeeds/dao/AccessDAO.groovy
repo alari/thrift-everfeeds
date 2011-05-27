@@ -25,6 +25,7 @@ class AccessDAO extends BasicDAO<AccessD, ObjectId> {
   }
 
   public AccessD getById(String id) {
+    if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))
   }
 
@@ -53,6 +54,7 @@ class AccessDAO extends BasicDAO<AccessD, ObjectId> {
   }
 
   public AccessD getByIdAndAccount(String id, AccountD account){
+    if(!ObjectId.isValid(id)) return null
     getByIdAndAccount(new ObjectId(id), account)
   }
 

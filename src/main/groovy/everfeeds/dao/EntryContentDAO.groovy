@@ -21,6 +21,7 @@ class EntryContentDAO extends BasicDAO<EntryContentD, ObjectId> {
   }
 
   public EntryContentD getById(String id) {
+    if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))
   }
 

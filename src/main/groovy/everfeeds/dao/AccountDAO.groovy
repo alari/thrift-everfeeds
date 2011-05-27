@@ -21,6 +21,7 @@ class AccountDAO extends BasicDAO<AccountD, ObjectId> {
   }
 
   public AccountD getById(String id) {
+    if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))
   }
 

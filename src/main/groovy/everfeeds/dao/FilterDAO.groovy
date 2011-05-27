@@ -21,6 +21,7 @@ class FilterDAO extends BasicDAO<FilterD, ObjectId> {
   }
 
   public FilterD getById(String id) {
+    if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))
   }
 

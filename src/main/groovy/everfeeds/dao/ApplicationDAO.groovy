@@ -21,6 +21,7 @@ class ApplicationDAO extends BasicDAO<ApplicationD, ObjectId> {
   }
 
   public ApplicationD getById(String id) {
+    if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))
   }
 

@@ -26,6 +26,7 @@ class EntryDAO extends BasicDAO<EntryD, ObjectId> {
   }
 
   public EntryD getById(String id) {
+    if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))
   }
 
