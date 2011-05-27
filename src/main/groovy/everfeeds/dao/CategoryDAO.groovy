@@ -49,6 +49,6 @@ class CategoryDAO extends BasicDAO<CategoryD, ObjectId> {
   }
 
   public CategoryD getByThrift(Category category, AccessD accessD){
-    category.id ? getByIdAndAccess(category.id, accessD) : getByIdentityAndAccess(category.identity, accessD)
+    ObjectId.isValid(category.id) ? getByIdAndAccess(category.id, accessD) : getByIdentityAndAccess(category.identity, accessD)
   }
 }

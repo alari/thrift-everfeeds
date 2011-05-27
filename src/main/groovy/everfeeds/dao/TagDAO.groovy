@@ -50,6 +50,6 @@ class TagDAO extends BasicDAO<TagD, ObjectId> {
   }
 
   public TagD getByThrift(Tag tag, AccessD accessD){
-    tag.id ? getByIdAndAccess(tag.id, accessD) : getByIdentityAndAccess(tag.identity, accessD)
+    ObjectId.isValid(tag.id) ? getByIdAndAccess(tag.id, accessD) : getByIdentityAndAccess(tag.identity, accessD)
   }
 }

@@ -35,7 +35,7 @@ class AccessDAO extends BasicDAO<AccessD, ObjectId> {
 
   public AccessD getByThrift(Access access){
     AccessD accessD
-    if (access.id != null && !access.id.isEmpty()) {
+    if (ObjectId.isValid(access.id)) {
       accessD = getById(access.id);
       if (accessD != null) {
         return accessD;
