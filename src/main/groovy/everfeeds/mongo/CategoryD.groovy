@@ -43,7 +43,7 @@ public class CategoryD {
     category.identity = identity;
     category.title = title;
     category.accessId = access.id.toString();
-    category.parentId = parent == null ? "" : parent.id.toString();
+    category.parentId = parent?.id?.toString();
   }
 
   public void syncFromThrift(Category category) {

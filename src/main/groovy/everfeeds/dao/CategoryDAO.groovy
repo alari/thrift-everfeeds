@@ -23,6 +23,7 @@ class CategoryDAO extends BasicDAO<CategoryD, ObjectId> {
   }
 
   public CategoryD getById(String id) {
+    if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))
   }
 
@@ -35,6 +36,7 @@ class CategoryDAO extends BasicDAO<CategoryD, ObjectId> {
   }
 
   public CategoryD getByIdAndAccess(String id, AccessD access) {
+    if(!ObjectId.isValid(id)) return null
     getByIdAndAccess(new ObjectId(id), access)
   }
 

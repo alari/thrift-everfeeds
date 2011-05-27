@@ -89,7 +89,6 @@ public class AccessHandler extends AccountHandler {
     tagD.syncFromThrift(tag);
     tagDAO.save(tagD);
     tagD.syncToThrift(tag);
-
     return tag;
   }
 

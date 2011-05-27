@@ -44,7 +44,7 @@ public class TagD {
     tag.identity = identity;
     tag.title = title;
     tag.accessId = access.id.toString();
-    tag.parentId = parent == null ? "" : parent.id.toString();
+    tag.parentId = parent?.id?.toString();
   }
 
   public void syncFromThrift(Tag tag) {

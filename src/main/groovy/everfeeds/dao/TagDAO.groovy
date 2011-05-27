@@ -24,6 +24,7 @@ class TagDAO extends BasicDAO<TagD, ObjectId> {
   }
 
   public TagD getById(String id) {
+    if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))
   }
 
@@ -32,6 +33,7 @@ class TagDAO extends BasicDAO<TagD, ObjectId> {
   }
 
   public TagD getByIdAndAccess(String id, AccessD access) {
+    if(!ObjectId.isValid(id)) return null
     getByIdAndAccess(new ObjectId(id), access)
   }
 
