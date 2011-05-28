@@ -2,6 +2,8 @@ package everfeeds.adapters;
 
 import com.google.code.morphia.Datastore;
 import everfeeds.MongoDB;
+import everfeeds.dao.CategoryDAO;
+import everfeeds.dao.TagDAO;
 import everfeeds.mongo.CategoryD;
 import everfeeds.mongo.FilterD;
 import everfeeds.mongo.TagD;
@@ -25,10 +27,7 @@ public class FilterAdapter {
     filterD.getWithTags().clear();
 
     if (filter.categoryIds != null && filter.categoryIds.size() > 0) {
-      List<CategoryD> categories = getDS().createQuery(CategoryD.class)
-                                       .filter("access", filterD.getAccess())
-                                       .asList();
-      for (final CategoryD c : categories) {
+      for (final CategoryD c : CategoryDAO.getInstance().findAllByAccess(filterD.getAccess())) {
         if (filter.categoryIds.contains(c.getId().toString())) {
           filterD.getCategories().add(c);
         }
@@ -36,10 +35,7 @@ public class FilterAdapter {
     }
 
     if (filter.withTagIds != null || filter.withTagIds != null) {
-      List<TagD> tags = getDS().createQuery(TagD.class)
-                            .filter("access", filterD.getAccess())
-                            .asList();
-      for (TagD t : tags) {
+      for (TagD t : TagDAO.getInstance().findAllByAccess(filterD.getAccess())) {
         if (filter.withoutTagIds != null && filter.withoutTagIds.contains(t.getId().toString())) {
           filterD.getWithoutTags().add(t);
         } else if (filter.withTagIds != null && filter.withTagIds.contains(t.getId().toString())) {
