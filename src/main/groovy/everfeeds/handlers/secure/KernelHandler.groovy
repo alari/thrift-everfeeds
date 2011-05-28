@@ -13,7 +13,8 @@ import org.apache.thrift.TException;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List
+import everfeeds.adapters.FilterAdapter;
 
 /**
  * @author Dmitry Kurinskiy
@@ -120,7 +121,7 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
     if(filterD.access == null) {
       throw new NotFound("Access not found by id: "+filter.accessId);
     }
-    filterD = setFilterRelationsFromThrift(filterD, filter);
+    filterD = FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
     return RemoteFactory.getInstance(filterD.access.type).pullToThrift(filterD);
   }
 
@@ -132,7 +133,7 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
     if(filterD.access == null) {
       throw new NotFound("Access not found by id");
     }
-    filterD = setFilterRelationsFromThrift(filterD, filter);
+    filterD = FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
     RemoteFactory.getInstance(filterD.access.type).saveEntries(filterD);
   }
 

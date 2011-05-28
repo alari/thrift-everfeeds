@@ -10,7 +10,8 @@ import org.apache.thrift.TException;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.List
+import everfeeds.adapters.FilterAdapter;
 
 /**
  * @author Dmitry Kurinskiy
@@ -22,7 +23,7 @@ public class FilterHandler extends Handler {
     checkToken(getTokenD(token), Scope.FEED_WRITE);
 
     FilterD filterD = getFilterD(token, filter);
-    setFilterRelationsFromThrift(filterD, filter);
+    FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
 
     // Saving filter domain
     filterD.syncFromThrift(filter);
@@ -62,7 +63,7 @@ public class FilterHandler extends Handler {
     }
 
     FilterD filterD = getFilterD(token, filter);
-    setFilterRelationsFromThrift(filterD, filter);
+    FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
     filterD.syncFromThrift(filter);
 
     return domainsToThrift(entryDAO.findAllFiltered(filterD, page, maxCount))
@@ -77,7 +78,7 @@ public class FilterHandler extends Handler {
     }
 
     FilterD filterD = getFilterD(token, filter);
-    setFilterRelationsFromThrift(filterD, filter);
+    FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
     filterD.syncFromThrift(filter);
 
     return domainsToThrift(entryDAO.findAllFilteredNew(filterD))
