@@ -23,18 +23,50 @@ class TwitterRemote extends Remote {
     TwitterRaw.getInstance()
   }
 
+  @Override
+  List<TagD> getActualizedTags(AccessD access) {
+    List<TagD> tags = TagDAO.instance.findAllByAccess(access)
+    tags?.each{TagD t->
+      if(!TwitterTag.getByIdentity(t.identity)) {
+        tags.remove(t)
+        TagDAO.instance.delete(t)
+      }
+    }
+    TwitterTag.values().each{TwitterTag tt->
+      if(tags.any{it.identity == tt.identity}) return;
+
+      TagD t = tt.domain
+      t.access = access
+      TagDAO.instance.save(t)
+      tags.add t
+    }
+    tags
+  }
+
+  @Override
+  List<CategoryD> getActualizedCategories(AccessD access) {
+    List<CategoryD> categories = CategoryDAO.instance.findAllByAccess(access)
+    categories?.each{CategoryD c->
+      if(!TwitterCategory.getByIdentity(c.identity)) {
+        categories.remove(c)
+        CategoryDAO.instance.delete(c)
+      }
+    }
+    TwitterCategory.values().each{TwitterCategory tc->
+      if(categories.any{it.identity == tc.identity}) return;
+
+      CategoryD c = tc.domain
+      c.access = access
+      CategoryDAO.instance.save(c)
+      categories.add c
+    }
+    categories
+  }
+
   private Map<String,TagD> getTagsCache(AccessD access){
     // Prepare tags cache
     Map<String, TagD> tags = [:]
-    List<TagD> tagsList = TagDAO.instance.findAllByAccess(access)
-    if(!tagsList.size()) {
-      TwitterTag.values().collect { it.domain }.each{TagD t->
-        t.access = access
-        TagDAO.instance.save(t)
-        tagsList.add t
-      }
-    }
-    tagsList.each {
+    getActualizedTags(access).each{
       tags.put it.identity, it
     }
     tags
@@ -45,14 +77,7 @@ class TwitterRemote extends Remote {
     List<EntryD> entries = []
 
     // Prepare the list of categories to pull from
-    List<CategoryD> categories = ds.createQuery(CategoryD).filter("access", filterD.access).asList()
-    if(!categories.size()) {
-      TwitterCategory.values().collect { it.domain }.each{CategoryD c->
-        c.access = filterD.access
-        MongoDB.getDS().save(c)
-        categories.add c
-      }
-    }
+    List<CategoryD> categories = getActualizedCategories(filterD.access)
     if (filterD.categories.size()) {
       if (filterD.categoriesWith) categories = filterD.categories
       else categories = categories - filterD.categories

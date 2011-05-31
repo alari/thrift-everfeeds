@@ -1,0 +1,3 @@
+** Thrift API -- Everfeeds project core subsystem.
+
+The first aim: to provide consistent API for remote clients, with cache and simple methods.

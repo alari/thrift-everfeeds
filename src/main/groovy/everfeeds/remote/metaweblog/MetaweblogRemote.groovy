@@ -5,6 +5,7 @@ import everfeeds.mongo.EntryD
 import everfeeds.mongo.FilterD
 import everfeeds.mongo.TagD
 import everfeeds.mongo.CategoryD
+import everfeeds.mongo.AccessD
 
 /**
  * @author Dmitry Kurinskiy
@@ -23,6 +24,16 @@ class MetaweblogRemote extends Remote{
 
   @Override
   CategoryD push(CategoryD categoryD) {
+    return null
+  }
+
+  @Override
+  List<TagD> getActualizedTags(AccessD access) {
+    return null
+  }
+
+  @Override
+  List<CategoryD> getActualizedCategories(AccessD access) {
     return null
   }
 

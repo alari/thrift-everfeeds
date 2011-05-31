@@ -10,6 +10,7 @@ import everfeeds.mongo.TagD
 import everfeeds.mongo.CategoryD
 import everfeeds.remote.error.NotSupportedException
 import everfeeds.remote.error.InvalidTokenException
+import everfeeds.mongo.AccessD
 
 /**
  * @author Dmitry Kurinskiy
@@ -44,6 +45,10 @@ abstract class Remote {
       []
     }
   }
+
+  abstract public List<TagD> getActualizedTags(AccessD access) throws InvalidTokenException
+
+  abstract public List<CategoryD> getActualizedCategories(AccessD access) throws InvalidTokenException
 
   abstract public List<EntryD> pull(FilterD filterD) throws InvalidTokenException
 
