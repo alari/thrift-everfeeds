@@ -1,4 +1,4 @@
-package everfeeds.remote
+package everfeeds.remote.error
 
 /**
  * @author Dmitry Kurinskiy

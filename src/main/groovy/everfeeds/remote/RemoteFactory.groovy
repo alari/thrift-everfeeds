@@ -4,6 +4,8 @@ import everfeeds.thrift.util.Type
 import everfeeds.remote.twitter.TwitterRemote
 import everfeeds.Environment
 import everfeeds.remote.twitter.TwitterRaw
+import everfeeds.remote.evernote.EvernoteRemote
+import everfeeds.remote.metaweblog.MetaweblogRemote
 
 /**
  * @author Dmitry Kurinskiy
@@ -19,10 +21,13 @@ class RemoteFactory {
       switch(type){
         case Type.TWITTER:
           instance = new TwitterRemote()
-          if(Environment.isTesting()) {
-            instance = [getRaw: {System.out.println("I've overrided getRaw!");TwitterRaw.getInstance()}] as TwitterRemote
-          }
           break;
+        case Type.EVERNOTE:
+          instance = new EvernoteRemote()
+              break;
+        case Type.METAWEBLOG:
+          instance = new MetaweblogRemote()
+              break;
       }
       instances.put(type, instance)
     }

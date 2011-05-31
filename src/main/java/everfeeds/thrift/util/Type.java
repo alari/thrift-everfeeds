@@ -16,7 +16,8 @@ public enum Type {
   GMAIL(AccessType.GMAIL, "gmail"),
   GREADER(AccessType.GREADER, "greader"),
   LINKEDIN(AccessType.LINKEDIN, "linkedin"),
-  VKONTAKTE(AccessType.VKONTAKTE, "vkontakte");
+  VKONTAKTE(AccessType.VKONTAKTE, "vkontakte"),
+  METAWEBLOG(AccessType.METAWEBLOG, "metaweblog");
 
   static private Map<String,Type> byName = new HashMap<String,Type>();
   static private Map<AccessType,Type> byThrift = new HashMap<AccessType,Type>();

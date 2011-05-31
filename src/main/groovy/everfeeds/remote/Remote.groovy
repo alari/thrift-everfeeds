@@ -6,6 +6,10 @@ import everfeeds.mongo.EntryD
 import everfeeds.mongo.FilterD
 import everfeeds.thrift.domain.Entry
 import everfeeds.dao.AccessDAO
+import everfeeds.mongo.TagD
+import everfeeds.mongo.CategoryD
+import everfeeds.remote.error.NotSupportedException
+import everfeeds.remote.error.InvalidTokenException
 
 /**
  * @author Dmitry Kurinskiy
@@ -42,4 +46,10 @@ abstract class Remote {
   }
 
   abstract public List<EntryD> pull(FilterD filterD) throws InvalidTokenException
+
+  abstract public TagD push(TagD tagD) throws InvalidTokenException, NotSupportedException
+
+  abstract public CategoryD push(CategoryD categoryD) throws InvalidTokenException, NotSupportedException
+
+  abstract public EntryD push(EntryD entryD) throws InvalidTokenException, NotSupportedException
 }

@@ -31,4 +31,5 @@ enum AccessType {
   GREADER = 5,
   LINKEDIN = 6,
   VKONTAKTE = 7,
+  METAWEBLOG = 8,
 }
