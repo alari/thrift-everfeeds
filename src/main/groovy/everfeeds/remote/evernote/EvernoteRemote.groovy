@@ -12,6 +12,10 @@ import everfeeds.mongo.AccessD
  * @since 31.05.11 14:49
  */
 class EvernoteRemote extends Remote{
+  private EvernoteRaw getRaw() {
+    EvernoteRaw.getInstance()
+  }
+
   @Override
   List<EntryD> pull(FilterD filterD) {
     return null
