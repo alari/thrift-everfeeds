@@ -3,6 +3,11 @@
  * @since 13.05.11 18:12
  */
 oauth {
+  evernote {
+      key = "everfeeds"
+      secret = "dd0ba24f027198c6"
+      provider = org.scribe.builder.api.EvernoteApi
+  }
   gmail {
     key = "everfeeds.com"
     secret = "mucd4gqA1yLtrY6eMzZo3IYe"

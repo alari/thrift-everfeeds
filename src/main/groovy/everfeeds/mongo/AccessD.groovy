@@ -24,7 +24,7 @@ public class AccessD {
 
   String accessToken;
   String accessSecret;
-  List<String> params;
+  Map<String,String> params;
 
   @Reference(lazy = true)
   AccountD account;
