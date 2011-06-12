@@ -8,6 +8,7 @@ import everfeeds.mongo.TagD
 import com.evernote.edam.type.Note
 import everfeeds.mongo.EntryD
 import everfeeds.mongo.AccessD
+import everfeeds.mongo.CategoryD
 
 /**
  * @author Dmitry Kurinskiy

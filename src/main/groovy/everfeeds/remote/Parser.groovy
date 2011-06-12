@@ -4,6 +4,8 @@ import com.google.code.morphia.Datastore
 import everfeeds.MongoDB
 import everfeeds.thrift.util.Kind
 import everfeeds.mongo.*
+import everfeeds.dao.TagDAO
+import everfeeds.dao.EntryDAO
 
 /**
  * @author Dmitry Kurinskiy
@@ -15,7 +17,7 @@ abstract class Parser {
   protected EntryD entry
   protected AccessD access
   protected CategoryD categoryD
-  protected Map<String, TagD> tagsCache = [:]
+  private Map<String, TagD> tagsCache
   boolean isParsed = false
 
   Parser() {}
@@ -30,6 +32,16 @@ abstract class Parser {
     tagsCache = cache
     entry = null
     isParsed = false
+  }
+
+  public Map<String,TagD> getTagsCache(){
+    if(tagsCache == null) {
+      tagsCache = [:]
+      TagDAO.instance.findAllByAccess(access).each{
+        tagsCache.put(it.identity, it)
+      }
+    }
+    tagsCache
   }
 
   public void setEntry(EntryD entryD) {
@@ -65,7 +77,8 @@ abstract class Parser {
         throw new Exception("Nothing to parse: no original provided")
       }
       if (!entry) {
-        entry = ds.createQuery(EntryD).filter("access", access).filter("kind", kind).filter("identity", identity).get() ?: new EntryD()
+        // TODO: remove this to DAO
+        entry = EntryDAO.instance.createQuery().filter("access", access).filter("kind", kind).filter("identity", identity).get() ?: new EntryD()
       }
       isParsed = true
 

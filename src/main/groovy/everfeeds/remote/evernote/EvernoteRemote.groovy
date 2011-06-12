@@ -10,6 +10,8 @@ import com.evernote.edam.type.Tag
 import everfeeds.dao.TagDAO
 import com.evernote.edam.type.Notebook
 import everfeeds.dao.CategoryDAO
+import com.evernote.edam.type.Note
+import com.evernote.edam.notestore.NoteFilter
 
 /**
  * @author Dmitry Kurinskiy
@@ -22,7 +24,36 @@ class EvernoteRemote extends Remote{
 
   @Override
   List<EntryD> pull(FilterD filterD) {
-    return null
+    NoteFilter filter = new NoteFilter()
+
+    /* TODO: fill evernote filter with ours
+    // Categories
+    if (params.category && params.category instanceof CategoryFace) {
+      CategoryFace category = params.category
+      filter.setNotebookGuid category.identity
+    }
+    // Tags
+    if (params.tags && params.tags instanceof List<TagFace>) {
+      List<TagFace> tags = params.tags
+      filter.setTagGuids tags*.identity
+    }
+     */
+
+    List<EntryD> entries = []
+
+    EvernoteParser parser = new EvernoteParser()
+    parser.access = filterD.access
+
+    Map<String,CategoryD> categories
+    getActualizedCategories(filterD.access).each{categories.put it.identity, it}
+
+    raw.getNoteStore(filterD.access).findNotes(filterD.access.accessToken, filter, 0, 100).notes.each {
+      parser.original = it
+      parser.category = categories.get(it.notebookGuid)
+      entries.add parser.result
+    }
+
+    entries
   }
 
   @Override
@@ -130,6 +161,23 @@ class EvernoteRemote extends Remote{
 
   @Override
   EntryD push(EntryD entryD) {
-    return null
+    Note note
+    if(entryD.identity) {
+      note = raw.getNoteStore(entryD.access).getNote(entryD.access.accessToken, entryD.identity, false, false, false, false)
+    } else {
+      note = new Note()
+    }
+    note.title = entryD.title
+    note.content = entryD.content.content
+    note.notebookGuid = entryD.category?.identity
+    note.tagGuids = entryD.tags*.identity
+
+    if(note.guid) {
+      note = raw.getNoteStore(entryD.access).updateNote(entryD.access.accessToken, note)
+    } else {
+      note = raw.getNoteStore(entryD.access).createNote(entryD.access.accessToken, note)
+    }
+
+    new EvernoteParser(note, entryD.access, entryD).result
   }
 }
