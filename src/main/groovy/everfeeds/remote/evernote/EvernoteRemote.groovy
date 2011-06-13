@@ -23,21 +23,17 @@ class EvernoteRemote extends Remote{
   }
 
   @Override
-  List<EntryD> pull(FilterD filterD) {
+  List<EntryD> pull(FilterD filterD, int max, int offset) {
     NoteFilter filter = new NoteFilter()
 
-    /* TODO: fill evernote filter with ours
-    // Categories
-    if (params.category && params.category instanceof CategoryFace) {
-      CategoryFace category = params.category
-      filter.setNotebookGuid category.identity
+    // May filter from one notebook or from all
+    if(filterD.categories?.size() == 1 && filterD.categoriesWith) {
+      filter.notebookGuid = filterD.categories.first().identity
     }
-    // Tags
-    if (params.tags && params.tags instanceof List<TagFace>) {
-      List<TagFace> tags = params.tags
-      filter.setTagGuids tags*.identity
+
+    if(filterD.withTags?.size()) {
+      filter.tagGuids = filterD.withTags*.identity
     }
-     */
 
     List<EntryD> entries = []
 
@@ -47,8 +43,16 @@ class EvernoteRemote extends Remote{
     Map<String,CategoryD> categories
     getActualizedCategories(filterD.access).each{categories.put it.identity, it}
 
-    raw.getNoteStore(filterD.access).findNotes(filterD.access.accessToken, filter, 0, 100).notes.each {
-      parser.original = it
+    raw.getNoteStore(filterD.access).findNotes(filterD.access.accessToken, filter, offset, max).notes.each {Note note->
+      // Processing filters
+      // For categories:
+      if(filterD.categories?.size()
+          && !filterD.categoriesWith ? filterD.categories.any{it.identity==note.notebookGuid} : filterD.categories.every {it.identity != note.notebookGuid}) return;
+      // For tags
+      if(filterD.withTags?.size() && filterD.withTags.any{!note.tagGuids.contains(it.identity)}) return;
+      if(filterD.withoutTags?.size() && filterD.withoutTags.any{note.tagGuids.contains(it.identity)}) return;
+
+      parser.original = note
       parser.category = categories.get(it.notebookGuid)
       entries.add parser.result
     }
@@ -168,7 +172,7 @@ class EvernoteRemote extends Remote{
       note = new Note()
     }
     note.title = entryD.title
-    note.content = entryD.content.content
+    note.content = EvernoteMarkup.instance.getEdamForHtml( entryD.content.html )
     note.notebookGuid = entryD.category?.identity
     note.tagGuids = entryD.tags*.identity
 

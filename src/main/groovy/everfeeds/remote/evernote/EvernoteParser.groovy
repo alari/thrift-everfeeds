@@ -8,7 +8,6 @@ import everfeeds.mongo.TagD
 import com.evernote.edam.type.Note
 import everfeeds.mongo.EntryD
 import everfeeds.mongo.AccessD
-import everfeeds.mongo.CategoryD
 
 /**
  * @author Dmitry Kurinskiy
@@ -63,7 +62,10 @@ class EvernoteParser extends Parser{
   @Override
   EntryContentD getContent() {
     EntryContentD ecd = entry.content ?: new EntryContentD()
-    ecd.content = getOriginal().content ?: EvernoteRaw.instance.getNoteStore(access).getNoteContent(access.accessToken, getOriginal().guid)
+    ecd.html = EvernoteMarkup.instance.getHtmlForEdam(
+        getOriginal().content ?:
+          EvernoteRaw.instance.getNoteStore(access).getNoteContent(access.accessToken, getOriginal().guid)
+    )
     ecd
   }
 

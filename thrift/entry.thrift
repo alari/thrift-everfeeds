@@ -31,7 +31,7 @@ struct Entry {
   40: t.String title;
   41: optional t.String description;
   42: t.String sourceUrl;
-  // String content; to be required separately
+  // String html; to be required separately
 
   # Author info
   50: optional misc.Author author;
@@ -51,6 +51,6 @@ struct EntryContent {
   1: t.Id id;
   2: t.Id entryId;
 
-  10: t.String content;
+  10: t.String html;
 }
 

@@ -73,7 +73,7 @@ class TwitterRemote extends Remote {
   }
 
   @Override
-  List<EntryD> pull(FilterD filterD) throws InvalidTokenException {
+  List<EntryD> pull(FilterD filterD, int max, int offset) throws InvalidTokenException {
     List<EntryD> entries = []
 
     // Prepare the list of categories to pull from
@@ -101,7 +101,7 @@ class TwitterRemote extends Remote {
       parser.tagsCache = tags
 
       // Getting raw json from remote api
-      def result = raw.getJson(oAuthAccess, c.url)
+      def result = raw.getJson(oAuthAccess, c.url, max)
       if(result instanceof Map && (result as Map)?.error) {
         throw new InvalidTokenException()
       }

@@ -13,7 +13,7 @@ import everfeeds.mongo.AccessD
  */
 class MetaweblogRemote extends Remote{
   @Override
-  List<EntryD> pull(FilterD filterD) {
+  List<EntryD> pull(FilterD filterD, int max, int offset) {
     return null
   }
 

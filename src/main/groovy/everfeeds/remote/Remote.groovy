@@ -18,6 +18,8 @@ import everfeeds.mongo.AccessD
  */
 @Typed
 abstract class Remote {
+  static final int PULL_MAX = 500
+
   protected Datastore getDs() {
     MongoDB.getDS();
   }
@@ -46,11 +48,15 @@ abstract class Remote {
     }
   }
 
+  final public List<EntryD> pull(FilterD filterD) {
+    pull(filterD, PULL_MAX, 0)
+  }
+
   abstract public List<TagD> getActualizedTags(AccessD access) throws InvalidTokenException
 
   abstract public List<CategoryD> getActualizedCategories(AccessD access) throws InvalidTokenException
 
-  abstract public List<EntryD> pull(FilterD filterD) throws InvalidTokenException
+  abstract public List<EntryD> pull(FilterD filterD, int max, int offset) throws InvalidTokenException
 
   abstract public TagD push(TagD tagD) throws InvalidTokenException, NotSupportedException
 

@@ -1,6 +1,7 @@
 package everfeeds.remote.twitter
 
 import everfeeds.remote.OAuthAccess
+import everfeeds.remote.Remote
 
 /**
  * @author Dmitry Kurinskiy
@@ -17,7 +18,7 @@ public class TwitterRaw {
   private TwitterRaw() {
   }
 
-  public getJson(OAuthAccess access, TwitterRawUrl url, short maxCount = 800, String query = "") {
+  public getJson(OAuthAccess access, TwitterRawUrl url, int maxCount = Remote.PULL_MAX, String query = "") {
     String callUrl = url.toString()
     callUrl += callUrl.contains("?") ? "&" : "?"
     callUrl += "count=${maxCount}&include_entities=1"
