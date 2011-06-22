@@ -117,7 +117,7 @@
     <dependency>
       <groupId>com.evernote</groupId>
       <artifactId>en-thrift</artifactId>
-      <version>1.19</version>
+      <version>1.19.0.3</version>
     </dependency>
 
     <dependency>
@@ -125,6 +125,13 @@
       <artifactId>jsoup</artifactId>
       <version>1.6.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.abdera</groupId>
+      <artifactId>abdera-client</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+
   </dependencies>
 
 

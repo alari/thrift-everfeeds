@@ -22,11 +22,11 @@ public class EntryContentD {
   String html;
 
   public void syncFromThrift(EntryContent entryContent) {
-    html = entryContent.getHtml;
+    html = entryContent.html;
   }
 
   public void syncToThrift(EntryContent entryContent) {
-    entryContent.setHtml = html;
+    entryContent.html = html;
     entryContent.id = id.toString();
   }
 }

@@ -30,7 +30,7 @@ service KernelAPI {
   Application saveApp(1: Application app) throws(1: e.Forbidden eOne);
   list<Application> listApps();
 
-  misc.Account authenticate(2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: list<string> accessParams) throws(1: e.Forbidden eOne, 2: e.NotFound eTwo);
+  misc.Account authenticate(2: misc.Access access, 3: t.String accessToken, 4: t.String accessSecret, 5: map<string,string> accessParams) throws(1: e.Forbidden eOne, 2: e.NotFound eTwo);
 
   list<entry.Entry> remotePullEntries(1: filter.Filter filter) throws(1: e.Forbidden eOne, 2: e.NotFound eTwo);
 

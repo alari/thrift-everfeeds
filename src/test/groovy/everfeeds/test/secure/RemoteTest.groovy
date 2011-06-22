@@ -31,7 +31,7 @@ class RemoteTest extends GroovyTestCase{
     Access access = new Access()
     access.type = AccessType.TWITTER
     access.identity = "test twitter"
-    Account a = ThriftPrivateClient.client.authenticate(access, "token", "secret", [])
+    Account a = ThriftPrivateClient.client.authenticate(access, "token", "secret", [:])
     assertNotNull a
     assertNotNull a.id
 

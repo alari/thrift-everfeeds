@@ -53,7 +53,7 @@ class EvernoteRemote extends Remote{
       if(filterD.withoutTags?.size() && filterD.withoutTags.any{note.tagGuids.contains(it.identity)}) return;
 
       parser.original = note
-      parser.category = categories.get(it.notebookGuid)
+      parser.category = categories.get(note.notebookGuid)
       entries.add parser.result
     }
 

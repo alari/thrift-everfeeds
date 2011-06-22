@@ -79,7 +79,7 @@ public class KernelHandler extends Handler implements KernelAPI.Iface {
   }
 
   @Override
-  public Account authenticate(Access access, String accessToken, String accessSecret, List<String> accessParams) throws TException, Forbidden, NotFound {
+  public Account authenticate(Access access, String accessToken, String accessSecret, Map<String,String> accessParams) throws TException, Forbidden, NotFound {
 
     AccessD accessD = findAccessD(access);
     // Token is renewed

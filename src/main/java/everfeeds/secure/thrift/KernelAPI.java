@@ -32,7 +32,7 @@ public class KernelAPI {
 
     public List<Application> listApps() throws org.apache.thrift.TException;
 
-    public everfeeds.thrift.domain.Account authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
+    public everfeeds.thrift.domain.Account authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, Map<String, String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
     public List<everfeeds.thrift.domain.Entry> remotePullEntries(everfeeds.thrift.domain.Filter filter) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException;
 
@@ -50,7 +50,7 @@ public class KernelAPI {
 
     public void listApps(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.listApps_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.authenticate_call> resultHandler) throws org.apache.thrift.TException;
+    public void authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, Map<String, String> accessParams, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.authenticate_call> resultHandler) throws org.apache.thrift.TException;
 
     public void remotePullEntries(everfeeds.thrift.domain.Filter filter, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.remotePullEntries_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -248,13 +248,13 @@ public class KernelAPI {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "listApps failed: unknown result");
     }
 
-    public everfeeds.thrift.domain.Account authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
+    public everfeeds.thrift.domain.Account authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, Map<String,String> accessParams) throws everfeeds.thrift.error.Forbidden, everfeeds.thrift.error.NotFound, org.apache.thrift.TException
     {
       send_authenticate(access, accessToken, accessSecret, accessParams);
       return recv_authenticate();
     }
 
-    public void send_authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams) throws org.apache.thrift.TException
+    public void send_authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, Map<String,String> accessParams) throws org.apache.thrift.TException
     {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("authenticate", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       authenticate_args args = new authenticate_args();
@@ -520,7 +520,7 @@ public class KernelAPI {
       }
     }
 
-    public void authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<authenticate_call> resultHandler) throws org.apache.thrift.TException {
+    public void authenticate(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, Map<String,String> accessParams, org.apache.thrift.async.AsyncMethodCallback<authenticate_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       authenticate_call method_call = new authenticate_call(access, accessToken, accessSecret, accessParams, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
@@ -531,8 +531,8 @@ public class KernelAPI {
       private everfeeds.thrift.domain.Access access;
       private String accessToken;
       private String accessSecret;
-      private List<String> accessParams;
-      public authenticate_call(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, List<String> accessParams, org.apache.thrift.async.AsyncMethodCallback<authenticate_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private Map<String,String> accessParams;
+      public authenticate_call(everfeeds.thrift.domain.Access access, String accessToken, String accessSecret, Map<String,String> accessParams, org.apache.thrift.async.AsyncMethodCallback<authenticate_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.access = access;
         this.accessToken = accessToken;
@@ -3629,12 +3629,12 @@ public class KernelAPI {
     private static final org.apache.thrift.protocol.TField ACCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("access", org.apache.thrift.protocol.TType.STRUCT, (short)2);
     private static final org.apache.thrift.protocol.TField ACCESS_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("accessToken", org.apache.thrift.protocol.TType.STRING, (short)3);
     private static final org.apache.thrift.protocol.TField ACCESS_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("accessSecret", org.apache.thrift.protocol.TType.STRING, (short)4);
-    private static final org.apache.thrift.protocol.TField ACCESS_PARAMS_FIELD_DESC = new org.apache.thrift.protocol.TField("accessParams", org.apache.thrift.protocol.TType.LIST, (short)5);
+    private static final org.apache.thrift.protocol.TField ACCESS_PARAMS_FIELD_DESC = new org.apache.thrift.protocol.TField("accessParams", org.apache.thrift.protocol.TType.MAP, (short)5);
 
     public everfeeds.thrift.domain.Access access;
     public String accessToken;
     public String accessSecret;
-    public List<String> accessParams;
+    public Map<String,String> accessParams;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -3715,7 +3715,8 @@ public class KernelAPI {
       tmpMap.put(_Fields.ACCESS_SECRET, new org.apache.thrift.meta_data.FieldMetaData("accessSecret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , "String")));
       tmpMap.put(_Fields.ACCESS_PARAMS, new org.apache.thrift.meta_data.FieldMetaData("accessParams", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+          new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(authenticate_args.class, metaDataMap);
@@ -3728,7 +3729,7 @@ public class KernelAPI {
       everfeeds.thrift.domain.Access access,
       String accessToken,
       String accessSecret,
-      List<String> accessParams)
+      Map<String,String> accessParams)
     {
       this();
       this.access = access;
@@ -3751,9 +3752,17 @@ public class KernelAPI {
         this.accessSecret = other.accessSecret;
       }
       if (other.isSetAccessParams()) {
-        List<String> __this__accessParams = new ArrayList<String>();
-        for (String other_element : other.accessParams) {
-          __this__accessParams.add(other_element);
+        Map<String,String> __this__accessParams = new HashMap<String,String>();
+        for (Map.Entry<String, String> other_element : other.accessParams.entrySet()) {
+
+          String other_element_key = other_element.getKey();
+          String other_element_value = other_element.getValue();
+
+          String __this__accessParams_copy_key = other_element_key;
+
+          String __this__accessParams_copy_value = other_element_value;
+
+          __this__accessParams.put(__this__accessParams_copy_key, __this__accessParams_copy_value);
         }
         this.accessParams = __this__accessParams;
       }
@@ -3847,22 +3856,18 @@ public class KernelAPI {
       return (this.accessParams == null) ? 0 : this.accessParams.size();
     }
 
-    public java.util.Iterator<String> getAccessParamsIterator() {
-      return (this.accessParams == null) ? null : this.accessParams.iterator();
-    }
-
-    public void addToAccessParams(String elem) {
+    public void putToAccessParams(String key, String val) {
       if (this.accessParams == null) {
-        this.accessParams = new ArrayList<String>();
+        this.accessParams = new HashMap<String,String>();
       }
-      this.accessParams.add(elem);
+      this.accessParams.put(key, val);
     }
 
-    public List<String> getAccessParams() {
+    public Map<String,String> getAccessParams() {
       return this.accessParams;
     }
 
-    public authenticate_args setAccessParams(List<String> accessParams) {
+    public authenticate_args setAccessParams(Map<String,String> accessParams) {
       this.accessParams = accessParams;
       return this;
     }
@@ -3912,7 +3917,7 @@ public class KernelAPI {
         if (value == null) {
           unsetAccessParams();
         } else {
-          setAccessParams((List<String>)value);
+          setAccessParams((Map<String,String>)value);
         }
         break;
 
@@ -4101,17 +4106,19 @@ public class KernelAPI {
             }
             break;
           case 5: // ACCESS_PARAMS
-            if (field.type == org.apache.thrift.protocol.TType.LIST) {
+            if (field.type == org.apache.thrift.protocol.TType.MAP) {
               {
-                org.apache.thrift.protocol.TList _list12 = iprot.readListBegin();
-                this.accessParams = new ArrayList<String>(_list12.size);
-                for (int _i13 = 0; _i13 < _list12.size; ++_i13)
+                org.apache.thrift.protocol.TMap _map12 = iprot.readMapBegin();
+                this.accessParams = new HashMap<String,String>(2*_map12.size);
+                for (int _i13 = 0; _i13 < _map12.size; ++_i13)
                 {
-                  String _elem14;
-                  _elem14 = iprot.readString();
-                  this.accessParams.add(_elem14);
+                  String _key14;
+                  String _val15;
+                  _key14 = iprot.readString();
+                  _val15 = iprot.readString();
+                  this.accessParams.put(_key14, _val15);
                 }
-                iprot.readListEnd();
+                iprot.readMapEnd();
               }
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
@@ -4150,12 +4157,13 @@ public class KernelAPI {
       if (this.accessParams != null) {
         oprot.writeFieldBegin(ACCESS_PARAMS_FIELD_DESC);
         {
-          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.accessParams.size()));
-          for (String _iter15 : this.accessParams)
+          oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, this.accessParams.size()));
+          for (Map.Entry<String, String> _iter16 : this.accessParams.entrySet())
           {
-            oprot.writeString(_iter15);
+            oprot.writeString(_iter16.getKey());
+            oprot.writeString(_iter16.getValue());
           }
-          oprot.writeListEnd();
+          oprot.writeMapEnd();
         }
         oprot.writeFieldEnd();
       }
@@ -5387,14 +5395,14 @@ public class KernelAPI {
           case 0: // SUCCESS
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list16 = iprot.readListBegin();
-                this.success = new ArrayList<everfeeds.thrift.domain.Entry>(_list16.size);
-                for (int _i17 = 0; _i17 < _list16.size; ++_i17)
+                org.apache.thrift.protocol.TList _list17 = iprot.readListBegin();
+                this.success = new ArrayList<everfeeds.thrift.domain.Entry>(_list17.size);
+                for (int _i18 = 0; _i18 < _list17.size; ++_i18)
                 {
-                  everfeeds.thrift.domain.Entry _elem18;
-                  _elem18 = new everfeeds.thrift.domain.Entry();
-                  _elem18.read(iprot);
-                  this.success.add(_elem18);
+                  everfeeds.thrift.domain.Entry _elem19;
+                  _elem19 = new everfeeds.thrift.domain.Entry();
+                  _elem19.read(iprot);
+                  this.success.add(_elem19);
                 }
                 iprot.readListEnd();
               }
@@ -5436,9 +5444,9 @@ public class KernelAPI {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (everfeeds.thrift.domain.Entry _iter19 : this.success)
+          for (everfeeds.thrift.domain.Entry _iter20 : this.success)
           {
-            _iter19.write(oprot);
+            _iter20.write(oprot);
           }
           oprot.writeListEnd();
         }

@@ -33,7 +33,7 @@ class PublicAccess {
     Access access = new Access()
     access.type = AccessType.TWITTER
     access.identity = "test twitter"
-    Account a = ThriftPrivateClient.client.authenticate(access, "token", "secret", [])
+    Account a = ThriftPrivateClient.client.authenticate(access, "token", "secret", [:])
     assert a
     assert a.id
 

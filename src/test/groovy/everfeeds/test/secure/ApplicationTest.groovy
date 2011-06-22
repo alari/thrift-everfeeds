@@ -25,7 +25,7 @@ class ApplicationTest extends GroovyTestCase{
     a.identity = "testing"
     a.type = AccessType.TWITTER
     a.title = "my testing access"
-    ThriftPrivateClient.client.authenticate(a, "token", "secret", [])?.id
+    ThriftPrivateClient.client.authenticate(a, "token", "secret", [:])?.id
   }
 
   void testCreateApp(){
@@ -41,10 +41,10 @@ class ApplicationTest extends GroovyTestCase{
     a.type = AccessType.TWITTER
     a.title = "my testing access"
 
-    Account account = ThriftPrivateClient.client.authenticate(a, "token", "secret", [])
+    Account account = ThriftPrivateClient.client.authenticate(a, "token", "secret", [:])
     assert account.id
 
-    assertEquals account.id, ThriftPrivateClient.client.authenticate(a, "token", "secret", [])?.id
+    assertEquals account.id, ThriftPrivateClient.client.authenticate(a, "token", "secret", [:])?.id
   }
 
   void testCreateToken(){
