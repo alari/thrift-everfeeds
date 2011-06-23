@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.everfeeds</groupId>
+  <artifactId>everfeeds-thrift-api-secure</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <description>Everfeeds Secure (Internal) API</description>
+
+  <build>
+    <sourceDirectory>.</sourceDirectory>
+    <outputDirectory>../../../../../../target/</outputDirectory>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+      <repository>
+      <id>maven.everfeeds.com</id>
+      <name>maven.everfeeds.com-snapshots</name>
+      <url>http://maven.everfeeds.com/libs-snapshot</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.everfeeds</groupId>
+      <artifactId>everfeeds-thrift-api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.thrift</groupId>
+      <artifactId>libthrift</artifactId>
+      <version>0.6.1</version>
+    </dependency>
+  </dependencies>
+
+</project>
