@@ -11,7 +11,8 @@
 
   <build>
     <sourceDirectory>.</sourceDirectory>
-    <outputDirectory>../../../../../../target/</outputDirectory>
+    <directory>../../../../../../target/api-secure/</directory>
+    <outputDirectory>../../../../../../target/api-secure/out/</outputDirectory>
 
     <plugins>
       <plugin>

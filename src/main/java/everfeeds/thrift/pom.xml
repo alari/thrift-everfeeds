@@ -11,7 +11,8 @@
 
   <build>
     <sourceDirectory>.</sourceDirectory>
-    <outputDirectory>../../../../../target/</outputDirectory>
+    <directory>../../../../../target/api/</directory>
+    <outputDirectory>../../../../../target/api/out/</outputDirectory>
 
     <plugins>
       <plugin>
