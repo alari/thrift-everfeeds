@@ -23,11 +23,8 @@ class TokenDAO extends BasicDAO<TokenD, ObjectId> {
   }
 
   public TokenD getById(String id) {
-    System.err.println "Token ${id}"
     if(!ObjectId.isValid(id)) return null
-    TokenD td = getById(new ObjectId(id))
-    if(!td) System.err.println("not found")
-    td
+    getById(new ObjectId(id))
   }
 
   public TokenD getById(ObjectId id) {
