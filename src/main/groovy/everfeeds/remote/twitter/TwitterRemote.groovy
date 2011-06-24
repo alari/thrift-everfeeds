@@ -1,4 +1,4 @@
-package everfeeds.remote.twitter
+@Typed package everfeeds.remote.twitter
 
 import everfeeds.mongo.CategoryD
 import everfeeds.mongo.EntryD
@@ -17,7 +17,6 @@ import everfeeds.dao.CategoryDAO
  * @author Dmitry Kurinskiy
  * @since 14.05.11 11:31
  */
-@Typed
 class TwitterRemote extends Remote {
   private TwitterRaw getRaw() {
     TwitterRaw.getInstance()
@@ -26,12 +25,11 @@ class TwitterRemote extends Remote {
   @Override
   List<TagD> getActualizedTags(AccessD access) {
     List<TagD> tags = TagDAO.instance.findAllByAccess(access)
-    tags?.each{TagD t->
-      if(!TwitterTag.getByIdentity(t.identity)) {
-        tags.remove(t)
-        TagDAO.instance.delete(t)
-      }
+    tags.findAll{!TwitterTag.getByIdentity(it.identity)}.each {
+        tags.remove(it)
+        TagDAO.instance.delete(it)
     }
+
     TwitterTag.values().each{TwitterTag tt->
       if(tags.any{it.identity == tt.identity}) return;
 
@@ -46,12 +44,11 @@ class TwitterRemote extends Remote {
   @Override
   List<CategoryD> getActualizedCategories(AccessD access) {
     List<CategoryD> categories = CategoryDAO.instance.findAllByAccess(access)
-    categories?.each{CategoryD c->
-      if(!TwitterCategory.getByIdentity(c.identity)) {
-        categories.remove(c)
-        CategoryDAO.instance.delete(c)
-      }
+    categories.findAll {!TwitterCategory.getByIdentity(it.identity)}.each {
+        categories.remove(it)
+        CategoryDAO.instance.delete(it)
     }
+
     TwitterCategory.values().each{TwitterCategory tc->
       if(categories.any{it.identity == tc.identity}) return;
 
@@ -95,7 +92,7 @@ class TwitterRemote extends Remote {
       // TODO: check category existence!
 
       // Preparing parser for category
-      TwitterParser parser = c.parserClass.newInstance()
+      TwitterParser parser = c.parser
       parser.access = filterD.access
       parser.category = category
       parser.tagsCache = tags

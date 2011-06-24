@@ -1,4 +1,4 @@
-package everfeeds.test.secure
+package everfeeds.test.internal
 
 import everfeeds.thrift.domain.Filter
 import everfeeds.thrift.error.NotFound
@@ -8,8 +8,9 @@ import everfeeds.thrift.domain.Account
 import everfeeds.thrift.domain.Access
 import everfeeds.thrift.ttype.AccessType
 import everfeeds.thrift.error.Forbidden
-import everfeeds.secure.thrift.Application
+import everfeeds.internal.thrift.Application
 import everfeeds.test.ThriftPublicClient
+import everfeeds.internal.thrift.InternalAPIHolder
 /**
  * @author Dmitry Kurinskiy
  * @since 18.05.11 23:22
@@ -19,23 +20,23 @@ class RemoteTest extends GroovyTestCase{
     def filter = new Filter()
 
     shouldFail(NotFound) {
-      ThriftPrivateClient.client.remotePullEntries filter
+      InternalAPIHolder.client.remotePullEntries filter
     }
 
     Application app = new Application()
     app.key = "test remote"
     app.scopes = [Scope.FEED_READ.toString(),Scope.INFO.toString()]
-    String appId = ThriftPrivateClient.client.saveApp(app)?.id
+    String appId = InternalAPIHolder.client.saveApp(app)?.id
     assertNotNull appId
 
     Access access = new Access()
     access.type = AccessType.TWITTER
     access.identity = "test twitter"
-    Account a = ThriftPrivateClient.client.authenticate(access, "token", "secret", [:])
+    Account a = InternalAPIHolder.client.authenticate(access, "token", "secret", [:])
     assertNotNull a
     assertNotNull a.id
 
-    Token tkn = ThriftPrivateClient.client.createToken(appId, a.id, [Scope.FEED_READ.toString()])
+    Token tkn = InternalAPIHolder.client.createToken(appId, a.id, [Scope.FEED_READ.toString()])
     assertNotNull tkn
     assertNotNull tkn.id
 
@@ -43,7 +44,7 @@ class RemoteTest extends GroovyTestCase{
       ThriftPublicClient.client.getAccesses(tkn.id)
     }
 
-    tkn = ThriftPrivateClient.client.createToken(appId, a.id, [Scope.FEED_READ.toString(),Scope.INFO.toString()])
+    tkn = InternalAPIHolder.client.createToken(appId, a.id, [Scope.FEED_READ.toString(),Scope.INFO.toString()])
     assertNotNull tkn
     assertNotNull tkn.id
 
@@ -53,6 +54,6 @@ class RemoteTest extends GroovyTestCase{
     filter.accessId = accesses.first().id
     assertNotNull filter.accessId
 
-    assertNotNull ThriftPrivateClient.client.remotePullEntries(filter)
+    assertNotNull InternalAPIHolder.client.remotePullEntries(filter)
   }
 }

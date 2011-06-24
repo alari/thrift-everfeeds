@@ -3,8 +3,6 @@
 import everfeeds.handlers.Handler;
 import everfeeds.mongo.*;
 import everfeeds.remote.RemoteFactory;
-import everfeeds.secure.thrift.Application;
-import everfeeds.secure.thrift.KernelAPI;
 import everfeeds.thrift.domain.*;
 import everfeeds.thrift.error.Forbidden;
 import everfeeds.thrift.error.NotFound;
@@ -13,13 +11,15 @@ import org.apache.thrift.TException;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List
+import everfeeds.internal.thrift.InternalAPI
+import everfeeds.internal.thrift.Application;
 
 /**
  * @author Dmitry Kurinskiy
  * @since 09.05.11 15:49
  */
-public class KernelHandler extends Handler implements KernelAPI.Iface {
+public class InternalHandler extends Handler implements InternalAPI.Iface {
   @Override
   public Token createToken(String appId, String accountId, List<String> scopes) throws TException, NotFound, Forbidden {
     ApplicationD appD = applicationDAO.getById(appId)

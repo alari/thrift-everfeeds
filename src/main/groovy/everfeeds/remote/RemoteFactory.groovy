@@ -5,7 +5,6 @@ import everfeeds.remote.twitter.TwitterRemote
 import everfeeds.Environment
 import everfeeds.remote.twitter.TwitterRaw
 import everfeeds.remote.evernote.EvernoteRemote
-import everfeeds.remote.metaweblog.MetaweblogRemote
 
 /**
  * @author Dmitry Kurinskiy
@@ -24,9 +23,6 @@ class RemoteFactory {
           break;
         case Type.EVERNOTE:
           instance = new EvernoteRemote()
-              break;
-        case Type.METAWEBLOG:
-          instance = new MetaweblogRemote()
               break;
       }
       instances.put(type, instance)

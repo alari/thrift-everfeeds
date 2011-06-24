@@ -32,9 +32,14 @@
       <url>http://maven.twttr.com/</url>
     </repository>
     <repository>
-      <id>maven.everfeeds.com</id>
+      <id>maven.everfeeds.com-releases</id>
       <name>maven.everfeeds.com-releases</name>
       <url>http://maven.everfeeds.com/libs-release-local</url>
+    </repository>
+    <repository>
+      <id>maven.everfeeds.com-snapshots</id>
+      <name>maven.everfeeds.com-snapshots</name>
+      <url>http://maven.everfeeds.com/libs-snapshot</url>
     </repository>
   </repositories>
 
@@ -51,6 +56,12 @@
   </pluginRepositories>
 
   <dependencies>
+    <dependency>
+      <groupId>com.everfeeds</groupId>
+      <artifactId>thrift-internal</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>

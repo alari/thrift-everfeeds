@@ -1,11 +1,12 @@
-package everfeeds.test.secure
+package everfeeds.test.internal
 
 import everfeeds.thrift.util.Scope
 import everfeeds.thrift.domain.Access
 import everfeeds.thrift.ttype.AccessType
 import everfeeds.thrift.domain.Account
 import everfeeds.thrift.domain.Token
-import everfeeds.secure.thrift.Application
+import everfeeds.internal.thrift.InternalAPIHolder
+import everfeeds.internal.thrift.Application
 /**
  * @author Dmitry Kurinskiy
  * @since 18.05.11 19:57
@@ -17,7 +18,7 @@ class ApplicationTest extends GroovyTestCase{
     app.key = key
     app.secret = "test secret"
     app.scopes = [Scope.FEED_READ.toString()]
-    return ThriftPrivateClient.client.saveApp(app)?.id
+    return InternalAPIHolder.client.saveApp(app)?.id
   }
 
   String getAccountId(){
@@ -25,7 +26,7 @@ class ApplicationTest extends GroovyTestCase{
     a.identity = "testing"
     a.type = AccessType.TWITTER
     a.title = "my testing access"
-    ThriftPrivateClient.client.authenticate(a, "token", "secret", [:])?.id
+    InternalAPIHolder.client.authenticate(a, "token", "secret", [:])?.id
   }
 
   void testCreateApp(){
@@ -41,18 +42,18 @@ class ApplicationTest extends GroovyTestCase{
     a.type = AccessType.TWITTER
     a.title = "my testing access"
 
-    Account account = ThriftPrivateClient.client.authenticate(a, "token", "secret", [:])
+    Account account = InternalAPIHolder.client.authenticate(a, "token", "secret", [:])
     assert account.id
 
-    assertEquals account.id, ThriftPrivateClient.client.authenticate(a, "token", "secret", [:])?.id
+    assertEquals account.id, InternalAPIHolder.client.authenticate(a, "token", "secret", [:])?.id
   }
 
   void testCreateToken(){
 
-    Token tkn = ThriftPrivateClient.client.createToken(appId, accountId, [])
+    Token tkn = InternalAPIHolder.client.createToken(appId, accountId, [])
     assert tkn.id
 
-    tkn = ThriftPrivateClient.client.createToken(appId, accountId, [Scope.FEED_READ.toString(), Scope.FEED_WRITE.toString()])
+    tkn = InternalAPIHolder.client.createToken(appId, accountId, [Scope.FEED_READ.toString(), Scope.FEED_WRITE.toString()])
     assertNotNull tkn.id
     assert Scope.FEED_READ.toString() in tkn.scopes
     assert !(Scope.FEED_WRITE.toString() in tkn.scopes)
@@ -60,6 +61,6 @@ class ApplicationTest extends GroovyTestCase{
 
   void testListApps(){
     assert getAppId()
-    assert getAppId() in ThriftPrivateClient.client.listApps()*.id
+    assert getAppId() in InternalAPIHolder.client.listApps()*.id
   }
 }

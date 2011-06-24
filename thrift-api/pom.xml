@@ -5,14 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.everfeeds</groupId>
-  <artifactId>everfeeds-thrift-api-secure</artifactId>
+  <artifactId>thrift-api</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <description>Everfeeds Secure (Internal) API</description>
+  <description>Everfeeds API</description>
 
   <build>
-    <sourceDirectory>.</sourceDirectory>
-    <directory>../../../../../../target/api-secure/</directory>
-    <outputDirectory>../../../../../../target/api-secure/out/</outputDirectory>
+    <sourceDirectory>./everfeeds/</sourceDirectory>
 
     <plugins>
       <plugin>
@@ -22,20 +20,7 @@
     </plugins>
   </build>
 
-  <repositories>
-      <repository>
-      <id>maven.everfeeds.com</id>
-      <name>maven.everfeeds.com-snapshots</name>
-      <url>http://maven.everfeeds.com/libs-snapshot</url>
-    </repository>
-  </repositories>
-
   <dependencies>
-    <dependency>
-      <groupId>com.everfeeds</groupId>
-      <artifactId>everfeeds-thrift-api</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
     <dependency>
       <groupId>org.apache.thrift</groupId>
       <artifactId>libthrift</artifactId>

@@ -5,11 +5,11 @@ include "t.thrift"
 include "enm.thrift"
 include "e.thrift"
 
-namespace cpp everfeeds.secure.thrift
-namespace java everfeeds.secure.thrift
-namespace php everfeeds.secure.thrift
-namespace perl everfeeds.secure.thrift
-namespace st Thrift.Everfeeds.Secure
+namespace cpp everfeeds.internal.thrift
+namespace java everfeeds.internal.thrift
+namespace php everfeeds.internal.thrift
+namespace perl everfeeds.internal.thrift
+namespace st Thrift.Everfeeds.Internal
 
 struct Application {
   1: t.Id id;
@@ -22,7 +22,7 @@ struct Application {
   21: t.String description;
 }
 
-service KernelAPI {
+service InternalAPI {
   string ping();
 
   misc.Token createToken(2: t.Id applicationId, 3: t.Id accountId, 4: list<string> scopes) throws (1: e.Forbidden eOne, 2: e.NotFound eTwo);

@@ -46,6 +46,10 @@ public enum TwitterCategory {
     parser
   }
 
+  public TwitterParser getParser(){
+    parser.newInstance()
+  }
+
   public CategoryD getDomain(){
     CategoryD categoryD = new CategoryD()
     categoryD.identity = identity

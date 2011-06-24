@@ -86,6 +86,8 @@ class TwitterParser extends Parser {
   }
 
   static class DM extends TwitterParser {
+    DM(){}
+
     DM(original, AccessD access, EntryD entry) {
       super(original, access, entry)
     }

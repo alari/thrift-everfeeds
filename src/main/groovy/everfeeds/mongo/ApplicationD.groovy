@@ -1,7 +1,7 @@
 @Typed package everfeeds.mongo;
 
 
-import everfeeds.secure.thrift.Application
+import everfeeds.internal.thrift.Application
 import everfeeds.thrift.util.Scope
 import org.apache.commons.lang.RandomStringUtils
 import org.bson.types.ObjectId
