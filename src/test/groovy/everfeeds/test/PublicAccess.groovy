@@ -20,6 +20,11 @@ class PublicAccess {
     APIHolder.client
   }
 
+  static String getFreshToken() {
+    tokenCache = null
+    token
+  }
+
   static String getToken() {
     if(tokenCache) {
       return tokenCache
