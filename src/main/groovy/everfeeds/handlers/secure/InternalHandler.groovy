@@ -82,6 +82,8 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
   public Account authenticate(Access access, String accessToken, String accessSecret, Map<String,String> accessParams) throws TException, Forbidden, NotFound {
 
     AccessD accessD = findAccessD(access);
+    // TODO: lookup access.accountId, link accessD to corresponding account
+
     // Token is renewed
     accessD.type = Type.getByThrift(access.type);
     accessD.accessToken = accessToken;
@@ -89,7 +91,19 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
     accessD.params = accessParams;
     accessD.expired = false;
 
-    if (accessD.account == null) {
+    // It's a linkage to an existing account
+    if(access.accountId) {
+      // TODO: We need to rewire an access to a new account; not implemented yet
+      if(accessD.account && accessD.account.id.toString() != access.accountId) {
+        throw new Forbidden("Access already have been saved; accounts doesn't match; cannot rewire access to a new account (not implemented yet)")
+      }
+      // Get account by id, wire access to it
+      if(!accessD.account) {
+        accessD.account = accountDAO.getById(access.accountId)
+        if(!accessD.account) throw new NotFound("Account not found for id ${access.accountId}")
+      }
+    // It's a new, fresh account to be created
+    } else if (accessD.account == null) {
       accessD.account = new AccountD();
       accessD.account.title = accessD.title;
       accountDAO.save(accessD.account);
