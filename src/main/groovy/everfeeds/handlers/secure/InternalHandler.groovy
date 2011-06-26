@@ -105,7 +105,7 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
     // It's a new, fresh account to be created
     } else if (accessD.account == null) {
       accessD.account = new AccountD();
-      accessD.account.title = accessD.title;
+      accessD.account.title = accessD.title ?: "Everfeeds.com Account";
       accountDAO.save(accessD.account);
     }
 
