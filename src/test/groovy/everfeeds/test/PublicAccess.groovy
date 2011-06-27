@@ -45,9 +45,9 @@ class PublicAccess {
 
     Token tkn = InternalAPIHolder.client.createToken(appId, a.id, app.scopes)
     assert tkn
-    assert tkn.id
+    assert tkn.key
 
-    tokenCache = tkn.id
+    tokenCache = tkn.key
     tokenCache
   }
 }

@@ -51,10 +51,10 @@ class ApplicationTest extends GroovyTestCase{
   void testCreateToken(){
 
     Token tkn = InternalAPIHolder.client.createToken(appId, accountId, [])
-    assert tkn.id
+    assert tkn.key
 
     tkn = InternalAPIHolder.client.createToken(appId, accountId, [Scope.FEED_READ.toString(), Scope.FEED_WRITE.toString()])
-    assertNotNull tkn.id
+    assertNotNull tkn.key
     assert Scope.FEED_READ.toString() in tkn.scopes
     assert !(Scope.FEED_WRITE.toString() in tkn.scopes)
   }

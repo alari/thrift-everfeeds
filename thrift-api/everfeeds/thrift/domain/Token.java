@@ -23,22 +23,22 @@ import org.slf4j.LoggerFactory;
 public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Token");
 
-  private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.STRING, (short)1);
   private static final org.apache.thrift.protocol.TField ACCOUNT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("accountId", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("key", org.apache.thrift.protocol.TType.STRING, (short)3);
   private static final org.apache.thrift.protocol.TField EXPIRES_FIELD_DESC = new org.apache.thrift.protocol.TField("expires", org.apache.thrift.protocol.TType.I64, (short)10);
   private static final org.apache.thrift.protocol.TField EXPIRED_FIELD_DESC = new org.apache.thrift.protocol.TField("expired", org.apache.thrift.protocol.TType.BOOL, (short)11);
   private static final org.apache.thrift.protocol.TField SCOPES_FIELD_DESC = new org.apache.thrift.protocol.TField("scopes", org.apache.thrift.protocol.TType.LIST, (short)20);
 
-  public String id;
   public String accountId;
+  public String key;
   public long expires;
   public boolean expired;
   public List<String> scopes;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    ID((short)1, "id"),
     ACCOUNT_ID((short)2, "accountId"),
+    KEY((short)3, "key"),
     EXPIRES((short)10, "expires"),
     EXPIRED((short)11, "expired"),
     SCOPES((short)20, "scopes");
@@ -56,10 +56,10 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // ID
-          return ID;
         case 2: // ACCOUNT_ID
           return ACCOUNT_ID;
+        case 3: // KEY
+          return KEY;
         case 10: // EXPIRES
           return EXPIRES;
         case 11: // EXPIRED
@@ -113,10 +113,10 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
     tmpMap.put(_Fields.ACCOUNT_ID, new org.apache.thrift.meta_data.FieldMetaData("accountId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , "Id")));
+    tmpMap.put(_Fields.KEY, new org.apache.thrift.meta_data.FieldMetaData("key", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.EXPIRES, new org.apache.thrift.meta_data.FieldMetaData("expires", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64        , "Timestamp")));
     tmpMap.put(_Fields.EXPIRED, new org.apache.thrift.meta_data.FieldMetaData("expired", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -132,15 +132,15 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
   }
 
   public Token(
-    String id,
     String accountId,
+    String key,
     long expires,
     boolean expired,
     List<String> scopes)
   {
     this();
-    this.id = id;
     this.accountId = accountId;
+    this.key = key;
     this.expires = expires;
     setExpiresIsSet(true);
     this.expired = expired;
@@ -154,11 +154,11 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
   public Token(Token other) {
     __isset_bit_vector.clear();
     __isset_bit_vector.or(other.__isset_bit_vector);
-    if (other.isSetId()) {
-      this.id = other.id;
-    }
     if (other.isSetAccountId()) {
       this.accountId = other.accountId;
+    }
+    if (other.isSetKey()) {
+      this.key = other.key;
     }
     this.expires = other.expires;
     this.expired = other.expired;
@@ -177,37 +177,13 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
 
   @Override
   public void clear() {
-    this.id = null;
     this.accountId = null;
+    this.key = null;
     setExpiresIsSet(false);
     this.expires = 0;
     setExpiredIsSet(false);
     this.expired = false;
     this.scopes = null;
-  }
-
-  public String getId() {
-    return this.id;
-  }
-
-  public Token setId(String id) {
-    this.id = id;
-    return this;
-  }
-
-  public void unsetId() {
-    this.id = null;
-  }
-
-  /** Returns true if field id is set (has been assigned a value) and false otherwise */
-  public boolean isSetId() {
-    return this.id != null;
-  }
-
-  public void setIdIsSet(boolean value) {
-    if (!value) {
-      this.id = null;
-    }
   }
 
   public String getAccountId() {
@@ -231,6 +207,30 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
   public void setAccountIdIsSet(boolean value) {
     if (!value) {
       this.accountId = null;
+    }
+  }
+
+  public String getKey() {
+    return this.key;
+  }
+
+  public Token setKey(String key) {
+    this.key = key;
+    return this;
+  }
+
+  public void unsetKey() {
+    this.key = null;
+  }
+
+  /** Returns true if field key is set (has been assigned a value) and false otherwise */
+  public boolean isSetKey() {
+    return this.key != null;
+  }
+
+  public void setKeyIsSet(boolean value) {
+    if (!value) {
+      this.key = null;
     }
   }
 
@@ -321,19 +321,19 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case ID:
-      if (value == null) {
-        unsetId();
-      } else {
-        setId((String)value);
-      }
-      break;
-
     case ACCOUNT_ID:
       if (value == null) {
         unsetAccountId();
       } else {
         setAccountId((String)value);
+      }
+      break;
+
+    case KEY:
+      if (value == null) {
+        unsetKey();
+      } else {
+        setKey((String)value);
       }
       break;
 
@@ -366,11 +366,11 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case ID:
-      return getId();
-
     case ACCOUNT_ID:
       return getAccountId();
+
+    case KEY:
+      return getKey();
 
     case EXPIRES:
       return new Long(getExpires());
@@ -392,10 +392,10 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
     }
 
     switch (field) {
-    case ID:
-      return isSetId();
     case ACCOUNT_ID:
       return isSetAccountId();
+    case KEY:
+      return isSetKey();
     case EXPIRES:
       return isSetExpires();
     case EXPIRED:
@@ -419,21 +419,21 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
     if (that == null)
       return false;
 
-    boolean this_present_id = true && this.isSetId();
-    boolean that_present_id = true && that.isSetId();
-    if (this_present_id || that_present_id) {
-      if (!(this_present_id && that_present_id))
-        return false;
-      if (!this.id.equals(that.id))
-        return false;
-    }
-
     boolean this_present_accountId = true && this.isSetAccountId();
     boolean that_present_accountId = true && that.isSetAccountId();
     if (this_present_accountId || that_present_accountId) {
       if (!(this_present_accountId && that_present_accountId))
         return false;
       if (!this.accountId.equals(that.accountId))
+        return false;
+    }
+
+    boolean this_present_key = true && this.isSetKey();
+    boolean that_present_key = true && that.isSetKey();
+    if (this_present_key || that_present_key) {
+      if (!(this_present_key && that_present_key))
+        return false;
+      if (!this.key.equals(that.key))
         return false;
     }
 
@@ -480,22 +480,22 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
     int lastComparison = 0;
     Token typedOther = (Token)other;
 
-    lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetId()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.id, typedOther.id);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     lastComparison = Boolean.valueOf(isSetAccountId()).compareTo(typedOther.isSetAccountId());
     if (lastComparison != 0) {
       return lastComparison;
     }
     if (isSetAccountId()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.accountId, typedOther.accountId);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetKey()).compareTo(typedOther.isSetKey());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetKey()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.key, typedOther.key);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -547,16 +547,16 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
         break;
       }
       switch (field.id) {
-        case 1: // ID
+        case 2: // ACCOUNT_ID
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.id = iprot.readString();
+            this.accountId = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 2: // ACCOUNT_ID
+        case 3: // KEY
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.accountId = iprot.readString();
+            this.key = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
@@ -609,14 +609,14 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
-    if (this.id != null) {
-      oprot.writeFieldBegin(ID_FIELD_DESC);
-      oprot.writeString(this.id);
-      oprot.writeFieldEnd();
-    }
     if (this.accountId != null) {
       oprot.writeFieldBegin(ACCOUNT_ID_FIELD_DESC);
       oprot.writeString(this.accountId);
+      oprot.writeFieldEnd();
+    }
+    if (this.key != null) {
+      oprot.writeFieldBegin(KEY_FIELD_DESC);
+      oprot.writeString(this.key);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldBegin(EXPIRES_FIELD_DESC);
@@ -646,19 +646,19 @@ public class Token implements org.apache.thrift.TBase<Token, Token._Fields>, jav
     StringBuilder sb = new StringBuilder("Token(");
     boolean first = true;
 
-    sb.append("id:");
-    if (this.id == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.id);
-    }
-    first = false;
-    if (!first) sb.append(", ");
     sb.append("accountId:");
     if (this.accountId == null) {
       sb.append("null");
     } else {
       sb.append(this.accountId);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("key:");
+    if (this.key == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.key);
     }
     first = false;
     if (!first) sb.append(", ");

@@ -9,8 +9,8 @@ import everfeeds.thrift.domain.Access
 import everfeeds.thrift.ttype.AccessType
 import everfeeds.thrift.error.Forbidden
 import everfeeds.internal.thrift.Application
-import everfeeds.test.ThriftPublicClient
 import everfeeds.internal.thrift.InternalAPIHolder
+import everfeeds.test.PublicAccess
 /**
  * @author Dmitry Kurinskiy
  * @since 18.05.11 23:22
@@ -38,17 +38,17 @@ class RemoteTest extends GroovyTestCase{
 
     Token tkn = InternalAPIHolder.client.createToken(appId, a.id, [Scope.FEED_READ.toString()])
     assertNotNull tkn
-    assertNotNull tkn.id
+    assertNotNull tkn.key
 
     shouldFail(Forbidden) {
-      ThriftPublicClient.client.getAccesses(tkn.id)
+      PublicAccess.api.getAccesses(tkn.key)
     }
 
     tkn = InternalAPIHolder.client.createToken(appId, a.id, [Scope.FEED_READ.toString(),Scope.INFO.toString()])
     assertNotNull tkn
-    assertNotNull tkn.id
+    assertNotNull tkn.key
 
-    List<Access> accesses = ThriftPublicClient.client.getAccesses(tkn.id)
+    List<Access> accesses = PublicAccess.api.getAccesses(tkn.key)
     assertEquals 1, accesses.size()
 
     filter.accessId = accesses.first().id

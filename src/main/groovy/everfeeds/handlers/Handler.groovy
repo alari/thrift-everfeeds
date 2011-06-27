@@ -30,7 +30,7 @@ abstract public class Handler {
   protected TokenDAO getTokenDAO(){TokenDAO.getInstance()}
 
   protected TokenD getTokenD(String id) throws TException, TokenNotFound, TokenExpired, Forbidden {
-    TokenD token = tokenDAO.getById(id)
+    TokenD token = tokenDAO.getByKey(id)
     if (token == null) {
       throw new TokenNotFound(String.format("Cannot find token for %s", id));
     }
@@ -77,9 +77,7 @@ abstract public class Handler {
     filterD.withTags.clear();
 
     if (filter.categoryIds != null && filter.categoryIds.size() > 0) {
-      List<CategoryD> categories = getDS().createQuery(CategoryD.class)
-                                       .filter("access", filterD.access)
-                                       .asList();
+      List<CategoryD> categories = categoryDAO.findAllByAccess(filterD.access)
       for (CategoryD c : categories) {
         if (filter.categoryIds.contains(c.id.toString())) {
           filterD.categories.add(c);
@@ -88,9 +86,7 @@ abstract public class Handler {
     }
 
     if (filter.withTagIds != null || filter.withTagIds != null) {
-      List<TagD> tags = getDS().createQuery(TagD.class)
-                            .filter("access", filterD.access)
-                            .asList();
+      List<TagD> tags = tagDAO.findAllByAccess(filterD.access)
       for (TagD t : tags) {
         if (filter.withoutTagIds != null && filter.withoutTagIds.contains(t.id.toString())) {
           filterD.withoutTags.add(t);
@@ -101,9 +97,5 @@ abstract public class Handler {
     }
 
     return filterD;
-  }
-
-  protected Datastore getDS() {
-    return MongoDB.getDS();
   }
 }

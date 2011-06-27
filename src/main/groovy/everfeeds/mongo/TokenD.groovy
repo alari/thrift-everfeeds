@@ -18,6 +18,9 @@ public class TokenD {
   @Id
   ObjectId id;
 
+  @Indexed(unique = true)
+  String key;
+
   @Reference
   @Indexed
   AccountD account;
@@ -34,7 +37,7 @@ public class TokenD {
   boolean expired = false;
 
   public void syncToThrift(Token token) {
-    token.id = id.toString();
+    token.key = key;
     token.accountId = account.id != null ? account.id.toString() : "";
     if (expires != null) {
       token.expires = expires.getTime();
@@ -53,6 +56,6 @@ public class TokenD {
   }
 
   public boolean hasScope(Scope scope) {
-    return this.scopes.contains(scope.toString());
+    scopes.contains(scope.toString());
   }
 }

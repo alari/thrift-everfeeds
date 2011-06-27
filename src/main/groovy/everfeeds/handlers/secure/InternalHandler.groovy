@@ -13,7 +13,8 @@ import org.bson.types.ObjectId;
 import java.util.ArrayList;
 import java.util.List
 import everfeeds.internal.thrift.InternalAPI
-import everfeeds.internal.thrift.Application;
+import everfeeds.internal.thrift.Application
+import org.apache.commons.lang.RandomStringUtils;
 
 /**
  * @author Dmitry Kurinskiy
@@ -35,6 +36,7 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
     }
 
     tokenD = new TokenD();
+    tokenD.key = RandomStringUtils.randomAlphanumeric(127)
     tokenD.account = accountD;
     tokenD.application = appD;
     if(tokenD.scopes != null) {
@@ -130,7 +132,7 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
     if(filter.accessId == null || filter.accessId.isEmpty()) {
       throw new NotFound("Access not found by id: no id provided");
     }
-    filterD.access = getDS().get(AccessD.class, new ObjectId(filter.accessId));
+    filterD.access = accessDAO.getById(filter.accessId)
     if(filterD.access == null) {
       throw new NotFound("Access not found by id: "+filter.accessId);
     }

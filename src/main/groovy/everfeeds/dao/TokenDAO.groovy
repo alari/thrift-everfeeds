@@ -22,6 +22,10 @@ class TokenDAO extends BasicDAO<TokenD, ObjectId> {
     instance
   }
 
+  public TokenD getByKey(String key) {
+    createQuery().filter("key", key).get()
+  }
+
   public TokenD getById(String id) {
     if(!ObjectId.isValid(id)) return null
     getById(new ObjectId(id))

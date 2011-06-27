@@ -8,7 +8,6 @@ package everfeeds.remote.twitter
 public enum TwitterRawUrl {
   HOME_TIMELINE("http://api.twitter.com/1/statuses/home_timeline.json"),
   MENTIONS("http://api.twitter.com/1/statuses/mentions.json"),
-  MESSAGES("http://api.twitter.com/1/direct_messages.json"),
   UPDATE_STATUS("http://api.twitter.com/1/statuses/update.json");
 
   private url
