@@ -59,6 +59,8 @@ abstract public class Handler {
     accessD = new AccessD();
     accessD.type = Type.getByThrift(access.type);
     accessD.identity = access.identity;
+    accessD.title = access.title ?: access.identity
+    accessD.screenName = access.screenName
     return accessD;
   }
 

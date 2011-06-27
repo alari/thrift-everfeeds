@@ -84,7 +84,7 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
   public Account authenticate(Access access, String accessToken, String accessSecret, Map<String,String> accessParams) throws TException, Forbidden, NotFound {
 
     AccessD accessD = findAccessD(access);
-    // TODO: lookup access.accountId, link accessD to corresponding account
+    accessD.syncFromThrift(access)
 
     // Token is renewed
     accessD.type = Type.getByThrift(access.type);
