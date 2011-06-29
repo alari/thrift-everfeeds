@@ -25,7 +25,7 @@ class FacebookParser extends Parser {
   }
 
   String getIdentity() {
-    original.id
+    original?.id
   }
 
   boolean getIsAuthor() {
@@ -37,7 +37,7 @@ class FacebookParser extends Parser {
   }
 
   String getSourceUrl() {
-    original.source ?: (original.link ?: "http://facebook.com/${original.id}")
+    original.source ?: (original.link ?: "http://facebook.com/${original?.id}")
   }
 
   String getTitle() {

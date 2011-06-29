@@ -25,7 +25,6 @@ abstract public class Handler {
   protected EntryContentDAO getEntryContentDAO(){EntryContentDAO.getInstance()}
   protected EntryDAO getEntryDAO(){EntryDAO.getInstance()}
   protected FilterDAO getFilterDAO(){FilterDAO.getInstance()}
-  protected OriginalDAO getOriginalDAO(){OriginalDAO.getInstance()}
   protected TagDAO getTagDAO(){TagDAO.getInstance()}
   protected TokenDAO getTokenDAO(){TokenDAO.getInstance()}
 

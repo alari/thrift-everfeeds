@@ -27,7 +27,7 @@ public enum FacebookCategory {
 
   private String identity
   private everfeeds.remote.facebook.FacebookRawUrl url
-  private Class<TwitterParser> parser
+  private Class<FacebookParser> parser
 
   private FacebookCategory(String identity, FacebookRawUrl url, Class parser) {
     this.identity = identity
@@ -43,11 +43,11 @@ public enum FacebookCategory {
     url
   }
 
-  public Class<TwitterParser> getParserClass() {
+  public Class<FacebookParser> getParserClass() {
     parser
   }
 
-  public TwitterParser getParser(){
+  public FacebookParser getParser(){
     parser.newInstance()
   }
 

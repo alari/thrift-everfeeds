@@ -6,11 +6,9 @@ package everfeeds.remote.facebook
  */
 @Typed
 public enum FacebookRawUrl {
-  NEWS(GRAPH_ROOT + "me/home"),
-  EVENTS(GRAPH_ROOT + "me/events"),
-  WALL(GRAPH_ROOT + "me/feed");
-
-  static private String GRAPH_ROOT = "https://graph.facebook.com/"
+  NEWS("https://graph.facebook.com/me/home"),
+  EVENTS("https://graph.facebook.com/me/events"),
+  WALL("https://graph.facebook.com/me/feed");
 
   private url
 

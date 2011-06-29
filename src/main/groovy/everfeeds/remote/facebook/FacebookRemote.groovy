@@ -74,7 +74,7 @@ class FacebookRemote extends Remote{
       if(result instanceof Map && (result as Map)?.error) {
         throw new InvalidTokenException()
       }
-      result.each {
+      result.data.each {
         // Parse json original
         parser.original = it
         EntryD entry = parser.result

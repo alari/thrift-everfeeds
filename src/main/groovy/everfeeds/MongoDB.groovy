@@ -1,4 +1,4 @@
-package everfeeds;
+@Typed package everfeeds;
 
 import com.google.code.morphia.AdvancedDatastore;
 import com.google.code.morphia.Datastore;
@@ -13,14 +13,14 @@ import com.mongodb.Mongo;
 public class MongoDB {
   static public final String DB_NAME = "everfeeds";
 
-  protected Mongo mongo;
+  protected Mongo _mongo;
   protected DB db;
   protected Datastore ds;
   protected AdvancedDatastore ads;
 
-  protected Morphia morphia = new Morphia();
+  protected Morphia _morphia = new Morphia();
 
-  static private MongoDB instance;
+  static private MongoDB instance = new MongoDB();
 
   static public MongoDB getInstance() {
     if (instance == null) {
@@ -38,21 +38,21 @@ public class MongoDB {
   }
 
   static public Mongo getMongo(){
-    return getInstance().mongo;
+    return getInstance()._mongo;
   }
 
   static public Morphia getMorphia(){
-    return getInstance().morphia;
+    return getInstance()._morphia;
   }
 
   protected MongoDB() {
     try {
-      this.mongo = new Mongo();
+      this._mongo = new Mongo();
     } catch (Exception e) {
       System.err.println(e.getMessage());
     }
-    this.db = this.mongo.getDB(DB_NAME);
-    this.ds = this.morphia.createDatastore(this.mongo, this.db.getName());
+    this.db = this._mongo.getDB(DB_NAME);
+    this.ds = this._morphia.createDatastore(this._mongo, this.db.getName());
     this.ads = (AdvancedDatastore) ds;
   }
 }

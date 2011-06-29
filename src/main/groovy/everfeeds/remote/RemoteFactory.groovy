@@ -5,6 +5,7 @@ import everfeeds.remote.twitter.TwitterRemote
 import everfeeds.Environment
 import everfeeds.remote.twitter.TwitterRaw
 import everfeeds.remote.evernote.EvernoteRemote
+import everfeeds.remote.facebook.FacebookRemote
 
 /**
  * @author Dmitry Kurinskiy
@@ -24,6 +25,8 @@ class RemoteFactory {
         case Type.EVERNOTE:
           instance = new EvernoteRemote()
               break;
+        case Type.FACEBOOK:
+          instance = new FacebookRemote()
       }
       instances.put(type, instance)
     }
