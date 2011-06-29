@@ -107,20 +107,8 @@ class TwitterRemote extends Remote {
         parser.original = it
         EntryD entry = parser.result
 
-        // Perform after-parse filtering
-        if (filterD.withTags.size() && !entry.tags.intersect(filterD.withTags).size()) {
-          return;
-        }
-        if (filterD.withoutTags.size() && entry.tags.intersect(filterD.withoutTags).size()) {
-          return;
-        }
-        if (filterD.kinds.size()) {
-          if (filterD.kindsWith && !filterD.kinds.contains(entry.kind)) return;
-          else if (filterD.kinds.contains(entry.kind)) return;
-        }
-
         // Everything is okay, adding entry to result list
-        entries.add entry
+        if(filterAfterParse(filterD, entry)) entries.add entry
       }
     }
 

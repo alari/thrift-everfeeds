@@ -52,6 +52,21 @@ abstract class Remote {
     pull(filterD, PULL_MAX, 0)
   }
 
+  final protected boolean filterAfterParse(FilterD filterD, EntryD entry) {
+    // Perform after-parse filtering
+        if (filterD.withTags.size() && !entry.tags.intersect(filterD.withTags).size()) {
+          return false;
+        }
+        if (filterD.withoutTags.size() && entry.tags.intersect(filterD.withoutTags).size()) {
+          return false;
+        }
+        if (filterD.kinds.size()) {
+          if (filterD.kindsWith && !filterD.kinds.contains(entry.kind)) return false;
+          else if (filterD.kinds.contains(entry.kind)) return false;
+        }
+    true
+  }
+
   abstract public List<TagD> getActualizedTags(AccessD access) throws InvalidTokenException
 
   abstract public List<CategoryD> getActualizedCategories(AccessD access) throws InvalidTokenException
