@@ -10,11 +10,14 @@ import everfeeds.dao.CategoryDAO
 import everfeeds.remote.error.NotSupportedException
 import everfeeds.remote.OAuthAccess
 import everfeeds.remote.error.InvalidTokenException
+import everfeeds.thrift.util.Type
+import everfeeds.util.annotation.Accessor
 
 /**
  * @author Dmitry Kurinskiy
  * @since 29.06.11 16:36
  */
+@Accessor(Type.FACEBOOK)
 class FacebookRemote extends Remote{
   private FacebookRaw getRaw(){
     FacebookRaw.getInstance()

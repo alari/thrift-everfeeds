@@ -6,17 +6,20 @@ import everfeeds.mongo.FilterD
 import everfeeds.mongo.TagD
 import everfeeds.remote.OAuthAccess
 import everfeeds.remote.Remote
-import everfeeds.MongoDB
+
 import everfeeds.remote.error.InvalidTokenException
 import everfeeds.remote.error.NotSupportedException
 import everfeeds.dao.TagDAO
 import everfeeds.mongo.AccessD
 import everfeeds.dao.CategoryDAO
+import everfeeds.util.annotation.Accessor
+import everfeeds.thrift.util.Type
 
 /**
  * @author Dmitry Kurinskiy
  * @since 14.05.11 11:31
  */
+@Accessor(Type.TWITTER)
 class TwitterRemote extends Remote {
   private TwitterRaw getRaw() {
     TwitterRaw.getInstance()

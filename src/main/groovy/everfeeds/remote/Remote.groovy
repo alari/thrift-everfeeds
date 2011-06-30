@@ -26,10 +26,12 @@ abstract class Remote {
 
   public void saveEntries(FilterD filterD) {
     try {
+      List<EntryD> entries = pull(filterD)
+      ds.save(entries*.content)
       if (filterD.id) {
-        ds.save(pull(filterD).collect {it.filters.add filterD; it})
+        ds.save(entries.collect {it.filters.add filterD; it})
       } else {
-        ds.save pull(filterD)
+        ds.save entries
       }
     } catch(InvalidTokenException e) {
       filterD.access.expired = true

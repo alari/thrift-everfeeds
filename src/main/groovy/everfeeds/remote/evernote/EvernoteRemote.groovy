@@ -12,11 +12,14 @@ import com.evernote.edam.type.Notebook
 import everfeeds.dao.CategoryDAO
 import com.evernote.edam.type.Note
 import com.evernote.edam.notestore.NoteFilter
+import everfeeds.thrift.util.Type
+import everfeeds.util.annotation.Accessor
 
 /**
  * @author Dmitry Kurinskiy
  * @since 31.05.11 14:49
  */
+@Accessor(Type.EVERNOTE)
 class EvernoteRemote extends Remote{
   private EvernoteRaw getRaw() {
     EvernoteRaw.getInstance()

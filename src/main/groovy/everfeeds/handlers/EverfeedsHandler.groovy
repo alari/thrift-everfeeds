@@ -7,7 +7,10 @@ import everfeeds.thrift.ttype.EntryKind;
 import org.apache.thrift.TException;
 
 import java.util.List
-import everfeeds.thrift.domain.Category;
+import everfeeds.thrift.domain.Category
+import everfeeds.thrift.ttype.AccessTypeInfo
+import everfeeds.thrift.ttype.AccessType
+import everfeeds.remote.TypeInfo;
 
 /**
  * @author Dmitry Kurinskiy
@@ -112,5 +115,9 @@ public class EverfeedsHandler implements EverfeedsAPI.Iface{
   @Override
   public List<Entry> getFilteredNew(String token, Filter filter) throws Forbidden, TokenExpired, TokenNotFound, NotFound, WrongArgument, TException {
     return filterHandler.getFilteredNew(token, filter);
+  }
+
+  AccessTypeInfo getAccessTypeInfo(AccessType type) {
+    TypeInfo.getInfo(type)
   }
 }
