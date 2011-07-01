@@ -12,6 +12,8 @@ import everfeeds.remote.OAuthAccess
 import everfeeds.remote.error.InvalidTokenException
 import everfeeds.thrift.util.Type
 import everfeeds.util.annotation.Accessor
+import everfeeds.util.annotation.NotSupported
+import everfeeds.util.annotation.NotImplemented
 
 /**
  * @author Dmitry Kurinskiy
@@ -24,6 +26,7 @@ class FacebookRemote extends Remote{
   }
 
   @Override
+  @NotSupported
   List<TagD> getActualizedTags(AccessD access) {
     []
   }
@@ -91,16 +94,19 @@ class FacebookRemote extends Remote{
   }
 
   @Override
+  @NotSupported
   TagD push(TagD tagD) {
     throw new NotSupportedException()
   }
 
   @Override
+  @NotSupported
   CategoryD push(CategoryD categoryD) {
     throw new NotSupportedException()
   }
 
   @Override
+  @NotImplemented
   EntryD push(EntryD entryD) {
     null
   }

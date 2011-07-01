@@ -147,7 +147,7 @@ class EvernoteRemote extends Remote{
   @Override
   CategoryD push(CategoryD categoryD) {
     if(!categoryD.access) {
-      throw new Exception("Tag access should be set")
+      throw new Exception("Category access should be set")
     }
 
     Notebook notebook

@@ -1,15 +1,15 @@
-package everfeeds.util.annotation
+@Typed package everfeeds.util.annotation
 
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
-import java.lang.annotation.Target
 import java.lang.annotation.ElementType
+import java.lang.annotation.Target
 /**
  * @author Dmitry Kurinskiy
- * @since 30.06.11 12:22
+ * @since 01.07.11 18:51
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface NotAvailable {
-  String value() default "Not Available Via Service Remote API"
+public @interface NoUpdatesSupported {
+  String value() default "Updates are not supported"
 }

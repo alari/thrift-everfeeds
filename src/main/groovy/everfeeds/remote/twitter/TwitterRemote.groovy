@@ -14,6 +14,8 @@ import everfeeds.mongo.AccessD
 import everfeeds.dao.CategoryDAO
 import everfeeds.util.annotation.Accessor
 import everfeeds.thrift.util.Type
+import everfeeds.util.annotation.NotSupported
+import everfeeds.util.annotation.NoUpdatesSupported
 
 /**
  * @author Dmitry Kurinskiy
@@ -119,16 +121,19 @@ class TwitterRemote extends Remote {
   }
 
   @Override
+  @NotSupported
   TagD push(TagD tagD) {
     throw new NotSupportedException()
   }
 
   @Override
+  @NotSupported
   CategoryD push(CategoryD categoryD) {
     throw new NotSupportedException()
   }
 
   @Override
+  @NoUpdatesSupported
   EntryD push(EntryD entryD) {
     if(entryD.id) {
       throw new NotSupportedException()
