@@ -11,6 +11,7 @@ import everfeeds.mongo.CategoryD
 import everfeeds.mongo.TagD
 import everfeeds.mongo.EntryD
 import everfeeds.util.annotation.NoUpdatesSupported
+import java.lang.reflect.Method
 
 /**
  * @author Dmitry Kurinskiy
@@ -29,20 +30,26 @@ class TypeInfo {
     }
   }
 
+  static public Class<Remote> getRemoteClass(Type type){
+    classMap.get(type)
+  }
+
   static private void buildInfo(Type type, Class<Remote> cls) {
     AccessTypeInfo info = new AccessTypeInfo()[accessType:type.toThrift(), isRemote: true]
 
     info.withEntries = true
     info.withFiles = false
 
-    info.pullEntries = !cls.getMethod("pull").getAnnotation(NotImplemented) && !cls.getMethod("pull").getAnnotation(NotSupported)
+    final Closure isAvailable = {Method m -> !m.getAnnotation(NotImplemented) && !m.getAnnotation(NotSupported)}
+
+    info.pullEntries = isAvailable(cls.getMethod("pull"))
     info.pullFiles = false
 
-    info.pushCategory = !cls.getMethod("push", CategoryD).getAnnotation(NotImplemented) && !cls.getMethod("push", CategoryD).getAnnotation(NotSupported)
-    info.pushTag = !cls.getMethod("push", TagD).getAnnotation(NotImplemented) && !cls.getMethod("push", TagD).getAnnotation(NotSupported)
-    info.pushEntry = !cls.getMethod("push", EntryD).getAnnotation(NotImplemented) && !cls.getMethod("push", EntryD).getAnnotation(NotSupported)
+    info.pushCategory = isAvailable(cls.getMethod("push", CategoryD))
+    info.pushTag = isAvailable(cls.getMethod("push", TagD))
+    info.pushEntry = isAvailable(cls.getMethod("push", EntryD))
 
-    info.updateEntry = !cls.getMethod("push", EntryD).getAnnotation(NoUpdatesSupported)
+    info.updateEntry = info.pushEntry && !cls.getMethod("push", EntryD).getAnnotation(NoUpdatesSupported)
 
     infoMap.put(type.toThrift(), info)
   }

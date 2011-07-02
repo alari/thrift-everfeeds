@@ -1,4 +1,4 @@
-package everfeeds.remote
+package everfeeds.util
 
 import everfeeds.ConfigHolder
 import everfeeds.mongo.AccessD

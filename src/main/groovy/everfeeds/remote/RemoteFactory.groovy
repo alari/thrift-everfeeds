@@ -1,4 +1,4 @@
-package everfeeds.remote
+@Typed package everfeeds.remote
 
 import everfeeds.thrift.util.Type
 import everfeeds.remote.twitter.TwitterRemote
@@ -11,24 +11,12 @@ import everfeeds.remote.facebook.FacebookRemote
  * @author Dmitry Kurinskiy
  * @since 19.05.11 12:49
  */
-@Typed
 class RemoteFactory {
   static private Map<Type,Remote> instances = [:]
 
   static public Remote getInstance(Type type){
     if(!instances.containsKey(type)) {
-      Remote instance
-      switch(type){
-        case Type.TWITTER:
-          instance = new TwitterRemote()
-          break;
-        case Type.EVERNOTE:
-          instance = new EvernoteRemote()
-              break;
-        case Type.FACEBOOK:
-          instance = new FacebookRemote()
-      }
-      instances.put(type, instance)
+      instances.put type, TypeInfo.getRemoteClass(type)?.newInstance()
     }
     instances.get(type)
   }

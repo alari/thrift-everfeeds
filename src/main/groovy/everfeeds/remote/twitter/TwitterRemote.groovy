@@ -4,11 +4,11 @@ import everfeeds.mongo.CategoryD
 import everfeeds.mongo.EntryD
 import everfeeds.mongo.FilterD
 import everfeeds.mongo.TagD
-import everfeeds.remote.OAuthAccess
+import everfeeds.util.OAuthAccess
 import everfeeds.remote.Remote
 
-import everfeeds.remote.error.InvalidTokenException
-import everfeeds.remote.error.NotSupportedException
+import everfeeds.util.error.InvalidTokenException
+import everfeeds.util.error.NotSupportedException
 import everfeeds.dao.TagDAO
 import everfeeds.mongo.AccessD
 import everfeeds.dao.CategoryDAO
@@ -16,6 +16,7 @@ import everfeeds.util.annotation.Accessor
 import everfeeds.thrift.util.Type
 import everfeeds.util.annotation.NotSupported
 import everfeeds.util.annotation.NoUpdatesSupported
+import everfeeds.util.RemoteUtils
 
 /**
  * @author Dmitry Kurinskiy
@@ -65,15 +66,6 @@ class TwitterRemote extends Remote {
     categories
   }
 
-  private Map<String,TagD> getTagsCache(AccessD access){
-    // Prepare tags cache
-    Map<String, TagD> tags = [:]
-    getActualizedTags(access).each{
-      tags.put it.identity, it
-    }
-    tags
-  }
-
   @Override
   List<EntryD> pull(FilterD filterD, int max, int offset) throws InvalidTokenException {
     List<EntryD> entries = []
@@ -86,7 +78,7 @@ class TwitterRemote extends Remote {
     }
 
     // Prepare tags cache
-    Map<String, TagD> tags = getTagsCache(filterD.access)
+    Map<String, TagD> tags = RemoteUtils.getTagsCache(filterD.access, this)
 
     // Prepare oauth accessor
     OAuthAccess oAuthAccess = new OAuthAccess(filterD.access)
@@ -113,7 +105,7 @@ class TwitterRemote extends Remote {
         EntryD entry = parser.result
 
         // Everything is okay, adding entry to result list
-        if(filterAfterParse(filterD, entry)) entries.add entry
+        if(RemoteUtils.filterAfterParse(filterD, entry)) entries.add entry
       }
     }
 
@@ -154,7 +146,7 @@ class TwitterRemote extends Remote {
     TwitterParser parser = TwitterCategory.TIMELINE.parserClass.newInstance()
     parser.access = entryD.access
     parser.category = category
-    parser.tagsCache = getTagsCache(entryD.access)
+    parser.tagsCache = RemoteUtils.getTagsCache(entryD.access, this)
     parser.entry = entryD
     parser.original = original
 

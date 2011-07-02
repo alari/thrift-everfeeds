@@ -1,14 +1,14 @@
-package everfeeds.remote.facebook
+@Typed package everfeeds.remote.facebook
 
-import everfeeds.remote.OAuthAccess
+import everfeeds.util.OAuthAccess
 import everfeeds.remote.Remote
+import everfeeds.remote.Raw
 
 /**
  * @author Dmitry Kurinskiy
  * @since 14.05.11 11:17
  */
-@Typed
-public class FacebookRaw {
+public class FacebookRaw extends Raw{
   private static FacebookRaw ourInstance = new FacebookRaw();
 
   public static FacebookRaw getInstance() {
@@ -19,6 +19,10 @@ public class FacebookRaw {
   }
 
   public getJson(OAuthAccess access, FacebookRawUrl url, int maxCount = Remote.PULL_MAX, String query = "") {
+    if(testingContent) {
+      return cleanTestingContent
+    }
+
     access.callOAuthApiJSON url.toString();
   }
 

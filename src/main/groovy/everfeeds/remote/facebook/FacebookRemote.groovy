@@ -7,13 +7,14 @@ import everfeeds.mongo.CategoryD
 import everfeeds.mongo.EntryD
 import everfeeds.mongo.FilterD
 import everfeeds.dao.CategoryDAO
-import everfeeds.remote.error.NotSupportedException
-import everfeeds.remote.OAuthAccess
-import everfeeds.remote.error.InvalidTokenException
+import everfeeds.util.error.NotSupportedException
+import everfeeds.util.OAuthAccess
+import everfeeds.util.error.InvalidTokenException
 import everfeeds.thrift.util.Type
 import everfeeds.util.annotation.Accessor
 import everfeeds.util.annotation.NotSupported
 import everfeeds.util.annotation.NotImplemented
+import everfeeds.util.RemoteUtils
 
 /**
  * @author Dmitry Kurinskiy
@@ -86,7 +87,7 @@ class FacebookRemote extends Remote{
         EntryD entry = parser.result
 
         // Everything is okay, adding entry to result list
-        if(filterAfterParse(filterD, entry)) entries.add entry
+        if(RemoteUtils.filterAfterParse(filterD, entry)) entries.add entry
       }
     }
 
