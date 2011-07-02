@@ -1,118 +1,102 @@
 @Typed package everfeeds.remote.greader
 
-import everfeeds.mongo.AuthorD
-import everfeeds.mongo.EntryContentD
-import everfeeds.mongo.TagD
 import everfeeds.remote.Parser
 import everfeeds.thrift.util.Kind
+import everfeeds.mongo.*
 
 /**
  * @author Dmitry Kurinskiy
  * @since 02.07.11 13:00
  */
 class GReaderParser extends Parser {
-  /*
+  private String contentCache
 
-  private contentCache
+    GReaderParser(){
+  }
 
-  protected beforeBuildEnvelop(){
+  GReaderParser(original, AccessD access, EntryD entry) {
+    super(original, access, entry)
+    setContentCache()
+  }
+
+  @Override
+  void setOriginal(Object original) {
+    super.setOriginal(original)
+    setContentCache()
+  }
+
+  private void setContentCache(){
     contentCache = original.content?.content ?: original.summary?.content?.replace("\n", "<br/>")
   }
 
-  String getIdentity() {
-    original.id
-  }
-
-  String getAuthor() {
-    original.author
-  }
-
-  boolean getIsPublic() {
-    true
-  }
-
+  @Override
   String getSourceUrl() {
-    original.alternate.find {it.type == "text/html"}?.href
+    (original.alternate.find {it.type == "text/html"} as Map)?.href
   }
 
-  String getTitle() {
-    original.title
-  }
 
-  String getDescription() {
-    contentCache.size() <= 1024 ? contentCache : ""
-  }
-
-  String getContent() {
-    contentCache.size() > 1024 ? contentCache : ""
-  }
-
-  Date getPlacedDate() {
-    new Date(((long) original.updated) * 1000)
-  }
-
-  List<String> getTagIdentities() {
-    original.categories.collect {it.toString()}
-  }
-  * */
 
   @Override
   boolean getIsAuthor() {
-    return false
+    false
   }
 
   @Override
   boolean getIsPublicAvailable() {
-    return false
+     true
   }
 
   @Override
   boolean getIsFavorite() {
-    return false
+    original.categories.any{it.toString() == "user/-/state/com.google/starred"}
   }
 
   @Override
   boolean getIsRead() {
-    return false
+    original.categories.any{it.toString() == "user/-/state/com.google/read"}
   }
 
   @Override
   String getIdentity() {
-    return null
+    original.id
   }
 
   @Override
   String getTitle() {
-    return null
+    original.title
   }
 
   @Override
   String getDescription() {
-    return null
+    contentCache.size() <= 1024 ? contentCache : ""
   }
 
   @Override
   EntryContentD getContent() {
-    return null
+    if (contentCache.size() <= 1024) return null
+
+    EntryContentD contentD = entry?.content ?: new EntryContentD()
+    contentD.html = contentCache
+    contentD
   }
 
   @Override
   AuthorD getAuthor() {
-    return null
+    new AuthorD(title: original.author)
   }
 
   @Override
   Kind getKind() {
-    return null
+    Kind.ATOM
   }
 
   @Override
   Date getDatePlaced() {
-    return null
+    new Date(((long) original.updated) * 1000)
   }
 
   @Override
   List<TagD> getTags() {
-    return null
+    original.categories.collect{ tagsCache.get it.toString()}
   }
 }

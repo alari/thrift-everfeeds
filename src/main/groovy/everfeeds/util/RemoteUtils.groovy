@@ -2,40 +2,45 @@
 
 import everfeeds.dao.CategoryDAO
 import everfeeds.dao.TagDAO
-import everfeeds.mongo.AccessD
-import everfeeds.mongo.CategoryD
-import everfeeds.mongo.TagD
 import everfeeds.remote.Remote
-import everfeeds.mongo.FilterD
-import everfeeds.mongo.EntryD
+import everfeeds.mongo.*
 
 /**
  * @author Dmitry Kurinskiy
  * @since 02.07.11 13:22
  */
 class RemoteUtils {
-   static final public boolean filterAfterParse(FilterD filterD, EntryD entry) {
+  static final public boolean filterAfterParse(FilterD filterD, EntryD entry) {
     // Perform after-parse filtering
-        if (filterD.withTags.size() && !entry.tags.intersect(filterD.withTags).size()) {
-          return false;
-        }
-        if (filterD.withoutTags.size() && entry.tags.intersect(filterD.withoutTags).size()) {
-          return false;
-        }
-        if (filterD.kinds.size()) {
-          if (filterD.kindsWith && !filterD.kinds.contains(entry.kind)) return false;
-          else if (filterD.kinds.contains(entry.kind)) return false;
-        }
+    if (filterD.withTags.size() && !entry.tags.intersect(filterD.withTags).size()) {
+      return false;
+    }
+    if (filterD.withoutTags.size() && entry.tags.intersect(filterD.withoutTags).size()) {
+      return false;
+    }
+    if (filterD.kinds.size()) {
+      if (filterD.kindsWith && !filterD.kinds.contains(entry.kind)) return false;
+      else if (filterD.kinds.contains(entry.kind)) return false;
+    }
     true
   }
 
-    static final public Map<String,TagD> getTagsCache(AccessD access, Remote remote){
+  static final public Map<String, TagD> getTagsCache(AccessD access, Remote remote) {
     // Prepare tags cache
     Map<String, TagD> tags = [:]
-    remote.getActualizedTags(access).each{
+    remote.getActualizedTags(access).each {
       tags.put it.identity, it
     }
     tags
+  }
+
+  static final public Map<String, CategoryD> getCategoriesCache(AccessD access, Remote remote) {
+    // Prepare categoriess cache
+    Map<String, CategoryD> categories = [:]
+    remote.getActualizedCategories(access).each {
+      categories.put it.identity, it
+    }
+    categories
   }
 
   static public List<TagD> actualizeTags(AccessD access, List remoteObjs, Closure objIdentity, Closure objTitle, Closure objParentIdentity = {null}) {

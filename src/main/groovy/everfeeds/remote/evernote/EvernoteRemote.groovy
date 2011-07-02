@@ -91,13 +91,13 @@ class EvernoteRemote extends Remote{
   @Override
   List<TagD> getActualizedTags(AccessD access) {
     List<Tag> tags = raw.getNoteStore(access).listTags(access.accessToken)
-    RemoteUtils.actualizeTags(access, tags, {it.guid}, {it.name}, {it.parentGuid})
+    RemoteUtils.actualizeTags(access, tags, {Tag t->t.guid}, {Tag t->t.name}, {Tag t->t.parentGuid})
   }
 
   @Override
   List<CategoryD> getActualizedCategories(AccessD access) {
     List<Notebook> notebooks = raw.getNoteStore(access).listNotebooks(access.accessToken)
-    RemoteUtils.actualizeCategories(access, notebooks, {it.guid}, {it.name})
+    RemoteUtils.actualizeCategories(access, notebooks, {Notebook n->n.guid}, {Notebook n->n.name})
   }
 
   @Override
