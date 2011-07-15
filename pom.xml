@@ -6,7 +6,11 @@
 
   <groupId>com.everfeeds</groupId>
   <artifactId>thrift-everfeeds</artifactId>
+  <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>remote.handshake</module>
+  </modules>
 
   <properties>
     <repo>http://groovypp.artifactoryonline.com/groovypp</repo>
