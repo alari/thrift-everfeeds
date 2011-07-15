@@ -1,43 +1,47 @@
 include "auth.thrift"
+include "_types.thrift"
+include "_content.thrift"
+include "_geo.thrift"
 
 namespace java everfeeds.remote.thrift
 
-struct Context {
+struct Node {
   1: string title;
 
   10: auth.Credentials credentials;
+  11: Query query;
 
-  20: GeoLocation location;
+  20: list<Query> labels; // tags, notebook, feed id, etc
+  21: _content.Content content;
 
-  30: list<ContextStep> steps;
+  30: list<Query> inners; // profile has tags, notebooks, saved searches, etc
 
-  40: list<string> singleInners;
-  41: list<string> multipleInners;
+  40: list<_types.ContentType> acceptTypes; // what could be pushed to the node
 
-  50: boolean hasContentFeed;
-  51: boolean hasContent;
+  100: boolean flagFeed;
+  101: boolean flagContent;
 }
 
-struct ContextStep {
-  1: string name;
-  2: string value;
-  3: string title;
+struct Query {
+  1: string uri;
+  2: types.NodeType nodeType;
+
+  10: _geo.GeoLocation location;
+  11: string search;
 }
 
-struct GeoLocation {
-  1: double latitude;
-  2: double longitude;
-  3: double radius;
-}
+service DiscoveryFlow {
+  Node getGlobalNode(1: auth.AccessType type);
 
-service DiscoveryFlow extends auth.AuthFlow {
-  Context getGlobalContext(1: auth.AccessType type);
+  Node getAuthorizedNode(1: auth.Credentials credentials, 4: boolean withContent);
 
-  Context getAuthorizedContext(1: auth.Credentials credentials);
+  Node getQueryNode(1: auth.Credentials credentials, 2: Query query, 4: boolean withContent);
 
-  Context searchContext(1: Context context, 2: string search);
+  Node getSearchNode(1: Node node, 2: string search);
 
-  list<ContextStep> listInnerSteps(1: Context context, string stepName);
+  list<Node> getNodeFeed(1: Node node, 2: i16 offset, 3: i16 maxCount, 4: boolean withContent);
 
-  Context stepContext(1: Context context, ContextStep step);
+  i16 countNodeFeed(1: Node node);
+
+  _content.Content getNodeContent(1: Node node);
 }
