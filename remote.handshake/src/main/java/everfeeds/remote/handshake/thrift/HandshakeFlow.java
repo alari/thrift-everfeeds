@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.remote.thrift;
+package everfeeds.remote.handshake.thrift;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Handshake {
+public class HandshakeFlow {
 
   public interface Iface {
 

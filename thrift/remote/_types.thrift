@@ -1,4 +1,4 @@
-namespace java everfeeds.remote.thrift
+namespace java everfeeds.remote.discovery.thrift.ttype
 
 struct NodeType {
   1: NodeTypeGroup group;

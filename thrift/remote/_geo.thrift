@@ -1,3 +1,4 @@
+namespace java everfeeds.remote.discovery.thrift.geo
 
 struct GeoLocation {
   1: double latitude;

@@ -1,42 +1,18 @@
-namespace java everfeeds.remote.thrift
+namespace java everfeeds.remote.auth.thrift
 
 include "handshake.thrift"
-
-enum AccessType {
-  EVERNOTE = 1,
-  FACEBOOK = 2,
-  TWITTER = 3,
-  GMAIL = 4,
-  GREADER = 5,
-  LINKEDIN = 6,
-  VK = 7,
-  METAWEBLOG = 8,
-}
-
-enum AuthMethod {
-  OAUTH2,
-  BASIC,
-}
+include "_auth.thrift"
 
 struct Credentials {
   1: string token;
   2: string secret;
-  3: AccessType type;
+  3: _auth.AccessType type;
   10: map<string,string> params;
 }
-struct AuthVariant {
-  1: string system;
-  2: AuthMethod method;
-  3: AccessType type;
-}
-struct OAuthStep {
-  1: string authUrl;
-  2: string requestToken;
-}
 
-service AuthFlow extends handshake.Handshake {
-  list<AuthVariant> listAuthVariants();
-  boolean checkCredentials(1: Credentials credentials);
-  OAuthStep getOAuthStep(1: AuthVariant authVariant);
-  Credentials exchangeOAuthToken(1: AuthVariant authVariant, 2: OAuthStep oAuthStep, 3: string verifierCode);
+service AuthFlow extends handshake.HandshakeFlow {
+  list<_auth.AuthVariant> listAuthVariants();
+  bool checkCredentials(1: Credentials credentials);
+  _auth.OAuthStep getOAuthStep(1: _auth.AuthVariant authVariant, 2: string redirectUrl);
+  Credentials exchangeOAuthToken(1: _auth.AuthVariant authVariant, 2: _auth.OAuthStep oAuthStep, 3: string verifierCode);
 }

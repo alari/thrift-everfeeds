@@ -1,5 +1,5 @@
-namespace java everfeeds.remote.thrift
+namespace java everfeeds.remote.handshake.thrift
 
-service Handshake {
+service HandshakeFlow {
   string sayHello();
 }

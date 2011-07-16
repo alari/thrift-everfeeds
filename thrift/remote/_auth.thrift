@@ -1,0 +1,27 @@
+namespace java everfeeds.remote.auth.thrift.util
+
+enum AccessType {
+  EVERNOTE = 1,
+  FACEBOOK = 2,
+  TWITTER = 3,
+  GMAIL = 4,
+  GREADER = 5,
+  LINKEDIN = 6,
+  VK = 7,
+  METAWEBLOG = 8,
+}
+
+enum AuthMethod {
+  OAUTH2,
+  BASIC,
+}
+
+struct AuthVariant {
+  1: string system;
+  2: AuthMethod method;
+  3: AccessType type;
+}
+struct OAuthStep {
+  1: string authUrl;
+  2: string requestToken;
+}

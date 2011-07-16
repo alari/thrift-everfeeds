@@ -1,4 +1,4 @@
-import everfeeds.remote.handler.HandshakeHandler;
+import everfeeds.remote.handshake.HandshakeHandler;
 import junit.framework.TestCase;
 import org.apache.thrift.TException;
 import org.junit.Test;

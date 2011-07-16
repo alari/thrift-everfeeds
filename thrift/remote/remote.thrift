@@ -3,7 +3,7 @@ include "_types.thrift"
 include "_content.thrift"
 include "_geo.thrift"
 
-namespace java everfeeds.remote.thrift
+namespace java everfeeds.remote.discovery.thrift
 
 struct Node {
   1: string title;
