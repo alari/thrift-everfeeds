@@ -31,4 +31,21 @@ enum AccessType {
   GREADER = 5,
   LINKEDIN = 6,
   VKONTAKTE = 7,
+  METAWEBLOG = 8,
+}
+
+struct AccessTypeInfo {
+  1: AccessType accessType;
+  2: bool isRemote;
+  3: bool withEntries;
+  4: bool withFiles;
+
+  10: bool pullEntries; // may pull entries
+  11: bool pullFiles; // may pull files without entries
+
+  20: bool pushEntry; // may push entry to be synced remotely
+  21: bool pushCategory;
+  22: bool pushTag;
+
+  30: bool updateEntry; // may update existent entry remotely
 }

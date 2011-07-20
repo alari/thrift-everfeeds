@@ -19,14 +19,14 @@ public class EntryContentD {
   @Version
   Long version;
 
-  String content;
+  String html;
 
   public void syncFromThrift(EntryContent entryContent) {
-    content = entryContent.content;
+    html = entryContent.html;
   }
 
   public void syncToThrift(EntryContent entryContent) {
-    entryContent.content = content;
+    entryContent.html = html;
     entryContent.id = id.toString();
   }
 }

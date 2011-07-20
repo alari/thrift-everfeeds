@@ -1,55 +1,84 @@
-package everfeeds.remote.twitter
+@Typed package everfeeds.remote.twitter
 
 import everfeeds.mongo.CategoryD
 import everfeeds.mongo.EntryD
 import everfeeds.mongo.FilterD
 import everfeeds.mongo.TagD
-import everfeeds.remote.OAuthAccess
+import everfeeds.util.OAuthAccess
 import everfeeds.remote.Remote
-import everfeeds.MongoDB
-import everfeeds.remote.InvalidTokenException
+
+import everfeeds.util.error.InvalidTokenException
+import everfeeds.util.error.NotSupportedException
+import everfeeds.dao.TagDAO
+import everfeeds.mongo.AccessD
+import everfeeds.dao.CategoryDAO
+import everfeeds.util.annotation.Accessor
+import everfeeds.thrift.util.Type
+import everfeeds.util.annotation.NotSupported
+import everfeeds.util.annotation.NoUpdatesSupported
+import everfeeds.util.RemoteUtils
 
 /**
  * @author Dmitry Kurinskiy
  * @since 14.05.11 11:31
  */
-@Typed
+@Accessor(Type.TWITTER)
 class TwitterRemote extends Remote {
   private TwitterRaw getRaw() {
     TwitterRaw.getInstance()
   }
 
   @Override
-  List<EntryD> pull(FilterD filterD) throws InvalidTokenException {
+  List<TagD> getActualizedTags(AccessD access) {
+    List<TagD> tags = TagDAO.instance.findAllByAccess(access)
+    tags.findAll{!TwitterTag.getByIdentity(it.identity)}.each {
+        tags.remove(it)
+        TagDAO.instance.delete(it)
+    }
+
+    TwitterTag.values().each{TwitterTag tt->
+      if(tags.any{it.identity == tt.identity}) return;
+
+      TagD t = tt.domain
+      t.access = access
+      TagDAO.instance.save(t)
+      tags.add t
+    }
+    tags
+  }
+
+  @Override
+  List<CategoryD> getActualizedCategories(AccessD access) {
+    List<CategoryD> categories = CategoryDAO.instance.findAllByAccess(access)
+    categories.findAll {!TwitterCategory.getByIdentity(it.identity)}.each {
+        categories.remove(it)
+        CategoryDAO.instance.delete(it)
+    }
+
+    TwitterCategory.values().each{TwitterCategory tc->
+      if(categories.any{it.identity == tc.identity}) return;
+
+      CategoryD c = tc.domain
+      c.access = access
+      CategoryDAO.instance.save(c)
+      categories.add c
+    }
+    categories
+  }
+
+  @Override
+  List<EntryD> pull(FilterD filterD, int max, int offset) throws InvalidTokenException {
     List<EntryD> entries = []
 
     // Prepare the list of categories to pull from
-    List<CategoryD> categories = ds.createQuery(CategoryD).filter("access", filterD.access).asList()
-    if(!categories.size()) {
-      TwitterCategory.values().collect { it.domain }.each{CategoryD c->
-        c.access = filterD.access
-        MongoDB.getDS().save(c)
-        categories.add c
-      }
-    }
+    List<CategoryD> categories = getActualizedCategories(filterD.access)
     if (filterD.categories.size()) {
       if (filterD.categoriesWith) categories = filterD.categories
       else categories = categories - filterD.categories
     }
 
     // Prepare tags cache
-    Map<String, TagD> tags = [:]
-    List<TagD> tagsList = ds.createQuery(TagD).filter("access", filterD.access).asList()
-    if(!tagsList.size()) {
-      TwitterTag.values().collect { it.domain }.each{TagD t->
-        t.access = filterD.access
-        MongoDB.getDS().save(t)
-        tagsList.add t
-      }
-    }
-    tagsList.each {
-      tags.put it.identity, it
-    }
+    Map<String, TagD> tags = RemoteUtils.getTagsCache(filterD.access, this)
 
     // Prepare oauth accessor
     OAuthAccess oAuthAccess = new OAuthAccess(filterD.access)
@@ -57,41 +86,70 @@ class TwitterRemote extends Remote {
     categories.each {CategoryD category ->
       // Enum category
       TwitterCategory c = TwitterCategory.getByIdentity(category.identity)
+      // TODO: check category existence!
 
       // Preparing parser for category
-      TwitterParser parser = c.parserClass.newInstance()
+      TwitterParser parser = c.parser
       parser.access = filterD.access
       parser.category = category
       parser.tagsCache = tags
 
       // Getting raw json from remote api
-      def result = raw.getJson(oAuthAccess, c.url)
+      def result = raw.getJson(oAuthAccess, c.url, max)
       if(result instanceof Map && (result as Map)?.error) {
         throw new InvalidTokenException()
       }
       result.each {
-        System.out.println("test:"+it);
         // Parse json original
         parser.original = it
         EntryD entry = parser.result
 
-        // Perform after-parse filtering
-        if (filterD.withTags.size() && !entry.tags.intersect(filterD.withTags).size()) {
-          return;
-        }
-        if (filterD.withoutTags.size() && entry.tags.intersect(filterD.withoutTags).size()) {
-          return;
-        }
-        if (filterD.kinds.size()) {
-          if (filterD.kindsWith && !filterD.kinds.contains(entry.kind)) return;
-          else if (filterD.kinds.contains(entry.kind)) return;
-        }
-
         // Everything is okay, adding entry to result list
-        entries.add entry
+        if(RemoteUtils.filterAfterParse(filterD, entry)) entries.add entry
       }
     }
 
     entries
+  }
+
+  @Override
+  @NotSupported
+  TagD push(TagD tagD) {
+    throw new NotSupportedException()
+  }
+
+  @Override
+  @NotSupported
+  CategoryD push(CategoryD categoryD) {
+    throw new NotSupportedException()
+  }
+
+  @Override
+  @NoUpdatesSupported
+  EntryD push(EntryD entryD) {
+    if(entryD.id) {
+      throw new NotSupportedException()
+    }
+    // Prepare oauth accessor
+    OAuthAccess oAuthAccess = new OAuthAccess(entryD.access)
+
+    Map original = (Map)raw.postJson(oAuthAccess, TwitterRawUrl.UPDATE_STATUS, [status:entryD.title])
+    if(original.containsKey("error")) {
+      // TODO: check error type; throw proper exception
+      return null
+    }
+
+    // Enum category
+    CategoryD category = CategoryDAO.getInstance().getByIdentityAndAccess(TwitterCategory.TIMELINE.identity, entryD.access)
+
+    // Preparing parser for category
+    TwitterParser parser = TwitterCategory.TIMELINE.parserClass.newInstance()
+    parser.access = entryD.access
+    parser.category = category
+    parser.tagsCache = RemoteUtils.getTagsCache(entryD.access, this)
+    parser.entry = entryD
+    parser.original = original
+
+    parser.result
   }
 }

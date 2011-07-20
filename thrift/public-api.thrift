@@ -50,4 +50,7 @@ service EverfeedsAPI {
   // to filter entries
   list<entry.Entry> getFiltered(1: t.String token, 2: filter.Filter filter, 3: i16 page, 4: i16 maxCount) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF, 5: e.WrongArgument e);
   list<entry.Entry> getFilteredNew(1: t.String token, 2: filter.Filter filter) throws(1: e.Forbidden eF, 2: e.TokenExpired eE, 3: e.TokenNotFound eTNF, 4: e.NotFound eNF, 5: e.WrongArgument e);
+
+  // misc
+  enm.AccessTypeInfo getAccessTypeInfo(1: enm.AccessType type);
 }

@@ -1,4 +1,4 @@
-@Typed package everfeeds.mongo;
+ package everfeeds.mongo;
 
 
 import everfeeds.thrift.domain.Entry
@@ -73,9 +73,6 @@ public class EntryD {
   @Indexed
   List<FilterD> filters;
 
-  @Reference(lazy = true)
-  OriginalD original;
-
   @PrePersist
   void prePersist() {
     lastUpdated = new Date();
@@ -104,12 +101,12 @@ public class EntryD {
 
     entry.categoryId = category.id.toString();
 
-    entry.tagIds.clear();
-    for (TagD tag: tags) {
+    entry.tagIds = []
+    for (TagD tag : tags) {
       entry.tagIds.add(tag.id.toString());
     }
 
-    entry.filterIds.clear();
+    entry.filterIds = []
     for (FilterD filter: filters) {
       entry.filterIds.add(filter.id.toString());
     }

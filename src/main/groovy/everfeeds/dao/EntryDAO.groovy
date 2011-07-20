@@ -39,7 +39,7 @@ class EntryDAO extends BasicDAO<EntryD, ObjectId> {
   }
 
   public EntryD getByThrift(Entry entry, AccessD access){
-    entry.id ? getById(entry.id) : getByIdentityAndAccess(entry.identity, access)
+    entry.id && ObjectId.isValid(entry.id) ? getById(entry.id) : getByIdentityAndAccess(entry.identity, access)
   }
 
   public List<EntryD> findAllMashNew(AccountD account, long splitDate, short maxCount) {

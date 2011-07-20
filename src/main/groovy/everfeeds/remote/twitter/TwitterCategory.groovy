@@ -8,9 +8,8 @@ import everfeeds.mongo.CategoryD
  */
 @Typed
 public enum TwitterCategory {
-  TIMELINE("timeline", TwitterRawUrl.HOME_TIMELINE, TwitterParser.Status),
-  MENTIONS("mentions", TwitterRawUrl.MENTIONS, TwitterParser.Status),
-  MESSAGES("messages", TwitterRawUrl.MESSAGES, TwitterParser.DM);
+  TIMELINE("timeline", TwitterRawUrl.HOME_TIMELINE, TwitterParser),
+  MENTIONS("mentions", TwitterRawUrl.MENTIONS, TwitterParser);
 
   private static Map<String, TwitterCategory> byIdentity = [:]
 
@@ -44,6 +43,10 @@ public enum TwitterCategory {
 
   public Class<TwitterParser> getParserClass() {
     parser
+  }
+
+  public TwitterParser getParser(){
+    parser.newInstance()
   }
 
   public CategoryD getDomain(){

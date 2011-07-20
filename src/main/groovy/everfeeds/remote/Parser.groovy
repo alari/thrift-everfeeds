@@ -1,21 +1,24 @@
-package everfeeds.remote
+@Typed package everfeeds.remote
 
 import com.google.code.morphia.Datastore
 import everfeeds.MongoDB
 import everfeeds.thrift.util.Kind
 import everfeeds.mongo.*
+import everfeeds.dao.TagDAO
+import everfeeds.dao.EntryDAO
+import com.google.code.morphia.utils.ReflectionUtils
+import everfeeds.dao.EntryContentDAO
 
 /**
  * @author Dmitry Kurinskiy
  * @since 14.05.11 12:20
  */
-@Typed
 abstract class Parser {
   protected original
   protected EntryD entry
   protected AccessD access
   protected CategoryD categoryD
-  protected Map<String, TagD> tagsCache = [:]
+  private Map<String, TagD> tagsCache
   boolean isParsed = false
 
   Parser() {}
@@ -30,6 +33,16 @@ abstract class Parser {
     tagsCache = cache
     entry = null
     isParsed = false
+  }
+
+  public Map<String,TagD> getTagsCache(){
+    if(tagsCache == null) {
+      tagsCache = [:]
+      TagDAO.instance.findAllByAccess(access).each{
+        tagsCache.put(it.identity, it)
+      }
+    }
+    tagsCache
   }
 
   public void setEntry(EntryD entryD) {
@@ -65,45 +78,36 @@ abstract class Parser {
         throw new Exception("Nothing to parse: no original provided")
       }
       if (!entry) {
-        entry = ds.createQuery(EntryD).filter("access", access).filter("kind", kind).filter("identity", identity).get() ?: new EntryD()
+        // TODO: remove this to DAO
+        entry = EntryDAO.instance.createQuery().filter("access", access).filter("kind", kind).filter("identity", identity).get() ?: new EntryD()
       }
       isParsed = true
 
       entry.access = access
       entry.account = access.account
 
-      entry.original = originalD
       entry.content = content
 
       ["isAuthor", "isPublicAvailable", "isFavorite", "isRead",
           "identity", "title", "description", "sourceUrl",
           "author", "kind", "datePlaced", "tags", "filters", "category"].each {
-        entry."${it}" = this."${it}"
+        entry."${it}" = this."get${it.toString().capitalize()}"()
       }
     }
     entry
   }
 
   public EntryD save() {
-    ds.save(entry.original)
     if (entry.content) {
-      ds.save(entry.content)
+     EntryContentDAO.instance.save(entry.content)
     }
-    ds.save(result)
+    EntryDAO.instance.save(result)
     entry
   }
 
   protected Datastore getDs() {
+    System.err.println("Deprecated Parser.getDS()")
     MongoDB.getDS();
-  }
-
-  private OriginalD getOriginalD() {
-    if (!entry.original) {
-      entry.original = new OriginalD()
-    }
-    // set original as map
-    entry.original.data = original as Map
-    entry.original
   }
 
   abstract public boolean getIsAuthor()

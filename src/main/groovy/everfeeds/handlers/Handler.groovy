@@ -26,12 +26,11 @@ abstract public class Handler {
   protected EntryContentDAO getEntryContentDAO(){EntryContentDAO.getInstance()}
   protected EntryDAO getEntryDAO(){EntryDAO.getInstance()}
   protected FilterDAO getFilterDAO(){FilterDAO.getInstance()}
-  protected OriginalDAO getOriginalDAO(){OriginalDAO.getInstance()}
   protected TagDAO getTagDAO(){TagDAO.getInstance()}
   protected TokenDAO getTokenDAO(){TokenDAO.getInstance()}
 
   protected TokenD getTokenD(String id) throws TException, TokenNotFound, TokenExpired, Forbidden {
-    TokenD token = tokenDAO.getById(id)
+    TokenD token = tokenDAO.getByKey(id)
     if (token == null) {
       throw new TokenNotFound(String.format("Cannot find token for %s", id));
     }
@@ -60,6 +59,8 @@ abstract public class Handler {
     accessD = new AccessD();
     accessD.type = Type.getByThrift(access.type);
     accessD.identity = access.identity;
+    accessD.title = access.title ?: access.identity
+    accessD.screenName = access.screenName
     return accessD;
   }
 
@@ -73,4 +74,33 @@ abstract public class Handler {
   protected static Datastore getDS() {
     return MongoDB.getDS();
   }
+  protected FilterD setFilterRelationsFromThrift(FilterD filterD, Filter filter) {
+    // Syncing categories and tags
+    filterD.categories.clear();
+    filterD.withoutTags.clear();
+    filterD.withTags.clear();
+
+    if (filter.categoryIds != null && filter.categoryIds.size() > 0) {
+      List<CategoryD> categories = categoryDAO.findAllByAccess(filterD.access)
+      for (CategoryD c : categories) {
+        if (filter.categoryIds.contains(c.id.toString())) {
+          filterD.categories.add(c);
+        }
+      }
+    }
+
+    if (filter.withTagIds != null || filter.withTagIds != null) {
+      List<TagD> tags = tagDAO.findAllByAccess(filterD.access)
+      for (TagD t : tags) {
+        if (filter.withoutTagIds != null && filter.withoutTagIds.contains(t.id.toString())) {
+          filterD.withoutTags.add(t);
+        } else if (filter.withTagIds != null && filter.withTagIds.contains(t.id.toString())) {
+          filterD.withTags.add(t);
+        }
+      }
+    }
+
+    return filterD;
+  }
 }
+

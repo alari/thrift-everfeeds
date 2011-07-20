@@ -1,8 +1,8 @@
 package everfeeds;
 
 import everfeeds.handlers.*;
-import everfeeds.handlers.secure.KernelHandler;
-import everfeeds.secure.thrift.KernelAPI;
+import everfeeds.handlers.secure.InternalHandler;
+import everfeeds.internal.thrift.InternalAPI;
 import everfeeds.thrift.EverfeedsAPI;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
@@ -15,7 +15,7 @@ import org.apache.thrift.transport.TServerTransport;
  */
 public class ThriftServer {
   static private EverfeedsAPI.Processor mainAPI;
-  static private KernelAPI.Processor kernelAPI;
+  static private InternalAPI.Processor kernelAPI;
 
   public static void main(String[] args) {
     try {
@@ -29,7 +29,7 @@ public class ThriftServer {
         }
       }
 
-      kernelAPI = new KernelAPI.Processor(new KernelHandler());
+      kernelAPI = new InternalAPI.Processor(new InternalHandler());
       mainAPI = new EverfeedsAPI.Processor(new EverfeedsHandler());
 
       Runnable publicServer = new Runnable() {

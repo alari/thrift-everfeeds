@@ -8,8 +8,8 @@ namespace perl everfeeds.thrift.domain
 namespace st Thrift.Everfeeds.Domain
 
 struct Token {
-  1: t.Id id;
   2: t.Id accountId;
+  3: string key;
 
   10: t.Timestamp expires;
   11: bool expired;
@@ -46,8 +46,6 @@ struct Access {
 
   10: t.String title;
   11: t.String screenName;
-
-  20: list<string> params;
 }
 
 struct Account {

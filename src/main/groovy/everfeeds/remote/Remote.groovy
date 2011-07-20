@@ -6,6 +6,11 @@ import everfeeds.mongo.EntryD
 import everfeeds.mongo.FilterD
 import everfeeds.thrift.domain.Entry
 import everfeeds.dao.AccessDAO
+import everfeeds.mongo.TagD
+import everfeeds.mongo.CategoryD
+import everfeeds.util.error.NotSupportedException
+import everfeeds.util.error.InvalidTokenException
+import everfeeds.mongo.AccessD
 
 /**
  * @author Dmitry Kurinskiy
@@ -13,16 +18,20 @@ import everfeeds.dao.AccessDAO
  */
 @Typed
 abstract class Remote {
+  static final int PULL_MAX = 500
+
   protected Datastore getDs() {
     MongoDB.getDS();
   }
 
   public void saveEntries(FilterD filterD) {
     try {
+      List<EntryD> entries = pull(filterD)
+      ds.save(entries*.content)
       if (filterD.id) {
-        ds.save(pull(filterD).collect {it.filters.add filterD; it})
+        ds.save(entries.collect {it.filters.add filterD; it})
       } else {
-        ds.save pull(filterD)
+        ds.save entries
       }
     } catch(InvalidTokenException e) {
       filterD.access.expired = true
@@ -41,5 +50,19 @@ abstract class Remote {
     }
   }
 
-  abstract public List<EntryD> pull(FilterD filterD) throws InvalidTokenException
+  final public List<EntryD> pull(FilterD filterD) {
+    pull(filterD, PULL_MAX, 0)
+  }
+
+  abstract public List<TagD> getActualizedTags(AccessD access) throws InvalidTokenException
+
+  abstract public List<CategoryD> getActualizedCategories(AccessD access) throws InvalidTokenException
+
+  abstract public List<EntryD> pull(FilterD filterD, int max, int offset) throws InvalidTokenException
+
+  abstract public TagD push(TagD tagD) throws InvalidTokenException, NotSupportedException
+
+  abstract public CategoryD push(CategoryD categoryD) throws InvalidTokenException, NotSupportedException
+
+  abstract public EntryD push(EntryD entryD) throws InvalidTokenException, NotSupportedException
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <groupId>com.everfeeds</groupId>
+    <version>1.0-SNAPSHOT</version>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>remote.auth</artifactId>
+
+  <repositories>
+    <repository>
+      <id>maven.everfeeds.com-releases</id>
+      <name>maven.everfeeds.com-releases</name>
+      <url>http://maven.everfeeds.com/libs-release-local</url>
+    </repository>
+    <repository>
+      <id>maven.everfeeds.com-snapshots</id>
+      <name>maven.everfeeds.com-snapshots</name>
+      <url>http://maven.everfeeds.com/libs-snapshot</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.everfeeds</groupId>
+      <version>1.0-SNAPSHOT</version>
+      <artifactId>remote.handshake</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.scribe</groupId>
+      <artifactId>scribe</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+  </dependencies>
+
+
+</project>

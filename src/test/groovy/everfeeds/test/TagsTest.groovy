@@ -11,7 +11,7 @@ import everfeeds.thrift.error.Forbidden
 class TagsTest extends GroovyTestCase {
   public void testGetSaveTag(){
     Tag tag = new Tag()
-    String token = PublicAccess.token
+    String token = PublicAccess.freshToken
     tag.accessId = PublicAccess.api.getAccesses(token).first().id
     tag.identity = RandomStringUtils.randomAlphanumeric(10)
 

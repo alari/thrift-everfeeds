@@ -88,14 +88,14 @@ public class EntryHandler extends Handler {
     checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
     entryD.isRead = true;
-    getDS().save(entryD);
+    entryDAO.save(entryD);
   }
 
   public void markEntryUnread(String token, String entryId) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     checkToken(getTokenD(token), Scope.FEED_READ);
     EntryD entryD = getEntryD(token, entryId);
     entryD.isRead = true;
-    getDS().save(entryD);
+    entryDAO.save(entryD);
   }
 
   EntryD getEntryD(String token, String id) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
