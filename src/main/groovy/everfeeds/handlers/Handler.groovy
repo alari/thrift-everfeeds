@@ -1,8 +1,6 @@
 @Typed package everfeeds.handlers;
 
-import com.google.code.morphia.Datastore;
-import everfeeds.MongoDB;
-import everfeeds.mongo.*;
+
 import everfeeds.thrift.domain.Access;
 import everfeeds.thrift.domain.Filter;
 import everfeeds.thrift.error.Forbidden;
@@ -10,9 +8,13 @@ import everfeeds.thrift.error.TokenExpired;
 import everfeeds.thrift.error.TokenNotFound;
 import everfeeds.thrift.util.Scope;
 import everfeeds.thrift.util.Type;
-import org.apache.thrift.TException;
+
+
+import org.apache.thrift.TException
 import everfeeds.dao.*
-import everfeeds.adapters.FilterAdapter
+import everfeeds.mongo.*
+
+//import everfeeds.adapters.FilterAdapter;
 
 /**
  * @author Dmitry Kurinskiy
@@ -69,38 +71,6 @@ abstract public class Handler {
     TokenD tokenD = getTokenD(token);
 
     return accessDAO.getByIdAndAccount(id, tokenD.account)
-  }
-
-  protected static Datastore getDS() {
-    return MongoDB.getDS();
-  }
-  protected FilterD setFilterRelationsFromThrift(FilterD filterD, Filter filter) {
-    // Syncing categories and tags
-    filterD.categories.clear();
-    filterD.withoutTags.clear();
-    filterD.withTags.clear();
-
-    if (filter.categoryIds != null && filter.categoryIds.size() > 0) {
-      List<CategoryD> categories = categoryDAO.findAllByAccess(filterD.access)
-      for (CategoryD c : categories) {
-        if (filter.categoryIds.contains(c.id.toString())) {
-          filterD.categories.add(c);
-        }
-      }
-    }
-
-    if (filter.withTagIds != null || filter.withTagIds != null) {
-      List<TagD> tags = tagDAO.findAllByAccess(filterD.access)
-      for (TagD t : tags) {
-        if (filter.withoutTagIds != null && filter.withoutTagIds.contains(t.id.toString())) {
-          filterD.withoutTags.add(t);
-        } else if (filter.withTagIds != null && filter.withTagIds.contains(t.id.toString())) {
-          filterD.withTags.add(t);
-        }
-      }
-    }
-
-    return filterD;
   }
 }
 

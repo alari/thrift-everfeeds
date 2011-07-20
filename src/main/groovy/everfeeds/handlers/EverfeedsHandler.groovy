@@ -114,7 +114,7 @@ public class EverfeedsHandler implements EverfeedsAPI.Iface{
 
   @Override
   public List<Entry> getFilteredNew(String token, Filter filter) throws Forbidden, TokenExpired, TokenNotFound, NotFound, WrongArgument, TException {
-    return filterHandler.getFilteredNew(token, filter);
+    return null;//filterHandler.getFilteredNew(token, filter);
   }
 
   AccessTypeInfo getAccessTypeInfo(AccessType type) {

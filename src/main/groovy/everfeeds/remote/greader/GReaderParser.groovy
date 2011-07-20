@@ -26,12 +26,12 @@ class GReaderParser extends Parser {
   }
 
   private void setContentCache(){
-    contentCache = original.content?.content ?: original.summary?.content?.replace("\n", "<br/>")
+    contentCache ="";// original.content?.content ?: original?.summary?.content?.replace("\n", "<br/>")
   }
 
   @Override
   String getSourceUrl() {
-    (original.alternate.find {it.type == "text/html"} as Map)?.href
+    "";//(original.alternate.find {it.type == "text/html"} as Map)?.href
   }
 
 
@@ -48,22 +48,22 @@ class GReaderParser extends Parser {
 
   @Override
   boolean getIsFavorite() {
-    original.categories.any{it.toString() == "user/-/state/com.google/starred"}
+    false//original.categories.any{it.toString() == "user/-/state/com.google/starred"}
   }
 
   @Override
   boolean getIsRead() {
-    original.categories.any{it.toString() == "user/-/state/com.google/read"}
+    false//original.categories.any{it.toString() == "user/-/state/com.google/read"}
   }
 
   @Override
   String getIdentity() {
-    original.id
+    ""//original.id
   }
 
   @Override
   String getTitle() {
-    original.title
+    ""//original.title
   }
 
   @Override
@@ -82,7 +82,7 @@ class GReaderParser extends Parser {
 
   @Override
   AuthorD getAuthor() {
-    new AuthorD(title: original.author)
+    new AuthorD(title: "")//original.author)
   }
 
   @Override
@@ -92,11 +92,11 @@ class GReaderParser extends Parser {
 
   @Override
   Date getDatePlaced() {
-    new Date(((long) original.updated) * 1000)
+   new Date(); //new Date(((long) original.updated) * 1000)
   }
 
   @Override
   List<TagD> getTags() {
-    original.categories.collect{ tagsCache.get it.toString()}
+    null//original.categories.collect{ tagsCache.get it.toString()}
   }
 }

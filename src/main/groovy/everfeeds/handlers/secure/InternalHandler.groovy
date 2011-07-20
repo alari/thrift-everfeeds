@@ -1,20 +1,17 @@
 @Typed package everfeeds.handlers.secure;
 
-import everfeeds.handlers.Handler;
-import everfeeds.mongo.*;
-import everfeeds.remote.RemoteFactory;
-import everfeeds.thrift.domain.*;
-import everfeeds.thrift.error.Forbidden;
-import everfeeds.thrift.error.NotFound;
-import everfeeds.thrift.util.Type;
-import org.apache.thrift.TException;
-import org.bson.types.ObjectId;
-
-import java.util.ArrayList;
-import java.util.List
-import everfeeds.internal.thrift.InternalAPI
+import everfeeds.adapters.FilterAdapter;
+import everfeeds.handlers.Handler
 import everfeeds.internal.thrift.Application
-import org.apache.commons.lang.RandomStringUtils;
+import everfeeds.internal.thrift.InternalAPI
+import everfeeds.remote.RemoteFactory
+import everfeeds.thrift.error.Forbidden
+import everfeeds.thrift.error.NotFound
+import everfeeds.thrift.util.Type
+import org.apache.commons.lang.RandomStringUtils
+import org.apache.thrift.TException
+import everfeeds.mongo.*
+import everfeeds.thrift.domain.*
 
 /**
  * @author Dmitry Kurinskiy
@@ -136,7 +133,7 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
     if(filterD.access == null) {
       throw new NotFound("Access not found by id: "+filter.accessId);
     }
-    filterD = setFilterRelationsFromThrift(filterD, filter);
+    filterD = FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
     return RemoteFactory.getInstance(filterD.access.type).pullToThrift(filterD);
   }
 
@@ -148,7 +145,7 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
     if(filterD.access == null) {
       throw new NotFound("Access not found by id");
     }
-    filterD = setFilterRelationsFromThrift(filterD, filter);
+    filterD = FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
     RemoteFactory.getInstance(filterD.access.type).saveEntries(filterD);
   }
 

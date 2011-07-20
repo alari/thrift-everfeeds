@@ -1,17 +1,15 @@
 @Typed package everfeeds.handlers;
 
-import com.google.code.morphia.query.Query;
-import everfeeds.thrift.util.Scope;
-import everfeeds.mongo.*;
-import everfeeds.thrift.error.*;
-import everfeeds.thrift.domain.Entry;
-import everfeeds.thrift.domain.Filter;
-import org.apache.thrift.TException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List
-import everfeeds.adapters.FilterAdapter;
+import everfeeds.adapters.DomainAdapter
+import everfeeds.adapters.FilterAdapter
+import everfeeds.mongo.FilterD
+import everfeeds.mongo.TokenD
+import everfeeds.thrift.domain.Entry
+import everfeeds.thrift.domain.Filter
+import everfeeds.thrift.util.Scope
+import org.apache.thrift.TException
+import everfeeds.thrift.error.*
 
 /**
  * @author Dmitry Kurinskiy
@@ -19,20 +17,17 @@ import everfeeds.adapters.FilterAdapter;
  */
 public class FilterHandler extends Handler {
 
-  public Filter saveFilter(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
+  public Filter saveFilter(String token, Filter filter)
+      throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     checkToken(getTokenD(token), Scope.FEED_WRITE);
 
-    FilterD filterD = getFilterD(token, filter);
-    FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
-
+    FilterD filterD = FilterAdapter.setFilterRelationsFromThrift(getFilterD(token, filter), filter);
     // Saving filter domain
-    filterD.syncFromThrift(filter);
     filterDAO.save(filterD);
     filterD.syncToThrift(filter);
 
     return filter;
   }
-
 
   public List<Entry> getMash(String token, long splitDate, short page, short maxCount) throws TException, TokenNotFound, Forbidden, TokenExpired, WrongArgument {
     TokenD tokenD = getTokenD(token);
@@ -41,7 +36,7 @@ public class FilterHandler extends Handler {
     if (splitDate < 1) {
       throw new WrongArgument("You must set split date to get entries");
     }
-    return domainsToThrift(entryDAO.findAllMash(tokenD.account, splitDate, maxCount, page))
+    return DomainAdapter.domainsToThrift(entryDAO.findAllMash(tokenD.account, splitDate, maxCount, page))
   }
 
   public List<Entry> getMashNew(String token, long splitDate, short maxCount) throws TException, TokenNotFound, Forbidden, TokenExpired, WrongArgument {
@@ -51,7 +46,7 @@ public class FilterHandler extends Handler {
     if (splitDate < 1) {
       throw new WrongArgument("You must set split date to get entries");
     }
-    return domainsToThrift(entryDAO.findAllMashNew(tokenD.account, splitDate, maxCount))
+    return DomainAdapter.domainsToThrift(entryDAO.findAllMashNew(tokenD.account, splitDate, maxCount))
   }
 
 
@@ -62,36 +57,22 @@ public class FilterHandler extends Handler {
       throw new WrongArgument("You must set filter split date to get entries");
     }
 
-    FilterD filterD = getFilterD(token, filter);
-    FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
-    filterD.syncFromThrift(filter);
+    FilterD filterD = FilterAdapter.setFilterRelationsFromThrift(getFilterD(token, filter), filter);
 
-    return domainsToThrift(entryDAO.findAllFiltered(filterD, page, maxCount))
+    return DomainAdapter.domainsToThrift(entryDAO.findAllFiltered(filterD, page, maxCount))
   }
 
 
-  public List<Entry> getFilteredNew(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound, WrongArgument {
+  public getFilteredNew = {String token, Filter filter ->
     checkToken(getTokenD(token), Scope.FEED_READ);
 
     if (filter.splitDate < 1) {
       throw new WrongArgument("You must set filter split date to get entries");
     }
 
-    FilterD filterD = getFilterD(token, filter);
-    FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
-    filterD.syncFromThrift(filter);
+    FilterD filterD = FilterAdapter.setFilterRelationsFromThrift(getFilterD(token, filter), filter);
 
-    return domainsToThrift(entryDAO.findAllFilteredNew(filterD))
-  }
-
-  private List<Entry> domainsToThrift(List<EntryD> entryDs){
-    List<Entry> entries = new ArrayList<Entry>();
-    for (EntryD eD : entryDs) {
-      Entry e = new Entry();
-      eD.syncToThrift(e);
-      entries.add(e);
-    }
-    return entries;
+    return DomainAdapter.domainsToThrift(entryDAO.findAllFilteredNew(filterD))
   }
 
   protected FilterD getFilterD(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
