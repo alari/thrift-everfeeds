@@ -6,6 +6,7 @@ import everfeeds.remote.auth.thrift.util.AuthMethod;
 import everfeeds.remote.auth.thrift.util.AuthVariant;
 import everfeeds.remote.auth.thrift.util.OAuthStep;
 import everfeeds.remote.auth.variant.Auth;
+import everfeeds.remote.auth.variant.AuthOAuth;
 import everfeeds.remote.handshake.HandshakeHandler;
 import org.apache.thrift.TException;
 
@@ -30,7 +31,7 @@ public class AuthHandler extends HandshakeHandler implements AuthFlow.Iface {
       System.err.println("Cannot get oauth step for non-oauth thing");
       return null;
     }
-    return Auth.getByVariant(authVariant).getOAuthStep(redirectUrl);
+    return ((AuthOAuth)Auth.getByVariant(authVariant)).getOAuthStep(redirectUrl);
   }
 
   public Credentials exchangeOAuthToken(AuthVariant authVariant, OAuthStep oAuthStep, String verifierCode) throws TException {
@@ -38,6 +39,6 @@ public class AuthHandler extends HandshakeHandler implements AuthFlow.Iface {
       System.err.println("Cannot get oauth step for non-oauth thing");
       return null;
     }
-    return Auth.getByVariant(authVariant).exchangeOAuthToken(oAuthStep, verifierCode);
+    return ((AuthOAuth)Auth.getByVariant(authVariant)).exchangeOAuthToken(oAuthStep, verifierCode);
   }
 }

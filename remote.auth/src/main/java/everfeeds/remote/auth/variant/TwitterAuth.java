@@ -12,7 +12,7 @@ import org.scribe.builder.api.TwitterApi;
  */
 @AccessAuth(system = "twitter", method = AuthMethod.OAUTH2, type = AccessType.TWITTER)
 @OAuthProvider(TwitterApi.class)
-public class TwitterAuth extends Auth {
+public class TwitterAuth extends AuthOAuth {
   static private TwitterAuth instance = new TwitterAuth();
 
   private TwitterAuth() {
