@@ -18,7 +18,7 @@ public class AuthConfig {
 
   static private AuthConfig instance;
 
-  static public AuthConfig getInstance(){
+  static public AuthConfig getInstance() {
     return instance;
   }
 
@@ -29,7 +29,7 @@ public class AuthConfig {
     constructor.addTypeDescription(configDescription);
     Yaml yaml = new Yaml(constructor);
     try {
-      instance = (AuthConfig)yaml.load(new FileInputStream(new File(System.getProperty(YAML_PROPERTY))));
+      instance = (AuthConfig) yaml.load(new FileInputStream(new File(System.getProperty(YAML_PROPERTY))));
     } catch (FileNotFoundException e) {
       System.err.println("Auth config file not found");
     }
@@ -39,14 +39,13 @@ public class AuthConfig {
     return getInstance().accesses.get(system);
   }
 
-  public Map<String,AuthAccessConfig> accesses;
+  public Map<String, AuthAccessConfig> accesses;
 
 
-
-  public String toString(){
+  public String toString() {
     String r = "";
-    for(String k:accesses.keySet()){
-      r+= k+":\n";
+    for (String k : accesses.keySet()) {
+      r += k + ":\n";
       r += accesses.get(k).toString() + "\n";
     }
     return r;

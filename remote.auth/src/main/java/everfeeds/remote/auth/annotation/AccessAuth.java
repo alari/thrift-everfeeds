@@ -13,6 +13,8 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AccessAuth {
   String system() default "";
+
   AuthMethod method();
+
   AccessType type();
 }

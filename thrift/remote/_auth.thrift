@@ -24,4 +24,5 @@ struct AuthVariant {
 struct OAuthStep {
   1: string authUrl;
   2: string requestToken;
+  3: string requestSecret;
 }

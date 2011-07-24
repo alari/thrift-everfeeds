@@ -11,18 +11,18 @@ import java.util.List;
 /**
  * Created by alari @ 25.01.11 17:53
  */
-class Package {
+public class Package {
   /**
    * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
    *
    * @param packageName The base package
    * @return The classes
    * @throws ClassNotFoundException not found
-   * @throws IOException error
+   * @throws IOException            error
    */
   @SuppressWarnings("unchecked")
   public static List<Class> getClasses(String packageName)
-  throws ClassNotFoundException, IOException {
+      throws ClassNotFoundException, IOException {
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     assert classLoader != null;
     String path = packageName.replace('.', '/');
@@ -35,7 +35,7 @@ class Package {
       dirs.add(new File(fileNameDecoded));
     }
     ArrayList<Class> classes = new ArrayList<Class>();
-    for (File directory: dirs) {
+    for (File directory : dirs) {
       classes.addAll(findClasses(directory, packageName));
     }
     return classes;
@@ -44,10 +44,10 @@ class Package {
   /**
    * Recursive method used to find all classes in a given directory and subdirs.
    *
-   * @param directory The base directory
+   * @param directory   The base directory
    * @param packageName The package name for classes found inside the base directory
    * @return The classes
-   * @throws ClassNotFoundException class not found
+   * @throws ClassNotFoundException      class not found
    * @throws ExceptionInInitializerError class found but could not be initialized
    */
   @SuppressWarnings("unchecked")
@@ -57,7 +57,7 @@ class Package {
       return classes;
     }
     File[] files = directory.listFiles();
-    for (File file: files) {
+    for (File file : files) {
       String fileName = file.getName();
       if (file.isDirectory()) {
         assert !fileName.contains(".");
@@ -71,7 +71,7 @@ class Package {
           // Spring to inject some beans, and which fail,
           // if dependency is not fulfilled
           _class = Class.forName(packageName + '.' + fileName.substring(0, fileName.length() - 6),
-              true, Thread.currentThread().getContextClassLoader());
+                                    true, Thread.currentThread().getContextClassLoader());
         }
         classes.add(_class);
       }
