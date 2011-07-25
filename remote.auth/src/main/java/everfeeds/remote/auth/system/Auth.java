@@ -1,8 +1,9 @@
-package everfeeds.remote.auth.variant;
+package everfeeds.remote.auth.system;
 
 import everfeeds.remote.auth.annotation.AccessAuth;
 import everfeeds.remote.auth.thrift.Credentials;
-import everfeeds.remote.auth.thrift.util.AuthVariant;
+import everfeeds.remote.auth.thrift.util.AuthSystem;
+import everfeeds.remote.auth.thrift.util.AuthSystem;
 import everfeeds.remote.util.Package;
 
 import java.io.IOException;
@@ -16,28 +17,28 @@ import java.util.Map;
  * @since 20.07.11 16:30
  */
 abstract public class Auth {
-  private AuthVariant variant = null;
+  private AuthSystem system = null;
 
 
   static private Map<String, Auth> instances = new HashMap<String, Auth>();
 
   static public void registerInstance(Auth instance) {
-    instances.put(instance.getVariant().system, instance);
+    instances.put(instance.getSystem().name, instance);
   }
 
-  static public Auth getByVariant(AuthVariant authVariant) {
-    return instances.get(authVariant.system);
+  static public Auth getBySystem(AuthSystem authSystem) {
+    return instances.get(authSystem.name);
   }
 
-  static public Auth getBySystem(String systemName) {
+  static public Auth getBySystemName(String systemName) {
     return instances.get(systemName);
   }
 
   @SuppressWarnings("unchecked")
-  static public List<AuthVariant> listVariants() {
+  static public List<AuthSystem> listSystems() {
     if (instances.keySet().size() == 0) {
       try {
-        for (Class c : Package.getClasses("everfeeds.remote.auth.variant")) {
+        for (Class c : Package.getClasses("everfeeds.remote.auth.system")) {
           if (c.getAnnotation(AccessAuth.class) != null) {
             c.getCanonicalName();
           }
@@ -48,20 +49,20 @@ abstract public class Auth {
         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
       }
     }
-    List<AuthVariant> variants = new ArrayList<AuthVariant>();
+    List<AuthSystem> systems = new ArrayList<AuthSystem>();
     for (String s : instances.keySet()) {
-      variants.add(instances.get(s).getVariant());
+      systems.add(instances.get(s).getSystem());
     }
-    return variants;
+    return systems;
   }
 
-  public AuthVariant getVariant() {
-    if (variant == null) {
+  public AuthSystem getSystem() {
+    if (system == null) {
       AccessAuth a = this.getClass().getAnnotation(AccessAuth.class);
-      variant = new AuthVariant();
-      variant.setSystem(a.system()).setMethod(a.method()).setType(a.type());
+      system = new AuthSystem();
+      system.setName(a.system()).setMethod(a.method()).setType(a.type());
     }
-    return variant;
+    return system;
   }
 
   abstract public boolean checkCredentials(Credentials credentials);

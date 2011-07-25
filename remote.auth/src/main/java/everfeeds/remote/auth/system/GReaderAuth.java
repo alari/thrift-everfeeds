@@ -1,11 +1,13 @@
-package everfeeds.remote.auth.variant;
+package everfeeds.remote.auth.system;
 
 import everfeeds.remote.auth.annotation.AccessAuth;
 import everfeeds.remote.auth.annotation.OAuthProvider;
 import everfeeds.remote.auth.thrift.Credentials;
+import everfeeds.remote.auth.thrift.ex.AuthFailed;
+import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
+import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
 import everfeeds.remote.auth.thrift.util.*;
 import org.scribe.builder.api.GoogleApi;
-import org.scribe.builder.api.VkontakteApi;
 
 /**
  * @author Dmitry Kurinskiy
@@ -22,7 +24,7 @@ public class GReaderAuth extends AuthOAuth{
   }
 
   @Override
-  protected boolean checkOAuthCredentials(Credentials credentials) throws AuthVariantUnknown, AuthMethodMismatch, AuthFailed {
+  protected boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthFailed {
     return false;
   }
 }

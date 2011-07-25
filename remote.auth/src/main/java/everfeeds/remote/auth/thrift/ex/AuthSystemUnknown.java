@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.remote.auth.thrift.util;
+package everfeeds.remote.auth.thrift.ex;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AuthMethodMismatch extends Exception implements org.apache.thrift.TBase<AuthMethodMismatch, AuthMethodMismatch._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AuthMethodMismatch");
+public class AuthSystemUnknown extends Exception implements org.apache.thrift.TBase<AuthSystemUnknown, AuthSystemUnknown._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AuthSystemUnknown");
 
   private static final org.apache.thrift.protocol.TField MSG_FIELD_DESC = new org.apache.thrift.protocol.TField("msg", org.apache.thrift.protocol.TType.STRING, (short)1);
 
@@ -93,13 +93,13 @@ public class AuthMethodMismatch extends Exception implements org.apache.thrift.T
     tmpMap.put(_Fields.MSG, new org.apache.thrift.meta_data.FieldMetaData("msg", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthMethodMismatch.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthSystemUnknown.class, metaDataMap);
   }
 
-  public AuthMethodMismatch() {
+  public AuthSystemUnknown() {
   }
 
-  public AuthMethodMismatch(
+  public AuthSystemUnknown(
     String msg)
   {
     this();
@@ -109,14 +109,14 @@ public class AuthMethodMismatch extends Exception implements org.apache.thrift.T
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public AuthMethodMismatch(AuthMethodMismatch other) {
+  public AuthSystemUnknown(AuthSystemUnknown other) {
     if (other.isSetMsg()) {
       this.msg = other.msg;
     }
   }
 
-  public AuthMethodMismatch deepCopy() {
-    return new AuthMethodMismatch(this);
+  public AuthSystemUnknown deepCopy() {
+    return new AuthSystemUnknown(this);
   }
 
   @Override
@@ -128,7 +128,7 @@ public class AuthMethodMismatch extends Exception implements org.apache.thrift.T
     return this.msg;
   }
 
-  public AuthMethodMismatch setMsg(String msg) {
+  public AuthSystemUnknown setMsg(String msg) {
     this.msg = msg;
     return this;
   }
@@ -187,12 +187,12 @@ public class AuthMethodMismatch extends Exception implements org.apache.thrift.T
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof AuthMethodMismatch)
-      return this.equals((AuthMethodMismatch)that);
+    if (that instanceof AuthSystemUnknown)
+      return this.equals((AuthSystemUnknown)that);
     return false;
   }
 
-  public boolean equals(AuthMethodMismatch that) {
+  public boolean equals(AuthSystemUnknown that) {
     if (that == null)
       return false;
 
@@ -213,13 +213,13 @@ public class AuthMethodMismatch extends Exception implements org.apache.thrift.T
     return 0;
   }
 
-  public int compareTo(AuthMethodMismatch other) {
+  public int compareTo(AuthSystemUnknown other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    AuthMethodMismatch typedOther = (AuthMethodMismatch)other;
+    AuthSystemUnknown typedOther = (AuthSystemUnknown)other;
 
     lastComparison = Boolean.valueOf(isSetMsg()).compareTo(typedOther.isSetMsg());
     if (lastComparison != 0) {
@@ -281,7 +281,7 @@ public class AuthMethodMismatch extends Exception implements org.apache.thrift.T
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("AuthMethodMismatch(");
+    StringBuilder sb = new StringBuilder("AuthSystemUnknown(");
     boolean first = true;
 
     sb.append("msg:");

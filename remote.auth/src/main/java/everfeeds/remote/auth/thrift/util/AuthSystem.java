@@ -20,14 +20,14 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVariant._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AuthVariant");
+public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSystem._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AuthSystem");
 
-  private static final org.apache.thrift.protocol.TField SYSTEM_FIELD_DESC = new org.apache.thrift.protocol.TField("system", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
   private static final org.apache.thrift.protocol.TField METHOD_FIELD_DESC = new org.apache.thrift.protocol.TField("method", org.apache.thrift.protocol.TType.I32, (short)2);
   private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short)3);
 
-  public String system;
+  public String name;
   /**
    * 
    * @see everfeeds.remote.auth.thrift.util.AuthMethod
@@ -41,7 +41,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    SYSTEM((short)1, "system"),
+    NAME((short)1, "name"),
     /**
      * 
      * @see everfeeds.remote.auth.thrift.util.AuthMethod
@@ -66,8 +66,8 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // SYSTEM
-          return SYSTEM;
+        case 1: // NAME
+          return NAME;
         case 2: // METHOD
           return METHOD;
         case 3: // TYPE
@@ -116,26 +116,26 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.SYSTEM, new org.apache.thrift.meta_data.FieldMetaData("system", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.METHOD, new org.apache.thrift.meta_data.FieldMetaData("method", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, AuthMethod.class)));
     tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, AccessType.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthVariant.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthSystem.class, metaDataMap);
   }
 
-  public AuthVariant() {
+  public AuthSystem() {
   }
 
-  public AuthVariant(
-    String system,
+  public AuthSystem(
+    String name,
     AuthMethod method,
     AccessType type)
   {
     this();
-    this.system = system;
+    this.name = name;
     this.method = method;
     this.type = type;
   }
@@ -143,9 +143,9 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public AuthVariant(AuthVariant other) {
-    if (other.isSetSystem()) {
-      this.system = other.system;
+  public AuthSystem(AuthSystem other) {
+    if (other.isSetName()) {
+      this.name = other.name;
     }
     if (other.isSetMethod()) {
       this.method = other.method;
@@ -155,38 +155,38 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
     }
   }
 
-  public AuthVariant deepCopy() {
-    return new AuthVariant(this);
+  public AuthSystem deepCopy() {
+    return new AuthSystem(this);
   }
 
   @Override
   public void clear() {
-    this.system = null;
+    this.name = null;
     this.method = null;
     this.type = null;
   }
 
-  public String getSystem() {
-    return this.system;
+  public String getName() {
+    return this.name;
   }
 
-  public AuthVariant setSystem(String system) {
-    this.system = system;
+  public AuthSystem setName(String name) {
+    this.name = name;
     return this;
   }
 
-  public void unsetSystem() {
-    this.system = null;
+  public void unsetName() {
+    this.name = null;
   }
 
-  /** Returns true if field system is set (has been assigned a value) and false otherwise */
-  public boolean isSetSystem() {
-    return this.system != null;
+  /** Returns true if field name is set (has been assigned a value) and false otherwise */
+  public boolean isSetName() {
+    return this.name != null;
   }
 
-  public void setSystemIsSet(boolean value) {
+  public void setNameIsSet(boolean value) {
     if (!value) {
-      this.system = null;
+      this.name = null;
     }
   }
 
@@ -202,7 +202,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
    * 
    * @see everfeeds.remote.auth.thrift.util.AuthMethod
    */
-  public AuthVariant setMethod(AuthMethod method) {
+  public AuthSystem setMethod(AuthMethod method) {
     this.method = method;
     return this;
   }
@@ -234,7 +234,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
    * 
    * @see everfeeds.remote.auth.thrift.util.AccessType
    */
-  public AuthVariant setType(AccessType type) {
+  public AuthSystem setType(AccessType type) {
     this.type = type;
     return this;
   }
@@ -256,11 +256,11 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case SYSTEM:
+    case NAME:
       if (value == null) {
-        unsetSystem();
+        unsetName();
       } else {
-        setSystem((String)value);
+        setName((String)value);
       }
       break;
 
@@ -285,8 +285,8 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case SYSTEM:
-      return getSystem();
+    case NAME:
+      return getName();
 
     case METHOD:
       return getMethod();
@@ -305,8 +305,8 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
     }
 
     switch (field) {
-    case SYSTEM:
-      return isSetSystem();
+    case NAME:
+      return isSetName();
     case METHOD:
       return isSetMethod();
     case TYPE:
@@ -319,21 +319,21 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof AuthVariant)
-      return this.equals((AuthVariant)that);
+    if (that instanceof AuthSystem)
+      return this.equals((AuthSystem)that);
     return false;
   }
 
-  public boolean equals(AuthVariant that) {
+  public boolean equals(AuthSystem that) {
     if (that == null)
       return false;
 
-    boolean this_present_system = true && this.isSetSystem();
-    boolean that_present_system = true && that.isSetSystem();
-    if (this_present_system || that_present_system) {
-      if (!(this_present_system && that_present_system))
+    boolean this_present_name = true && this.isSetName();
+    boolean that_present_name = true && that.isSetName();
+    if (this_present_name || that_present_name) {
+      if (!(this_present_name && that_present_name))
         return false;
-      if (!this.system.equals(that.system))
+      if (!this.name.equals(that.name))
         return false;
     }
 
@@ -363,20 +363,20 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
     return 0;
   }
 
-  public int compareTo(AuthVariant other) {
+  public int compareTo(AuthSystem other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    AuthVariant typedOther = (AuthVariant)other;
+    AuthSystem typedOther = (AuthSystem)other;
 
-    lastComparison = Boolean.valueOf(isSetSystem()).compareTo(typedOther.isSetSystem());
+    lastComparison = Boolean.valueOf(isSetName()).compareTo(typedOther.isSetName());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetSystem()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.system, typedOther.system);
+    if (isSetName()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -418,9 +418,9 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
         break;
       }
       switch (field.id) {
-        case 1: // SYSTEM
+        case 1: // NAME
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.system = iprot.readString();
+            this.name = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
@@ -454,9 +454,9 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
-    if (this.system != null) {
-      oprot.writeFieldBegin(SYSTEM_FIELD_DESC);
-      oprot.writeString(this.system);
+    if (this.name != null) {
+      oprot.writeFieldBegin(NAME_FIELD_DESC);
+      oprot.writeString(this.name);
       oprot.writeFieldEnd();
     }
     if (this.method != null) {
@@ -475,14 +475,14 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("AuthVariant(");
+    StringBuilder sb = new StringBuilder("AuthSystem(");
     boolean first = true;
 
-    sb.append("system:");
-    if (this.system == null) {
+    sb.append("name:");
+    if (this.name == null) {
       sb.append("null");
     } else {
-      sb.append(this.system);
+      sb.append(this.name);
     }
     first = false;
     if (!first) sb.append(", ");

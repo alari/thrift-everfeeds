@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package everfeeds.remote.auth.thrift.util;
+package everfeeds.remote.auth.thrift.ex;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AuthVariantUnknown extends Exception implements org.apache.thrift.TBase<AuthVariantUnknown, AuthVariantUnknown._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AuthVariantUnknown");
+public class AuthFailed extends Exception implements org.apache.thrift.TBase<AuthFailed, AuthFailed._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AuthFailed");
 
   private static final org.apache.thrift.protocol.TField MSG_FIELD_DESC = new org.apache.thrift.protocol.TField("msg", org.apache.thrift.protocol.TType.STRING, (short)1);
 
@@ -93,13 +93,13 @@ public class AuthVariantUnknown extends Exception implements org.apache.thrift.T
     tmpMap.put(_Fields.MSG, new org.apache.thrift.meta_data.FieldMetaData("msg", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthVariantUnknown.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthFailed.class, metaDataMap);
   }
 
-  public AuthVariantUnknown() {
+  public AuthFailed() {
   }
 
-  public AuthVariantUnknown(
+  public AuthFailed(
     String msg)
   {
     this();
@@ -109,14 +109,14 @@ public class AuthVariantUnknown extends Exception implements org.apache.thrift.T
   /**
    * Performs a deep copy on <i>other</i>.
    */
-  public AuthVariantUnknown(AuthVariantUnknown other) {
+  public AuthFailed(AuthFailed other) {
     if (other.isSetMsg()) {
       this.msg = other.msg;
     }
   }
 
-  public AuthVariantUnknown deepCopy() {
-    return new AuthVariantUnknown(this);
+  public AuthFailed deepCopy() {
+    return new AuthFailed(this);
   }
 
   @Override
@@ -128,7 +128,7 @@ public class AuthVariantUnknown extends Exception implements org.apache.thrift.T
     return this.msg;
   }
 
-  public AuthVariantUnknown setMsg(String msg) {
+  public AuthFailed setMsg(String msg) {
     this.msg = msg;
     return this;
   }
@@ -187,12 +187,12 @@ public class AuthVariantUnknown extends Exception implements org.apache.thrift.T
   public boolean equals(Object that) {
     if (that == null)
       return false;
-    if (that instanceof AuthVariantUnknown)
-      return this.equals((AuthVariantUnknown)that);
+    if (that instanceof AuthFailed)
+      return this.equals((AuthFailed)that);
     return false;
   }
 
-  public boolean equals(AuthVariantUnknown that) {
+  public boolean equals(AuthFailed that) {
     if (that == null)
       return false;
 
@@ -213,13 +213,13 @@ public class AuthVariantUnknown extends Exception implements org.apache.thrift.T
     return 0;
   }
 
-  public int compareTo(AuthVariantUnknown other) {
+  public int compareTo(AuthFailed other) {
     if (!getClass().equals(other.getClass())) {
       return getClass().getName().compareTo(other.getClass().getName());
     }
 
     int lastComparison = 0;
-    AuthVariantUnknown typedOther = (AuthVariantUnknown)other;
+    AuthFailed typedOther = (AuthFailed)other;
 
     lastComparison = Boolean.valueOf(isSetMsg()).compareTo(typedOther.isSetMsg());
     if (lastComparison != 0) {
@@ -281,7 +281,7 @@ public class AuthVariantUnknown extends Exception implements org.apache.thrift.T
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("AuthVariantUnknown(");
+    StringBuilder sb = new StringBuilder("AuthFailed(");
     boolean first = true;
 
     sb.append("msg:");

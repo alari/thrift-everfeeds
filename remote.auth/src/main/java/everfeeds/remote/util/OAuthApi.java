@@ -1,11 +1,11 @@
 package everfeeds.remote.util;
 
 import everfeeds.remote.auth.thrift.Credentials;
+import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
+import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
 import everfeeds.remote.auth.thrift.util.AuthMethod;
-import everfeeds.remote.auth.thrift.util.AuthMethodMismatch;
-import everfeeds.remote.auth.thrift.util.AuthVariantUnknown;
-import everfeeds.remote.auth.variant.Auth;
-import everfeeds.remote.auth.variant.AuthOAuth;
+import everfeeds.remote.auth.system.Auth;
+import everfeeds.remote.auth.system.AuthOAuth;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -24,13 +24,13 @@ public class OAuthApi {
     this.accessToken = accessToken;
   }
 
-  public OAuthApi(Credentials credentials) throws AuthVariantUnknown, AuthMethodMismatch {
-    if(credentials.variant.method != AuthMethod.OAUTH) {
-      throw new AuthMethodMismatch().setMsg("Cannot call OAuth API on non-OAuth variant");
+  public OAuthApi(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch {
+    if(credentials.system.method != AuthMethod.OAUTH) {
+      throw new AuthMethodMismatch().setMsg("Cannot call OAuth API on non-OAuth name");
     }
-    AuthOAuth auth = (AuthOAuth)Auth.getByVariant(credentials.variant);
+    AuthOAuth auth = (AuthOAuth)Auth.getBySystem(credentials.system);
     if(auth == null) {
-      throw new AuthVariantUnknown().setMsg("While trying to call OAuth API noticed that auth variant is unknown");
+      throw new AuthSystemUnknown().setMsg("While trying to call OAuth API noticed that auth name is unknown");
     }
 
     accessToken = new Token(credentials.token, credentials.secret);

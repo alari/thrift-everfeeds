@@ -1,12 +1,12 @@
-package everfeeds.remote.auth.variant;
+package everfeeds.remote.auth.system;
 
 import everfeeds.remote.auth.annotation.AccessAuth;
 import everfeeds.remote.auth.annotation.OAuthProvider;
 import everfeeds.remote.auth.thrift.Credentials;
+import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
+import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
 import everfeeds.remote.auth.thrift.util.AccessType;
 import everfeeds.remote.auth.thrift.util.AuthMethod;
-import everfeeds.remote.auth.thrift.util.AuthMethodMismatch;
-import everfeeds.remote.auth.thrift.util.AuthVariantUnknown;
 import everfeeds.remote.util.OAuthApi;
 import org.scribe.builder.api.TwitterApi;
 
@@ -27,7 +27,7 @@ public class TwitterAuth extends AuthOAuth {
   }
 
   @Override
-  public boolean checkOAuthCredentials(Credentials credentials) throws AuthVariantUnknown, AuthMethodMismatch {
+  public boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch {
     new OAuthApi(credentials).callApi(CREDENTIALS_URL);
     return false;
   }

@@ -1,12 +1,12 @@
-package everfeeds.remote.auth.variant;
+package everfeeds.remote.auth.system;
 
 import everfeeds.remote.auth.annotation.OAuthProvider;
 import everfeeds.remote.auth.config.AuthAccessConfig;
 import everfeeds.remote.auth.config.AuthConfig;
 import everfeeds.remote.auth.thrift.Credentials;
-import everfeeds.remote.auth.thrift.util.AuthFailed;
-import everfeeds.remote.auth.thrift.util.AuthMethodMismatch;
-import everfeeds.remote.auth.thrift.util.AuthVariantUnknown;
+import everfeeds.remote.auth.thrift.ex.AuthFailed;
+import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
+import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
 import everfeeds.remote.auth.thrift.util.OAuthStep;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.Token;
@@ -47,7 +47,7 @@ abstract public class AuthOAuth extends Auth{
     }
 
     step.authUrl = service.getAuthorizationUrl(requestToken);
-    step.variant = getVariant();
+    step.system = getSystem();
 
     return step;
   }
@@ -69,7 +69,7 @@ abstract public class AuthOAuth extends Auth{
     if(accessToken.getToken() == null || accessToken.getToken().isEmpty()) {
       throw new AuthFailed().setMsg("Authentication failed: no token given. Raw response is:\n"+accessToken.getRawResponse());
     }
-    return new Credentials().setToken(accessToken.getToken()).setSecret(accessToken.getSecret()).setVariant(getVariant());
+    return new Credentials().setToken(accessToken.getToken()).setSecret(accessToken.getSecret()).setSystem(getSystem());
   }
 
   /**
@@ -94,7 +94,7 @@ abstract public class AuthOAuth extends Auth{
   public boolean checkCredentials(Credentials credentials){
     try {
       return checkOAuthCredentials(credentials);
-    } catch (AuthVariantUnknown authVariantUnknown) {
+    } catch (AuthSystemUnknown authSystemUnknown) {
       // ignore
     } catch (AuthMethodMismatch authMethodMismatch) {
       // ignore
@@ -105,7 +105,7 @@ abstract public class AuthOAuth extends Auth{
     return false;
   }
 
-  abstract protected boolean checkOAuthCredentials(Credentials credentials) throws AuthVariantUnknown, AuthMethodMismatch, AuthFailed;
+  abstract protected boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthFailed;
 
   /**
    * Returns configured OAuth Service to call APIs
@@ -120,7 +120,7 @@ abstract public class AuthOAuth extends Auth{
   }
 
   protected OAuthService getOAuthService(String callback) {
-    AuthAccessConfig conf = AuthConfig.getAccessConfig(getVariant().system);
+    AuthAccessConfig conf = AuthConfig.getAccessConfig(getSystem().name);
     ServiceBuilder builder = new ServiceBuilder().provider(provider).apiKey(conf.key).apiSecret(conf.secret);
     if (!callback.isEmpty()) {
       builder.callback(callback);

@@ -1,7 +1,7 @@
 package everfeeds.test;
 
 import everfeeds.remote.auth.AuthHandler;
-import everfeeds.remote.auth.thrift.util.AuthVariant;
+import everfeeds.remote.auth.thrift.util.AuthSystem;
 import junit.framework.TestCase;
 import org.apache.thrift.TException;
 
@@ -11,10 +11,10 @@ import org.apache.thrift.TException;
  */
 public class AuthHandlerTest extends TestCase {
   public void testHasVariants() throws TException {
-    assertTrue(new AuthHandler().listAuthVariants().size() > 0);
+    assertTrue(new AuthHandler().listAuthSystems().size() > 0);
 
-    for (AuthVariant av : new AuthHandler().listAuthVariants()) {
-      assertNotNull(av.system);
+    for (AuthSystem av : new AuthHandler().listAuthSystems()) {
+      assertNotNull(av.name);
     }
   }
 }

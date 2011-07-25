@@ -26,19 +26,19 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
   private static final org.apache.thrift.protocol.TField AUTH_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("authUrl", org.apache.thrift.protocol.TType.STRING, (short)1);
   private static final org.apache.thrift.protocol.TField REQUEST_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("requestToken", org.apache.thrift.protocol.TType.STRING, (short)2);
   private static final org.apache.thrift.protocol.TField REQUEST_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("requestSecret", org.apache.thrift.protocol.TType.STRING, (short)3);
-  private static final org.apache.thrift.protocol.TField VARIANT_FIELD_DESC = new org.apache.thrift.protocol.TField("variant", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+  private static final org.apache.thrift.protocol.TField SYSTEM_FIELD_DESC = new org.apache.thrift.protocol.TField("system", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
   public String authUrl;
   public String requestToken;
   public String requestSecret;
-  public AuthVariant variant;
+  public AuthSystem system;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     AUTH_URL((short)1, "authUrl"),
     REQUEST_TOKEN((short)2, "requestToken"),
     REQUEST_SECRET((short)3, "requestSecret"),
-    VARIANT((short)10, "variant");
+    SYSTEM((short)10, "system");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -59,8 +59,8 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
           return REQUEST_TOKEN;
         case 3: // REQUEST_SECRET
           return REQUEST_SECRET;
-        case 10: // VARIANT
-          return VARIANT;
+        case 10: // SYSTEM
+          return SYSTEM;
         default:
           return null;
       }
@@ -111,8 +111,8 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.REQUEST_SECRET, new org.apache.thrift.meta_data.FieldMetaData("requestSecret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.VARIANT, new org.apache.thrift.meta_data.FieldMetaData("variant", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, AuthVariant.class)));
+    tmpMap.put(_Fields.SYSTEM, new org.apache.thrift.meta_data.FieldMetaData("system", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, AuthSystem.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(OAuthStep.class, metaDataMap);
   }
@@ -124,13 +124,13 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     String authUrl,
     String requestToken,
     String requestSecret,
-    AuthVariant variant)
+    AuthSystem system)
   {
     this();
     this.authUrl = authUrl;
     this.requestToken = requestToken;
     this.requestSecret = requestSecret;
-    this.variant = variant;
+    this.system = system;
   }
 
   /**
@@ -146,8 +146,8 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     if (other.isSetRequestSecret()) {
       this.requestSecret = other.requestSecret;
     }
-    if (other.isSetVariant()) {
-      this.variant = new AuthVariant(other.variant);
+    if (other.isSetSystem()) {
+      this.system = new AuthSystem(other.system);
     }
   }
 
@@ -160,7 +160,7 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     this.authUrl = null;
     this.requestToken = null;
     this.requestSecret = null;
-    this.variant = null;
+    this.system = null;
   }
 
   public String getAuthUrl() {
@@ -235,27 +235,27 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     }
   }
 
-  public AuthVariant getVariant() {
-    return this.variant;
+  public AuthSystem getSystem() {
+    return this.system;
   }
 
-  public OAuthStep setVariant(AuthVariant variant) {
-    this.variant = variant;
+  public OAuthStep setSystem(AuthSystem system) {
+    this.system = system;
     return this;
   }
 
-  public void unsetVariant() {
-    this.variant = null;
+  public void unsetSystem() {
+    this.system = null;
   }
 
-  /** Returns true if field variant is set (has been assigned a value) and false otherwise */
-  public boolean isSetVariant() {
-    return this.variant != null;
+  /** Returns true if field system is set (has been assigned a value) and false otherwise */
+  public boolean isSetSystem() {
+    return this.system != null;
   }
 
-  public void setVariantIsSet(boolean value) {
+  public void setSystemIsSet(boolean value) {
     if (!value) {
-      this.variant = null;
+      this.system = null;
     }
   }
 
@@ -285,11 +285,11 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
       }
       break;
 
-    case VARIANT:
+    case SYSTEM:
       if (value == null) {
-        unsetVariant();
+        unsetSystem();
       } else {
-        setVariant((AuthVariant)value);
+        setSystem((AuthSystem)value);
       }
       break;
 
@@ -307,8 +307,8 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     case REQUEST_SECRET:
       return getRequestSecret();
 
-    case VARIANT:
-      return getVariant();
+    case SYSTEM:
+      return getSystem();
 
     }
     throw new IllegalStateException();
@@ -327,8 +327,8 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
       return isSetRequestToken();
     case REQUEST_SECRET:
       return isSetRequestSecret();
-    case VARIANT:
-      return isSetVariant();
+    case SYSTEM:
+      return isSetSystem();
     }
     throw new IllegalStateException();
   }
@@ -373,12 +373,12 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
         return false;
     }
 
-    boolean this_present_variant = true && this.isSetVariant();
-    boolean that_present_variant = true && that.isSetVariant();
-    if (this_present_variant || that_present_variant) {
-      if (!(this_present_variant && that_present_variant))
+    boolean this_present_system = true && this.isSetSystem();
+    boolean that_present_system = true && that.isSetSystem();
+    if (this_present_system || that_present_system) {
+      if (!(this_present_system && that_present_system))
         return false;
-      if (!this.variant.equals(that.variant))
+      if (!this.system.equals(that.system))
         return false;
     }
 
@@ -428,12 +428,12 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetVariant()).compareTo(typedOther.isSetVariant());
+    lastComparison = Boolean.valueOf(isSetSystem()).compareTo(typedOther.isSetSystem());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetVariant()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.variant, typedOther.variant);
+    if (isSetSystem()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.system, typedOther.system);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -476,10 +476,10 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 10: // VARIANT
+        case 10: // SYSTEM
           if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-            this.variant = new AuthVariant();
-            this.variant.read(iprot);
+            this.system = new AuthSystem();
+            this.system.read(iprot);
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
@@ -514,9 +514,9 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
       oprot.writeString(this.requestSecret);
       oprot.writeFieldEnd();
     }
-    if (this.variant != null) {
-      oprot.writeFieldBegin(VARIANT_FIELD_DESC);
-      this.variant.write(oprot);
+    if (this.system != null) {
+      oprot.writeFieldBegin(SYSTEM_FIELD_DESC);
+      this.system.write(oprot);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -552,11 +552,11 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("variant:");
-    if (this.variant == null) {
+    sb.append("system:");
+    if (this.system == null) {
       sb.append("null");
     } else {
-      sb.append(this.variant);
+      sb.append(this.system);
     }
     first = false;
     sb.append(")");
