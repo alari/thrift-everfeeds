@@ -6,7 +6,8 @@ import everfeeds.remote.auth.thrift.Credentials;
 import everfeeds.remote.auth.thrift.ex.AuthFailed;
 import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
 import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
-import everfeeds.remote.auth.thrift.util.*;
+import everfeeds.remote.auth.thrift.util.AccessType;
+import everfeeds.remote.auth.thrift.util.AuthMethod;
 import org.scribe.builder.api.VkontakteApi;
 
 /**
@@ -15,9 +16,11 @@ import org.scribe.builder.api.VkontakteApi;
  */
 @AccessAuth(system = "vk", method = AuthMethod.OAUTH, type = AccessType.VK)
 @OAuthProvider(VkontakteApi.class)
-public class VkAuth extends AuthOAuth{
+public class VkAuth extends AuthOAuth {
   static private VkAuth instance = new VkAuth();
-  private VkAuth() {}
+
+  private VkAuth() {
+  }
 
   static {
     Auth.registerInstance(instance);

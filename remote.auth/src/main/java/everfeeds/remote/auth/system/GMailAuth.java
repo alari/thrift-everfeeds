@@ -6,7 +6,8 @@ import everfeeds.remote.auth.thrift.Credentials;
 import everfeeds.remote.auth.thrift.ex.AuthFailed;
 import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
 import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
-import everfeeds.remote.auth.thrift.util.*;
+import everfeeds.remote.auth.thrift.util.AccessType;
+import everfeeds.remote.auth.thrift.util.AuthMethod;
 import org.scribe.builder.api.GoogleApi;
 
 /**
@@ -15,9 +16,11 @@ import org.scribe.builder.api.GoogleApi;
  */
 @AccessAuth(system = "gmail", method = AuthMethod.OAUTH, type = AccessType.GMAIL)
 @OAuthProvider(GoogleApi.class)
-public class GMailAuth extends AuthOAuth{
+public class GMailAuth extends AuthOAuth {
   static private GMailAuth instance = new GMailAuth();
-  private GMailAuth() {}
+
+  private GMailAuth() {
+  }
 
   static {
     Auth.registerInstance(instance);

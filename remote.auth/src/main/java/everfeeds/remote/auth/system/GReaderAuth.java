@@ -6,7 +6,8 @@ import everfeeds.remote.auth.thrift.Credentials;
 import everfeeds.remote.auth.thrift.ex.AuthFailed;
 import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
 import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
-import everfeeds.remote.auth.thrift.util.*;
+import everfeeds.remote.auth.thrift.util.AccessType;
+import everfeeds.remote.auth.thrift.util.AuthMethod;
 import org.scribe.builder.api.GoogleApi;
 
 /**
@@ -15,9 +16,11 @@ import org.scribe.builder.api.GoogleApi;
  */
 @AccessAuth(system = "greader", method = AuthMethod.OAUTH, type = AccessType.GREADER)
 @OAuthProvider(GoogleApi.class)
-public class GReaderAuth extends AuthOAuth{
+public class GReaderAuth extends AuthOAuth {
   static private GReaderAuth instance = new GReaderAuth();
-  private GReaderAuth() {}
+
+  private GReaderAuth() {
+  }
 
   static {
     Auth.registerInstance(instance);

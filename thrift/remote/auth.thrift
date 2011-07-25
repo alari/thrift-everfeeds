@@ -13,7 +13,7 @@ struct Credentials {
 
 service AuthFlow extends handshake.HandshakeFlow {
   list<_auth.AuthSystem> listAuthSystems();
-  bool checkCredentials(1: Credentials credentials) throws(2: _auth_ex.AuthSystemUnknown aUnknown);
-  _auth.OAuthStep getOAuthStep(1: _auth.AuthSystem authSystem, 2: string callbackUrl) throws(1: _auth_ex.AuthMethodMismatch mMismatch, 2: _auth_ex.AuthSystemUnknown aUnknown);
-  Credentials exchangeOAuthToken(2: _auth.OAuthStep oAuthStep, 3: string verifierCode) throws(1: _auth_ex.AuthMethodMismatch mMismatch, 2: _auth_ex.AuthSystemUnknown aUnknown, 3: _auth_ex.AuthFailed aFailed);
+  bool checkCredentials(1: Credentials credentials) throws(2: _auth_ex.AuthSystemUnknown aUnknown, 4: _auth_ex.AuthConnectionError ace);
+  _auth.OAuthStep getOAuthStep(1: _auth.AuthSystem authSystem, 2: string callbackUrl) throws(1: _auth_ex.AuthMethodMismatch mMismatch, 2: _auth_ex.AuthSystemUnknown aUnknown, 4: _auth_ex.AuthConnectionError ace);
+  Credentials exchangeOAuthToken(2: _auth.OAuthStep oAuthStep, 3: string verifierCode) throws(1: _auth_ex.AuthMethodMismatch mMismatch, 2: _auth_ex.AuthSystemUnknown aUnknown, 3: _auth_ex.AuthFailed aFailed, 4: _auth_ex.AuthConnectionError ace);
 }

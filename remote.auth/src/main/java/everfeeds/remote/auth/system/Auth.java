@@ -2,7 +2,7 @@ package everfeeds.remote.auth.system;
 
 import everfeeds.remote.auth.annotation.AccessAuth;
 import everfeeds.remote.auth.thrift.Credentials;
-import everfeeds.remote.auth.thrift.util.AuthSystem;
+import everfeeds.remote.auth.thrift.ex.AuthConnectionError;
 import everfeeds.remote.auth.thrift.util.AuthSystem;
 import everfeeds.remote.util.Package;
 
@@ -65,5 +65,5 @@ abstract public class Auth {
     return system;
   }
 
-  abstract public boolean checkCredentials(Credentials credentials);
+  abstract public boolean checkCredentials(Credentials credentials) throws AuthConnectionError;
 }

@@ -1,13 +1,16 @@
 package everfeeds.remote.auth;
 
+import everfeeds.remote.auth.system.Auth;
+import everfeeds.remote.auth.system.AuthOAuth;
 import everfeeds.remote.auth.thrift.AuthFlow;
 import everfeeds.remote.auth.thrift.Credentials;
+import everfeeds.remote.auth.thrift.ex.AuthConnectionError;
 import everfeeds.remote.auth.thrift.ex.AuthFailed;
 import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
 import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
-import everfeeds.remote.auth.thrift.util.*;
-import everfeeds.remote.auth.system.Auth;
-import everfeeds.remote.auth.system.AuthOAuth;
+import everfeeds.remote.auth.thrift.util.AuthMethod;
+import everfeeds.remote.auth.thrift.util.AuthSystem;
+import everfeeds.remote.auth.thrift.util.OAuthStep;
 import everfeeds.remote.handshake.HandshakeHandler;
 import org.apache.thrift.TException;
 
@@ -23,31 +26,31 @@ public class AuthHandler extends HandshakeHandler implements AuthFlow.Iface {
     return Auth.listSystems();
   }
 
-  public boolean checkCredentials(Credentials credentials) throws TException, AuthSystemUnknown {
+  public boolean checkCredentials(Credentials credentials) throws TException, AuthSystemUnknown, AuthConnectionError {
     Auth auth = Auth.getBySystem(credentials.system);
-    if(auth == null) {
+    if (auth == null) {
       throw new AuthSystemUnknown().setMsg("Cannot find auth by given name");
     }
     return auth.checkCredentials(credentials);
   }
 
-  public OAuthStep getOAuthStep(AuthSystem authSystem, String callbackUrl) throws TException, AuthMethodMismatch, AuthSystemUnknown {
+  public OAuthStep getOAuthStep(AuthSystem authSystem, String callbackUrl) throws TException, AuthMethodMismatch, AuthSystemUnknown, AuthConnectionError {
     if (authSystem.method != AuthMethod.OAUTH) {
       throw new AuthMethodMismatch().setMsg("Cannot handle OAuth flow for not-OAuth name");
     }
-    AuthOAuth auth = (AuthOAuth)Auth.getBySystem(authSystem);
-    if(auth == null) {
+    AuthOAuth auth = (AuthOAuth) Auth.getBySystem(authSystem);
+    if (auth == null) {
       throw new AuthSystemUnknown().setMsg("Cannot find auth by given name");
     }
     return auth.getOAuthStep(callbackUrl);
   }
 
-  public Credentials exchangeOAuthToken(OAuthStep oAuthStep, String verifierCode) throws TException, AuthMethodMismatch, AuthSystemUnknown, AuthFailed {
+  public Credentials exchangeOAuthToken(OAuthStep oAuthStep, String verifierCode) throws TException, AuthMethodMismatch, AuthSystemUnknown, AuthFailed, AuthConnectionError {
     if (oAuthStep.system.method != AuthMethod.OAUTH) {
       throw new AuthMethodMismatch().setMsg("Cannot handle OAuth flow for not-OAuth name");
     }
-    AuthOAuth auth = (AuthOAuth)Auth.getBySystem(oAuthStep.system);
-    if(auth == null) {
+    AuthOAuth auth = (AuthOAuth) Auth.getBySystem(oAuthStep.system);
+    if (auth == null) {
       throw new AuthSystemUnknown().setMsg("Cannot find auth by given name");
     }
     return auth.exchangeOAuthToken(oAuthStep, verifierCode);

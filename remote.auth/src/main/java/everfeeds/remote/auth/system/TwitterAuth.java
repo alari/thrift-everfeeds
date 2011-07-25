@@ -3,6 +3,7 @@ package everfeeds.remote.auth.system;
 import everfeeds.remote.auth.annotation.AccessAuth;
 import everfeeds.remote.auth.annotation.OAuthProvider;
 import everfeeds.remote.auth.thrift.Credentials;
+import everfeeds.remote.auth.thrift.ex.AuthConnectionError;
 import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
 import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
 import everfeeds.remote.auth.thrift.util.AccessType;
@@ -20,14 +21,15 @@ public class TwitterAuth extends AuthOAuth {
   static private TwitterAuth instance = new TwitterAuth();
   final static private String CREDENTIALS_URL = "http://api.twitter.com/1/account/verify_credentials.json";
 
-  private TwitterAuth() {}
+  private TwitterAuth() {
+  }
 
   static {
     Auth.registerInstance(instance);
   }
 
   @Override
-  public boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch {
+  public boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthConnectionError {
     new OAuthApi(credentials).callApi(CREDENTIALS_URL);
     return false;
   }

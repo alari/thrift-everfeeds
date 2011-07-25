@@ -9,3 +9,7 @@ exception AuthSystemUnknown {
 exception AuthFailed {
   1: string msg;
 }
+
+exception AuthConnectionError {
+  1: string msg;
+}

@@ -6,7 +6,8 @@ import everfeeds.remote.auth.thrift.Credentials;
 import everfeeds.remote.auth.thrift.ex.AuthFailed;
 import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
 import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
-import everfeeds.remote.auth.thrift.util.*;
+import everfeeds.remote.auth.thrift.util.AccessType;
+import everfeeds.remote.auth.thrift.util.AuthMethod;
 import org.scribe.builder.api.FacebookApi;
 
 /**
@@ -15,9 +16,11 @@ import org.scribe.builder.api.FacebookApi;
  */
 @AccessAuth(system = "facebook", method = AuthMethod.OAUTH, type = AccessType.FACEBOOK)
 @OAuthProvider(FacebookApi.class)
-public class FacebookAuth extends AuthOAuth{
+public class FacebookAuth extends AuthOAuth {
   static private FacebookAuth instance = new FacebookAuth();
-  private FacebookAuth() {}
+
+  private FacebookAuth() {
+  }
 
   static {
     Auth.registerInstance(instance);

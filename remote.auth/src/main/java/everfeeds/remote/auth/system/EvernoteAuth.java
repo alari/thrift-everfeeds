@@ -6,7 +6,8 @@ import everfeeds.remote.auth.thrift.Credentials;
 import everfeeds.remote.auth.thrift.ex.AuthFailed;
 import everfeeds.remote.auth.thrift.ex.AuthMethodMismatch;
 import everfeeds.remote.auth.thrift.ex.AuthSystemUnknown;
-import everfeeds.remote.auth.thrift.util.*;
+import everfeeds.remote.auth.thrift.util.AccessType;
+import everfeeds.remote.auth.thrift.util.AuthMethod;
 import org.scribe.builder.api.EvernoteApi;
 
 /**
@@ -17,7 +18,9 @@ import org.scribe.builder.api.EvernoteApi;
 @OAuthProvider(EvernoteApi.class)
 public class EvernoteAuth extends AuthOAuth {
   static private EvernoteAuth instance = new EvernoteAuth();
-  private EvernoteAuth() {}
+
+  private EvernoteAuth() {
+  }
 
   static {
     Auth.registerInstance(instance);
