@@ -1,16 +1,9 @@
 package everfeeds.remote.auth.variant;
 
 import everfeeds.remote.auth.annotation.AccessAuth;
-import everfeeds.remote.auth.annotation.OAuthProvider;
-import everfeeds.remote.auth.config.AuthAccessConfig;
-import everfeeds.remote.auth.config.AuthConfig;
 import everfeeds.remote.auth.thrift.Credentials;
 import everfeeds.remote.auth.thrift.util.AuthVariant;
-import everfeeds.remote.auth.thrift.util.OAuthStep;
 import everfeeds.remote.util.Package;
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.model.Token;
-import org.scribe.oauth.OAuthService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,5 +64,5 @@ abstract public class Auth {
     return variant;
   }
 
-
+  abstract public boolean checkCredentials(Credentials credentials);
 }

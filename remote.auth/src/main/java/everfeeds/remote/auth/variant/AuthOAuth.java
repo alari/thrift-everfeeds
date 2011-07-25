@@ -4,45 +4,126 @@ import everfeeds.remote.auth.annotation.OAuthProvider;
 import everfeeds.remote.auth.config.AuthAccessConfig;
 import everfeeds.remote.auth.config.AuthConfig;
 import everfeeds.remote.auth.thrift.Credentials;
+import everfeeds.remote.auth.thrift.util.AuthFailed;
+import everfeeds.remote.auth.thrift.util.AuthMethodMismatch;
+import everfeeds.remote.auth.thrift.util.AuthVariantUnknown;
 import everfeeds.remote.auth.thrift.util.OAuthStep;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.Token;
+import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 /**
  * @author Dmitry Kurinskiy
  * @since 25.07.11 1:58
  */
-public class AuthOAuth extends Auth{
+abstract public class AuthOAuth extends Auth{
+
+   private static final Token EMPTY_TOKEN = null;
 
   private Class<? extends org.scribe.builder.api.Api> provider = this.getClass().getAnnotation(OAuthProvider.class) != null ? this.getClass().getAnnotation(OAuthProvider.class).value() : null;
+  private OAuthService service = null;
 
-  public OAuthStep getOAuthStep(String redirectUrl) {
+  /**
+   * Returns an OAuth step data: auth url, request token
+   *
+   * Auth flow should look like:
+   * getOAuthStep -> proceed to step.authUrl
+   * get back to callbackUrl -> get verifier code from query string
+   * proceed to exchangeOAuthToken(step, verifier) -> got Credentials
+   *
+   * @param callbackUrl URL to a page where OAuth response will be handled and token will be exchanged
+   * @return OAuthStep
+   */
+  public OAuthStep getOAuthStep(String callbackUrl) {
     OAuthStep step = new OAuthStep();
-    OAuthService service = getOAuthService(redirectUrl);
+    OAuthService service = getOAuthService(callbackUrl);
 
-    Token requestToken = service.getRequestToken();
+    Token requestToken = EMPTY_TOKEN;
+    if (service instanceof org.scribe.oauth.OAuth10aServiceImpl) {
+      requestToken = service.getRequestToken();
+      step.requestToken = requestToken.getToken();
+      step.requestSecret = requestToken.getSecret();
+    }
 
-    step.requestToken = requestToken.getToken();
-    step.requestSecret = requestToken.getSecret();
     step.authUrl = service.getAuthorizationUrl(requestToken);
+    step.variant = getVariant();
 
     return step;
   }
 
-  public Credentials exchangeOAuthToken(OAuthStep oAuthStep, String verifierCode) {
-    return null;
+  /**
+   * Exchanges requested token with a verifier string to an access token, enveloped into Credentials
+   *
+   * @param oAuthStep given by {getOAuthStep}
+   * @param verifierCode string from remote server
+   * @return Credentials to be used in all future API calls
+   * @throws AuthFailed if access token is not given
+   */
+  public Credentials exchangeOAuthToken(OAuthStep oAuthStep, String verifierCode) throws AuthFailed {
+    Token accessToken = getOAuthAccessToken(oAuthStep, verifierCode);
+
+    if(accessToken == null) {
+      throw new AuthFailed().setMsg("Authentication failed");
+    }
+    if(accessToken.getToken() == null || accessToken.getToken().isEmpty()) {
+      throw new AuthFailed().setMsg("Authentication failed: no token given. Raw response is:\n"+accessToken.getRawResponse());
+    }
+    return new Credentials().setToken(accessToken.getToken()).setSecret(accessToken.getSecret()).setVariant(getVariant());
   }
 
-  protected OAuthService getOAuthService() {
-    return getOAuthService("");
+  /**
+   * Returns Access Token object to build Credentials from
+   *
+   * @param oAuthStep step
+   * @param verifierCode given by remote server
+   * @return Token
+   */
+  protected Token getOAuthAccessToken(OAuthStep oAuthStep, String verifierCode) {
+        Verifier verifier = new Verifier(verifierCode);
+
+    Token requestToken = EMPTY_TOKEN;
+    OAuthService service = getOAuthService();
+      if (service instanceof org.scribe.oauth.OAuth10aServiceImpl) {
+      requestToken = new Token(oAuthStep.requestToken, oAuthStep.requestSecret);
+    }
+
+    return service.getAccessToken(requestToken, verifier);
   }
 
-  protected OAuthService getOAuthService(String redirectUrl) {
+  public boolean checkCredentials(Credentials credentials){
+    try {
+      return checkOAuthCredentials(credentials);
+    } catch (AuthVariantUnknown authVariantUnknown) {
+      // ignore
+    } catch (AuthMethodMismatch authMethodMismatch) {
+      // ignore
+    } catch (AuthFailed authFailed) {
+      // not authenticated
+      return false;
+    }
+    return false;
+  }
+
+  abstract protected boolean checkOAuthCredentials(Credentials credentials) throws AuthVariantUnknown, AuthMethodMismatch, AuthFailed;
+
+  /**
+   * Returns configured OAuth Service to call APIs
+   *
+   * @return OAuthService
+   */
+  public OAuthService getOAuthService() {
+    if(service == null) {
+      service = getOAuthService("");
+    }
+    return service;
+  }
+
+  protected OAuthService getOAuthService(String callback) {
     AuthAccessConfig conf = AuthConfig.getAccessConfig(getVariant().system);
     ServiceBuilder builder = new ServiceBuilder().provider(provider).apiKey(conf.key).apiSecret(conf.secret);
-    if (!redirectUrl.isEmpty()) {
-      builder.callback(redirectUrl);
+    if (!callback.isEmpty()) {
+      builder.callback(callback);
     }
     if (conf.scope != null && !conf.scope.isEmpty()) {
       builder.scope(conf.scope);

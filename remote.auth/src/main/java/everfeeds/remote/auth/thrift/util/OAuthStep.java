@@ -5,26 +5,40 @@
  */
 package everfeeds.remote.auth.thrift.util;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("OAuthStep");
 
-  private static final org.apache.thrift.protocol.TField AUTH_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("authUrl", org.apache.thrift.protocol.TType.STRING, (short) 1);
-  private static final org.apache.thrift.protocol.TField REQUEST_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("requestToken", org.apache.thrift.protocol.TType.STRING, (short) 2);
-  private static final org.apache.thrift.protocol.TField REQUEST_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("requestSecret", org.apache.thrift.protocol.TType.STRING, (short) 3);
+  private static final org.apache.thrift.protocol.TField AUTH_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("authUrl", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField REQUEST_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("requestToken", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField REQUEST_SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("requestSecret", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField VARIANT_FIELD_DESC = new org.apache.thrift.protocol.TField("variant", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
   public String authUrl;
   public String requestToken;
   public String requestSecret;
+  public AuthVariant variant;
 
-  /**
-   * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-   */
+  /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    AUTH_URL((short) 1, "authUrl"),
-    REQUEST_TOKEN((short) 2, "requestToken"),
-    REQUEST_SECRET((short) 3, "requestSecret");
+    AUTH_URL((short)1, "authUrl"),
+    REQUEST_TOKEN((short)2, "requestToken"),
+    REQUEST_SECRET((short)3, "requestSecret"),
+    VARIANT((short)10, "variant");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -38,13 +52,15 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      switch (fieldId) {
+      switch(fieldId) {
         case 1: // AUTH_URL
           return AUTH_URL;
         case 2: // REQUEST_TOKEN
           return REQUEST_TOKEN;
         case 3: // REQUEST_SECRET
           return REQUEST_SECRET;
+        case 10: // VARIANT
+          return VARIANT;
         default:
           return null;
       }
@@ -87,15 +103,16 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
   // isset id assignments
 
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.AUTH_URL, new org.apache.thrift.meta_data.FieldMetaData("authUrl", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                  new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.REQUEST_TOKEN, new org.apache.thrift.meta_data.FieldMetaData("requestToken", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                       new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.REQUEST_SECRET, new org.apache.thrift.meta_data.FieldMetaData("requestSecret", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.AUTH_URL, new org.apache.thrift.meta_data.FieldMetaData("authUrl", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.REQUEST_TOKEN, new org.apache.thrift.meta_data.FieldMetaData("requestToken", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.REQUEST_SECRET, new org.apache.thrift.meta_data.FieldMetaData("requestSecret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.VARIANT, new org.apache.thrift.meta_data.FieldMetaData("variant", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, AuthVariant.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(OAuthStep.class, metaDataMap);
   }
@@ -104,13 +121,16 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
   }
 
   public OAuthStep(
-                      String authUrl,
-                      String requestToken,
-                      String requestSecret) {
+    String authUrl,
+    String requestToken,
+    String requestSecret,
+    AuthVariant variant)
+  {
     this();
     this.authUrl = authUrl;
     this.requestToken = requestToken;
     this.requestSecret = requestSecret;
+    this.variant = variant;
   }
 
   /**
@@ -126,6 +146,9 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     if (other.isSetRequestSecret()) {
       this.requestSecret = other.requestSecret;
     }
+    if (other.isSetVariant()) {
+      this.variant = new AuthVariant(other.variant);
+    }
   }
 
   public OAuthStep deepCopy() {
@@ -137,6 +160,7 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     this.authUrl = null;
     this.requestToken = null;
     this.requestSecret = null;
+    this.variant = null;
   }
 
   public String getAuthUrl() {
@@ -152,9 +176,7 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     this.authUrl = null;
   }
 
-  /**
-   * Returns true if field authUrl is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field authUrl is set (has been assigned a value) and false otherwise */
   public boolean isSetAuthUrl() {
     return this.authUrl != null;
   }
@@ -178,9 +200,7 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     this.requestToken = null;
   }
 
-  /**
-   * Returns true if field requestToken is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field requestToken is set (has been assigned a value) and false otherwise */
   public boolean isSetRequestToken() {
     return this.requestToken != null;
   }
@@ -204,9 +224,7 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     this.requestSecret = null;
   }
 
-  /**
-   * Returns true if field requestSecret is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field requestSecret is set (has been assigned a value) and false otherwise */
   public boolean isSetRequestSecret() {
     return this.requestSecret != null;
   }
@@ -217,65 +235,100 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     }
   }
 
+  public AuthVariant getVariant() {
+    return this.variant;
+  }
+
+  public OAuthStep setVariant(AuthVariant variant) {
+    this.variant = variant;
+    return this;
+  }
+
+  public void unsetVariant() {
+    this.variant = null;
+  }
+
+  /** Returns true if field variant is set (has been assigned a value) and false otherwise */
+  public boolean isSetVariant() {
+    return this.variant != null;
+  }
+
+  public void setVariantIsSet(boolean value) {
+    if (!value) {
+      this.variant = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-      case AUTH_URL:
-        if (value == null) {
-          unsetAuthUrl();
-        } else {
-          setAuthUrl((String) value);
-        }
-        break;
+    case AUTH_URL:
+      if (value == null) {
+        unsetAuthUrl();
+      } else {
+        setAuthUrl((String)value);
+      }
+      break;
 
-      case REQUEST_TOKEN:
-        if (value == null) {
-          unsetRequestToken();
-        } else {
-          setRequestToken((String) value);
-        }
-        break;
+    case REQUEST_TOKEN:
+      if (value == null) {
+        unsetRequestToken();
+      } else {
+        setRequestToken((String)value);
+      }
+      break;
 
-      case REQUEST_SECRET:
-        if (value == null) {
-          unsetRequestSecret();
-        } else {
-          setRequestSecret((String) value);
-        }
-        break;
+    case REQUEST_SECRET:
+      if (value == null) {
+        unsetRequestSecret();
+      } else {
+        setRequestSecret((String)value);
+      }
+      break;
+
+    case VARIANT:
+      if (value == null) {
+        unsetVariant();
+      } else {
+        setVariant((AuthVariant)value);
+      }
+      break;
 
     }
   }
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-      case AUTH_URL:
-        return getAuthUrl();
+    case AUTH_URL:
+      return getAuthUrl();
 
-      case REQUEST_TOKEN:
-        return getRequestToken();
+    case REQUEST_TOKEN:
+      return getRequestToken();
 
-      case REQUEST_SECRET:
-        return getRequestSecret();
+    case REQUEST_SECRET:
+      return getRequestSecret();
+
+    case VARIANT:
+      return getVariant();
 
     }
     throw new IllegalStateException();
   }
 
-  /**
-   * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
     }
 
     switch (field) {
-      case AUTH_URL:
-        return isSetAuthUrl();
-      case REQUEST_TOKEN:
-        return isSetRequestToken();
-      case REQUEST_SECRET:
-        return isSetRequestSecret();
+    case AUTH_URL:
+      return isSetAuthUrl();
+    case REQUEST_TOKEN:
+      return isSetRequestToken();
+    case REQUEST_SECRET:
+      return isSetRequestSecret();
+    case VARIANT:
+      return isSetVariant();
     }
     throw new IllegalStateException();
   }
@@ -285,7 +338,7 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     if (that == null)
       return false;
     if (that instanceof OAuthStep)
-      return this.equals((OAuthStep) that);
+      return this.equals((OAuthStep)that);
     return false;
   }
 
@@ -320,6 +373,15 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
         return false;
     }
 
+    boolean this_present_variant = true && this.isSetVariant();
+    boolean that_present_variant = true && that.isSetVariant();
+    if (this_present_variant || that_present_variant) {
+      if (!(this_present_variant && that_present_variant))
+        return false;
+      if (!this.variant.equals(that.variant))
+        return false;
+    }
+
     return true;
   }
 
@@ -334,7 +396,7 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
     }
 
     int lastComparison = 0;
-    OAuthStep typedOther = (OAuthStep) other;
+    OAuthStep typedOther = (OAuthStep)other;
 
     lastComparison = Boolean.valueOf(isSetAuthUrl()).compareTo(typedOther.isSetAuthUrl());
     if (lastComparison != 0) {
@@ -366,6 +428,16 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetVariant()).compareTo(typedOther.isSetVariant());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetVariant()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.variant, typedOther.variant);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -376,30 +448,39 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
   public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
     org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
-    while (true) {
+    while (true)
+    {
       field = iprot.readFieldBegin();
-      if (field.type == org.apache.thrift.protocol.TType.STOP) {
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // AUTH_URL
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.authUrl = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // REQUEST_TOKEN
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.requestToken = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // REQUEST_SECRET
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.requestSecret = iprot.readString();
-          } else {
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 10: // VARIANT
+          if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+            this.variant = new AuthVariant();
+            this.variant.read(iprot);
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
@@ -433,6 +514,11 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
       oprot.writeString(this.requestSecret);
       oprot.writeFieldEnd();
     }
+    if (this.variant != null) {
+      oprot.writeFieldBegin(VARIANT_FIELD_DESC);
+      this.variant.write(oprot);
+      oprot.writeFieldEnd();
+    }
     oprot.writeFieldStop();
     oprot.writeStructEnd();
   }
@@ -463,6 +549,14 @@ public class OAuthStep implements org.apache.thrift.TBase<OAuthStep, OAuthStep._
       sb.append("null");
     } else {
       sb.append(this.requestSecret);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("variant:");
+    if (this.variant == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.variant);
     }
     first = false;
     sb.append(")");

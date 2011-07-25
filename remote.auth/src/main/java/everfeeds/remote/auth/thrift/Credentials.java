@@ -5,35 +5,40 @@
  */
 package everfeeds.remote.auth.thrift;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Credentials implements org.apache.thrift.TBase<Credentials, Credentials._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Credentials");
 
-  private static final org.apache.thrift.protocol.TField TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("token", org.apache.thrift.protocol.TType.STRING, (short) 1);
-  private static final org.apache.thrift.protocol.TField SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("secret", org.apache.thrift.protocol.TType.STRING, (short) 2);
-  private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short) 3);
-  private static final org.apache.thrift.protocol.TField PARAMS_FIELD_DESC = new org.apache.thrift.protocol.TField("params", org.apache.thrift.protocol.TType.MAP, (short) 10);
+  private static final org.apache.thrift.protocol.TField TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("token", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField SECRET_FIELD_DESC = new org.apache.thrift.protocol.TField("secret", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField VARIANT_FIELD_DESC = new org.apache.thrift.protocol.TField("variant", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+  private static final org.apache.thrift.protocol.TField PARAMS_FIELD_DESC = new org.apache.thrift.protocol.TField("params", org.apache.thrift.protocol.TType.MAP, (short)10);
 
   public String token;
   public String secret;
-  /**
-   * @see everfeeds.remote.auth.thrift.util.AccessType
-   */
-  public everfeeds.remote.auth.thrift.util.AccessType type;
-  public Map<String, String> params;
+  public everfeeds.remote.auth.thrift.util.AuthVariant variant;
+  public Map<String,String> params;
 
-  /**
-   * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-   */
+  /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    TOKEN((short) 1, "token"),
-    SECRET((short) 2, "secret"),
-    /**
-     * @see everfeeds.remote.auth.thrift.util.AccessType
-     */
-    TYPE((short) 3, "type"),
-    PARAMS((short) 10, "params");
+    TOKEN((short)1, "token"),
+    SECRET((short)2, "secret"),
+    VARIANT((short)3, "variant"),
+    PARAMS((short)10, "params");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -47,13 +52,13 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      switch (fieldId) {
+      switch(fieldId) {
         case 1: // TOKEN
           return TOKEN;
         case 2: // SECRET
           return SECRET;
-        case 3: // TYPE
-          return TYPE;
+        case 3: // VARIANT
+          return VARIANT;
         case 10: // PARAMS
           return PARAMS;
         default:
@@ -98,19 +103,18 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
   // isset id assignments
 
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.SECRET, new org.apache.thrift.meta_data.FieldMetaData("secret", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                              new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, everfeeds.remote.auth.thrift.util.AccessType.class)));
-    tmpMap.put(_Fields.PARAMS, new org.apache.thrift.meta_data.FieldMetaData("params", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP,
-                                                                                                                               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING),
-                                                                                                                               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
+    tmpMap.put(_Fields.TOKEN, new org.apache.thrift.meta_data.FieldMetaData("token", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.SECRET, new org.apache.thrift.meta_data.FieldMetaData("secret", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.VARIANT, new org.apache.thrift.meta_data.FieldMetaData("variant", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.AuthVariant.class)));
+    tmpMap.put(_Fields.PARAMS, new org.apache.thrift.meta_data.FieldMetaData("params", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Credentials.class, metaDataMap);
   }
@@ -119,14 +123,15 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
   }
 
   public Credentials(
-                        String token,
-                        String secret,
-                        everfeeds.remote.auth.thrift.util.AccessType type,
-                        Map<String, String> params) {
+    String token,
+    String secret,
+    everfeeds.remote.auth.thrift.util.AuthVariant variant,
+    Map<String,String> params)
+  {
     this();
     this.token = token;
     this.secret = secret;
-    this.type = type;
+    this.variant = variant;
     this.params = params;
   }
 
@@ -140,11 +145,11 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
     if (other.isSetSecret()) {
       this.secret = other.secret;
     }
-    if (other.isSetType()) {
-      this.type = other.type;
+    if (other.isSetVariant()) {
+      this.variant = new everfeeds.remote.auth.thrift.util.AuthVariant(other.variant);
     }
     if (other.isSetParams()) {
-      Map<String, String> __this__params = new HashMap<String, String>();
+      Map<String,String> __this__params = new HashMap<String,String>();
       for (Map.Entry<String, String> other_element : other.params.entrySet()) {
 
         String other_element_key = other_element.getKey();
@@ -168,7 +173,7 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
   public void clear() {
     this.token = null;
     this.secret = null;
-    this.type = null;
+    this.variant = null;
     this.params = null;
   }
 
@@ -185,9 +190,7 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
     this.token = null;
   }
 
-  /**
-   * Returns true if field token is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field token is set (has been assigned a value) and false otherwise */
   public boolean isSetToken() {
     return this.token != null;
   }
@@ -211,9 +214,7 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
     this.secret = null;
   }
 
-  /**
-   * Returns true if field secret is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field secret is set (has been assigned a value) and false otherwise */
   public boolean isSetSecret() {
     return this.secret != null;
   }
@@ -224,35 +225,27 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
     }
   }
 
-  /**
-   * @see everfeeds.remote.auth.thrift.util.AccessType
-   */
-  public everfeeds.remote.auth.thrift.util.AccessType getType() {
-    return this.type;
+  public everfeeds.remote.auth.thrift.util.AuthVariant getVariant() {
+    return this.variant;
   }
 
-  /**
-   * @see everfeeds.remote.auth.thrift.util.AccessType
-   */
-  public Credentials setType(everfeeds.remote.auth.thrift.util.AccessType type) {
-    this.type = type;
+  public Credentials setVariant(everfeeds.remote.auth.thrift.util.AuthVariant variant) {
+    this.variant = variant;
     return this;
   }
 
-  public void unsetType() {
-    this.type = null;
+  public void unsetVariant() {
+    this.variant = null;
   }
 
-  /**
-   * Returns true if field type is set (has been assigned a value) and false otherwise
-   */
-  public boolean isSetType() {
-    return this.type != null;
+  /** Returns true if field variant is set (has been assigned a value) and false otherwise */
+  public boolean isSetVariant() {
+    return this.variant != null;
   }
 
-  public void setTypeIsSet(boolean value) {
+  public void setVariantIsSet(boolean value) {
     if (!value) {
-      this.type = null;
+      this.variant = null;
     }
   }
 
@@ -262,16 +255,16 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
 
   public void putToParams(String key, String val) {
     if (this.params == null) {
-      this.params = new HashMap<String, String>();
+      this.params = new HashMap<String,String>();
     }
     this.params.put(key, val);
   }
 
-  public Map<String, String> getParams() {
+  public Map<String,String> getParams() {
     return this.params;
   }
 
-  public Credentials setParams(Map<String, String> params) {
+  public Credentials setParams(Map<String,String> params) {
     this.params = params;
     return this;
   }
@@ -280,9 +273,7 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
     this.params = null;
   }
 
-  /**
-   * Returns true if field params is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field params is set (has been assigned a value) and false otherwise */
   public boolean isSetParams() {
     return this.params != null;
   }
@@ -295,76 +286,74 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-      case TOKEN:
-        if (value == null) {
-          unsetToken();
-        } else {
-          setToken((String) value);
-        }
-        break;
+    case TOKEN:
+      if (value == null) {
+        unsetToken();
+      } else {
+        setToken((String)value);
+      }
+      break;
 
-      case SECRET:
-        if (value == null) {
-          unsetSecret();
-        } else {
-          setSecret((String) value);
-        }
-        break;
+    case SECRET:
+      if (value == null) {
+        unsetSecret();
+      } else {
+        setSecret((String)value);
+      }
+      break;
 
-      case TYPE:
-        if (value == null) {
-          unsetType();
-        } else {
-          setType((everfeeds.remote.auth.thrift.util.AccessType) value);
-        }
-        break;
+    case VARIANT:
+      if (value == null) {
+        unsetVariant();
+      } else {
+        setVariant((everfeeds.remote.auth.thrift.util.AuthVariant)value);
+      }
+      break;
 
-      case PARAMS:
-        if (value == null) {
-          unsetParams();
-        } else {
-          setParams((Map<String, String>) value);
-        }
-        break;
+    case PARAMS:
+      if (value == null) {
+        unsetParams();
+      } else {
+        setParams((Map<String,String>)value);
+      }
+      break;
 
     }
   }
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-      case TOKEN:
-        return getToken();
+    case TOKEN:
+      return getToken();
 
-      case SECRET:
-        return getSecret();
+    case SECRET:
+      return getSecret();
 
-      case TYPE:
-        return getType();
+    case VARIANT:
+      return getVariant();
 
-      case PARAMS:
-        return getParams();
+    case PARAMS:
+      return getParams();
 
     }
     throw new IllegalStateException();
   }
 
-  /**
-   * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
     }
 
     switch (field) {
-      case TOKEN:
-        return isSetToken();
-      case SECRET:
-        return isSetSecret();
-      case TYPE:
-        return isSetType();
-      case PARAMS:
-        return isSetParams();
+    case TOKEN:
+      return isSetToken();
+    case SECRET:
+      return isSetSecret();
+    case VARIANT:
+      return isSetVariant();
+    case PARAMS:
+      return isSetParams();
     }
     throw new IllegalStateException();
   }
@@ -374,7 +363,7 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
     if (that == null)
       return false;
     if (that instanceof Credentials)
-      return this.equals((Credentials) that);
+      return this.equals((Credentials)that);
     return false;
   }
 
@@ -400,12 +389,12 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
         return false;
     }
 
-    boolean this_present_type = true && this.isSetType();
-    boolean that_present_type = true && that.isSetType();
-    if (this_present_type || that_present_type) {
-      if (!(this_present_type && that_present_type))
+    boolean this_present_variant = true && this.isSetVariant();
+    boolean that_present_variant = true && that.isSetVariant();
+    if (this_present_variant || that_present_variant) {
+      if (!(this_present_variant && that_present_variant))
         return false;
-      if (!this.type.equals(that.type))
+      if (!this.variant.equals(that.variant))
         return false;
     }
 
@@ -432,7 +421,7 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
     }
 
     int lastComparison = 0;
-    Credentials typedOther = (Credentials) other;
+    Credentials typedOther = (Credentials)other;
 
     lastComparison = Boolean.valueOf(isSetToken()).compareTo(typedOther.isSetToken());
     if (lastComparison != 0) {
@@ -454,12 +443,12 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetType()).compareTo(typedOther.isSetType());
+    lastComparison = Boolean.valueOf(isSetVariant()).compareTo(typedOther.isSetVariant());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetType()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.type, typedOther.type);
+    if (isSetVariant()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.variant, typedOther.variant);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -484,30 +473,32 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
   public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
     org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
-    while (true) {
+    while (true)
+    {
       field = iprot.readFieldBegin();
-      if (field.type == org.apache.thrift.protocol.TType.STOP) {
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // TOKEN
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.token = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // SECRET
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.secret = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 3: // TYPE
-          if (field.type == org.apache.thrift.protocol.TType.I32) {
-            this.type = everfeeds.remote.auth.thrift.util.AccessType.findByValue(iprot.readI32());
-          } else {
+        case 3: // VARIANT
+          if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+            this.variant = new everfeeds.remote.auth.thrift.util.AuthVariant();
+            this.variant.read(iprot);
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
@@ -515,8 +506,9 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
           if (field.type == org.apache.thrift.protocol.TType.MAP) {
             {
               org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
-              this.params = new HashMap<String, String>(2 * _map0.size);
-              for (int _i1 = 0; _i1 < _map0.size; ++_i1) {
+              this.params = new HashMap<String,String>(2*_map0.size);
+              for (int _i1 = 0; _i1 < _map0.size; ++_i1)
+              {
                 String _key2;
                 String _val3;
                 _key2 = iprot.readString();
@@ -525,7 +517,7 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
               }
               iprot.readMapEnd();
             }
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
@@ -554,16 +546,17 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
       oprot.writeString(this.secret);
       oprot.writeFieldEnd();
     }
-    if (this.type != null) {
-      oprot.writeFieldBegin(TYPE_FIELD_DESC);
-      oprot.writeI32(this.type.getValue());
+    if (this.variant != null) {
+      oprot.writeFieldBegin(VARIANT_FIELD_DESC);
+      this.variant.write(oprot);
       oprot.writeFieldEnd();
     }
     if (this.params != null) {
       oprot.writeFieldBegin(PARAMS_FIELD_DESC);
       {
         oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, this.params.size()));
-        for (Map.Entry<String, String> _iter4 : this.params.entrySet()) {
+        for (Map.Entry<String, String> _iter4 : this.params.entrySet())
+        {
           oprot.writeString(_iter4.getKey());
           oprot.writeString(_iter4.getValue());
         }
@@ -596,11 +589,11 @@ public class Credentials implements org.apache.thrift.TBase<Credentials, Credent
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("type:");
-    if (this.type == null) {
+    sb.append("variant:");
+    if (this.variant == null) {
       sb.append("null");
     } else {
-      sb.append(this.type);
+      sb.append(this.variant);
     }
     first = false;
     if (!first) sb.append(", ");

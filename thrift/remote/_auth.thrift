@@ -1,5 +1,15 @@
 namespace java everfeeds.remote.auth.thrift.util
 
+exception AuthMethodMismatch {
+  1: string msg;
+}
+exception AuthVariantUnknown {
+  1: string msg;
+}
+exception AuthFailed {
+  1: string msg;
+}
+
 enum AccessType {
   EVERNOTE = 1,
   FACEBOOK = 2,
@@ -12,7 +22,7 @@ enum AccessType {
 }
 
 enum AuthMethod {
-  OAUTH2,
+  OAUTH,
   BASIC,
 }
 
@@ -21,8 +31,10 @@ struct AuthVariant {
   2: AuthMethod method;
   3: AccessType type;
 }
+
 struct OAuthStep {
   1: string authUrl;
   2: string requestToken;
   3: string requestSecret;
+  10: AuthVariant variant;
 }

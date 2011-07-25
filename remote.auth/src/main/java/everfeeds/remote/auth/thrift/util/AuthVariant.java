@@ -5,38 +5,53 @@
  */
 package everfeeds.remote.auth.thrift.util;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVariant._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AuthVariant");
 
-  private static final org.apache.thrift.protocol.TField SYSTEM_FIELD_DESC = new org.apache.thrift.protocol.TField("system", org.apache.thrift.protocol.TType.STRING, (short) 1);
-  private static final org.apache.thrift.protocol.TField METHOD_FIELD_DESC = new org.apache.thrift.protocol.TField("method", org.apache.thrift.protocol.TType.I32, (short) 2);
-  private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short) 3);
+  private static final org.apache.thrift.protocol.TField SYSTEM_FIELD_DESC = new org.apache.thrift.protocol.TField("system", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField METHOD_FIELD_DESC = new org.apache.thrift.protocol.TField("method", org.apache.thrift.protocol.TType.I32, (short)2);
+  private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short)3);
 
   public String system;
   /**
+   * 
    * @see everfeeds.remote.auth.thrift.util.AuthMethod
    */
   public AuthMethod method;
   /**
+   * 
    * @see everfeeds.remote.auth.thrift.util.AccessType
    */
   public AccessType type;
 
-  /**
-   * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-   */
+  /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    SYSTEM((short) 1, "system"),
+    SYSTEM((short)1, "system"),
     /**
+     * 
      * @see everfeeds.remote.auth.thrift.util.AuthMethod
      */
-    METHOD((short) 2, "method"),
+    METHOD((short)2, "method"),
     /**
+     * 
      * @see everfeeds.remote.auth.thrift.util.AccessType
      */
-    TYPE((short) 3, "type");
+    TYPE((short)3, "type");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -50,7 +65,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
     public static _Fields findByThriftId(int fieldId) {
-      switch (fieldId) {
+      switch(fieldId) {
         case 1: // SYSTEM
           return SYSTEM;
         case 2: // METHOD
@@ -99,15 +114,14 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   // isset id assignments
 
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.SYSTEM, new org.apache.thrift.meta_data.FieldMetaData("system", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.METHOD, new org.apache.thrift.meta_data.FieldMetaData("method", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, AuthMethod.class)));
-    tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                              new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, AccessType.class)));
+    tmpMap.put(_Fields.SYSTEM, new org.apache.thrift.meta_data.FieldMetaData("system", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.METHOD, new org.apache.thrift.meta_data.FieldMetaData("method", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, AuthMethod.class)));
+    tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, AccessType.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthVariant.class, metaDataMap);
   }
@@ -116,9 +130,10 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   }
 
   public AuthVariant(
-                        String system,
-                        AuthMethod method,
-                        AccessType type) {
+    String system,
+    AuthMethod method,
+    AccessType type)
+  {
     this();
     this.system = system;
     this.method = method;
@@ -164,9 +179,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
     this.system = null;
   }
 
-  /**
-   * Returns true if field system is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field system is set (has been assigned a value) and false otherwise */
   public boolean isSetSystem() {
     return this.system != null;
   }
@@ -178,6 +191,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   }
 
   /**
+   * 
    * @see everfeeds.remote.auth.thrift.util.AuthMethod
    */
   public AuthMethod getMethod() {
@@ -185,6 +199,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   }
 
   /**
+   * 
    * @see everfeeds.remote.auth.thrift.util.AuthMethod
    */
   public AuthVariant setMethod(AuthMethod method) {
@@ -196,9 +211,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
     this.method = null;
   }
 
-  /**
-   * Returns true if field method is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field method is set (has been assigned a value) and false otherwise */
   public boolean isSetMethod() {
     return this.method != null;
   }
@@ -210,6 +223,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   }
 
   /**
+   * 
    * @see everfeeds.remote.auth.thrift.util.AccessType
    */
   public AccessType getType() {
@@ -217,6 +231,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   }
 
   /**
+   * 
    * @see everfeeds.remote.auth.thrift.util.AccessType
    */
   public AuthVariant setType(AccessType type) {
@@ -228,9 +243,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
     this.type = null;
   }
 
-  /**
-   * Returns true if field type is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field type is set (has been assigned a value) and false otherwise */
   public boolean isSetType() {
     return this.type != null;
   }
@@ -243,63 +256,61 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-      case SYSTEM:
-        if (value == null) {
-          unsetSystem();
-        } else {
-          setSystem((String) value);
-        }
-        break;
+    case SYSTEM:
+      if (value == null) {
+        unsetSystem();
+      } else {
+        setSystem((String)value);
+      }
+      break;
 
-      case METHOD:
-        if (value == null) {
-          unsetMethod();
-        } else {
-          setMethod((AuthMethod) value);
-        }
-        break;
+    case METHOD:
+      if (value == null) {
+        unsetMethod();
+      } else {
+        setMethod((AuthMethod)value);
+      }
+      break;
 
-      case TYPE:
-        if (value == null) {
-          unsetType();
-        } else {
-          setType((AccessType) value);
-        }
-        break;
+    case TYPE:
+      if (value == null) {
+        unsetType();
+      } else {
+        setType((AccessType)value);
+      }
+      break;
 
     }
   }
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-      case SYSTEM:
-        return getSystem();
+    case SYSTEM:
+      return getSystem();
 
-      case METHOD:
-        return getMethod();
+    case METHOD:
+      return getMethod();
 
-      case TYPE:
-        return getType();
+    case TYPE:
+      return getType();
 
     }
     throw new IllegalStateException();
   }
 
-  /**
-   * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-   */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
     }
 
     switch (field) {
-      case SYSTEM:
-        return isSetSystem();
-      case METHOD:
-        return isSetMethod();
-      case TYPE:
-        return isSetType();
+    case SYSTEM:
+      return isSetSystem();
+    case METHOD:
+      return isSetMethod();
+    case TYPE:
+      return isSetType();
     }
     throw new IllegalStateException();
   }
@@ -309,7 +320,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
     if (that == null)
       return false;
     if (that instanceof AuthVariant)
-      return this.equals((AuthVariant) that);
+      return this.equals((AuthVariant)that);
     return false;
   }
 
@@ -358,7 +369,7 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
     }
 
     int lastComparison = 0;
-    AuthVariant typedOther = (AuthVariant) other;
+    AuthVariant typedOther = (AuthVariant)other;
 
     lastComparison = Boolean.valueOf(isSetSystem()).compareTo(typedOther.isSetSystem());
     if (lastComparison != 0) {
@@ -400,30 +411,31 @@ public class AuthVariant implements org.apache.thrift.TBase<AuthVariant, AuthVar
   public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
     org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
-    while (true) {
+    while (true)
+    {
       field = iprot.readFieldBegin();
-      if (field.type == org.apache.thrift.protocol.TType.STOP) {
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // SYSTEM
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.system = iprot.readString();
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // METHOD
           if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.method = AuthMethod.findByValue(iprot.readI32());
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // TYPE
           if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.type = AccessType.findByValue(iprot.readI32());
-          } else {
+          } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;

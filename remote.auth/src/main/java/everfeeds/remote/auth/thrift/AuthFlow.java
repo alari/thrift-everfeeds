@@ -5,10 +5,20 @@
  */
 package everfeeds.remote.auth.thrift;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
 
 public class AuthFlow {
 
@@ -16,54 +26,55 @@ public class AuthFlow {
 
     public List<everfeeds.remote.auth.thrift.util.AuthVariant> listAuthVariants() throws org.apache.thrift.TException;
 
-    public boolean checkCredentials(Credentials credentials) throws org.apache.thrift.TException;
+    public boolean checkCredentials(Credentials credentials) throws everfeeds.remote.auth.thrift.util.AuthVariantUnknown, org.apache.thrift.TException;
 
-    public everfeeds.remote.auth.thrift.util.OAuthStep getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String redirectUrl) throws org.apache.thrift.TException;
+    public everfeeds.remote.auth.thrift.util.OAuthStep getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String callbackUrl) throws everfeeds.remote.auth.thrift.util.AuthMethodMismatch, everfeeds.remote.auth.thrift.util.AuthVariantUnknown, org.apache.thrift.TException;
 
-    public Credentials exchangeOAuthToken(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode) throws org.apache.thrift.TException;
+    public Credentials exchangeOAuthToken(everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode) throws everfeeds.remote.auth.thrift.util.AuthMethodMismatch, everfeeds.remote.auth.thrift.util.AuthVariantUnknown, everfeeds.remote.auth.thrift.util.AuthFailed, org.apache.thrift.TException;
 
   }
 
-  public interface AsyncIface extends everfeeds.remote.handshake.thrift.HandshakeFlow.AsyncIface {
+  public interface AsyncIface extends everfeeds.remote.handshake.thrift.HandshakeFlow .AsyncIface {
 
     public void listAuthVariants(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.listAuthVariants_call> resultHandler) throws org.apache.thrift.TException;
 
     public void checkCredentials(Credentials credentials, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.checkCredentials_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String redirectUrl, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getOAuthStep_call> resultHandler) throws org.apache.thrift.TException;
+    public void getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String callbackUrl, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getOAuthStep_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void exchangeOAuthToken(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.exchangeOAuthToken_call> resultHandler) throws org.apache.thrift.TException;
+    public void exchangeOAuthToken(everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.exchangeOAuthToken_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
   public static class Client extends everfeeds.remote.handshake.thrift.HandshakeFlow.Client implements org.apache.thrift.TServiceClient, Iface {
     public static class Factory implements org.apache.thrift.TServiceClientFactory<Client> {
-      public Factory() {
-      }
-
+      public Factory() {}
       public Client getClient(org.apache.thrift.protocol.TProtocol prot) {
         return new Client(prot);
       }
-
       public Client getClient(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) {
         return new Client(iprot, oprot);
       }
     }
 
-    public Client(org.apache.thrift.protocol.TProtocol prot) {
+    public Client(org.apache.thrift.protocol.TProtocol prot)
+    {
       this(prot, prot);
     }
 
-    public Client(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) {
+    public Client(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot)
+    {
       super(iprot, oprot);
     }
 
-    public List<everfeeds.remote.auth.thrift.util.AuthVariant> listAuthVariants() throws org.apache.thrift.TException {
+    public List<everfeeds.remote.auth.thrift.util.AuthVariant> listAuthVariants() throws org.apache.thrift.TException
+    {
       send_listAuthVariants();
       return recv_listAuthVariants();
     }
 
-    public void send_listAuthVariants() throws org.apache.thrift.TException {
+    public void send_listAuthVariants() throws org.apache.thrift.TException
+    {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listAuthVariants", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       listAuthVariants_args args = new listAuthVariants_args();
       args.write(oprot_);
@@ -71,7 +82,8 @@ public class AuthFlow {
       oprot_.getTransport().flush();
     }
 
-    public List<everfeeds.remote.auth.thrift.util.AuthVariant> recv_listAuthVariants() throws org.apache.thrift.TException {
+    public List<everfeeds.remote.auth.thrift.util.AuthVariant> recv_listAuthVariants() throws org.apache.thrift.TException
+    {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
         org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
@@ -90,12 +102,14 @@ public class AuthFlow {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "listAuthVariants failed: unknown result");
     }
 
-    public boolean checkCredentials(Credentials credentials) throws org.apache.thrift.TException {
+    public boolean checkCredentials(Credentials credentials) throws everfeeds.remote.auth.thrift.util.AuthVariantUnknown, org.apache.thrift.TException
+    {
       send_checkCredentials(credentials);
       return recv_checkCredentials();
     }
 
-    public void send_checkCredentials(Credentials credentials) throws org.apache.thrift.TException {
+    public void send_checkCredentials(Credentials credentials) throws org.apache.thrift.TException
+    {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("checkCredentials", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       checkCredentials_args args = new checkCredentials_args();
       args.setCredentials(credentials);
@@ -104,7 +118,8 @@ public class AuthFlow {
       oprot_.getTransport().flush();
     }
 
-    public boolean recv_checkCredentials() throws org.apache.thrift.TException {
+    public boolean recv_checkCredentials() throws everfeeds.remote.auth.thrift.util.AuthVariantUnknown, org.apache.thrift.TException
+    {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
         org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
@@ -120,25 +135,31 @@ public class AuthFlow {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "checkCredentials failed: unknown result");
     }
 
-    public everfeeds.remote.auth.thrift.util.OAuthStep getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String redirectUrl) throws org.apache.thrift.TException {
-      send_getOAuthStep(authVariant, redirectUrl);
+    public everfeeds.remote.auth.thrift.util.OAuthStep getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String callbackUrl) throws everfeeds.remote.auth.thrift.util.AuthMethodMismatch, everfeeds.remote.auth.thrift.util.AuthVariantUnknown, org.apache.thrift.TException
+    {
+      send_getOAuthStep(authVariant, callbackUrl);
       return recv_getOAuthStep();
     }
 
-    public void send_getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String redirectUrl) throws org.apache.thrift.TException {
+    public void send_getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String callbackUrl) throws org.apache.thrift.TException
+    {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getOAuthStep", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getOAuthStep_args args = new getOAuthStep_args();
       args.setAuthVariant(authVariant);
-      args.setRedirectUrl(redirectUrl);
+      args.setCallbackUrl(callbackUrl);
       args.write(oprot_);
       oprot_.writeMessageEnd();
       oprot_.getTransport().flush();
     }
 
-    public everfeeds.remote.auth.thrift.util.OAuthStep recv_getOAuthStep() throws org.apache.thrift.TException {
+    public everfeeds.remote.auth.thrift.util.OAuthStep recv_getOAuthStep() throws everfeeds.remote.auth.thrift.util.AuthMethodMismatch, everfeeds.remote.auth.thrift.util.AuthVariantUnknown, org.apache.thrift.TException
+    {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
         org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
@@ -154,18 +175,25 @@ public class AuthFlow {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.mMismatch != null) {
+        throw result.mMismatch;
+      }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getOAuthStep failed: unknown result");
     }
 
-    public Credentials exchangeOAuthToken(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode) throws org.apache.thrift.TException {
-      send_exchangeOAuthToken(authVariant, oAuthStep, verifierCode);
+    public Credentials exchangeOAuthToken(everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode) throws everfeeds.remote.auth.thrift.util.AuthMethodMismatch, everfeeds.remote.auth.thrift.util.AuthVariantUnknown, everfeeds.remote.auth.thrift.util.AuthFailed, org.apache.thrift.TException
+    {
+      send_exchangeOAuthToken(oAuthStep, verifierCode);
       return recv_exchangeOAuthToken();
     }
 
-    public void send_exchangeOAuthToken(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode) throws org.apache.thrift.TException {
+    public void send_exchangeOAuthToken(everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode) throws org.apache.thrift.TException
+    {
       oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("exchangeOAuthToken", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       exchangeOAuthToken_args args = new exchangeOAuthToken_args();
-      args.setAuthVariant(authVariant);
       args.setOAuthStep(oAuthStep);
       args.setVerifierCode(verifierCode);
       args.write(oprot_);
@@ -173,7 +201,8 @@ public class AuthFlow {
       oprot_.getTransport().flush();
     }
 
-    public Credentials recv_exchangeOAuthToken() throws org.apache.thrift.TException {
+    public Credentials recv_exchangeOAuthToken() throws everfeeds.remote.auth.thrift.util.AuthMethodMismatch, everfeeds.remote.auth.thrift.util.AuthVariantUnknown, everfeeds.remote.auth.thrift.util.AuthFailed, org.apache.thrift.TException
+    {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
         org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
@@ -189,21 +218,27 @@ public class AuthFlow {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.mMismatch != null) {
+        throw result.mMismatch;
+      }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
+      }
+      if (result.aFailed != null) {
+        throw result.aFailed;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "exchangeOAuthToken failed: unknown result");
     }
 
   }
-
   public static class AsyncClient extends everfeeds.remote.handshake.thrift.HandshakeFlow.AsyncClient implements AsyncIface {
     public static class Factory implements org.apache.thrift.async.TAsyncClientFactory<AsyncClient> {
       private org.apache.thrift.async.TAsyncClientManager clientManager;
       private org.apache.thrift.protocol.TProtocolFactory protocolFactory;
-
       public Factory(org.apache.thrift.async.TAsyncClientManager clientManager, org.apache.thrift.protocol.TProtocolFactory protocolFactory) {
         this.clientManager = clientManager;
         this.protocolFactory = protocolFactory;
       }
-
       public AsyncClient getAsyncClient(org.apache.thrift.transport.TNonblockingTransport transport) {
         return new AsyncClient(protocolFactory, clientManager, transport);
       }
@@ -251,7 +286,6 @@ public class AuthFlow {
 
     public static class checkCredentials_call extends org.apache.thrift.async.TAsyncMethodCall {
       private Credentials credentials;
-
       public checkCredentials_call(Credentials credentials, org.apache.thrift.async.AsyncMethodCallback<checkCredentials_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.credentials = credentials;
@@ -265,7 +299,7 @@ public class AuthFlow {
         prot.writeMessageEnd();
       }
 
-      public boolean getResult() throws org.apache.thrift.TException {
+      public boolean getResult() throws everfeeds.remote.auth.thrift.util.AuthVariantUnknown, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -275,33 +309,32 @@ public class AuthFlow {
       }
     }
 
-    public void getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String redirectUrl, org.apache.thrift.async.AsyncMethodCallback<getOAuthStep_call> resultHandler) throws org.apache.thrift.TException {
+    public void getOAuthStep(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String callbackUrl, org.apache.thrift.async.AsyncMethodCallback<getOAuthStep_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      getOAuthStep_call method_call = new getOAuthStep_call(authVariant, redirectUrl, resultHandler, this, protocolFactory, transport);
+      getOAuthStep_call method_call = new getOAuthStep_call(authVariant, callbackUrl, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
 
     public static class getOAuthStep_call extends org.apache.thrift.async.TAsyncMethodCall {
       private everfeeds.remote.auth.thrift.util.AuthVariant authVariant;
-      private String redirectUrl;
-
-      public getOAuthStep_call(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String redirectUrl, org.apache.thrift.async.AsyncMethodCallback<getOAuthStep_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private String callbackUrl;
+      public getOAuthStep_call(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, String callbackUrl, org.apache.thrift.async.AsyncMethodCallback<getOAuthStep_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.authVariant = authVariant;
-        this.redirectUrl = redirectUrl;
+        this.callbackUrl = callbackUrl;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getOAuthStep", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getOAuthStep_args args = new getOAuthStep_args();
         args.setAuthVariant(authVariant);
-        args.setRedirectUrl(redirectUrl);
+        args.setCallbackUrl(callbackUrl);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public everfeeds.remote.auth.thrift.util.OAuthStep getResult() throws org.apache.thrift.TException {
+      public everfeeds.remote.auth.thrift.util.OAuthStep getResult() throws everfeeds.remote.auth.thrift.util.AuthMethodMismatch, everfeeds.remote.auth.thrift.util.AuthVariantUnknown, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -311,21 +344,18 @@ public class AuthFlow {
       }
     }
 
-    public void exchangeOAuthToken(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode, org.apache.thrift.async.AsyncMethodCallback<exchangeOAuthToken_call> resultHandler) throws org.apache.thrift.TException {
+    public void exchangeOAuthToken(everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode, org.apache.thrift.async.AsyncMethodCallback<exchangeOAuthToken_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      exchangeOAuthToken_call method_call = new exchangeOAuthToken_call(authVariant, oAuthStep, verifierCode, resultHandler, this, protocolFactory, transport);
+      exchangeOAuthToken_call method_call = new exchangeOAuthToken_call(oAuthStep, verifierCode, resultHandler, this, protocolFactory, transport);
       this.currentMethod = method_call;
       manager.call(method_call);
     }
 
     public static class exchangeOAuthToken_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private everfeeds.remote.auth.thrift.util.AuthVariant authVariant;
       private everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep;
       private String verifierCode;
-
-      public exchangeOAuthToken_call(everfeeds.remote.auth.thrift.util.AuthVariant authVariant, everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode, org.apache.thrift.async.AsyncMethodCallback<exchangeOAuthToken_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public exchangeOAuthToken_call(everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep, String verifierCode, org.apache.thrift.async.AsyncMethodCallback<exchangeOAuthToken_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.authVariant = authVariant;
         this.oAuthStep = oAuthStep;
         this.verifierCode = verifierCode;
       }
@@ -333,14 +363,13 @@ public class AuthFlow {
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("exchangeOAuthToken", org.apache.thrift.protocol.TMessageType.CALL, 0));
         exchangeOAuthToken_args args = new exchangeOAuthToken_args();
-        args.setAuthVariant(authVariant);
         args.setOAuthStep(oAuthStep);
         args.setVerifierCode(verifierCode);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public Credentials getResult() throws org.apache.thrift.TException {
+      public Credentials getResult() throws everfeeds.remote.auth.thrift.util.AuthMethodMismatch, everfeeds.remote.auth.thrift.util.AuthVariantUnknown, everfeeds.remote.auth.thrift.util.AuthFailed, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -354,8 +383,8 @@ public class AuthFlow {
 
   public static class Processor extends everfeeds.remote.handshake.thrift.HandshakeFlow.Processor implements org.apache.thrift.TProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class.getName());
-
-    public Processor(Iface iface) {
+    public Processor(Iface iface)
+    {
       super(iface);
       iface_ = iface;
       processMap_.put("listAuthVariants", new listAuthVariants());
@@ -366,13 +395,14 @@ public class AuthFlow {
 
     private Iface iface_;
 
-    public boolean process(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+    public boolean process(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
+    {
       org.apache.thrift.protocol.TMessage msg = iprot.readMessageBegin();
       ProcessFunction fn = processMap_.get(msg.name);
       if (fn == null) {
         org.apache.thrift.protocol.TProtocolUtil.skip(iprot, org.apache.thrift.protocol.TType.STRUCT);
         iprot.readMessageEnd();
-        org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.UNKNOWN_METHOD, "Invalid method name: '" + msg.name + "'");
+        org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.UNKNOWN_METHOD, "Invalid method name: '"+msg.name+"'");
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage(msg.name, org.apache.thrift.protocol.TMessageType.EXCEPTION, msg.seqid));
         x.write(oprot);
         oprot.writeMessageEnd();
@@ -384,7 +414,8 @@ public class AuthFlow {
     }
 
     private class listAuthVariants implements ProcessFunction {
-      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
+      {
         listAuthVariants_args args = new listAuthVariants_args();
         try {
           args.read(iprot);
@@ -409,7 +440,8 @@ public class AuthFlow {
     }
 
     private class checkCredentials implements ProcessFunction {
-      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
+      {
         checkCredentials_args args = new checkCredentials_args();
         try {
           args.read(iprot);
@@ -424,8 +456,20 @@ public class AuthFlow {
         }
         iprot.readMessageEnd();
         checkCredentials_result result = new checkCredentials_result();
-        result.success = iface_.checkCredentials(args.credentials);
-        result.setSuccessIsSet(true);
+        try {
+          result.success = iface_.checkCredentials(args.credentials);
+          result.setSuccessIsSet(true);
+        } catch (everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing checkCredentials", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing checkCredentials");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("checkCredentials", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("checkCredentials", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -435,7 +479,8 @@ public class AuthFlow {
     }
 
     private class getOAuthStep implements ProcessFunction {
-      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
+      {
         getOAuthStep_args args = new getOAuthStep_args();
         try {
           args.read(iprot);
@@ -450,7 +495,21 @@ public class AuthFlow {
         }
         iprot.readMessageEnd();
         getOAuthStep_result result = new getOAuthStep_result();
-        result.success = iface_.getOAuthStep(args.authVariant, args.redirectUrl);
+        try {
+          result.success = iface_.getOAuthStep(args.authVariant, args.callbackUrl);
+        } catch (everfeeds.remote.auth.thrift.util.AuthMethodMismatch mMismatch) {
+          result.mMismatch = mMismatch;
+        } catch (everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getOAuthStep", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getOAuthStep");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getOAuthStep", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getOAuthStep", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -460,7 +519,8 @@ public class AuthFlow {
     }
 
     private class exchangeOAuthToken implements ProcessFunction {
-      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
+      {
         exchangeOAuthToken_args args = new exchangeOAuthToken_args();
         try {
           args.read(iprot);
@@ -475,7 +535,23 @@ public class AuthFlow {
         }
         iprot.readMessageEnd();
         exchangeOAuthToken_result result = new exchangeOAuthToken_result();
-        result.success = iface_.exchangeOAuthToken(args.authVariant, args.oAuthStep, args.verifierCode);
+        try {
+          result.success = iface_.exchangeOAuthToken(args.oAuthStep, args.verifierCode);
+        } catch (everfeeds.remote.auth.thrift.util.AuthMethodMismatch mMismatch) {
+          result.mMismatch = mMismatch;
+        } catch (everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (everfeeds.remote.auth.thrift.util.AuthFailed aFailed) {
+          result.aFailed = aFailed;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing exchangeOAuthToken", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing exchangeOAuthToken");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("exchangeOAuthToken", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("exchangeOAuthToken", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -486,15 +562,14 @@ public class AuthFlow {
 
   }
 
-  public static class listAuthVariants_args implements org.apache.thrift.TBase<listAuthVariants_args, listAuthVariants_args._Fields>, java.io.Serializable, Cloneable {
+  public static class listAuthVariants_args implements org.apache.thrift.TBase<listAuthVariants_args, listAuthVariants_args._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("listAuthVariants_args");
 
 
-    /**
-     * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-     */
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      ;
+;
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -508,7 +583,7 @@ public class AuthFlow {
        * Find the _Fields constant that matches fieldId, or null if its not found.
        */
       public static _Fields findByThriftId(int fieldId) {
-        switch (fieldId) {
+        switch(fieldId) {
           default:
             return null;
         }
@@ -547,9 +622,7 @@ public class AuthFlow {
         return _fieldName;
       }
     }
-
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       metaDataMap = Collections.unmodifiableMap(tmpMap);
@@ -584,9 +657,7 @@ public class AuthFlow {
       throw new IllegalStateException();
     }
 
-    /**
-     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -602,7 +673,7 @@ public class AuthFlow {
       if (that == null)
         return false;
       if (that instanceof listAuthVariants_args)
-        return this.equals((listAuthVariants_args) that);
+        return this.equals((listAuthVariants_args)that);
       return false;
     }
 
@@ -624,7 +695,7 @@ public class AuthFlow {
       }
 
       int lastComparison = 0;
-      listAuthVariants_args typedOther = (listAuthVariants_args) other;
+      listAuthVariants_args typedOther = (listAuthVariants_args)other;
 
       return 0;
     }
@@ -636,9 +707,10 @@ public class AuthFlow {
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
-      while (true) {
+      while (true)
+      {
         field = iprot.readFieldBegin();
-        if (field.type == org.apache.thrift.protocol.TType.STOP) {
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
@@ -692,18 +764,16 @@ public class AuthFlow {
 
   }
 
-  public static class listAuthVariants_result implements org.apache.thrift.TBase<listAuthVariants_result, listAuthVariants_result._Fields>, java.io.Serializable, Cloneable {
+  public static class listAuthVariants_result implements org.apache.thrift.TBase<listAuthVariants_result, listAuthVariants_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("listAuthVariants_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short) 0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
 
     public List<everfeeds.remote.auth.thrift.util.AuthVariant> success;
 
-    /**
-     * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-     */
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short) 0, "success");
+      SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -717,7 +787,7 @@ public class AuthFlow {
        * Find the _Fields constant that matches fieldId, or null if its not found.
        */
       public static _Fields findByThriftId(int fieldId) {
-        switch (fieldId) {
+        switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
           default:
@@ -762,12 +832,11 @@ public class AuthFlow {
     // isset id assignments
 
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                   new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST,
-                                                                                                                                   new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.AuthVariant.class))));
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.AuthVariant.class))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(listAuthVariants_result.class, metaDataMap);
     }
@@ -776,7 +845,8 @@ public class AuthFlow {
     }
 
     public listAuthVariants_result(
-                                      List<everfeeds.remote.auth.thrift.util.AuthVariant> success) {
+      List<everfeeds.remote.auth.thrift.util.AuthVariant> success)
+    {
       this();
       this.success = success;
     }
@@ -831,9 +901,7 @@ public class AuthFlow {
       this.success = null;
     }
 
-    /**
-     * Returns true if field success is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -846,37 +914,35 @@ public class AuthFlow {
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-        case SUCCESS:
-          if (value == null) {
-            unsetSuccess();
-          } else {
-            setSuccess((List<everfeeds.remote.auth.thrift.util.AuthVariant>) value);
-          }
-          break;
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((List<everfeeds.remote.auth.thrift.util.AuthVariant>)value);
+        }
+        break;
 
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-        case SUCCESS:
-          return getSuccess();
+      case SUCCESS:
+        return getSuccess();
 
       }
       throw new IllegalStateException();
     }
 
-    /**
-     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
       }
 
       switch (field) {
-        case SUCCESS:
-          return isSetSuccess();
+      case SUCCESS:
+        return isSetSuccess();
       }
       throw new IllegalStateException();
     }
@@ -886,7 +952,7 @@ public class AuthFlow {
       if (that == null)
         return false;
       if (that instanceof listAuthVariants_result)
-        return this.equals((listAuthVariants_result) that);
+        return this.equals((listAuthVariants_result)that);
       return false;
     }
 
@@ -917,7 +983,7 @@ public class AuthFlow {
       }
 
       int lastComparison = 0;
-      listAuthVariants_result typedOther = (listAuthVariants_result) other;
+      listAuthVariants_result typedOther = (listAuthVariants_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
@@ -939,9 +1005,10 @@ public class AuthFlow {
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
-      while (true) {
+      while (true)
+      {
         field = iprot.readFieldBegin();
-        if (field.type == org.apache.thrift.protocol.TType.STOP) {
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
@@ -950,7 +1017,8 @@ public class AuthFlow {
               {
                 org.apache.thrift.protocol.TList _list5 = iprot.readListBegin();
                 this.success = new ArrayList<everfeeds.remote.auth.thrift.util.AuthVariant>(_list5.size);
-                for (int _i6 = 0; _i6 < _list5.size; ++_i6) {
+                for (int _i6 = 0; _i6 < _list5.size; ++_i6)
+                {
                   everfeeds.remote.auth.thrift.util.AuthVariant _elem7;
                   _elem7 = new everfeeds.remote.auth.thrift.util.AuthVariant();
                   _elem7.read(iprot);
@@ -958,7 +1026,7 @@ public class AuthFlow {
                 }
                 iprot.readListEnd();
               }
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
@@ -980,7 +1048,8 @@ public class AuthFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (everfeeds.remote.auth.thrift.util.AuthVariant _iter8 : this.success) {
+          for (everfeeds.remote.auth.thrift.util.AuthVariant _iter8 : this.success)
+          {
             _iter8.write(oprot);
           }
           oprot.writeListEnd();
@@ -1029,18 +1098,16 @@ public class AuthFlow {
 
   }
 
-  public static class checkCredentials_args implements org.apache.thrift.TBase<checkCredentials_args, checkCredentials_args._Fields>, java.io.Serializable, Cloneable {
+  public static class checkCredentials_args implements org.apache.thrift.TBase<checkCredentials_args, checkCredentials_args._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("checkCredentials_args");
 
-    private static final org.apache.thrift.protocol.TField CREDENTIALS_FIELD_DESC = new org.apache.thrift.protocol.TField("credentials", org.apache.thrift.protocol.TType.STRUCT, (short) 1);
+    private static final org.apache.thrift.protocol.TField CREDENTIALS_FIELD_DESC = new org.apache.thrift.protocol.TField("credentials", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public Credentials credentials;
 
-    /**
-     * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-     */
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CREDENTIALS((short) 1, "credentials");
+      CREDENTIALS((short)1, "credentials");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1054,7 +1121,7 @@ public class AuthFlow {
        * Find the _Fields constant that matches fieldId, or null if its not found.
        */
       public static _Fields findByThriftId(int fieldId) {
-        switch (fieldId) {
+        switch(fieldId) {
           case 1: // CREDENTIALS
             return CREDENTIALS;
           default:
@@ -1099,11 +1166,10 @@ public class AuthFlow {
     // isset id assignments
 
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CREDENTIALS, new org.apache.thrift.meta_data.FieldMetaData("credentials", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                       new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Credentials.class)));
+      tmpMap.put(_Fields.CREDENTIALS, new org.apache.thrift.meta_data.FieldMetaData("credentials", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Credentials.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(checkCredentials_args.class, metaDataMap);
     }
@@ -1112,7 +1178,8 @@ public class AuthFlow {
     }
 
     public checkCredentials_args(
-                                    Credentials credentials) {
+      Credentials credentials)
+    {
       this();
       this.credentials = credentials;
     }
@@ -1148,9 +1215,7 @@ public class AuthFlow {
       this.credentials = null;
     }
 
-    /**
-     * Returns true if field credentials is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field credentials is set (has been assigned a value) and false otherwise */
     public boolean isSetCredentials() {
       return this.credentials != null;
     }
@@ -1163,37 +1228,35 @@ public class AuthFlow {
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-        case CREDENTIALS:
-          if (value == null) {
-            unsetCredentials();
-          } else {
-            setCredentials((Credentials) value);
-          }
-          break;
+      case CREDENTIALS:
+        if (value == null) {
+          unsetCredentials();
+        } else {
+          setCredentials((Credentials)value);
+        }
+        break;
 
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-        case CREDENTIALS:
-          return getCredentials();
+      case CREDENTIALS:
+        return getCredentials();
 
       }
       throw new IllegalStateException();
     }
 
-    /**
-     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
       }
 
       switch (field) {
-        case CREDENTIALS:
-          return isSetCredentials();
+      case CREDENTIALS:
+        return isSetCredentials();
       }
       throw new IllegalStateException();
     }
@@ -1203,7 +1266,7 @@ public class AuthFlow {
       if (that == null)
         return false;
       if (that instanceof checkCredentials_args)
-        return this.equals((checkCredentials_args) that);
+        return this.equals((checkCredentials_args)that);
       return false;
     }
 
@@ -1234,7 +1297,7 @@ public class AuthFlow {
       }
 
       int lastComparison = 0;
-      checkCredentials_args typedOther = (checkCredentials_args) other;
+      checkCredentials_args typedOther = (checkCredentials_args)other;
 
       lastComparison = Boolean.valueOf(isSetCredentials()).compareTo(typedOther.isSetCredentials());
       if (lastComparison != 0) {
@@ -1256,9 +1319,10 @@ public class AuthFlow {
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
-      while (true) {
+      while (true)
+      {
         field = iprot.readFieldBegin();
-        if (field.type == org.apache.thrift.protocol.TType.STOP) {
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
@@ -1266,7 +1330,7 @@ public class AuthFlow {
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.credentials = new Credentials();
               this.credentials.read(iprot);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
@@ -1332,18 +1396,19 @@ public class AuthFlow {
 
   }
 
-  public static class checkCredentials_result implements org.apache.thrift.TBase<checkCredentials_result, checkCredentials_result._Fields>, java.io.Serializable, Cloneable {
+  public static class checkCredentials_result implements org.apache.thrift.TBase<checkCredentials_result, checkCredentials_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("checkCredentials_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short) 0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public boolean success;
+    public everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown;
 
-    /**
-     * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-     */
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short) 0, "success");
+      SUCCESS((short)0, "success"),
+      A_UNKNOWN((short)2, "aUnknown");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1357,9 +1422,11 @@ public class AuthFlow {
        * Find the _Fields constant that matches fieldId, or null if its not found.
        */
       public static _Fields findByThriftId(int fieldId) {
-        switch (fieldId) {
+        switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 2: // A_UNKNOWN
+            return A_UNKNOWN;
           default:
             return null;
         }
@@ -1404,11 +1471,12 @@ public class AuthFlow {
     private BitSet __isset_bit_vector = new BitSet(1);
 
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                   new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(checkCredentials_result.class, metaDataMap);
     }
@@ -1417,10 +1485,13 @@ public class AuthFlow {
     }
 
     public checkCredentials_result(
-                                      boolean success) {
+      boolean success,
+      everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown)
+    {
       this();
       this.success = success;
       setSuccessIsSet(true);
+      this.aUnknown = aUnknown;
     }
 
     /**
@@ -1430,6 +1501,9 @@ public class AuthFlow {
       __isset_bit_vector.clear();
       __isset_bit_vector.or(other.__isset_bit_vector);
       this.success = other.success;
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.util.AuthVariantUnknown(other.aUnknown);
+      }
     }
 
     public checkCredentials_result deepCopy() {
@@ -1440,6 +1514,7 @@ public class AuthFlow {
     public void clear() {
       setSuccessIsSet(false);
       this.success = false;
+      this.aUnknown = null;
     }
 
     public boolean isSuccess() {
@@ -1456,9 +1531,7 @@ public class AuthFlow {
       __isset_bit_vector.clear(__SUCCESS_ISSET_ID);
     }
 
-    /**
-     * Returns true if field success is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return __isset_bit_vector.get(__SUCCESS_ISSET_ID);
     }
@@ -1467,39 +1540,74 @@ public class AuthFlow {
       __isset_bit_vector.set(__SUCCESS_ISSET_ID, value);
     }
 
+    public everfeeds.remote.auth.thrift.util.AuthVariantUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public checkCredentials_result setAUnknown(everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-        case SUCCESS:
-          if (value == null) {
-            unsetSuccess();
-          } else {
-            setSuccess((Boolean) value);
-          }
-          break;
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Boolean)value);
+        }
+        break;
+
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.util.AuthVariantUnknown)value);
+        }
+        break;
 
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-        case SUCCESS:
-          return new Boolean(isSuccess());
+      case SUCCESS:
+        return new Boolean(isSuccess());
+
+      case A_UNKNOWN:
+        return getAUnknown();
 
       }
       throw new IllegalStateException();
     }
 
-    /**
-     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
       }
 
       switch (field) {
-        case SUCCESS:
-          return isSetSuccess();
+      case SUCCESS:
+        return isSetSuccess();
+      case A_UNKNOWN:
+        return isSetAUnknown();
       }
       throw new IllegalStateException();
     }
@@ -1509,7 +1617,7 @@ public class AuthFlow {
       if (that == null)
         return false;
       if (that instanceof checkCredentials_result)
-        return this.equals((checkCredentials_result) that);
+        return this.equals((checkCredentials_result)that);
       return false;
     }
 
@@ -1523,6 +1631,15 @@ public class AuthFlow {
         if (!(this_present_success && that_present_success))
           return false;
         if (this.success != that.success)
+          return false;
+      }
+
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
           return false;
       }
 
@@ -1540,7 +1657,7 @@ public class AuthFlow {
       }
 
       int lastComparison = 0;
-      checkCredentials_result typedOther = (checkCredentials_result) other;
+      checkCredentials_result typedOther = (checkCredentials_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
@@ -1548,6 +1665,16 @@ public class AuthFlow {
       }
       if (isSetSuccess()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1562,9 +1689,10 @@ public class AuthFlow {
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
-      while (true) {
+      while (true)
+      {
         field = iprot.readFieldBegin();
-        if (field.type == org.apache.thrift.protocol.TType.STOP) {
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
@@ -1572,7 +1700,15 @@ public class AuthFlow {
             if (field.type == org.apache.thrift.protocol.TType.BOOL) {
               this.success = iprot.readBool();
               setSuccessIsSet(true);
-            } else {
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.util.AuthVariantUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
@@ -1594,6 +1730,10 @@ public class AuthFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         oprot.writeBool(this.success);
         oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -1606,6 +1746,14 @@ public class AuthFlow {
 
       sb.append("success:");
       sb.append(this.success);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
+      }
       first = false;
       sb.append(")");
       return sb.toString();
@@ -1633,21 +1781,19 @@ public class AuthFlow {
 
   }
 
-  public static class getOAuthStep_args implements org.apache.thrift.TBase<getOAuthStep_args, getOAuthStep_args._Fields>, java.io.Serializable, Cloneable {
+  public static class getOAuthStep_args implements org.apache.thrift.TBase<getOAuthStep_args, getOAuthStep_args._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getOAuthStep_args");
 
-    private static final org.apache.thrift.protocol.TField AUTH_VARIANT_FIELD_DESC = new org.apache.thrift.protocol.TField("authVariant", org.apache.thrift.protocol.TType.STRUCT, (short) 1);
-    private static final org.apache.thrift.protocol.TField REDIRECT_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("redirectUrl", org.apache.thrift.protocol.TType.STRING, (short) 2);
+    private static final org.apache.thrift.protocol.TField AUTH_VARIANT_FIELD_DESC = new org.apache.thrift.protocol.TField("authVariant", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField CALLBACK_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("callbackUrl", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     public everfeeds.remote.auth.thrift.util.AuthVariant authVariant;
-    public String redirectUrl;
+    public String callbackUrl;
 
-    /**
-     * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-     */
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      AUTH_VARIANT((short) 1, "authVariant"),
-      REDIRECT_URL((short) 2, "redirectUrl");
+      AUTH_VARIANT((short)1, "authVariant"),
+      CALLBACK_URL((short)2, "callbackUrl");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1661,11 +1807,11 @@ public class AuthFlow {
        * Find the _Fields constant that matches fieldId, or null if its not found.
        */
       public static _Fields findByThriftId(int fieldId) {
-        switch (fieldId) {
+        switch(fieldId) {
           case 1: // AUTH_VARIANT
             return AUTH_VARIANT;
-          case 2: // REDIRECT_URL
-            return REDIRECT_URL;
+          case 2: // CALLBACK_URL
+            return CALLBACK_URL;
           default:
             return null;
         }
@@ -1708,13 +1854,12 @@ public class AuthFlow {
     // isset id assignments
 
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.AUTH_VARIANT, new org.apache.thrift.meta_data.FieldMetaData("authVariant", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.AuthVariant.class)));
-      tmpMap.put(_Fields.REDIRECT_URL, new org.apache.thrift.meta_data.FieldMetaData("redirectUrl", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.AUTH_VARIANT, new org.apache.thrift.meta_data.FieldMetaData("authVariant", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.AuthVariant.class)));
+      tmpMap.put(_Fields.CALLBACK_URL, new org.apache.thrift.meta_data.FieldMetaData("callbackUrl", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getOAuthStep_args.class, metaDataMap);
     }
@@ -1723,11 +1868,12 @@ public class AuthFlow {
     }
 
     public getOAuthStep_args(
-                                everfeeds.remote.auth.thrift.util.AuthVariant authVariant,
-                                String redirectUrl) {
+      everfeeds.remote.auth.thrift.util.AuthVariant authVariant,
+      String callbackUrl)
+    {
       this();
       this.authVariant = authVariant;
-      this.redirectUrl = redirectUrl;
+      this.callbackUrl = callbackUrl;
     }
 
     /**
@@ -1737,8 +1883,8 @@ public class AuthFlow {
       if (other.isSetAuthVariant()) {
         this.authVariant = new everfeeds.remote.auth.thrift.util.AuthVariant(other.authVariant);
       }
-      if (other.isSetRedirectUrl()) {
-        this.redirectUrl = other.redirectUrl;
+      if (other.isSetCallbackUrl()) {
+        this.callbackUrl = other.callbackUrl;
       }
     }
 
@@ -1749,7 +1895,7 @@ public class AuthFlow {
     @Override
     public void clear() {
       this.authVariant = null;
-      this.redirectUrl = null;
+      this.callbackUrl = null;
     }
 
     public everfeeds.remote.auth.thrift.util.AuthVariant getAuthVariant() {
@@ -1765,9 +1911,7 @@ public class AuthFlow {
       this.authVariant = null;
     }
 
-    /**
-     * Returns true if field authVariant is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field authVariant is set (has been assigned a value) and false otherwise */
     public boolean isSetAuthVariant() {
       return this.authVariant != null;
     }
@@ -1778,78 +1922,74 @@ public class AuthFlow {
       }
     }
 
-    public String getRedirectUrl() {
-      return this.redirectUrl;
+    public String getCallbackUrl() {
+      return this.callbackUrl;
     }
 
-    public getOAuthStep_args setRedirectUrl(String redirectUrl) {
-      this.redirectUrl = redirectUrl;
+    public getOAuthStep_args setCallbackUrl(String callbackUrl) {
+      this.callbackUrl = callbackUrl;
       return this;
     }
 
-    public void unsetRedirectUrl() {
-      this.redirectUrl = null;
+    public void unsetCallbackUrl() {
+      this.callbackUrl = null;
     }
 
-    /**
-     * Returns true if field redirectUrl is set (has been assigned a value) and false otherwise
-     */
-    public boolean isSetRedirectUrl() {
-      return this.redirectUrl != null;
+    /** Returns true if field callbackUrl is set (has been assigned a value) and false otherwise */
+    public boolean isSetCallbackUrl() {
+      return this.callbackUrl != null;
     }
 
-    public void setRedirectUrlIsSet(boolean value) {
+    public void setCallbackUrlIsSet(boolean value) {
       if (!value) {
-        this.redirectUrl = null;
+        this.callbackUrl = null;
       }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-        case AUTH_VARIANT:
-          if (value == null) {
-            unsetAuthVariant();
-          } else {
-            setAuthVariant((everfeeds.remote.auth.thrift.util.AuthVariant) value);
-          }
-          break;
+      case AUTH_VARIANT:
+        if (value == null) {
+          unsetAuthVariant();
+        } else {
+          setAuthVariant((everfeeds.remote.auth.thrift.util.AuthVariant)value);
+        }
+        break;
 
-        case REDIRECT_URL:
-          if (value == null) {
-            unsetRedirectUrl();
-          } else {
-            setRedirectUrl((String) value);
-          }
-          break;
+      case CALLBACK_URL:
+        if (value == null) {
+          unsetCallbackUrl();
+        } else {
+          setCallbackUrl((String)value);
+        }
+        break;
 
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-        case AUTH_VARIANT:
-          return getAuthVariant();
+      case AUTH_VARIANT:
+        return getAuthVariant();
 
-        case REDIRECT_URL:
-          return getRedirectUrl();
+      case CALLBACK_URL:
+        return getCallbackUrl();
 
       }
       throw new IllegalStateException();
     }
 
-    /**
-     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
       }
 
       switch (field) {
-        case AUTH_VARIANT:
-          return isSetAuthVariant();
-        case REDIRECT_URL:
-          return isSetRedirectUrl();
+      case AUTH_VARIANT:
+        return isSetAuthVariant();
+      case CALLBACK_URL:
+        return isSetCallbackUrl();
       }
       throw new IllegalStateException();
     }
@@ -1859,7 +1999,7 @@ public class AuthFlow {
       if (that == null)
         return false;
       if (that instanceof getOAuthStep_args)
-        return this.equals((getOAuthStep_args) that);
+        return this.equals((getOAuthStep_args)that);
       return false;
     }
 
@@ -1876,12 +2016,12 @@ public class AuthFlow {
           return false;
       }
 
-      boolean this_present_redirectUrl = true && this.isSetRedirectUrl();
-      boolean that_present_redirectUrl = true && that.isSetRedirectUrl();
-      if (this_present_redirectUrl || that_present_redirectUrl) {
-        if (!(this_present_redirectUrl && that_present_redirectUrl))
+      boolean this_present_callbackUrl = true && this.isSetCallbackUrl();
+      boolean that_present_callbackUrl = true && that.isSetCallbackUrl();
+      if (this_present_callbackUrl || that_present_callbackUrl) {
+        if (!(this_present_callbackUrl && that_present_callbackUrl))
           return false;
-        if (!this.redirectUrl.equals(that.redirectUrl))
+        if (!this.callbackUrl.equals(that.callbackUrl))
           return false;
       }
 
@@ -1899,7 +2039,7 @@ public class AuthFlow {
       }
 
       int lastComparison = 0;
-      getOAuthStep_args typedOther = (getOAuthStep_args) other;
+      getOAuthStep_args typedOther = (getOAuthStep_args)other;
 
       lastComparison = Boolean.valueOf(isSetAuthVariant()).compareTo(typedOther.isSetAuthVariant());
       if (lastComparison != 0) {
@@ -1911,12 +2051,12 @@ public class AuthFlow {
           return lastComparison;
         }
       }
-      lastComparison = Boolean.valueOf(isSetRedirectUrl()).compareTo(typedOther.isSetRedirectUrl());
+      lastComparison = Boolean.valueOf(isSetCallbackUrl()).compareTo(typedOther.isSetCallbackUrl());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetRedirectUrl()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.redirectUrl, typedOther.redirectUrl);
+      if (isSetCallbackUrl()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.callbackUrl, typedOther.callbackUrl);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1931,9 +2071,10 @@ public class AuthFlow {
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
-      while (true) {
+      while (true)
+      {
         field = iprot.readFieldBegin();
-        if (field.type == org.apache.thrift.protocol.TType.STOP) {
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
@@ -1941,14 +2082,14 @@ public class AuthFlow {
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.authVariant = new everfeeds.remote.auth.thrift.util.AuthVariant();
               this.authVariant.read(iprot);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 2: // REDIRECT_URL
+          case 2: // CALLBACK_URL
             if (field.type == org.apache.thrift.protocol.TType.STRING) {
-              this.redirectUrl = iprot.readString();
-            } else {
+              this.callbackUrl = iprot.readString();
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
@@ -1972,9 +2113,9 @@ public class AuthFlow {
         this.authVariant.write(oprot);
         oprot.writeFieldEnd();
       }
-      if (this.redirectUrl != null) {
-        oprot.writeFieldBegin(REDIRECT_URL_FIELD_DESC);
-        oprot.writeString(this.redirectUrl);
+      if (this.callbackUrl != null) {
+        oprot.writeFieldBegin(CALLBACK_URL_FIELD_DESC);
+        oprot.writeString(this.callbackUrl);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -1994,11 +2135,11 @@ public class AuthFlow {
       }
       first = false;
       if (!first) sb.append(", ");
-      sb.append("redirectUrl:");
-      if (this.redirectUrl == null) {
+      sb.append("callbackUrl:");
+      if (this.callbackUrl == null) {
         sb.append("null");
       } else {
-        sb.append(this.redirectUrl);
+        sb.append(this.callbackUrl);
       }
       first = false;
       sb.append(")");
@@ -2027,18 +2168,22 @@ public class AuthFlow {
 
   }
 
-  public static class getOAuthStep_result implements org.apache.thrift.TBase<getOAuthStep_result, getOAuthStep_result._Fields>, java.io.Serializable, Cloneable {
+  public static class getOAuthStep_result implements org.apache.thrift.TBase<getOAuthStep_result, getOAuthStep_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getOAuthStep_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short) 0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField M_MISMATCH_FIELD_DESC = new org.apache.thrift.protocol.TField("mMismatch", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public everfeeds.remote.auth.thrift.util.OAuthStep success;
+    public everfeeds.remote.auth.thrift.util.AuthMethodMismatch mMismatch;
+    public everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown;
 
-    /**
-     * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-     */
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short) 0, "success");
+      SUCCESS((short)0, "success"),
+      M_MISMATCH((short)1, "mMismatch"),
+      A_UNKNOWN((short)2, "aUnknown");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2052,9 +2197,13 @@ public class AuthFlow {
        * Find the _Fields constant that matches fieldId, or null if its not found.
        */
       public static _Fields findByThriftId(int fieldId) {
-        switch (fieldId) {
+        switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // M_MISMATCH
+            return M_MISMATCH;
+          case 2: // A_UNKNOWN
+            return A_UNKNOWN;
           default:
             return null;
         }
@@ -2097,11 +2246,14 @@ public class AuthFlow {
     // isset id assignments
 
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                   new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.OAuthStep.class)));
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.OAuthStep.class)));
+      tmpMap.put(_Fields.M_MISMATCH, new org.apache.thrift.meta_data.FieldMetaData("mMismatch", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getOAuthStep_result.class, metaDataMap);
     }
@@ -2110,9 +2262,14 @@ public class AuthFlow {
     }
 
     public getOAuthStep_result(
-                                  everfeeds.remote.auth.thrift.util.OAuthStep success) {
+      everfeeds.remote.auth.thrift.util.OAuthStep success,
+      everfeeds.remote.auth.thrift.util.AuthMethodMismatch mMismatch,
+      everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown)
+    {
       this();
       this.success = success;
+      this.mMismatch = mMismatch;
+      this.aUnknown = aUnknown;
     }
 
     /**
@@ -2121,6 +2278,12 @@ public class AuthFlow {
     public getOAuthStep_result(getOAuthStep_result other) {
       if (other.isSetSuccess()) {
         this.success = new everfeeds.remote.auth.thrift.util.OAuthStep(other.success);
+      }
+      if (other.isSetMMismatch()) {
+        this.mMismatch = new everfeeds.remote.auth.thrift.util.AuthMethodMismatch(other.mMismatch);
+      }
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.util.AuthVariantUnknown(other.aUnknown);
       }
     }
 
@@ -2131,6 +2294,8 @@ public class AuthFlow {
     @Override
     public void clear() {
       this.success = null;
+      this.mMismatch = null;
+      this.aUnknown = null;
     }
 
     public everfeeds.remote.auth.thrift.util.OAuthStep getSuccess() {
@@ -2146,9 +2311,7 @@ public class AuthFlow {
       this.success = null;
     }
 
-    /**
-     * Returns true if field success is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -2159,39 +2322,111 @@ public class AuthFlow {
       }
     }
 
+    public everfeeds.remote.auth.thrift.util.AuthMethodMismatch getMMismatch() {
+      return this.mMismatch;
+    }
+
+    public getOAuthStep_result setMMismatch(everfeeds.remote.auth.thrift.util.AuthMethodMismatch mMismatch) {
+      this.mMismatch = mMismatch;
+      return this;
+    }
+
+    public void unsetMMismatch() {
+      this.mMismatch = null;
+    }
+
+    /** Returns true if field mMismatch is set (has been assigned a value) and false otherwise */
+    public boolean isSetMMismatch() {
+      return this.mMismatch != null;
+    }
+
+    public void setMMismatchIsSet(boolean value) {
+      if (!value) {
+        this.mMismatch = null;
+      }
+    }
+
+    public everfeeds.remote.auth.thrift.util.AuthVariantUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public getOAuthStep_result setAUnknown(everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-        case SUCCESS:
-          if (value == null) {
-            unsetSuccess();
-          } else {
-            setSuccess((everfeeds.remote.auth.thrift.util.OAuthStep) value);
-          }
-          break;
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((everfeeds.remote.auth.thrift.util.OAuthStep)value);
+        }
+        break;
+
+      case M_MISMATCH:
+        if (value == null) {
+          unsetMMismatch();
+        } else {
+          setMMismatch((everfeeds.remote.auth.thrift.util.AuthMethodMismatch)value);
+        }
+        break;
+
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.util.AuthVariantUnknown)value);
+        }
+        break;
 
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-        case SUCCESS:
-          return getSuccess();
+      case SUCCESS:
+        return getSuccess();
+
+      case M_MISMATCH:
+        return getMMismatch();
+
+      case A_UNKNOWN:
+        return getAUnknown();
 
       }
       throw new IllegalStateException();
     }
 
-    /**
-     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
       }
 
       switch (field) {
-        case SUCCESS:
-          return isSetSuccess();
+      case SUCCESS:
+        return isSetSuccess();
+      case M_MISMATCH:
+        return isSetMMismatch();
+      case A_UNKNOWN:
+        return isSetAUnknown();
       }
       throw new IllegalStateException();
     }
@@ -2201,7 +2436,7 @@ public class AuthFlow {
       if (that == null)
         return false;
       if (that instanceof getOAuthStep_result)
-        return this.equals((getOAuthStep_result) that);
+        return this.equals((getOAuthStep_result)that);
       return false;
     }
 
@@ -2215,6 +2450,24 @@ public class AuthFlow {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_mMismatch = true && this.isSetMMismatch();
+      boolean that_present_mMismatch = true && that.isSetMMismatch();
+      if (this_present_mMismatch || that_present_mMismatch) {
+        if (!(this_present_mMismatch && that_present_mMismatch))
+          return false;
+        if (!this.mMismatch.equals(that.mMismatch))
+          return false;
+      }
+
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
           return false;
       }
 
@@ -2232,7 +2485,7 @@ public class AuthFlow {
       }
 
       int lastComparison = 0;
-      getOAuthStep_result typedOther = (getOAuthStep_result) other;
+      getOAuthStep_result typedOther = (getOAuthStep_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
@@ -2240,6 +2493,26 @@ public class AuthFlow {
       }
       if (isSetSuccess()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetMMismatch()).compareTo(typedOther.isSetMMismatch());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMMismatch()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.mMismatch, typedOther.mMismatch);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2254,9 +2527,10 @@ public class AuthFlow {
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
-      while (true) {
+      while (true)
+      {
         field = iprot.readFieldBegin();
-        if (field.type == org.apache.thrift.protocol.TType.STOP) {
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
@@ -2264,7 +2538,23 @@ public class AuthFlow {
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new everfeeds.remote.auth.thrift.util.OAuthStep();
               this.success.read(iprot);
-            } else {
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 1: // M_MISMATCH
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.mMismatch = new everfeeds.remote.auth.thrift.util.AuthMethodMismatch();
+              this.mMismatch.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.util.AuthVariantUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
@@ -2286,6 +2576,14 @@ public class AuthFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
+      } else if (this.isSetMMismatch()) {
+        oprot.writeFieldBegin(M_MISMATCH_FIELD_DESC);
+        this.mMismatch.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -2301,6 +2599,22 @@ public class AuthFlow {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("mMismatch:");
+      if (this.mMismatch == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.mMismatch);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
       }
       first = false;
       sb.append(")");
@@ -2329,24 +2643,19 @@ public class AuthFlow {
 
   }
 
-  public static class exchangeOAuthToken_args implements org.apache.thrift.TBase<exchangeOAuthToken_args, exchangeOAuthToken_args._Fields>, java.io.Serializable, Cloneable {
+  public static class exchangeOAuthToken_args implements org.apache.thrift.TBase<exchangeOAuthToken_args, exchangeOAuthToken_args._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("exchangeOAuthToken_args");
 
-    private static final org.apache.thrift.protocol.TField AUTH_VARIANT_FIELD_DESC = new org.apache.thrift.protocol.TField("authVariant", org.apache.thrift.protocol.TType.STRUCT, (short) 1);
-    private static final org.apache.thrift.protocol.TField O_AUTH_STEP_FIELD_DESC = new org.apache.thrift.protocol.TField("oAuthStep", org.apache.thrift.protocol.TType.STRUCT, (short) 2);
-    private static final org.apache.thrift.protocol.TField VERIFIER_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("verifierCode", org.apache.thrift.protocol.TType.STRING, (short) 3);
+    private static final org.apache.thrift.protocol.TField O_AUTH_STEP_FIELD_DESC = new org.apache.thrift.protocol.TField("oAuthStep", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField VERIFIER_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("verifierCode", org.apache.thrift.protocol.TType.STRING, (short)3);
 
-    public everfeeds.remote.auth.thrift.util.AuthVariant authVariant;
     public everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep;
     public String verifierCode;
 
-    /**
-     * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-     */
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      AUTH_VARIANT((short) 1, "authVariant"),
-      O_AUTH_STEP((short) 2, "oAuthStep"),
-      VERIFIER_CODE((short) 3, "verifierCode");
+      O_AUTH_STEP((short)2, "oAuthStep"),
+      VERIFIER_CODE((short)3, "verifierCode");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2360,9 +2669,7 @@ public class AuthFlow {
        * Find the _Fields constant that matches fieldId, or null if its not found.
        */
       public static _Fields findByThriftId(int fieldId) {
-        switch (fieldId) {
-          case 1: // AUTH_VARIANT
-            return AUTH_VARIANT;
+        switch(fieldId) {
           case 2: // O_AUTH_STEP
             return O_AUTH_STEP;
           case 3: // VERIFIER_CODE
@@ -2409,15 +2716,12 @@ public class AuthFlow {
     // isset id assignments
 
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.AUTH_VARIANT, new org.apache.thrift.meta_data.FieldMetaData("authVariant", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.AuthVariant.class)));
-      tmpMap.put(_Fields.O_AUTH_STEP, new org.apache.thrift.meta_data.FieldMetaData("oAuthStep", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                       new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.OAuthStep.class)));
-      tmpMap.put(_Fields.VERIFIER_CODE, new org.apache.thrift.meta_data.FieldMetaData("verifierCode", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.O_AUTH_STEP, new org.apache.thrift.meta_data.FieldMetaData("oAuthStep", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, everfeeds.remote.auth.thrift.util.OAuthStep.class)));
+      tmpMap.put(_Fields.VERIFIER_CODE, new org.apache.thrift.meta_data.FieldMetaData("verifierCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(exchangeOAuthToken_args.class, metaDataMap);
     }
@@ -2426,11 +2730,10 @@ public class AuthFlow {
     }
 
     public exchangeOAuthToken_args(
-                                      everfeeds.remote.auth.thrift.util.AuthVariant authVariant,
-                                      everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep,
-                                      String verifierCode) {
+      everfeeds.remote.auth.thrift.util.OAuthStep oAuthStep,
+      String verifierCode)
+    {
       this();
-      this.authVariant = authVariant;
       this.oAuthStep = oAuthStep;
       this.verifierCode = verifierCode;
     }
@@ -2439,9 +2742,6 @@ public class AuthFlow {
      * Performs a deep copy on <i>other</i>.
      */
     public exchangeOAuthToken_args(exchangeOAuthToken_args other) {
-      if (other.isSetAuthVariant()) {
-        this.authVariant = new everfeeds.remote.auth.thrift.util.AuthVariant(other.authVariant);
-      }
       if (other.isSetOAuthStep()) {
         this.oAuthStep = new everfeeds.remote.auth.thrift.util.OAuthStep(other.oAuthStep);
       }
@@ -2456,35 +2756,8 @@ public class AuthFlow {
 
     @Override
     public void clear() {
-      this.authVariant = null;
       this.oAuthStep = null;
       this.verifierCode = null;
-    }
-
-    public everfeeds.remote.auth.thrift.util.AuthVariant getAuthVariant() {
-      return this.authVariant;
-    }
-
-    public exchangeOAuthToken_args setAuthVariant(everfeeds.remote.auth.thrift.util.AuthVariant authVariant) {
-      this.authVariant = authVariant;
-      return this;
-    }
-
-    public void unsetAuthVariant() {
-      this.authVariant = null;
-    }
-
-    /**
-     * Returns true if field authVariant is set (has been assigned a value) and false otherwise
-     */
-    public boolean isSetAuthVariant() {
-      return this.authVariant != null;
-    }
-
-    public void setAuthVariantIsSet(boolean value) {
-      if (!value) {
-        this.authVariant = null;
-      }
     }
 
     public everfeeds.remote.auth.thrift.util.OAuthStep getOAuthStep() {
@@ -2500,9 +2773,7 @@ public class AuthFlow {
       this.oAuthStep = null;
     }
 
-    /**
-     * Returns true if field oAuthStep is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field oAuthStep is set (has been assigned a value) and false otherwise */
     public boolean isSetOAuthStep() {
       return this.oAuthStep != null;
     }
@@ -2526,9 +2797,7 @@ public class AuthFlow {
       this.verifierCode = null;
     }
 
-    /**
-     * Returns true if field verifierCode is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field verifierCode is set (has been assigned a value) and false otherwise */
     public boolean isSetVerifierCode() {
       return this.verifierCode != null;
     }
@@ -2541,63 +2810,48 @@ public class AuthFlow {
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-        case AUTH_VARIANT:
-          if (value == null) {
-            unsetAuthVariant();
-          } else {
-            setAuthVariant((everfeeds.remote.auth.thrift.util.AuthVariant) value);
-          }
-          break;
+      case O_AUTH_STEP:
+        if (value == null) {
+          unsetOAuthStep();
+        } else {
+          setOAuthStep((everfeeds.remote.auth.thrift.util.OAuthStep)value);
+        }
+        break;
 
-        case O_AUTH_STEP:
-          if (value == null) {
-            unsetOAuthStep();
-          } else {
-            setOAuthStep((everfeeds.remote.auth.thrift.util.OAuthStep) value);
-          }
-          break;
-
-        case VERIFIER_CODE:
-          if (value == null) {
-            unsetVerifierCode();
-          } else {
-            setVerifierCode((String) value);
-          }
-          break;
+      case VERIFIER_CODE:
+        if (value == null) {
+          unsetVerifierCode();
+        } else {
+          setVerifierCode((String)value);
+        }
+        break;
 
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-        case AUTH_VARIANT:
-          return getAuthVariant();
+      case O_AUTH_STEP:
+        return getOAuthStep();
 
-        case O_AUTH_STEP:
-          return getOAuthStep();
-
-        case VERIFIER_CODE:
-          return getVerifierCode();
+      case VERIFIER_CODE:
+        return getVerifierCode();
 
       }
       throw new IllegalStateException();
     }
 
-    /**
-     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
       }
 
       switch (field) {
-        case AUTH_VARIANT:
-          return isSetAuthVariant();
-        case O_AUTH_STEP:
-          return isSetOAuthStep();
-        case VERIFIER_CODE:
-          return isSetVerifierCode();
+      case O_AUTH_STEP:
+        return isSetOAuthStep();
+      case VERIFIER_CODE:
+        return isSetVerifierCode();
       }
       throw new IllegalStateException();
     }
@@ -2607,22 +2861,13 @@ public class AuthFlow {
       if (that == null)
         return false;
       if (that instanceof exchangeOAuthToken_args)
-        return this.equals((exchangeOAuthToken_args) that);
+        return this.equals((exchangeOAuthToken_args)that);
       return false;
     }
 
     public boolean equals(exchangeOAuthToken_args that) {
       if (that == null)
         return false;
-
-      boolean this_present_authVariant = true && this.isSetAuthVariant();
-      boolean that_present_authVariant = true && that.isSetAuthVariant();
-      if (this_present_authVariant || that_present_authVariant) {
-        if (!(this_present_authVariant && that_present_authVariant))
-          return false;
-        if (!this.authVariant.equals(that.authVariant))
-          return false;
-      }
 
       boolean this_present_oAuthStep = true && this.isSetOAuthStep();
       boolean that_present_oAuthStep = true && that.isSetOAuthStep();
@@ -2656,18 +2901,8 @@ public class AuthFlow {
       }
 
       int lastComparison = 0;
-      exchangeOAuthToken_args typedOther = (exchangeOAuthToken_args) other;
+      exchangeOAuthToken_args typedOther = (exchangeOAuthToken_args)other;
 
-      lastComparison = Boolean.valueOf(isSetAuthVariant()).compareTo(typedOther.isSetAuthVariant());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetAuthVariant()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.authVariant, typedOther.authVariant);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = Boolean.valueOf(isSetOAuthStep()).compareTo(typedOther.isSetOAuthStep());
       if (lastComparison != 0) {
         return lastComparison;
@@ -2698,32 +2933,25 @@ public class AuthFlow {
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
-      while (true) {
+      while (true)
+      {
         field = iprot.readFieldBegin();
-        if (field.type == org.apache.thrift.protocol.TType.STOP) {
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
-          case 1: // AUTH_VARIANT
-            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
-              this.authVariant = new everfeeds.remote.auth.thrift.util.AuthVariant();
-              this.authVariant.read(iprot);
-            } else {
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
-            }
-            break;
           case 2: // O_AUTH_STEP
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.oAuthStep = new everfeeds.remote.auth.thrift.util.OAuthStep();
               this.oAuthStep.read(iprot);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // VERIFIER_CODE
             if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.verifierCode = iprot.readString();
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
@@ -2742,11 +2970,6 @@ public class AuthFlow {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      if (this.authVariant != null) {
-        oprot.writeFieldBegin(AUTH_VARIANT_FIELD_DESC);
-        this.authVariant.write(oprot);
-        oprot.writeFieldEnd();
-      }
       if (this.oAuthStep != null) {
         oprot.writeFieldBegin(O_AUTH_STEP_FIELD_DESC);
         this.oAuthStep.write(oprot);
@@ -2766,14 +2989,6 @@ public class AuthFlow {
       StringBuilder sb = new StringBuilder("exchangeOAuthToken_args(");
       boolean first = true;
 
-      sb.append("authVariant:");
-      if (this.authVariant == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.authVariant);
-      }
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("oAuthStep:");
       if (this.oAuthStep == null) {
         sb.append("null");
@@ -2815,18 +3030,25 @@ public class AuthFlow {
 
   }
 
-  public static class exchangeOAuthToken_result implements org.apache.thrift.TBase<exchangeOAuthToken_result, exchangeOAuthToken_result._Fields>, java.io.Serializable, Cloneable {
+  public static class exchangeOAuthToken_result implements org.apache.thrift.TBase<exchangeOAuthToken_result, exchangeOAuthToken_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("exchangeOAuthToken_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short) 0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField M_MISMATCH_FIELD_DESC = new org.apache.thrift.protocol.TField("mMismatch", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField A_FAILED_FIELD_DESC = new org.apache.thrift.protocol.TField("aFailed", org.apache.thrift.protocol.TType.STRUCT, (short)3);
 
     public Credentials success;
+    public everfeeds.remote.auth.thrift.util.AuthMethodMismatch mMismatch;
+    public everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown;
+    public everfeeds.remote.auth.thrift.util.AuthFailed aFailed;
 
-    /**
-     * The set of fields this struct contains, along with convenience methods for finding and manipulating them.
-     */
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short) 0, "success");
+      SUCCESS((short)0, "success"),
+      M_MISMATCH((short)1, "mMismatch"),
+      A_UNKNOWN((short)2, "aUnknown"),
+      A_FAILED((short)3, "aFailed");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2840,9 +3062,15 @@ public class AuthFlow {
        * Find the _Fields constant that matches fieldId, or null if its not found.
        */
       public static _Fields findByThriftId(int fieldId) {
-        switch (fieldId) {
+        switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // M_MISMATCH
+            return M_MISMATCH;
+          case 2: // A_UNKNOWN
+            return A_UNKNOWN;
+          case 3: // A_FAILED
+            return A_FAILED;
           default:
             return null;
         }
@@ -2885,11 +3113,16 @@ public class AuthFlow {
     // isset id assignments
 
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT,
-                                                                                   new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Credentials.class)));
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Credentials.class)));
+      tmpMap.put(_Fields.M_MISMATCH, new org.apache.thrift.meta_data.FieldMetaData("mMismatch", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.A_FAILED, new org.apache.thrift.meta_data.FieldMetaData("aFailed", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(exchangeOAuthToken_result.class, metaDataMap);
     }
@@ -2898,9 +3131,16 @@ public class AuthFlow {
     }
 
     public exchangeOAuthToken_result(
-                                        Credentials success) {
+      Credentials success,
+      everfeeds.remote.auth.thrift.util.AuthMethodMismatch mMismatch,
+      everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown,
+      everfeeds.remote.auth.thrift.util.AuthFailed aFailed)
+    {
       this();
       this.success = success;
+      this.mMismatch = mMismatch;
+      this.aUnknown = aUnknown;
+      this.aFailed = aFailed;
     }
 
     /**
@@ -2909,6 +3149,15 @@ public class AuthFlow {
     public exchangeOAuthToken_result(exchangeOAuthToken_result other) {
       if (other.isSetSuccess()) {
         this.success = new Credentials(other.success);
+      }
+      if (other.isSetMMismatch()) {
+        this.mMismatch = new everfeeds.remote.auth.thrift.util.AuthMethodMismatch(other.mMismatch);
+      }
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.util.AuthVariantUnknown(other.aUnknown);
+      }
+      if (other.isSetAFailed()) {
+        this.aFailed = new everfeeds.remote.auth.thrift.util.AuthFailed(other.aFailed);
       }
     }
 
@@ -2919,6 +3168,9 @@ public class AuthFlow {
     @Override
     public void clear() {
       this.success = null;
+      this.mMismatch = null;
+      this.aUnknown = null;
+      this.aFailed = null;
     }
 
     public Credentials getSuccess() {
@@ -2934,9 +3186,7 @@ public class AuthFlow {
       this.success = null;
     }
 
-    /**
-     * Returns true if field success is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -2947,39 +3197,148 @@ public class AuthFlow {
       }
     }
 
+    public everfeeds.remote.auth.thrift.util.AuthMethodMismatch getMMismatch() {
+      return this.mMismatch;
+    }
+
+    public exchangeOAuthToken_result setMMismatch(everfeeds.remote.auth.thrift.util.AuthMethodMismatch mMismatch) {
+      this.mMismatch = mMismatch;
+      return this;
+    }
+
+    public void unsetMMismatch() {
+      this.mMismatch = null;
+    }
+
+    /** Returns true if field mMismatch is set (has been assigned a value) and false otherwise */
+    public boolean isSetMMismatch() {
+      return this.mMismatch != null;
+    }
+
+    public void setMMismatchIsSet(boolean value) {
+      if (!value) {
+        this.mMismatch = null;
+      }
+    }
+
+    public everfeeds.remote.auth.thrift.util.AuthVariantUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public exchangeOAuthToken_result setAUnknown(everfeeds.remote.auth.thrift.util.AuthVariantUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
+    public everfeeds.remote.auth.thrift.util.AuthFailed getAFailed() {
+      return this.aFailed;
+    }
+
+    public exchangeOAuthToken_result setAFailed(everfeeds.remote.auth.thrift.util.AuthFailed aFailed) {
+      this.aFailed = aFailed;
+      return this;
+    }
+
+    public void unsetAFailed() {
+      this.aFailed = null;
+    }
+
+    /** Returns true if field aFailed is set (has been assigned a value) and false otherwise */
+    public boolean isSetAFailed() {
+      return this.aFailed != null;
+    }
+
+    public void setAFailedIsSet(boolean value) {
+      if (!value) {
+        this.aFailed = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-        case SUCCESS:
-          if (value == null) {
-            unsetSuccess();
-          } else {
-            setSuccess((Credentials) value);
-          }
-          break;
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Credentials)value);
+        }
+        break;
+
+      case M_MISMATCH:
+        if (value == null) {
+          unsetMMismatch();
+        } else {
+          setMMismatch((everfeeds.remote.auth.thrift.util.AuthMethodMismatch)value);
+        }
+        break;
+
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.util.AuthVariantUnknown)value);
+        }
+        break;
+
+      case A_FAILED:
+        if (value == null) {
+          unsetAFailed();
+        } else {
+          setAFailed((everfeeds.remote.auth.thrift.util.AuthFailed)value);
+        }
+        break;
 
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-        case SUCCESS:
-          return getSuccess();
+      case SUCCESS:
+        return getSuccess();
+
+      case M_MISMATCH:
+        return getMMismatch();
+
+      case A_UNKNOWN:
+        return getAUnknown();
+
+      case A_FAILED:
+        return getAFailed();
 
       }
       throw new IllegalStateException();
     }
 
-    /**
-     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
-     */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
       }
 
       switch (field) {
-        case SUCCESS:
-          return isSetSuccess();
+      case SUCCESS:
+        return isSetSuccess();
+      case M_MISMATCH:
+        return isSetMMismatch();
+      case A_UNKNOWN:
+        return isSetAUnknown();
+      case A_FAILED:
+        return isSetAFailed();
       }
       throw new IllegalStateException();
     }
@@ -2989,7 +3348,7 @@ public class AuthFlow {
       if (that == null)
         return false;
       if (that instanceof exchangeOAuthToken_result)
-        return this.equals((exchangeOAuthToken_result) that);
+        return this.equals((exchangeOAuthToken_result)that);
       return false;
     }
 
@@ -3003,6 +3362,33 @@ public class AuthFlow {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_mMismatch = true && this.isSetMMismatch();
+      boolean that_present_mMismatch = true && that.isSetMMismatch();
+      if (this_present_mMismatch || that_present_mMismatch) {
+        if (!(this_present_mMismatch && that_present_mMismatch))
+          return false;
+        if (!this.mMismatch.equals(that.mMismatch))
+          return false;
+      }
+
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
+          return false;
+      }
+
+      boolean this_present_aFailed = true && this.isSetAFailed();
+      boolean that_present_aFailed = true && that.isSetAFailed();
+      if (this_present_aFailed || that_present_aFailed) {
+        if (!(this_present_aFailed && that_present_aFailed))
+          return false;
+        if (!this.aFailed.equals(that.aFailed))
           return false;
       }
 
@@ -3020,7 +3406,7 @@ public class AuthFlow {
       }
 
       int lastComparison = 0;
-      exchangeOAuthToken_result typedOther = (exchangeOAuthToken_result) other;
+      exchangeOAuthToken_result typedOther = (exchangeOAuthToken_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
@@ -3028,6 +3414,36 @@ public class AuthFlow {
       }
       if (isSetSuccess()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetMMismatch()).compareTo(typedOther.isSetMMismatch());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMMismatch()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.mMismatch, typedOther.mMismatch);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetAFailed()).compareTo(typedOther.isSetAFailed());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAFailed()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aFailed, typedOther.aFailed);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3042,9 +3458,10 @@ public class AuthFlow {
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
-      while (true) {
+      while (true)
+      {
         field = iprot.readFieldBegin();
-        if (field.type == org.apache.thrift.protocol.TType.STOP) {
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
@@ -3052,7 +3469,31 @@ public class AuthFlow {
             if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new Credentials();
               this.success.read(iprot);
-            } else {
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 1: // M_MISMATCH
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.mMismatch = new everfeeds.remote.auth.thrift.util.AuthMethodMismatch();
+              this.mMismatch.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.util.AuthVariantUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // A_FAILED
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aFailed = new everfeeds.remote.auth.thrift.util.AuthFailed();
+              this.aFailed.read(iprot);
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
@@ -3074,6 +3515,18 @@ public class AuthFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
+      } else if (this.isSetMMismatch()) {
+        oprot.writeFieldBegin(M_MISMATCH_FIELD_DESC);
+        this.mMismatch.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetAFailed()) {
+        oprot.writeFieldBegin(A_FAILED_FIELD_DESC);
+        this.aFailed.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -3089,6 +3542,30 @@ public class AuthFlow {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("mMismatch:");
+      if (this.mMismatch == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.mMismatch);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aFailed:");
+      if (this.aFailed == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aFailed);
       }
       first = false;
       sb.append(")");
