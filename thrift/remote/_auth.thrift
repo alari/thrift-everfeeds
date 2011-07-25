@@ -8,7 +8,7 @@ enum AccessType {
   GREADER = 5,
   LINKEDIN = 6,
   VK = 7,
-  METAWEBLOG = 8,
+  ATOMPUB = 8,
 }
 
 enum AuthMethod {
@@ -20,6 +20,7 @@ struct AuthSystem {
   1: string name;
   2: AuthMethod method;
   3: AccessType type;
+  10: string userDomain;
 }
 
 struct OAuthStep {

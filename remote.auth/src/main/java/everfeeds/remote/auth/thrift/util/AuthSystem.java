@@ -26,6 +26,7 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
   private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
   private static final org.apache.thrift.protocol.TField METHOD_FIELD_DESC = new org.apache.thrift.protocol.TField("method", org.apache.thrift.protocol.TType.I32, (short)2);
   private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short)3);
+  private static final org.apache.thrift.protocol.TField USER_DOMAIN_FIELD_DESC = new org.apache.thrift.protocol.TField("userDomain", org.apache.thrift.protocol.TType.STRING, (short)10);
 
   public String name;
   /**
@@ -38,6 +39,7 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
    * @see everfeeds.remote.auth.thrift.util.AccessType
    */
   public AccessType type;
+  public String userDomain;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -51,7 +53,8 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
      * 
      * @see everfeeds.remote.auth.thrift.util.AccessType
      */
-    TYPE((short)3, "type");
+    TYPE((short)3, "type"),
+    USER_DOMAIN((short)10, "userDomain");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -72,6 +75,8 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
           return METHOD;
         case 3: // TYPE
           return TYPE;
+        case 10: // USER_DOMAIN
+          return USER_DOMAIN;
         default:
           return null;
       }
@@ -122,6 +127,8 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, AuthMethod.class)));
     tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, AccessType.class)));
+    tmpMap.put(_Fields.USER_DOMAIN, new org.apache.thrift.meta_data.FieldMetaData("userDomain", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthSystem.class, metaDataMap);
   }
@@ -132,12 +139,14 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
   public AuthSystem(
     String name,
     AuthMethod method,
-    AccessType type)
+    AccessType type,
+    String userDomain)
   {
     this();
     this.name = name;
     this.method = method;
     this.type = type;
+    this.userDomain = userDomain;
   }
 
   /**
@@ -153,6 +162,9 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
     if (other.isSetType()) {
       this.type = other.type;
     }
+    if (other.isSetUserDomain()) {
+      this.userDomain = other.userDomain;
+    }
   }
 
   public AuthSystem deepCopy() {
@@ -164,6 +176,7 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
     this.name = null;
     this.method = null;
     this.type = null;
+    this.userDomain = null;
   }
 
   public String getName() {
@@ -254,6 +267,30 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
     }
   }
 
+  public String getUserDomain() {
+    return this.userDomain;
+  }
+
+  public AuthSystem setUserDomain(String userDomain) {
+    this.userDomain = userDomain;
+    return this;
+  }
+
+  public void unsetUserDomain() {
+    this.userDomain = null;
+  }
+
+  /** Returns true if field userDomain is set (has been assigned a value) and false otherwise */
+  public boolean isSetUserDomain() {
+    return this.userDomain != null;
+  }
+
+  public void setUserDomainIsSet(boolean value) {
+    if (!value) {
+      this.userDomain = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case NAME:
@@ -280,6 +317,14 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
       }
       break;
 
+    case USER_DOMAIN:
+      if (value == null) {
+        unsetUserDomain();
+      } else {
+        setUserDomain((String)value);
+      }
+      break;
+
     }
   }
 
@@ -293,6 +338,9 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
 
     case TYPE:
       return getType();
+
+    case USER_DOMAIN:
+      return getUserDomain();
 
     }
     throw new IllegalStateException();
@@ -311,6 +359,8 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
       return isSetMethod();
     case TYPE:
       return isSetType();
+    case USER_DOMAIN:
+      return isSetUserDomain();
     }
     throw new IllegalStateException();
   }
@@ -352,6 +402,15 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
       if (!(this_present_type && that_present_type))
         return false;
       if (!this.type.equals(that.type))
+        return false;
+    }
+
+    boolean this_present_userDomain = true && this.isSetUserDomain();
+    boolean that_present_userDomain = true && that.isSetUserDomain();
+    if (this_present_userDomain || that_present_userDomain) {
+      if (!(this_present_userDomain && that_present_userDomain))
+        return false;
+      if (!this.userDomain.equals(that.userDomain))
         return false;
     }
 
@@ -401,6 +460,16 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetUserDomain()).compareTo(typedOther.isSetUserDomain());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetUserDomain()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.userDomain, typedOther.userDomain);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -439,6 +508,13 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
+        case 10: // USER_DOMAIN
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.userDomain = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
         default:
           org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
@@ -467,6 +543,11 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
     if (this.type != null) {
       oprot.writeFieldBegin(TYPE_FIELD_DESC);
       oprot.writeI32(this.type.getValue());
+      oprot.writeFieldEnd();
+    }
+    if (this.userDomain != null) {
+      oprot.writeFieldBegin(USER_DOMAIN_FIELD_DESC);
+      oprot.writeString(this.userDomain);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -499,6 +580,14 @@ public class AuthSystem implements org.apache.thrift.TBase<AuthSystem, AuthSyste
       sb.append("null");
     } else {
       sb.append(this.type);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("userDomain:");
+    if (this.userDomain == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.userDomain);
     }
     first = false;
     sb.append(")");

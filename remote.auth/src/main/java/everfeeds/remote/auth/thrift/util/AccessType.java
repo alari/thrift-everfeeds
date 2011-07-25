@@ -18,7 +18,7 @@ public enum AccessType implements TEnum {
   GREADER(5),
   LINKEDIN(6),
   VK(7),
-  METAWEBLOG(8);
+  ATOMPUB(8);
 
   private final int value;
 
@@ -54,7 +54,7 @@ public enum AccessType implements TEnum {
       case 7:
         return VK;
       case 8:
-        return METAWEBLOG;
+        return ATOMPUB;
       default:
         return null;
     }
