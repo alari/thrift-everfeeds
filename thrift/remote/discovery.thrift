@@ -1,9 +1,18 @@
+include "_auth.thrift"
 include "auth.thrift"
 include "_types.thrift"
 include "_content.thrift"
 include "_geo.thrift"
 
 namespace java everfeeds.remote.discovery.thrift
+
+struct Query {
+  1: string uri;
+  2: _types.NodeType nodeType;
+
+  10: _geo.GeoLocation location;
+  11: string search;
+}
 
 struct Node {
   1: string title;
@@ -18,28 +27,20 @@ struct Node {
 
   40: list<_types.ContentType> acceptTypes; // what could be pushed to the node
 
-  100: boolean flagFeed;
-  101: boolean flagContent;
+  100: bool flagFeed;
+  101: bool flagContent;
 }
 
-struct Query {
-  1: string uri;
-  2: types.NodeType nodeType;
+service DiscoveryFlow extends auth.AuthFlow {
+  Node getSystemNode(1: _auth.AuthSystem system);
 
-  10: _geo.GeoLocation location;
-  11: string search;
-}
+  Node getAuthorizedNode(1: auth.Credentials credentials, 4: bool withContent);
 
-service DiscoveryFlow {
-  Node getGlobalNode(1: auth.AccessType type);
-
-  Node getAuthorizedNode(1: auth.Credentials credentials, 4: boolean withContent);
-
-  Node getQueryNode(1: auth.Credentials credentials, 2: Query query, 4: boolean withContent);
+  Node getQueryNode(1: auth.Credentials credentials, 2: Query query, 4: bool withContent);
 
   Node getSearchNode(1: Node node, 2: string search);
 
-  list<Node> getNodeFeed(1: Node node, 2: i16 offset, 3: i16 maxCount, 4: boolean withContent);
+  list<Node> getNodeFeed(1: Node node, 2: i16 offset, 3: i16 maxCount, 4: bool withContent);
 
   i16 countNodeFeed(1: Node node);
 

@@ -30,7 +30,7 @@ public class TwitterAuth extends AuthOAuth {
 
   @Override
   public boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthConnectionError {
-    new OAuthApi(credentials).callApi(CREDENTIALS_URL);
+    System.out.println(new OAuthApi(credentials).callApi(CREDENTIALS_URL));
     return false;
   }
 }

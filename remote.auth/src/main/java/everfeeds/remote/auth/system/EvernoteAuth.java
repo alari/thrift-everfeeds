@@ -28,6 +28,7 @@ public class EvernoteAuth extends AuthOAuth {
 
   @Override
   protected boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthFailed {
+    System.out.println("TODO: find the way to check Evernote credentials with no dependency");
     return false;
   }
 }

@@ -1,11 +1,5 @@
 namespace java everfeeds.remote.discovery.thrift.ttype
 
-struct NodeType {
-  1: NodeTypeGroup group;
-  2: TypeNarrow narrow;
-
-  10: string type;
-}
 enum NodeTypeGroup {
   USER_ACCOUNT = 1,
   FOLDER = 2,
@@ -47,4 +41,11 @@ enum TypeNarrow {
 struct ContentType {
   1: TypeNarrow narrow;
   2: string type;
+}
+
+struct NodeType {
+  1: NodeTypeGroup group;
+  2: TypeNarrow narrow;
+
+  10: string type;
 }

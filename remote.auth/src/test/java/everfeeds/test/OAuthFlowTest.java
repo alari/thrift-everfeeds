@@ -32,7 +32,7 @@ public class OAuthFlowTest {
       if (authSystem.method != AuthMethod.OAUTH) continue;
 
       System.out.println("Auth for: " + authSystem.name);
-      OAuthStep step = null;
+      OAuthStep step;
       try {
         step = new AuthHandler().getOAuthStep(authSystem, "oob");
       } catch (AuthConnectionError authConnectionError) {

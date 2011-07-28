@@ -7,11 +7,32 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>remote.handshake</artifactId>
 
+  <repositories>
+    <repository>
+      <id>maven.everfeeds.com-releases</id>
+      <name>maven.everfeeds.com-releases</name>
+      <url>http://maven.everfeeds.com/libs-release-local</url>
+    </repository>
+    <repository>
+      <id>maven.everfeeds.com-snapshots</id>
+      <name>maven.everfeeds.com-snapshots</name>
+      <url>http://maven.everfeeds.com/libs-snapshot</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
-      <groupId>org.apache.thrift</groupId>
-      <artifactId>libthrift</artifactId>
-      <version>0.6.1</version>
+      <groupId>com.everfeeds</groupId>
+      <artifactId>remote.handshake.thrift</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
+
+  <build>
+  <plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      <version>2.2</version>
+  </plugin></plugins></build>
 </project>
