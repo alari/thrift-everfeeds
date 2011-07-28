@@ -40,7 +40,6 @@ public class VkAuth extends AuthOAuth {
 
   @Override
   protected boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthFailed, AuthConnectionError {
-    System.out.println(new OAuthApi(credentials).callApi(CREDENTIALS_URL));
-    return false;
+    return new OAuthApi(credentials).callApi(CREDENTIALS_URL).contains("{\"response\":{\"user_id\":\"");
   }
 }

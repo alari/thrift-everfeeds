@@ -33,7 +33,6 @@ public class GMailAuth extends AuthOAuth {
   protected boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthFailed, AuthConnectionError {
     String email = new OAuthApi(credentials).callApi(EMAIL_URL);
     email = email != null && !email.isEmpty() ? email.substring(email.indexOf("=") + 1, email.indexOf("&")) : null;
-    System.out.println(email);
-    return false;
+    return !(email == null || email.isEmpty());
   }
 }

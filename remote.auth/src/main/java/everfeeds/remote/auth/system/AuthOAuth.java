@@ -53,7 +53,11 @@ abstract public class AuthOAuth extends Auth {
       step.requestSecret = requestToken.getSecret();
     }
 
-    step.authUrl = service.getAuthorizationUrl(requestToken);
+    try {
+      step.authUrl = service.getAuthorizationUrl(requestToken);
+    } catch(Throwable e) {
+      throw new AuthConnectionError().setMsg(e.getClass().getCanonicalName()+": "+e.getMessage());
+    }
     step.system = getSystem();
 
     return step;
@@ -101,6 +105,9 @@ abstract public class AuthOAuth extends Auth {
       return service.getAccessToken(requestToken, verifier);
     } catch(OAuthException e) {
       throw new AuthConnectionError().setMsg(e.getMessage());
+    } catch (Throwable e) {
+      System.err.println(e.getMessage());
+      return null;
     }
   }
 
