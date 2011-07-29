@@ -1,4 +1,5 @@
 include "_auth.thrift"
+include "_auth_ex.thrift"
 include "auth.thrift"
 include "_types.thrift"
 include "_content.thrift"
@@ -32,17 +33,17 @@ struct Node {
 }
 
 service DiscoveryFlow extends auth.AuthFlow {
-  Node getSystemNode(1: _auth.AuthSystem system);
+  Node getSystemNode(1: _auth.AuthSystem system) throws(1: _auth_ex.AuthSystemUnknown aUnknown);
 
-  Node getAuthorizedNode(1: auth.Credentials credentials, 4: bool withContent);
+  Node getAuthorizedNode(1: auth.Credentials credentials, 4: bool withContent) throws(1: _auth_ex.AuthSystemUnknown aUnknown);
 
-  Node getQueryNode(1: auth.Credentials credentials, 2: Query query, 4: bool withContent);
+  Node getQueryNode(1: auth.Credentials credentials, 2: Query query, 4: bool withContent) throws(1: _auth_ex.AuthSystemUnknown aUnknown);
 
-  Node getSearchNode(1: Node node, 2: string search);
+  Node getSearchNode(1: Node node, 2: string search) throws(1: _auth_ex.AuthSystemUnknown aUnknown);
 
-  list<Node> getNodeFeed(1: Node node, 2: i16 offset, 3: i16 maxCount, 4: bool withContent);
+  list<Node> getNodeFeed(1: Node node, 2: i16 offset, 3: i16 maxCount, 4: bool withContent) throws(1: _auth_ex.AuthSystemUnknown aUnknown);
 
-  i16 countNodeFeed(1: Node node);
+  i16 countNodeFeed(1: Node node) throws(1: _auth_ex.AuthSystemUnknown aUnknown);
 
-  _content.Content getNodeContent(1: Node node);
+  _content.Content getNodeContent(1: Node node) throws(1: _auth_ex.AuthSystemUnknown aUnknown);
 }

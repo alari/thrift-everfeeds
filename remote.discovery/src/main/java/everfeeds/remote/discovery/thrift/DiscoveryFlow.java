@@ -24,19 +24,19 @@ public class DiscoveryFlow {
 
   public interface Iface extends everfeeds.remote.auth.thrift.AuthFlow.Iface {
 
-    public Node getSystemNode(everfeeds.remote.auth.thrift.util.AuthSystem system) throws org.apache.thrift.TException;
+    public Node getSystemNode(everfeeds.remote.auth.thrift.util.AuthSystem system) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException;
 
-    public Node getAuthorizedNode(everfeeds.remote.auth.thrift.Credentials credentials, boolean withContent) throws org.apache.thrift.TException;
+    public Node getAuthorizedNode(everfeeds.remote.auth.thrift.Credentials credentials, boolean withContent) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException;
 
-    public Node getQueryNode(everfeeds.remote.auth.thrift.Credentials credentials, Query query, boolean withContent) throws org.apache.thrift.TException;
+    public Node getQueryNode(everfeeds.remote.auth.thrift.Credentials credentials, Query query, boolean withContent) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException;
 
-    public Node getSearchNode(Node node, String search) throws org.apache.thrift.TException;
+    public Node getSearchNode(Node node, String search) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException;
 
-    public List<Node> getNodeFeed(Node node, short offset, short maxCount, boolean withContent) throws org.apache.thrift.TException;
+    public List<Node> getNodeFeed(Node node, short offset, short maxCount, boolean withContent) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException;
 
-    public short countNodeFeed(Node node) throws org.apache.thrift.TException;
+    public short countNodeFeed(Node node) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException;
 
-    public Content getNodeContent(Node node) throws org.apache.thrift.TException;
+    public Content getNodeContent(Node node) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException;
 
   }
 
@@ -79,7 +79,7 @@ public class DiscoveryFlow {
       super(iprot, oprot);
     }
 
-    public Node getSystemNode(everfeeds.remote.auth.thrift.util.AuthSystem system) throws org.apache.thrift.TException
+    public Node getSystemNode(everfeeds.remote.auth.thrift.util.AuthSystem system) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       send_getSystemNode(system);
       return recv_getSystemNode();
@@ -95,7 +95,7 @@ public class DiscoveryFlow {
       oprot_.getTransport().flush();
     }
 
-    public Node recv_getSystemNode() throws org.apache.thrift.TException
+    public Node recv_getSystemNode() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -112,10 +112,13 @@ public class DiscoveryFlow {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getSystemNode failed: unknown result");
     }
 
-    public Node getAuthorizedNode(everfeeds.remote.auth.thrift.Credentials credentials, boolean withContent) throws org.apache.thrift.TException
+    public Node getAuthorizedNode(everfeeds.remote.auth.thrift.Credentials credentials, boolean withContent) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       send_getAuthorizedNode(credentials, withContent);
       return recv_getAuthorizedNode();
@@ -132,7 +135,7 @@ public class DiscoveryFlow {
       oprot_.getTransport().flush();
     }
 
-    public Node recv_getAuthorizedNode() throws org.apache.thrift.TException
+    public Node recv_getAuthorizedNode() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -149,10 +152,13 @@ public class DiscoveryFlow {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getAuthorizedNode failed: unknown result");
     }
 
-    public Node getQueryNode(everfeeds.remote.auth.thrift.Credentials credentials, Query query, boolean withContent) throws org.apache.thrift.TException
+    public Node getQueryNode(everfeeds.remote.auth.thrift.Credentials credentials, Query query, boolean withContent) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       send_getQueryNode(credentials, query, withContent);
       return recv_getQueryNode();
@@ -170,7 +176,7 @@ public class DiscoveryFlow {
       oprot_.getTransport().flush();
     }
 
-    public Node recv_getQueryNode() throws org.apache.thrift.TException
+    public Node recv_getQueryNode() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -187,10 +193,13 @@ public class DiscoveryFlow {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getQueryNode failed: unknown result");
     }
 
-    public Node getSearchNode(Node node, String search) throws org.apache.thrift.TException
+    public Node getSearchNode(Node node, String search) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       send_getSearchNode(node, search);
       return recv_getSearchNode();
@@ -207,7 +216,7 @@ public class DiscoveryFlow {
       oprot_.getTransport().flush();
     }
 
-    public Node recv_getSearchNode() throws org.apache.thrift.TException
+    public Node recv_getSearchNode() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -224,10 +233,13 @@ public class DiscoveryFlow {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getSearchNode failed: unknown result");
     }
 
-    public List<Node> getNodeFeed(Node node, short offset, short maxCount, boolean withContent) throws org.apache.thrift.TException
+    public List<Node> getNodeFeed(Node node, short offset, short maxCount, boolean withContent) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       send_getNodeFeed(node, offset, maxCount, withContent);
       return recv_getNodeFeed();
@@ -246,7 +258,7 @@ public class DiscoveryFlow {
       oprot_.getTransport().flush();
     }
 
-    public List<Node> recv_getNodeFeed() throws org.apache.thrift.TException
+    public List<Node> recv_getNodeFeed() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -263,10 +275,13 @@ public class DiscoveryFlow {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getNodeFeed failed: unknown result");
     }
 
-    public short countNodeFeed(Node node) throws org.apache.thrift.TException
+    public short countNodeFeed(Node node) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       send_countNodeFeed(node);
       return recv_countNodeFeed();
@@ -282,7 +297,7 @@ public class DiscoveryFlow {
       oprot_.getTransport().flush();
     }
 
-    public short recv_countNodeFeed() throws org.apache.thrift.TException
+    public short recv_countNodeFeed() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -299,10 +314,13 @@ public class DiscoveryFlow {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
+      }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "countNodeFeed failed: unknown result");
     }
 
-    public Content getNodeContent(Node node) throws org.apache.thrift.TException
+    public Content getNodeContent(Node node) throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       send_getNodeContent(node);
       return recv_getNodeContent();
@@ -318,7 +336,7 @@ public class DiscoveryFlow {
       oprot_.getTransport().flush();
     }
 
-    public Content recv_getNodeContent() throws org.apache.thrift.TException
+    public Content recv_getNodeContent() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException
     {
       org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
       if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
@@ -334,6 +352,9 @@ public class DiscoveryFlow {
       iprot_.readMessageEnd();
       if (result.isSetSuccess()) {
         return result.success;
+      }
+      if (result.aUnknown != null) {
+        throw result.aUnknown;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getNodeContent failed: unknown result");
     }
@@ -378,7 +399,7 @@ public class DiscoveryFlow {
         prot.writeMessageEnd();
       }
 
-      public Node getResult() throws org.apache.thrift.TException {
+      public Node getResult() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -413,7 +434,7 @@ public class DiscoveryFlow {
         prot.writeMessageEnd();
       }
 
-      public Node getResult() throws org.apache.thrift.TException {
+      public Node getResult() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -451,7 +472,7 @@ public class DiscoveryFlow {
         prot.writeMessageEnd();
       }
 
-      public Node getResult() throws org.apache.thrift.TException {
+      public Node getResult() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -486,7 +507,7 @@ public class DiscoveryFlow {
         prot.writeMessageEnd();
       }
 
-      public Node getResult() throws org.apache.thrift.TException {
+      public Node getResult() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -527,7 +548,7 @@ public class DiscoveryFlow {
         prot.writeMessageEnd();
       }
 
-      public List<Node> getResult() throws org.apache.thrift.TException {
+      public List<Node> getResult() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -559,7 +580,7 @@ public class DiscoveryFlow {
         prot.writeMessageEnd();
       }
 
-      public short getResult() throws org.apache.thrift.TException {
+      public short getResult() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -591,7 +612,7 @@ public class DiscoveryFlow {
         prot.writeMessageEnd();
       }
 
-      public Content getResult() throws org.apache.thrift.TException {
+      public Content getResult() throws everfeeds.remote.auth.thrift.ex.AuthSystemUnknown, org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -655,7 +676,19 @@ public class DiscoveryFlow {
         }
         iprot.readMessageEnd();
         getSystemNode_result result = new getSystemNode_result();
-        result.success = iface_.getSystemNode(args.system);
+        try {
+          result.success = iface_.getSystemNode(args.system);
+        } catch (everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getSystemNode", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getSystemNode");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getSystemNode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getSystemNode", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -681,7 +714,19 @@ public class DiscoveryFlow {
         }
         iprot.readMessageEnd();
         getAuthorizedNode_result result = new getAuthorizedNode_result();
-        result.success = iface_.getAuthorizedNode(args.credentials, args.withContent);
+        try {
+          result.success = iface_.getAuthorizedNode(args.credentials, args.withContent);
+        } catch (everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getAuthorizedNode", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getAuthorizedNode");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAuthorizedNode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAuthorizedNode", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -707,7 +752,19 @@ public class DiscoveryFlow {
         }
         iprot.readMessageEnd();
         getQueryNode_result result = new getQueryNode_result();
-        result.success = iface_.getQueryNode(args.credentials, args.query, args.withContent);
+        try {
+          result.success = iface_.getQueryNode(args.credentials, args.query, args.withContent);
+        } catch (everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getQueryNode", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getQueryNode");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getQueryNode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getQueryNode", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -733,7 +790,19 @@ public class DiscoveryFlow {
         }
         iprot.readMessageEnd();
         getSearchNode_result result = new getSearchNode_result();
-        result.success = iface_.getSearchNode(args.node, args.search);
+        try {
+          result.success = iface_.getSearchNode(args.node, args.search);
+        } catch (everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getSearchNode", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getSearchNode");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getSearchNode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getSearchNode", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -759,7 +828,19 @@ public class DiscoveryFlow {
         }
         iprot.readMessageEnd();
         getNodeFeed_result result = new getNodeFeed_result();
-        result.success = iface_.getNodeFeed(args.node, args.offset, args.maxCount, args.withContent);
+        try {
+          result.success = iface_.getNodeFeed(args.node, args.offset, args.maxCount, args.withContent);
+        } catch (everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getNodeFeed", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getNodeFeed");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getNodeFeed", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getNodeFeed", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -785,8 +866,20 @@ public class DiscoveryFlow {
         }
         iprot.readMessageEnd();
         countNodeFeed_result result = new countNodeFeed_result();
-        result.success = iface_.countNodeFeed(args.node);
-        result.setSuccessIsSet(true);
+        try {
+          result.success = iface_.countNodeFeed(args.node);
+          result.setSuccessIsSet(true);
+        } catch (everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing countNodeFeed", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing countNodeFeed");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("countNodeFeed", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("countNodeFeed", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -812,7 +905,19 @@ public class DiscoveryFlow {
         }
         iprot.readMessageEnd();
         getNodeContent_result result = new getNodeContent_result();
-        result.success = iface_.getNodeContent(args.node);
+        try {
+          result.success = iface_.getNodeContent(args.node);
+        } catch (everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+          result.aUnknown = aUnknown;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing getNodeContent", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getNodeContent");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getNodeContent", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getNodeContent", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
@@ -1125,12 +1230,15 @@ public class DiscoveryFlow {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getSystemNode_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public Node success;
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      A_UNKNOWN((short)1, "aUnknown");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1147,6 +1255,8 @@ public class DiscoveryFlow {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // A_UNKNOWN
+            return A_UNKNOWN;
           default:
             return null;
         }
@@ -1193,6 +1303,8 @@ public class DiscoveryFlow {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Node.class)));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getSystemNode_result.class, metaDataMap);
     }
@@ -1201,10 +1313,12 @@ public class DiscoveryFlow {
     }
 
     public getSystemNode_result(
-      Node success)
+      Node success,
+      everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown)
     {
       this();
       this.success = success;
+      this.aUnknown = aUnknown;
     }
 
     /**
@@ -1213,6 +1327,9 @@ public class DiscoveryFlow {
     public getSystemNode_result(getSystemNode_result other) {
       if (other.isSetSuccess()) {
         this.success = new Node(other.success);
+      }
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown(other.aUnknown);
       }
     }
 
@@ -1223,6 +1340,7 @@ public class DiscoveryFlow {
     @Override
     public void clear() {
       this.success = null;
+      this.aUnknown = null;
     }
 
     public Node getSuccess() {
@@ -1249,6 +1367,30 @@ public class DiscoveryFlow {
       }
     }
 
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public getSystemNode_result setAUnknown(everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
@@ -1259,6 +1401,14 @@ public class DiscoveryFlow {
         }
         break;
 
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.ex.AuthSystemUnknown)value);
+        }
+        break;
+
       }
     }
 
@@ -1266,6 +1416,9 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case A_UNKNOWN:
+        return getAUnknown();
 
       }
       throw new IllegalStateException();
@@ -1280,6 +1433,8 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case A_UNKNOWN:
+        return isSetAUnknown();
       }
       throw new IllegalStateException();
     }
@@ -1303,6 +1458,15 @@ public class DiscoveryFlow {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
           return false;
       }
 
@@ -1332,6 +1496,16 @@ public class DiscoveryFlow {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -1357,6 +1531,14 @@ public class DiscoveryFlow {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
+          case 1: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
@@ -1375,6 +1557,10 @@ public class DiscoveryFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -1390,6 +1576,14 @@ public class DiscoveryFlow {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
       }
       first = false;
       sb.append(")");
@@ -1809,12 +2003,15 @@ public class DiscoveryFlow {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getAuthorizedNode_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public Node success;
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      A_UNKNOWN((short)1, "aUnknown");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1831,6 +2028,8 @@ public class DiscoveryFlow {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // A_UNKNOWN
+            return A_UNKNOWN;
           default:
             return null;
         }
@@ -1877,6 +2076,8 @@ public class DiscoveryFlow {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Node.class)));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getAuthorizedNode_result.class, metaDataMap);
     }
@@ -1885,10 +2086,12 @@ public class DiscoveryFlow {
     }
 
     public getAuthorizedNode_result(
-      Node success)
+      Node success,
+      everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown)
     {
       this();
       this.success = success;
+      this.aUnknown = aUnknown;
     }
 
     /**
@@ -1897,6 +2100,9 @@ public class DiscoveryFlow {
     public getAuthorizedNode_result(getAuthorizedNode_result other) {
       if (other.isSetSuccess()) {
         this.success = new Node(other.success);
+      }
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown(other.aUnknown);
       }
     }
 
@@ -1907,6 +2113,7 @@ public class DiscoveryFlow {
     @Override
     public void clear() {
       this.success = null;
+      this.aUnknown = null;
     }
 
     public Node getSuccess() {
@@ -1933,6 +2140,30 @@ public class DiscoveryFlow {
       }
     }
 
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public getAuthorizedNode_result setAUnknown(everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
@@ -1943,6 +2174,14 @@ public class DiscoveryFlow {
         }
         break;
 
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.ex.AuthSystemUnknown)value);
+        }
+        break;
+
       }
     }
 
@@ -1950,6 +2189,9 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case A_UNKNOWN:
+        return getAUnknown();
 
       }
       throw new IllegalStateException();
@@ -1964,6 +2206,8 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case A_UNKNOWN:
+        return isSetAUnknown();
       }
       throw new IllegalStateException();
     }
@@ -1987,6 +2231,15 @@ public class DiscoveryFlow {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
           return false;
       }
 
@@ -2016,6 +2269,16 @@ public class DiscoveryFlow {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -2041,6 +2304,14 @@ public class DiscoveryFlow {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
+          case 1: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
@@ -2059,6 +2330,10 @@ public class DiscoveryFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -2074,6 +2349,14 @@ public class DiscoveryFlow {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
       }
       first = false;
       sb.append(")");
@@ -2583,12 +2866,15 @@ public class DiscoveryFlow {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getQueryNode_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public Node success;
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      A_UNKNOWN((short)1, "aUnknown");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2605,6 +2891,8 @@ public class DiscoveryFlow {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // A_UNKNOWN
+            return A_UNKNOWN;
           default:
             return null;
         }
@@ -2651,6 +2939,8 @@ public class DiscoveryFlow {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Node.class)));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getQueryNode_result.class, metaDataMap);
     }
@@ -2659,10 +2949,12 @@ public class DiscoveryFlow {
     }
 
     public getQueryNode_result(
-      Node success)
+      Node success,
+      everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown)
     {
       this();
       this.success = success;
+      this.aUnknown = aUnknown;
     }
 
     /**
@@ -2671,6 +2963,9 @@ public class DiscoveryFlow {
     public getQueryNode_result(getQueryNode_result other) {
       if (other.isSetSuccess()) {
         this.success = new Node(other.success);
+      }
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown(other.aUnknown);
       }
     }
 
@@ -2681,6 +2976,7 @@ public class DiscoveryFlow {
     @Override
     public void clear() {
       this.success = null;
+      this.aUnknown = null;
     }
 
     public Node getSuccess() {
@@ -2707,6 +3003,30 @@ public class DiscoveryFlow {
       }
     }
 
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public getQueryNode_result setAUnknown(everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
@@ -2717,6 +3037,14 @@ public class DiscoveryFlow {
         }
         break;
 
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.ex.AuthSystemUnknown)value);
+        }
+        break;
+
       }
     }
 
@@ -2724,6 +3052,9 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case A_UNKNOWN:
+        return getAUnknown();
 
       }
       throw new IllegalStateException();
@@ -2738,6 +3069,8 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case A_UNKNOWN:
+        return isSetAUnknown();
       }
       throw new IllegalStateException();
     }
@@ -2761,6 +3094,15 @@ public class DiscoveryFlow {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
           return false;
       }
 
@@ -2790,6 +3132,16 @@ public class DiscoveryFlow {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -2815,6 +3167,14 @@ public class DiscoveryFlow {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
+          case 1: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
@@ -2833,6 +3193,10 @@ public class DiscoveryFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -2848,6 +3212,14 @@ public class DiscoveryFlow {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
       }
       first = false;
       sb.append(")");
@@ -3267,12 +3639,15 @@ public class DiscoveryFlow {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getSearchNode_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public Node success;
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      A_UNKNOWN((short)1, "aUnknown");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -3289,6 +3664,8 @@ public class DiscoveryFlow {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // A_UNKNOWN
+            return A_UNKNOWN;
           default:
             return null;
         }
@@ -3335,6 +3712,8 @@ public class DiscoveryFlow {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Node.class)));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getSearchNode_result.class, metaDataMap);
     }
@@ -3343,10 +3722,12 @@ public class DiscoveryFlow {
     }
 
     public getSearchNode_result(
-      Node success)
+      Node success,
+      everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown)
     {
       this();
       this.success = success;
+      this.aUnknown = aUnknown;
     }
 
     /**
@@ -3355,6 +3736,9 @@ public class DiscoveryFlow {
     public getSearchNode_result(getSearchNode_result other) {
       if (other.isSetSuccess()) {
         this.success = new Node(other.success);
+      }
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown(other.aUnknown);
       }
     }
 
@@ -3365,6 +3749,7 @@ public class DiscoveryFlow {
     @Override
     public void clear() {
       this.success = null;
+      this.aUnknown = null;
     }
 
     public Node getSuccess() {
@@ -3391,6 +3776,30 @@ public class DiscoveryFlow {
       }
     }
 
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public getSearchNode_result setAUnknown(everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
@@ -3401,6 +3810,14 @@ public class DiscoveryFlow {
         }
         break;
 
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.ex.AuthSystemUnknown)value);
+        }
+        break;
+
       }
     }
 
@@ -3408,6 +3825,9 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case A_UNKNOWN:
+        return getAUnknown();
 
       }
       throw new IllegalStateException();
@@ -3422,6 +3842,8 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case A_UNKNOWN:
+        return isSetAUnknown();
       }
       throw new IllegalStateException();
     }
@@ -3445,6 +3867,15 @@ public class DiscoveryFlow {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
           return false;
       }
 
@@ -3474,6 +3905,16 @@ public class DiscoveryFlow {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -3499,6 +3940,14 @@ public class DiscoveryFlow {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
+          case 1: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
@@ -3517,6 +3966,10 @@ public class DiscoveryFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -3532,6 +3985,14 @@ public class DiscoveryFlow {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
       }
       first = false;
       sb.append(")");
@@ -4119,12 +4580,15 @@ public class DiscoveryFlow {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getNodeFeed_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public List<Node> success;
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      A_UNKNOWN((short)1, "aUnknown");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -4141,6 +4605,8 @@ public class DiscoveryFlow {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // A_UNKNOWN
+            return A_UNKNOWN;
           default:
             return null;
         }
@@ -4188,6 +4654,8 @@ public class DiscoveryFlow {
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
               new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Node.class))));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getNodeFeed_result.class, metaDataMap);
     }
@@ -4196,10 +4664,12 @@ public class DiscoveryFlow {
     }
 
     public getNodeFeed_result(
-      List<Node> success)
+      List<Node> success,
+      everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown)
     {
       this();
       this.success = success;
+      this.aUnknown = aUnknown;
     }
 
     /**
@@ -4213,6 +4683,9 @@ public class DiscoveryFlow {
         }
         this.success = __this__success;
       }
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown(other.aUnknown);
+      }
     }
 
     public getNodeFeed_result deepCopy() {
@@ -4222,6 +4695,7 @@ public class DiscoveryFlow {
     @Override
     public void clear() {
       this.success = null;
+      this.aUnknown = null;
     }
 
     public int getSuccessSize() {
@@ -4263,6 +4737,30 @@ public class DiscoveryFlow {
       }
     }
 
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public getNodeFeed_result setAUnknown(everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
@@ -4273,6 +4771,14 @@ public class DiscoveryFlow {
         }
         break;
 
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.ex.AuthSystemUnknown)value);
+        }
+        break;
+
       }
     }
 
@@ -4280,6 +4786,9 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case A_UNKNOWN:
+        return getAUnknown();
 
       }
       throw new IllegalStateException();
@@ -4294,6 +4803,8 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case A_UNKNOWN:
+        return isSetAUnknown();
       }
       throw new IllegalStateException();
     }
@@ -4320,6 +4831,15 @@ public class DiscoveryFlow {
           return false;
       }
 
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
+          return false;
+      }
+
       return true;
     }
 
@@ -4342,6 +4862,16 @@ public class DiscoveryFlow {
       }
       if (isSetSuccess()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4381,6 +4911,14 @@ public class DiscoveryFlow {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
+          case 1: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
@@ -4406,6 +4944,10 @@ public class DiscoveryFlow {
           oprot.writeListEnd();
         }
         oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -4421,6 +4963,14 @@ public class DiscoveryFlow {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
       }
       first = false;
       sb.append(")");
@@ -4751,12 +5301,15 @@ public class DiscoveryFlow {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("countNodeFeed_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I16, (short)0);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public short success;
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      A_UNKNOWN((short)1, "aUnknown");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -4773,6 +5326,8 @@ public class DiscoveryFlow {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // A_UNKNOWN
+            return A_UNKNOWN;
           default:
             return null;
         }
@@ -4821,6 +5376,8 @@ public class DiscoveryFlow {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(countNodeFeed_result.class, metaDataMap);
     }
@@ -4829,11 +5386,13 @@ public class DiscoveryFlow {
     }
 
     public countNodeFeed_result(
-      short success)
+      short success,
+      everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown)
     {
       this();
       this.success = success;
       setSuccessIsSet(true);
+      this.aUnknown = aUnknown;
     }
 
     /**
@@ -4843,6 +5402,9 @@ public class DiscoveryFlow {
       __isset_bit_vector.clear();
       __isset_bit_vector.or(other.__isset_bit_vector);
       this.success = other.success;
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown(other.aUnknown);
+      }
     }
 
     public countNodeFeed_result deepCopy() {
@@ -4853,6 +5415,7 @@ public class DiscoveryFlow {
     public void clear() {
       setSuccessIsSet(false);
       this.success = 0;
+      this.aUnknown = null;
     }
 
     public short getSuccess() {
@@ -4878,6 +5441,30 @@ public class DiscoveryFlow {
       __isset_bit_vector.set(__SUCCESS_ISSET_ID, value);
     }
 
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public countNodeFeed_result setAUnknown(everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
@@ -4888,6 +5475,14 @@ public class DiscoveryFlow {
         }
         break;
 
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.ex.AuthSystemUnknown)value);
+        }
+        break;
+
       }
     }
 
@@ -4895,6 +5490,9 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return new Short(getSuccess());
+
+      case A_UNKNOWN:
+        return getAUnknown();
 
       }
       throw new IllegalStateException();
@@ -4909,6 +5507,8 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case A_UNKNOWN:
+        return isSetAUnknown();
       }
       throw new IllegalStateException();
     }
@@ -4932,6 +5532,15 @@ public class DiscoveryFlow {
         if (!(this_present_success && that_present_success))
           return false;
         if (this.success != that.success)
+          return false;
+      }
+
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
           return false;
       }
 
@@ -4961,6 +5570,16 @@ public class DiscoveryFlow {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -4986,6 +5605,14 @@ public class DiscoveryFlow {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
+          case 1: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
@@ -5004,6 +5631,10 @@ public class DiscoveryFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         oprot.writeI16(this.success);
         oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -5016,6 +5647,14 @@ public class DiscoveryFlow {
 
       sb.append("success:");
       sb.append(this.success);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
+      }
       first = false;
       sb.append(")");
       return sb.toString();
@@ -5345,12 +5984,15 @@ public class DiscoveryFlow {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getNodeContent_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField A_UNKNOWN_FIELD_DESC = new org.apache.thrift.protocol.TField("aUnknown", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public Content success;
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      A_UNKNOWN((short)1, "aUnknown");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -5367,6 +6009,8 @@ public class DiscoveryFlow {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // A_UNKNOWN
+            return A_UNKNOWN;
           default:
             return null;
         }
@@ -5413,6 +6057,8 @@ public class DiscoveryFlow {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Content.class)));
+      tmpMap.put(_Fields.A_UNKNOWN, new org.apache.thrift.meta_data.FieldMetaData("aUnknown", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getNodeContent_result.class, metaDataMap);
     }
@@ -5421,10 +6067,12 @@ public class DiscoveryFlow {
     }
 
     public getNodeContent_result(
-      Content success)
+      Content success,
+      everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown)
     {
       this();
       this.success = success;
+      this.aUnknown = aUnknown;
     }
 
     /**
@@ -5433,6 +6081,9 @@ public class DiscoveryFlow {
     public getNodeContent_result(getNodeContent_result other) {
       if (other.isSetSuccess()) {
         this.success = new Content(other.success);
+      }
+      if (other.isSetAUnknown()) {
+        this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown(other.aUnknown);
       }
     }
 
@@ -5443,6 +6094,7 @@ public class DiscoveryFlow {
     @Override
     public void clear() {
       this.success = null;
+      this.aUnknown = null;
     }
 
     public Content getSuccess() {
@@ -5469,6 +6121,30 @@ public class DiscoveryFlow {
       }
     }
 
+    public everfeeds.remote.auth.thrift.ex.AuthSystemUnknown getAUnknown() {
+      return this.aUnknown;
+    }
+
+    public getNodeContent_result setAUnknown(everfeeds.remote.auth.thrift.ex.AuthSystemUnknown aUnknown) {
+      this.aUnknown = aUnknown;
+      return this;
+    }
+
+    public void unsetAUnknown() {
+      this.aUnknown = null;
+    }
+
+    /** Returns true if field aUnknown is set (has been assigned a value) and false otherwise */
+    public boolean isSetAUnknown() {
+      return this.aUnknown != null;
+    }
+
+    public void setAUnknownIsSet(boolean value) {
+      if (!value) {
+        this.aUnknown = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
@@ -5479,6 +6155,14 @@ public class DiscoveryFlow {
         }
         break;
 
+      case A_UNKNOWN:
+        if (value == null) {
+          unsetAUnknown();
+        } else {
+          setAUnknown((everfeeds.remote.auth.thrift.ex.AuthSystemUnknown)value);
+        }
+        break;
+
       }
     }
 
@@ -5486,6 +6170,9 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case A_UNKNOWN:
+        return getAUnknown();
 
       }
       throw new IllegalStateException();
@@ -5500,6 +6187,8 @@ public class DiscoveryFlow {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case A_UNKNOWN:
+        return isSetAUnknown();
       }
       throw new IllegalStateException();
     }
@@ -5523,6 +6212,15 @@ public class DiscoveryFlow {
         if (!(this_present_success && that_present_success))
           return false;
         if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_aUnknown = true && this.isSetAUnknown();
+      boolean that_present_aUnknown = true && that.isSetAUnknown();
+      if (this_present_aUnknown || that_present_aUnknown) {
+        if (!(this_present_aUnknown && that_present_aUnknown))
+          return false;
+        if (!this.aUnknown.equals(that.aUnknown))
           return false;
       }
 
@@ -5552,6 +6250,16 @@ public class DiscoveryFlow {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetAUnknown()).compareTo(typedOther.isSetAUnknown());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAUnknown()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.aUnknown, typedOther.aUnknown);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -5577,6 +6285,14 @@ public class DiscoveryFlow {
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
+          case 1: // A_UNKNOWN
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
+              this.aUnknown = new everfeeds.remote.auth.thrift.ex.AuthSystemUnknown();
+              this.aUnknown.read(iprot);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
@@ -5595,6 +6311,10 @@ public class DiscoveryFlow {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         this.success.write(oprot);
         oprot.writeFieldEnd();
+      } else if (this.isSetAUnknown()) {
+        oprot.writeFieldBegin(A_UNKNOWN_FIELD_DESC);
+        this.aUnknown.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -5610,6 +6330,14 @@ public class DiscoveryFlow {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("aUnknown:");
+      if (this.aUnknown == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.aUnknown);
       }
       first = false;
       sb.append(")");

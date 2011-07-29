@@ -25,15 +25,20 @@
       <url>http://maven.twttr.com/</url>
     </repository>
     <repository>
+      <id>maven.everfeeds.com-snapshots</id>
+      <name>maven.everfeeds.com-snapshots</name>
+      <url>http://loc.everfeeds.com:8081/artifactory/libs-snapshot</url>
+    </repository>
+    <repository>
+      <id>loc.everfeeds.com-releases</id>
+      <name>loc.everfeeds.com-releases</name>
+      <url>http://loc.everfeeds.com:8081/artifactory/libs-release-local</url>
+    </repository>
+    <!-- repository>
       <id>maven.everfeeds.com-releases</id>
       <name>maven.everfeeds.com-releases</name>
       <url>http://maven.everfeeds.com/libs-release-local</url>
-    </repository>
-    <repository>
-      <id>maven.everfeeds.com-snapshots</id>
-      <name>maven.everfeeds.com-snapshots</name>
-      <url>http://maven.everfeeds.com/libs-snapshot</url>
-    </repository>
+    </repository-->
   </repositories>
 
 
