@@ -4,7 +4,9 @@ import everfeeds.remote.auth.annotation.AccessAuth;
 import everfeeds.remote.auth.thrift.Credentials;
 import everfeeds.remote.auth.thrift.ex.AuthConnectionError;
 import everfeeds.remote.auth.thrift.util.AuthSystem;
-import everfeeds.remote.util.Package;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,12 +21,7 @@ import java.util.Map;
 abstract public class Auth {
   private AuthSystem system = null;
 
-
   static private Map<String, Auth> instances = new HashMap<String, Auth>();
-
-  static public void registerInstance(Auth instance) {
-    instances.put(instance.getSystem().name, instance);
-  }
 
   static public Auth getBySystem(AuthSystem authSystem) {
     return instances.get(authSystem.name);
@@ -36,24 +33,22 @@ abstract public class Auth {
 
   @SuppressWarnings("unchecked")
   static public List<AuthSystem> listSystems() {
-    if (instances.keySet().size() == 0) {
-      try {
-        for (Class c : Package.getClasses("everfeeds.remote.auth.system")) {
-          if (c.getAnnotation(AccessAuth.class) != null) {
-            c.getCanonicalName();
-          }
-        }
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-      } catch (IOException e) {
-        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-      }
-    }
     List<AuthSystem> systems = new ArrayList<AuthSystem>();
     for (String s : instances.keySet()) {
       systems.add(instances.get(s).getSystem());
     }
     return systems;
+  }
+
+  static {
+     AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+    ctx.scan(Auth.class.getPackage().getName());
+    ctx.refresh();
+
+    for(Auth a: ctx.getBeansOfType(Auth.class).values()) {
+      Logger.getLogger(Auth.class).debug(a.getSystem().getName());
+      instances.put(a.getSystem().getName(), a);
+    }
   }
 
   public AuthSystem getSystem() {

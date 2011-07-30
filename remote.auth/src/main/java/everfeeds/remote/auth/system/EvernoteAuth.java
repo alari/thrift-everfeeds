@@ -12,6 +12,7 @@ import everfeeds.remote.auth.thrift.util.AuthMethod;
 import everfeeds.remote.auth.thrift.util.OAuthStep;
 import org.scribe.builder.api.EvernoteApi;
 import org.scribe.model.Token;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,16 +23,9 @@ import java.util.Map;
  */
 @AccessAuth(system = "evernote", method = AuthMethod.OAUTH, type = AccessType.EVERNOTE)
 @OAuthProvider(EvernoteApi.class)
+@Component
 public class EvernoteAuth extends AuthOAuth {
-  static private EvernoteAuth instance = new EvernoteAuth();
   static private final String SHARD_MARKER = "&edam_shard=";
-
-  private EvernoteAuth() {
-  }
-
-  static {
-    Auth.registerInstance(instance);
-  }
 
   @Override
   public Credentials exchangeOAuthToken(OAuthStep oAuthStep, String verifierCode) throws AuthFailed, AuthConnectionError {

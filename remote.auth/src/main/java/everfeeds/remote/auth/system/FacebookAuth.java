@@ -11,6 +11,7 @@ import everfeeds.remote.auth.thrift.util.AccessType;
 import everfeeds.remote.auth.thrift.util.AuthMethod;
 import everfeeds.remote.util.OAuthApi;
 import org.scribe.builder.api.FacebookApi;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Dmitry Kurinskiy
@@ -18,16 +19,9 @@ import org.scribe.builder.api.FacebookApi;
  */
 @AccessAuth(system = "facebook", method = AuthMethod.OAUTH, type = AccessType.FACEBOOK)
 @OAuthProvider(FacebookApi.class)
+@Component
 public class FacebookAuth extends AuthOAuth {
   final static private String CREDENTIALS_URL = "https://graph.facebook.com/me";
-  static private FacebookAuth instance = new FacebookAuth();
-
-  private FacebookAuth() {
-  }
-
-  static {
-    Auth.registerInstance(instance);
-  }
 
   @Override
   protected boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthFailed, AuthConnectionError {

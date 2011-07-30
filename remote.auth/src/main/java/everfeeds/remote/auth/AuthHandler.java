@@ -13,6 +13,7 @@ import everfeeds.remote.auth.thrift.util.AuthSystem;
 import everfeeds.remote.auth.thrift.util.OAuthStep;
 import everfeeds.remote.handshake.HandshakeHandler;
 import org.apache.thrift.TException;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
 

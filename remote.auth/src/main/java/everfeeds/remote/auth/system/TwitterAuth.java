@@ -10,6 +10,7 @@ import everfeeds.remote.auth.thrift.util.AccessType;
 import everfeeds.remote.auth.thrift.util.AuthMethod;
 import everfeeds.remote.util.OAuthApi;
 import org.scribe.builder.api.TwitterApi;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Dmitry Kurinskiy
@@ -17,16 +18,9 @@ import org.scribe.builder.api.TwitterApi;
  */
 @AccessAuth(system = "twitter", method = AuthMethod.OAUTH, type = AccessType.TWITTER)
 @OAuthProvider(TwitterApi.class)
+@Component
 public class TwitterAuth extends AuthOAuth {
-  static private TwitterAuth instance = new TwitterAuth();
   final static private String CREDENTIALS_URL = "http://api.twitter.com/1/account/verify_credentials.json";
-
-  private TwitterAuth() {
-  }
-
-  static {
-    Auth.registerInstance(instance);
-  }
 
   @Override
   public boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthConnectionError {

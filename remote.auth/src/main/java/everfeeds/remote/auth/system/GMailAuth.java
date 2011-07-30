@@ -11,6 +11,7 @@ import everfeeds.remote.auth.thrift.util.AccessType;
 import everfeeds.remote.auth.thrift.util.AuthMethod;
 import everfeeds.remote.util.OAuthApi;
 import org.scribe.builder.api.GoogleApi;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Dmitry Kurinskiy
@@ -18,16 +19,9 @@ import org.scribe.builder.api.GoogleApi;
  */
 @AccessAuth(system = "gmail", method = AuthMethod.OAUTH, type = AccessType.GMAIL)
 @OAuthProvider(GoogleApi.class)
+@Component
 public class GMailAuth extends AuthOAuth {
   static final private String EMAIL_URL = "https://www.googleapis.com/userinfo/email";
-  static private GMailAuth instance = new GMailAuth();
-
-  private GMailAuth() {
-  }
-
-  static {
-    Auth.registerInstance(instance);
-  }
 
   @Override
   protected boolean checkOAuthCredentials(Credentials credentials) throws AuthSystemUnknown, AuthMethodMismatch, AuthFailed, AuthConnectionError {

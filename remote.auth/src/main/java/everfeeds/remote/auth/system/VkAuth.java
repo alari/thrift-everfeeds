@@ -12,6 +12,7 @@ import everfeeds.remote.auth.thrift.util.AuthMethod;
 import everfeeds.remote.auth.thrift.util.OAuthStep;
 import everfeeds.remote.util.OAuthApi;
 import org.scribe.builder.api.VkontakteApi;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Dmitry Kurinskiy
@@ -19,16 +20,9 @@ import org.scribe.builder.api.VkontakteApi;
  */
 @AccessAuth(system = "vk", method = AuthMethod.OAUTH, type = AccessType.VK)
 @OAuthProvider(VkontakteApi.class)
+@Component
 public class VkAuth extends AuthOAuth {
   static private final String CREDENTIALS_URL = "https://api.vkontakte.ru/method/getUserInfo";
-  static private VkAuth instance = new VkAuth();
-
-  private VkAuth() {
-  }
-
-  static {
-    Auth.registerInstance(instance);
-  }
 
   @Override
   public OAuthStep getOAuthStep(String callbackUrl) throws AuthConnectionError {
