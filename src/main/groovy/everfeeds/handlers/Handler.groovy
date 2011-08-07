@@ -1,18 +1,16 @@
 @Typed package everfeeds.handlers;
 
 
-import everfeeds.thrift.domain.Access;
-import everfeeds.thrift.domain.Filter;
-import everfeeds.thrift.error.Forbidden;
-import everfeeds.thrift.error.TokenExpired;
-import everfeeds.thrift.error.TokenNotFound;
-import everfeeds.thrift.util.Scope;
-import everfeeds.thrift.util.Type;
-
-
+import everfeeds.mongo.AccessD
+import everfeeds.mongo.TokenD
+import everfeeds.thrift.domain.Access
+import everfeeds.thrift.error.Forbidden
+import everfeeds.thrift.error.TokenExpired
+import everfeeds.thrift.error.TokenNotFound
+import everfeeds.thrift.util.Scope
+import everfeeds.thrift.util.Type
 import org.apache.thrift.TException
 import everfeeds.dao.*
-import everfeeds.mongo.*
 
 //import everfeeds.adapters.FilterAdapter;
 

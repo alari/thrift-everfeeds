@@ -11,7 +11,7 @@ import everfeeds.mongo.*
 class GReaderParser extends Parser {
   private String contentCache
 
-    GReaderParser(){
+  GReaderParser(){
   }
 
   GReaderParser(original, AccessD access, EntryD entry) {

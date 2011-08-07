@@ -133,7 +133,7 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
     if(filterD.access == null) {
       throw new NotFound("Access not found by id: "+filter.accessId);
     }
-    filterD = FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
+    filterD = FilterAdapter.getFilterDFromThrift(filter, filterD);
     return RemoteFactory.getInstance(filterD.access.type).pullToThrift(filterD);
   }
 
@@ -145,7 +145,7 @@ public class InternalHandler extends Handler implements InternalAPI.Iface {
     if(filterD.access == null) {
       throw new NotFound("Access not found by id");
     }
-    filterD = FilterAdapter.setFilterRelationsFromThrift(filterD, filter);
+    filterD = FilterAdapter.getFilterDFromThrift(filter, filterD);
     RemoteFactory.getInstance(filterD.access.type).saveEntries(filterD);
   }
 

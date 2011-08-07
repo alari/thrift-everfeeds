@@ -1,18 +1,21 @@
 package everfeeds.adapters;
 
 import everfeeds.dao.CategoryDAO;
+import everfeeds.dao.FilterDAO;
 import everfeeds.dao.TagDAO;
 import everfeeds.mongo.CategoryD;
 import everfeeds.mongo.FilterD;
 import everfeeds.mongo.TagD;
 import everfeeds.thrift.domain.Filter;
+import everfeeds.thrift.error.Forbidden;
+import everfeeds.thrift.error.NotFound;
 
 /**
  * @author Boris G. Tsirkin<mail@dotbg.name>
  * @since 29 May 2011
  */
 public class FilterAdapter {
-  public static FilterD setFilterRelationsFromThrift(FilterD filterD, Filter filter) {
+ public static FilterD getFilterDFromThrift(Filter filter, FilterD filterD) throws Forbidden, NotFound {
     // Syncing categories and tags
     filterD.getCategories().clear();
     filterD.getWithoutTags().clear();

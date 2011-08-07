@@ -16,12 +16,31 @@ import everfeeds.thrift.error.*
  * @since 06.05.11 19:11
  */
 public class FilterHandler extends Handler {
+  private FilterD getFilterD(String token, Filter filter) throws NotFound, Forbidden {
+    FilterD filterD;
+    if (!filter.id.isEmpty()) {
+      filterD = getFilterDAO().getById(filter.id);
+      if (filterD == null) {
+        throw new NotFound("Filter not found by id");
+      }
+      if (filterD.access.account.id != getTokenD(token).account.id) {
+        throw new Forbidden("Forbidden");
+      }
+    } else {
+      filterD = new FilterD();
+      filterD.access = getAccessD(token, filter.accessId);
+      if (filterD.access == null) {
+        throw new NotFound("Filter access not found by ID");
+      }
+    }
+    return filterD;
+  }
 
   public Filter saveFilter(String token, Filter filter)
-      throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
+  throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
     checkToken(getTokenD(token), Scope.FEED_WRITE);
 
-    FilterD filterD = FilterAdapter.setFilterRelationsFromThrift(getFilterD(token, filter), filter);
+    FilterD filterD = FilterAdapter.getFilterDFromThrift(filter, getFilterD(token, filter));
     // Saving filter domain
     filterDAO.save(filterD);
     filterD.syncToThrift(filter);
@@ -57,7 +76,7 @@ public class FilterHandler extends Handler {
       throw new WrongArgument("You must set filter split date to get entries");
     }
 
-    FilterD filterD = FilterAdapter.setFilterRelationsFromThrift(getFilterD(token, filter), filter);
+    FilterD filterD = FilterAdapter.getFilterDFromThrift(filter, getFilterD(token, filter));
 
     return DomainAdapter.domainsToThrift(entryDAO.findAllFiltered(filterD, page, maxCount))
   }
@@ -70,28 +89,8 @@ public class FilterHandler extends Handler {
       throw new WrongArgument("You must set filter split date to get entries");
     }
 
-    FilterD filterD = FilterAdapter.setFilterRelationsFromThrift(getFilterD(token, filter), filter);
+    FilterD filterD = FilterAdapter.getFilterDFromThrift(filter, getFilterD(token, filter));
 
     return DomainAdapter.domainsToThrift(entryDAO.findAllFilteredNew(filterD))
-  }
-
-  protected FilterD getFilterD(String token, Filter filter) throws TException, Forbidden, TokenNotFound, TokenExpired, NotFound {
-    FilterD filterD;
-    if (!filter.id.isEmpty()) {
-      filterD = filterDAO.getById(filter.id);
-      if (filterD == null) {
-        throw new NotFound("Filter not found by id");
-      }
-      if (filterD.access.account.id != getTokenD(token).account.id) {
-        throw new Forbidden("Forbidden");
-      }
-    } else {
-      filterD = new FilterD();
-      filterD.access = getAccessD(token, filter.accessId);
-      if (filterD.access == null) {
-        throw new NotFound("Filter access not found by ID");
-      }
-    }
-    return filterD;
   }
 }
